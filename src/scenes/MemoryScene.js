@@ -4,7 +4,7 @@ export default class MemoryGameScene extends BaseScene {
   constructor(params) {
     super(params);
     this.container = document.getElementById("gameContainer");
-    this.currentScreen = "start"; // start, rules, game, gameover
+    this.currentScreen = "start";
 
     this.handleMove = this.handleMove.bind(this);
     this.handleClick = this.handleClick.bind(this);
@@ -95,7 +95,6 @@ export default class MemoryGameScene extends BaseScene {
       cardTypes.push(`mem-card${i}`);
     }
 
-    // Add two of each type (for pairs)
     const allCards = [...cardTypes, ...cardTypes];
     for (let i = allCards.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));

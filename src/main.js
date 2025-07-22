@@ -28,6 +28,6 @@ import KSPScene from "@scenes/KSPScene.js";
   });
   await engine.init();
 
-  await scenes.switch("StartMenu");
+  await scenes.switch("Memory");
   engine.start();
 })();

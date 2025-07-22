@@ -4,7 +4,7 @@ export default class MemoryGameScene extends BaseScene {
   constructor(params) {
     super(params);
     this.container = document.getElementById("gameContainer");
-    this.currentScreen = "start"; // start, rules, game, gameover
+    this.currentScreen = "start";
 
     this.handleMove = this.handleMove.bind(this);
     this.handleClick = this.handleClick.bind(this);
@@ -18,7 +18,7 @@ export default class MemoryGameScene extends BaseScene {
     this.sceneEl = null;
     this.gameResult = 0;
     this.roundResult = null;
-    this.roundState = "countdown"; // countdown, waiting, show_result
+    this.roundState = "countdown";
     this.countdownTime = 3;
     this.countdownInterval = null;
     this.gameOver = 0;
@@ -96,7 +96,6 @@ export default class MemoryGameScene extends BaseScene {
 
     if (!validGestures[gesture]) return;
 
-    // Prevent multiple readings per round
     if (this.currentPlayerGesture) return;
 
     this.currentPlayerGesture = validGestures[gesture];
@@ -229,7 +228,6 @@ export default class MemoryGameScene extends BaseScene {
     this.sceneEl.classList.add("container");
 
     let htmlState = "";
-    // -----------REZULTAT-----------
     if (this.roundState === "show_result") {
       const playerImg = this.assets.images.get(
         `ksp-${this.roundResult.player}`
