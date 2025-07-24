@@ -165,7 +165,7 @@ export default class MemoryGameScene extends BaseScene {
   renderStartScreen() {
     this.sceneEl.innerHTML = `<div id="startScreen">
       <button class="btn backBtn" id="btnBack">
-        <img src="${this.assets.images.get("backButton").src}" height="100%"/>
+        <img src="${this.assets.images.get('backButton').src}" height="100%"/>
       </button>
       <div class="titleRow">
         <h1>Kamen<br>Škare papir</h1>

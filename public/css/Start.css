@@ -1,0 +1,109 @@
+body {
+  background: radial-gradient(circle, #ffeb3b, #fbc02d);
+  font-family: 'Comic Sans MS', sans-serif;
+}
+.imgProfBaltazar {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    top: 10%;
+    height: 75%;
+    width: auto;
+}
+.container {
+    width: 100%;
+    height: 100%;
+    display: block;
+    background-image: url("/pictures/startMenu/startMenuBackground.webp");
+    background-position: 50%;
+    background-size: auto 100%;
+    justify-content: center;
+    align-items: center;
+}
+.firstLayer {
+    height: 35%;
+    align-content: center;
+}
+.secondLayer {
+    height: 55%;
+}
+.game-menu {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  align-items: center;
+  height: 100%;
+  overflow: hidden;
+}
+.game-card {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  transition: transform 0.3s, opacity 0.3s;
+}
+.game-card img {
+  height: 80%;
+  width: auto;
+}
+.game-card span {
+  font-weight: bold;
+  color: white;
+}
+.game-card.active {
+  background: linear-gradient(145deg, #4fc3f7, #29b6f6);
+  border: 5px solid #01579b;
+  transform: scale(1.1);
+  z-index: 2;
+  box-shadow: 0 6px 15px rgba(33, 150, 243, 0.6);
+}
+.game-card.faded {
+  margin: 1%;
+  background: linear-gradient(145deg, #ba68c8, #ab47bc);
+  border: 4px dashed #6a1b9a;
+  opacity: 0.85;
+  box-shadow: 0 4px 10px rgba(171, 71, 188, 0.5);
+}
+
+/* === Responsive dizajn za različite razlučivosti === */
+
+/* MOBITELI */
+@media screen and (max-width: 512px) and (max-aspect-ratio: 3/4) {
+  .game-menu {
+    gap: 20px;
+    padding-top: 10%;
+  }
+  .game-card {
+    width: 60vw;
+    height: 20vw;
+    border-radius: 20px;
+    gap: 15px;
+    padding: 10px 20px;
+  }
+  .game-card span {
+    font-size: 1.2em;
+  }
+}
+
+/* TABLETI I MANJI DESKTOPI: širina između 601px i 1024px */
+@media screen and (min-width: 601px) and (max-width: 1024px) {
+
+}
+
+/* TV vertikalan */
+@media screen and (min-width: 1920px) and (max-aspect-ratio: 3/4) {
+  .game-menu {
+    gap: 20px;
+    padding-top: 10%;
+  }
+  .game-card {
+    width: 60vw;
+    height: 20vw;
+    border-radius: 20px;
+    gap: 15px;
+    padding: 10px 20px;
+  }
+  .game-card span {
+    font-size: 4.5em;
+  }
+}

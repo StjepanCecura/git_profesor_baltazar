@@ -107,8 +107,7 @@ export default class InputManager {
 
     const now = performance.now();
     const start = now;
-    this._frameCount = 0;
-    if (this._frameCount !== 0 || now < this.nextDetectionTime) {
+    if (now < this.nextDetectionTime) {
       return requestAnimationFrame(this._detectionLoop);
     }
 
@@ -241,6 +240,14 @@ export default class InputManager {
     }
     requestAnimationFrame(this._pointerLoop.bind(this));
   }
+
+  getGesture() {
+    for (const pred of this.handPredictions.values()) {
+      return pred.gesture;
+    }
+    return null;
+  }
+
 
   update() {
   }

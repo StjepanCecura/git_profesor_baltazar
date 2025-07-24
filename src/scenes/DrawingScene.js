@@ -7,7 +7,6 @@ export default class DrawingScene extends BaseScene {
     this.cursorOffset = img => ({ x: 10, y: -img.clientHeight - 10 });
 
     this.handData = new Map();
-    console.log(window.innerWidth);
     if(window.innerWidth < 512) {
       this.baseLineWidth = window.innerWidth * 0.02;
     } else if (window.innerWidth > 1920) {
