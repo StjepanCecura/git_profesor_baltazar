@@ -34,12 +34,19 @@ body, html {
 }
 .cursor-indicator {
     position: absolute;
+    bottom: 5px;
+    left: 10px;
+    width: 30%;
+    mix-blend-mode: multiply;
+    filter: drop-shadow(0 0 1px #000);
+    pointer-events: none;
+    /*position: absolute;
     border-radius: 50%;
     border: 2px solid white;
     left: 0;
     bottom: 0;
     transform: translate(-50%, 50%);
-    pointer-events: none;
+    pointer-events: none;*/
 }
 .btn {
     border: 0cm;

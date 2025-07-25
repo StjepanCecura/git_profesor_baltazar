@@ -43,7 +43,8 @@ export default class BaseScene {
     wrapper.img = img;
 
     if (this.useColourIndicator) {
-      const indicator = document.createElement('div');
+      const indicator = document.createElement('img');
+      indicator.src = this.assets.images.get('cursorTip').src;
       indicator.classList.add('cursor-indicator');
       wrapper.appendChild(indicator);
       wrapper.indicator = indicator;

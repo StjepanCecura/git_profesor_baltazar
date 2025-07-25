@@ -159,24 +159,6 @@ html {
     font-size: 6em;
 }
 
-.drawing-container #selected_colour {
-    border: 0cm;
-    border-radius: 20%;
-    aspect-ratio: 1/1;
-    height: 40%;
-    position: relative;
-    top: -60%;
-    left: 70%;
-}
-
-.drawing-container #current_colour {
-    height: 80%;
-    width: 10%;
-    top: -100%;
-    left: 77%;
-    position: relative ;
-}
-
 /* === Responsive dizajn za različite razlučivosti === */
 
 /* MOBITELI */
@@ -185,7 +167,6 @@ html {
         background-position: 80%;
         background-size: auto 100%;
     }
-
     
     .drawing-container .mouse_pointer {
         height: 8vh;

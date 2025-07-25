@@ -18,16 +18,57 @@ export default class DrawingScene extends BaseScene {
     this.handleMove = this.handleMove.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.updateFrameCount = this.updateFrameCount.bind(this);
+    this.lastPointingUpGesture = performance.now();
+    this.currentScreen = "game";
+    this.sceneloaded = false;
   }
 
   async init() {
     await this.assets.loadImage("backButton", "/pictures/backButton.webp");
     await this.assets.loadImage("cursor", "/pictures/drawingGame/brush.webp");
+    await this.assets.loadImage("cursorTip", "/pictures/drawingGame/brushTip.png");
 
     this.styleEl = this.loadStyle("/css/Drawing.css");
 
+    this.render();
+
+    this.input.on("move", this.handleMove);
+    this.input.on("click", this.handleClick);
+    this.input.on("frameCount", this.updateFrameCount);
+  }
+
+  update(dt) {}
+
+  render() {
+    if (this.lastRenderedScreen === this.currentScreen) return;
+    this.lastRenderedScreen = this.currentScreen;
+    
+    if (this.sceneEl) this.sceneEl.remove();
+
     this.sceneEl = document.createElement("div");
-    this.sceneEl.classList.add("container", "drawing-container");
+    this.sceneEl.classList.add("container");
+    this.container.innerHTML = '';
+
+    switch (this.currentScreen) {
+      case "rules":
+        this.renderRulesScreen();
+        break;
+      case "game":
+        this.renderGameplayScreen();
+        break;
+    }
+  }
+
+   renderRulesScreen() {
+
+    this.sceneloaded = true;
+  }
+
+  async renderGameplayScreen(){
+    await this.waitForImage('backButton');
+
+    this.sceneEl.classList.add("drawing-container");
+
     this.sceneEl.innerHTML = `
       <div class="firstLayer layer">
         <button class="btn" id="btnBack"><img src="${
@@ -50,6 +91,7 @@ export default class DrawingScene extends BaseScene {
         <button class="colourPicker btn" style="background: linear-gradient(90deg, #FF0000, #FFFF00, #00FF00, #00FFFF, #0000FF, #FF00FF, #FF0000)" id="btnRGBPicker"></button> 
       </div>
     `;
+
     this.container.appendChild(this.sceneEl);
 
     this.cursorContainer = this.sceneEl;
@@ -68,9 +110,6 @@ export default class DrawingScene extends BaseScene {
       this.colorButtons[id] = { el, color, bg: color };
     });
 
-    this.resize();
-    window.addEventListener("resize", this.resize.bind(this));
-
     this.btnBack.addEventListener("click", () =>
       this.manager.switch("StartMenu")
     );
@@ -86,14 +125,11 @@ export default class DrawingScene extends BaseScene {
       el.style.background = color;
     });
 
-    this.input.on("move", this.handleMove);
-    this.input.on("click", this.handleClick);
-    this.input.on("frameCount", this.updateFrameCount);
+    this.resize();
+    window.addEventListener("resize", this.resize.bind(this));
+
+    this.sceneloaded = true;
   }
-
-  update(dt) {}
-
-  render() {}
 
   async destroy() {
     this.input.off("move", this.handleMove);
@@ -134,6 +170,21 @@ export default class DrawingScene extends BaseScene {
     data.color = color;
     this.handData.set(id, data);
     const cursor = this.handCursors.get(id);
+
+    const img = cursor.indicator;
+
+    img.onload = () => {
+      canvas.width = img.naturalWidth;
+      canvas.height = img.naturalHeight;
+
+      ctx.drawImage(img, 0, 0);
+      ctx.globalCompositeOperation = 'source-in';
+      ctx.fillStyle = newColor;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      img.src = canvas.toDataURL();
+    };
+    
     if (cursor) {
       if (cursor.indicator) {
         cursor.indicator.style.backgroundColor = color;
@@ -172,6 +223,8 @@ export default class DrawingScene extends BaseScene {
   }
 
   handleMove({ x, y, i, gesture, thickness }) {
+    if (!this.sceneloaded) return;
+
     this.updateCursor(x, y, i);
     const smooth = this.handSmoothed.get(i) || { x, y };
     const screenX = smooth.x * window.innerWidth;
@@ -192,7 +245,7 @@ export default class DrawingScene extends BaseScene {
       this.handData.set(i, data);
     }
 
-    if (gesture === "Pointing_Up") {
+    if (gesture === "Pointing_Up" || gesture !== "Pointing_Up" && (performance.now() - this.lastPointingUpGesture) < 200) {
       if (data.drawing) {
         this.canvasCtx.beginPath();
         this.canvasCtx.moveTo(data.prevX, data.prevY);
@@ -205,6 +258,9 @@ export default class DrawingScene extends BaseScene {
       data.drawing = true;
       data.prevX = xPx;
       data.prevY = yPx;
+
+    } else if (gesture === "None") {
+
     } else {
       data.drawing = false;
     }
