@@ -90,6 +90,7 @@ export default class StartMenuScene extends BaseScene {
     this.input.off('click', this.handleClick);
     await super.destroy();
     this.sceneEl.remove();
+    this.container.innerHTML = '';
   }
 
   handleMove({ x, y, i }) {

@@ -101,6 +101,7 @@ export default class DrawingScene extends BaseScene {
     this.input.off("frameCount", this.updateFrameCount);
     this.removeStyle(this.styleEl);
     window.removeEventListener("resize", this.resize.bind(this));
+    this.container.innerHTML = '';
     await super.destroy();
     this.sceneEl.remove();
   }
@@ -222,8 +223,11 @@ export default class DrawingScene extends BaseScene {
   handleClick({ x, y }) {
     const px = x * window.innerWidth;
     const py = y * window.innerHeight;
-    const el = document.elementFromPoint(px, py);
+    var el = document.elementFromPoint(px, py);
     if (!el) return;
+
+    if (!el.id && el.parentElement) el = el.parentElement;
+
     const handId = this.findHandFromCursor(px, py);
 
     switch (el.id) {

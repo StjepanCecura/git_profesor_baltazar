@@ -121,9 +121,9 @@ export default class InputManager {
       if (results.gestures?.length) {
         for (let i = 0; i < results.gestures.length; i++) {
           const landmarks = results.landmarks[i];
-          if (landmarks && landmarks[8]) {
-            const x = Utils.xCameraCoordinate(landmarks[8].x);
-            const y = Utils.yCameraCoordinate(landmarks[8].y);
+          if (landmarks && landmarks[5]) {
+            const x = Utils.xCameraCoordinate(landmarks[5].x);
+            const y = Utils.yCameraCoordinate(landmarks[5].y);
             const gesture = results.gestures[i][0].categoryName;
             const thickness = Math.sqrt(
               (landmarks[5].x - landmarks[0].x) ** 2 +

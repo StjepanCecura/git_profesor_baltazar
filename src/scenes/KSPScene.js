@@ -379,6 +379,7 @@ export default class MemoryGameScene extends BaseScene {
     this.input.off("move", this.handleMove);
     this.input.off("click", this.handleClick);
     this.sceneEl.remove();
+    this.container.innerHTML = '';
     await super.destroy();
   }
 
@@ -397,10 +398,14 @@ export default class MemoryGameScene extends BaseScene {
   }
 
   handleClick({ x, y }) {
-    const el = document.elementFromPoint(
+    var el = document.elementFromPoint(
       x * window.innerWidth,
       y * window.innerHeight
     );
+
+    if (!el) return;
+    if (!el.id && el.parentElement) el = el.parentElement;
+
     if (el && el.tagName === "BUTTON") el.click();
   }
 }

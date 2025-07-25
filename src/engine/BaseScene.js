@@ -124,7 +124,7 @@ export default class BaseScene {
     this.handCursors.clear();
   }
 
-    async waitForImage(key) {
+  async waitForImage(key) {
     const timeout = 5000;
     const start = Date.now();
 
