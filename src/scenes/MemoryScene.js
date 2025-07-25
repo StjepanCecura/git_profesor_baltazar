@@ -158,6 +158,7 @@ export default class MemoryGameScene extends BaseScene {
 
     this.sceneEl = document.createElement("div");
     this.sceneEl.classList.add("container");
+    this.container.innerHTML = '';
 
     switch (this.currentScreen) {
       case "start":
@@ -175,7 +176,9 @@ export default class MemoryGameScene extends BaseScene {
     }
   }
 
-  renderStartScreen() {
+  async renderStartScreen() {
+    await this.waitForImage('backButton');
+
     this.sceneEl.innerHTML = `<div id="startScreen">
       <button class="btn backBtn" id="btnBack">
         <img src="${this.assets.images.get("backButton").src}" height="100%"/>
