@@ -11,9 +11,20 @@ export default class TicTacToeScene extends BaseScene {
     this.currentPlayer = "X"; // X ili O
     this.board = Array(3).fill(null).map(() => Array(3).fill(null));
     this.gameOver = false;
+
+    this.handleMove = this.handleMove.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+    this.updateFrameCount = this.updateFrameCount.bind(this);
+
   }
 
   async init() {
+    this.input.on("move", this.handleMove);
+    this.input.on("click", this.handleClick);
+    this.input.on("frameCount", this.updateFrameCount);
+
+    this.cursorContainer = this.container;
+
     this.createMenuScreen();
   }
 
@@ -434,7 +445,35 @@ export default class TicTacToeScene extends BaseScene {
       : "/pictures/tictactoeGame/kruzic.webp";
   }
 
+  handleMove({ x, y, i }) {
+    this.updateCursor(x, y, i);
+  }
+
+  handleClick({ x, y }) {
+    const px = x * window.innerWidth;
+    const py = y * window.innerHeight;
+    const el = document.elementFromPoint(px, py);
+
+    if (!el) return;
+
+    if (el.tagName === "BUTTON") {
+      el.click();
+    } else if (el.dataset && el.dataset.x !== undefined && el.dataset.y !== undefined) {
+      const xCoord = parseInt(el.dataset.x, 10);
+      const yCoord = parseInt(el.dataset.y, 10);
+      this.handleCellClick(xCoord, yCoord, el);
+    }
+  }
+
+  updateFrameCount() {
+    super.updateFrameCount();
+  }
+
   async destroy() {
+    this.input.off("move", this.handleMove);
+    this.input.off("click", this.handleClick);
+    this.input.off("frameCount", this.updateFrameCount);
+
     super.destroy();
     clearInterval(this.timerInterval);
     if (this.sceneEl && this.sceneEl.parentNode) {
