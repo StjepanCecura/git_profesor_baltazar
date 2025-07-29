@@ -25,6 +25,7 @@ export default class StartMenuScene extends BaseScene {
         <button class="textStyle btn btnGameButtons" id="btnStarCatching">Ulovi zvijezde</button>
         <button class="textStyle btn btnGameButtons" id="btnLabyrinth">Labirint</button>
         <button class="textStyle btn btnGameButtons" id="btnFruitCollecting">Skupi voće</button>
+        <button class="textStyle btn btnGameButtons" id="btnTicTacToe">Križić-kružić</button>
         <button hidden class="textStyle btn btnGameButtons" id="btnQuiz">Kviz</button>
       </div>
     `;
@@ -32,6 +33,7 @@ export default class StartMenuScene extends BaseScene {
     this.cursorContainer = this.sceneEl;
 
     this.sceneEl.querySelector('#btnDrawing').addEventListener('click', () => this.manager.switch('Drawing'));
+    this.sceneEl.querySelector('#btnTicTacToe').addEventListener('click', () => this.manager.switch('TicTacToe'));
     /*this.sceneEl.querySelector('#btnStarCatching').addEventListener('click', () => this.manager.switch('StarCatching'));
     this.sceneEl.querySelector('#btnLabyrinth').addEventListener('click', () => this.manager.switch('Labyrinth'));
     this.sceneEl.querySelector('#btnFruitCollecting').addEventListener('click', () => this.manager.switch('FruitCollecting'));
