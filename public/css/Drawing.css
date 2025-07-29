@@ -90,8 +90,17 @@ html {
     left: 2%;
     width: 30%;
     font-size: 4em;
-    border-radius: 5px;
+    border-radius: 0.3em;
     box-shadow: 3px 5px 5px rgba(0, 0, 0, 0.3);
+}
+
+.drawing-container #btnPlayGame {
+    left: 2%;
+    width: 45%;
+    font-size: 8em;
+    border-radius: 0.3em;
+    box-shadow: 3px 5px 5px rgba(0, 0, 0, 0.3);
+    justify-content: center;
 }
 
 .drawing-container #btnPauseDrawing {
@@ -106,7 +115,6 @@ html {
     border: 0cm;
     position: relative;
     cursor: none;
-    border-radius: 15px;
 }
 
 .drawing-container #btnGreen {
@@ -143,6 +151,21 @@ html {
     width: 10%;
 }
 
+.secondLayerInstructions {
+    height: 70%;
+}
+.secondLayerInstructions .instructionsHeader {
+    color: white;
+    text-align: center;
+    font-weight: bold;
+    text-shadow: 0 0 0.1em #000;
+}
+.secondLayerInstructions .instructionsTextBlock {
+    color: white;
+    font-weight: bold;
+    text-shadow: 0 0 0.1em #000;
+}
+
 .drawing-container #btnMinusThickness {
     background-color: transparent;
     height: 80%;
@@ -174,7 +197,7 @@ html {
     }
 
     .drawing-container #btnClearBackground {
-        font-size: 0.6em;
+        font-size: 0.8em;
     }
 
     .drawing-container .firstLayer {
@@ -201,6 +224,23 @@ html {
 
     .drawing-container .mouse_pointer {
         height: 6vh;
+    }
+
+    .secondLayerInstructions .instructionsHeader {
+        font-size: 3em;
+    }
+    .secondLayerInstructions .instructionsTextBlock {
+        font-size: 1.5em;
+    }
+    .drawing-container #btnPlayGame {
+        font-size: 2em;
+        border-radius: 0.3em;
+        justify-content: center;
+        left: 27.5%;
+    }
+
+    .drawing-container .colourPicker {
+        border-radius: 0.5em;
     }
 }
 
@@ -251,5 +291,15 @@ html {
         height: 5%;
         grid-template-columns: 8% 8% 8% 8% 8% 8% 1fr 45%;
         gap: 1%;
+    }
+
+    .secondLayerInstructions .instructionsHeader {
+        font-size: 16em;
+    }
+    .secondLayerInstructions .instructionsTextBlock {
+        font-size: 8em;
+    }
+    .drawing-container .colourPicker {
+        border-radius: 2.5em;
     }
 }

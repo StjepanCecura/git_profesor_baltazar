@@ -43,8 +43,10 @@ body {
   transition: transform 0.3s, opacity 0.3s;
 }
 .game-card img {
-  height: 80%;
-  width: auto;
+  width: 20%;
+  height: auto;
+  max-width: 20%;
+  max-height: 80%;
 }
 .game-card span {
   font-weight: bold;

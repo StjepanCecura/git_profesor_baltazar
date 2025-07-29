@@ -19,7 +19,7 @@ export default class DrawingScene extends BaseScene {
     this.handleClick = this.handleClick.bind(this);
     this.updateFrameCount = this.updateFrameCount.bind(this);
     this.lastPointingUpGesture = performance.now();
-    this.currentScreen = "game";
+    this.currentScreen = "rules";
     this.sceneloaded = false;
   }
 
@@ -54,22 +54,58 @@ export default class DrawingScene extends BaseScene {
         this.renderRulesScreen();
         break;
       case "game":
+        this.resetHands();
         this.renderGameplayScreen();
         break;
     }
   }
 
-   renderRulesScreen() {
+   async renderRulesScreen() {
+    await this.waitForImage('backButton');
+
+    this.sceneEl.classList.add("drawing-container");
+    this.sceneEl.classList.add("drawingInstructions");
+
+    this.sceneEl.innerHTML = `
+      <div class="firstLayer layer">
+        <button class="btn" id="btnBack"><img src="${
+          this.assets.images.get("backButton").src
+        }" height="100%"/></button>
+      </div>
+      <div class="secondLayerInstructions layer">
+        <h1 class="textStyle instructionsHeader">Upute</h1>
+        <p class="textStyle instructionsTextBlock">
+          Crtaj po zaslonu, promijeni boju kista i probudi svoju kreativnost uz jednostavne pokrete ruku. 
+        </p>
+        <h1 class="textStyle instructionsTextBlock">☝️ - gestura interakcije</h1>
+      </div>
+      <div class="thirdLayerInstructions layer">
+        <button class="btnSecondLayer textStyle btn" id="btnPlayGame">Igraj</button>
+      </div>
+    `;
+
+    this.container.appendChild(this.sceneEl);
+
+    this.cursorContainer = this.sceneEl;
+
+    this.btnBack = this.sceneEl.querySelector("#btnBack");
+    this.btnPlayGame = this.sceneEl.querySelector("#btnPlayGame");
+
+    this.btnBack.addEventListener("click", () =>
+      this.manager.switch("StartMenu")
+    );
+    this.btnPlayGame.addEventListener("click", () => {
+      this.currentScreen = "game";
+      this.render();
+    });
 
     this.sceneloaded = true;
   }
 
-  async renderGameplayScreen(){
-    await this.waitForImage('backButton');
-
+  renderGameplayScreen(){
     this.sceneEl.classList.add("drawing-container");
 
-    this.sceneEl.innerHTML = `
+    this.sceneEl.innerHTML += `
       <div class="firstLayer layer">
         <button class="btn" id="btnBack"><img src="${
           this.assets.images.get("backButton").src
@@ -229,6 +265,7 @@ export default class DrawingScene extends BaseScene {
     const smooth = this.handSmoothed.get(i) || { x, y };
     const screenX = smooth.x * window.innerWidth;
     const screenY = smooth.y * window.innerHeight;
+    if(this.canvasElement === undefined) return;
     const xPx = screenX - this.canvasElement.offsetLeft;
     const yPx = screenY - this.canvasElement.offsetTop;
 
@@ -306,7 +343,12 @@ export default class DrawingScene extends BaseScene {
           this.setHandColor(handId, newColor, bgColor);
         }
         break;
+      case "btnPlayGame":
+        this.currentScreen = "game";
+        this.render();
+        break;
       default:
+        if(this.gameContainer === undefined) break;
         const btn = this.colorButtons[el.id];
         if (btn && handId) {
           this.setHandColor(handId, btn.color, btn.bg);

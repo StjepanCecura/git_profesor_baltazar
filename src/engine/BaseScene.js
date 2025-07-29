@@ -118,6 +118,14 @@ export default class BaseScene {
   update(dt) {
   }
 
+  resetHands() {
+    this.handCursors.forEach(c => c.remove());
+    this.handCursors.clear();
+
+    this.handSmoothed.clear();
+    this.handLastSeen.clear();
+  }
+
   render() {}
 
   async destroy() {

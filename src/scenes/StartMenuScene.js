@@ -20,11 +20,13 @@ export default class StartMenuScene extends BaseScene {
     await this.assets.loadImage('crtanjeLogo','/pictures/drawingGame/brush.webp');
     await this.assets.loadImage('KSPLogo','/pictures/starCatching/starCatchingCursor.webp');
     await this.assets.loadImage('memoryLogo','/pictures/starCatching/starCatchingCursor.webp');
+    await this.assets.loadImage('labyrinthLogo','/pictures/labyrinthGame/mouse.webp');
 
     this.games = [
       { name: "Crtanje", logo: this.assets.images.get('crtanjeLogo').src, scene: "Drawing" },
       { name: "Kamen papir škare", logo: this.assets.images.get('KSPLogo').src, scene: "KSP" },
       { name: "Memory", logo: this.assets.images.get('memoryLogo').src, scene: "Memory" },
+      { name: "Labirint", logo: this.assets.images.get('labyrinthLogo').src, scene: "Labirint" }
     ];
     this.sceneEntryTime = performance.now();
     this.lastFrameGestures = {};
