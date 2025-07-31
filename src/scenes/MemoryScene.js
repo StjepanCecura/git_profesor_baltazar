@@ -4,7 +4,7 @@ export default class MemoryGameScene extends BaseScene {
   constructor(params) {
     super(params);
     this.container = document.getElementById("gameContainer");
-    this.currentScreen = "start"; // start, rules, game, gameover
+    this.currentScreen = "start";
 
     this.handleMove = this.handleMove.bind(this);
     this.handleClick = this.handleClick.bind(this);
@@ -95,7 +95,6 @@ export default class MemoryGameScene extends BaseScene {
       cardTypes.push(`mem-card${i}`);
     }
 
-    // Add two of each type (for pairs)
     const allCards = [...cardTypes, ...cardTypes];
     for (let i = allCards.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -159,6 +158,7 @@ export default class MemoryGameScene extends BaseScene {
 
     this.sceneEl = document.createElement("div");
     this.sceneEl.classList.add("container");
+    this.container.innerHTML = '';
 
     switch (this.currentScreen) {
       case "start":
@@ -176,7 +176,9 @@ export default class MemoryGameScene extends BaseScene {
     }
   }
 
-  renderStartScreen() {
+  async renderStartScreen() {
+    await this.waitForImage('backButton');
+
     this.sceneEl.innerHTML = `<div id="startScreen">
       <button class="btn backBtn" id="btnBack">
         <img src="${this.assets.images.get("backButton").src}" height="100%"/>
@@ -245,7 +247,7 @@ export default class MemoryGameScene extends BaseScene {
     let gridHTML = this.cards
       .map(
         (card) => `
-      <div class="card" data-index="${card.id}">
+      <div class="card" id="card" data-index="${card.id}">
         <img src="${
           card.flipped || card.matched
             ? this.assets.images.get(card.type).src
@@ -346,6 +348,7 @@ export default class MemoryGameScene extends BaseScene {
     this.input.off("move", this.handleMove);
     this.input.off("click", this.handleClick);
     this.sceneEl.remove();
+    this.container.innerHTML = '';
     await super.destroy();
   }
 
@@ -354,10 +357,13 @@ export default class MemoryGameScene extends BaseScene {
   }
 
   handleClick({ x, y }) {
-    const el = document.elementFromPoint(
+    var el = document.elementFromPoint(
       x * window.innerWidth,
       y * window.innerHeight
     );
+    if (!el) return;
+    if (!el.id && el.parentElement) el = el.parentElement;
+
     if (el && el.tagName === "BUTTON") el.click();
 
     const cardEl = el.closest(".card");
@@ -369,3 +375,4 @@ export default class MemoryGameScene extends BaseScene {
     }
   }
 }
+
