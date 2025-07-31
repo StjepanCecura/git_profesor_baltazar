@@ -39,10 +39,11 @@ export default class InputManager {
         modelAssetPath: '/wasm/gesture_recognizer.task',
         delegate: "GPU"
       },
-      runningMode: 'VIDEO',
+      runningMode: 'LIVE_STREAM',
       numHands: 3,
-      minHandPresenceConfidence: 0.6,
-      minTrackingConfidence: 0.6
+      minHandDetectionConfidence: 0.6,
+      minHandPresenceConfidence: 0.8,
+      minTrackingConfidence: 0.5
     };
     this.gestureRecognizer = await GestureRecognizer.createFromOptions(wasmFileset, gestureOptions);
 
@@ -56,8 +57,8 @@ export default class InputManager {
     if (this.cameraAvailable) {
       this.camera = new Camera(this.video, {
         onFrame: async () => {},
-        width: 640,
-        height: 360
+        width: 320,
+        height: 180
       });
     }
 

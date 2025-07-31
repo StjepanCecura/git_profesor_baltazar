@@ -23,30 +23,14 @@ body, html {
 }
 .mouse_pointer {
     pointer-events: none;
-    z-index: 999;
+    z-index: 950;
 }
 .cursor-wrapper {
     position: absolute;
     pointer-events: none;
     width: 50px;
     height: 70px;
-    z-index: 999;
-}
-.cursor-indicator {
-    position: absolute;
-    bottom: 5px;
-    left: 10px;
-    width: 30%;
-    mix-blend-mode: multiply;
-    filter: drop-shadow(0 0 1px #000);
-    pointer-events: none;
-    /*position: absolute;
-    border-radius: 50%;
-    border: 2px solid white;
-    left: 0;
-    bottom: 0;
-    transform: translate(-50%, 50%);
-    pointer-events: none;*/
+    z-index: 950;
 }
 .btn {
     border: 0cm;

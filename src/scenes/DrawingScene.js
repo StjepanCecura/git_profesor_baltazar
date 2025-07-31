@@ -4,16 +4,9 @@ export default class DrawingScene extends BaseScene {
   constructor(params) {
     super({ ...params, useColorIndicator: true });
     this.container = document.getElementById('gameContainer');
-    this.cursorOffset = img => ({ x: 10, y: -img.clientHeight - 10 });
+    this.cursorOffset = img => ({ x: 0, y: -img.clientHeight });
 
     this.handData = new Map();
-    if(window.innerWidth < 512) {
-      this.baseLineWidth = window.innerWidth * 0.02;
-    } else if (window.innerWidth > 1920) {
-      this.baseLineWidth = window.innerWidth * 0.08;
-    } else {
-      this.baseLineWidth = window.innerWidth * 0.025;
-    }
 
     this.handleMove = this.handleMove.bind(this);
     this.handleClick = this.handleClick.bind(this);
@@ -26,9 +19,11 @@ export default class DrawingScene extends BaseScene {
   async init() {
     await this.assets.loadImage("backButton", "/pictures/backButton.webp");
     await this.assets.loadImage("cursor", "/pictures/drawingGame/brush.webp");
-    await this.assets.loadImage("cursorTip", "/pictures/drawingGame/brushTip.png");
+    await this.assets.loadImage("cursorTip", "/pictures/drawingGame/brushTip.webp");
 
     this.styleEl = this.loadStyle("/css/Drawing.css");
+
+    this.calculateLineWidth();
 
     this.render();
 
@@ -167,6 +162,16 @@ export default class DrawingScene extends BaseScene {
     this.sceneloaded = true;
   }
 
+  calculateLineWidth() {
+    if(window.innerWidth < 512) {
+      this.baseLineWidth = window.innerWidth * 0.02;
+    } else if (window.innerWidth > 1920) {
+      this.baseLineWidth = window.innerWidth * 0.08;
+    } else {
+      this.baseLineWidth = window.innerWidth * 0.025;
+    }
+  }
+
   async destroy() {
     this.input.off("move", this.handleMove);
     this.input.off("click", this.handleClick);
@@ -181,6 +186,7 @@ export default class DrawingScene extends BaseScene {
   resize() {
     this.canvasElement.width = this.container.clientWidth * 0.96;
     this.canvasElement.height = this.container.clientHeight * 0.7;
+    this.calculateLineWidth();
   }
 
   updateFrameCount() {
@@ -282,7 +288,7 @@ export default class DrawingScene extends BaseScene {
       this.handData.set(i, data);
     }
 
-    if (gesture === "Pointing_Up" || gesture !== "Pointing_Up" && (performance.now() - this.lastPointingUpGesture) < 200) {
+    if (gesture === "Pointing_Up" || (gesture !== "Pointing_Up" && (performance.now() - this.lastPointingUpGesture) < 50)) {
       if (data.drawing) {
         this.canvasCtx.beginPath();
         this.canvasCtx.moveTo(data.prevX, data.prevY);
@@ -296,6 +302,7 @@ export default class DrawingScene extends BaseScene {
       data.prevX = xPx;
       data.prevY = yPx;
 
+      if(gesture === "Pointing_Up") this.lastPointingUpGesture = performance.now();
     } else if (gesture === "None") {
 
     } else {
@@ -348,7 +355,7 @@ export default class DrawingScene extends BaseScene {
         this.render();
         break;
       default:
-        if(this.gameContainer === undefined) break;
+        if(this.colorButtons === undefined) break;
         const btn = this.colorButtons[el.id];
         if (btn && handId) {
           this.setHandColor(handId, btn.color, btn.bg);

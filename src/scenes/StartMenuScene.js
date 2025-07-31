@@ -16,11 +16,14 @@ export default class StartMenuScene extends BaseScene {
   async init() {    
     await this.assets.loadImage('profBaltazar','/pictures/startMenu/profBaltazarMainScreen.webp');
     await this.assets.loadImage('cursor','/pictures/starCatching/starCatchingCursor.webp');
+    await this.assets.loadImage('goUp','/pictures/startMenu/like.webp');
+    await this.assets.loadImage('goDown','/pictures/startMenu/dislike.webp');
+    await this.assets.loadImage('click','/pictures/startMenu/click.webp');
     
-    await this.assets.loadImage('crtanjeLogo','/pictures/drawingGame/brush.webp');
-    await this.assets.loadImage('KSPLogo','/pictures/starCatching/starCatchingCursor.webp');
-    await this.assets.loadImage('memoryLogo','/pictures/starCatching/starCatchingCursor.webp');
-    await this.assets.loadImage('labyrinthLogo','/pictures/labyrinthGame/mouse.webp');
+    await this.assets.loadImage('crtanjeLogo','/pictures/drawingGame/icon.webp');
+    await this.assets.loadImage('KSPLogo','/pictures/kspGame/icon.webp');
+    await this.assets.loadImage('memoryLogo','/pictures/memoryGame/icon.webp');
+    await this.assets.loadImage('labyrinthLogo','/pictures/labyrinthGame/icon.webp');
 
     this.games = [
       { name: "Crtanje", logo: this.assets.images.get('crtanjeLogo').src, scene: "Drawing" },
@@ -43,6 +46,21 @@ export default class StartMenuScene extends BaseScene {
         <div class="game-menu">
         </div>
       </div>
+      <div class="thirdLayer layer">
+        <table class="instructionsTable">
+          <tr class="instructionsImages">
+            <th><img src="${this.assets.images.get('goUp').src}" /></th>
+            <th><img src="${this.assets.images.get('goDown').src}" /></th>
+            <th><img src="${this.assets.images.get('click').src}" /></th>
+          </tr>
+          <tr class="instructionsText textStyle">
+            <th>gore</th>
+            <th>dolje</th>
+            <th>odabir</th>
+          </tr>
+        </table>
+      </div>
+      <a href="https://www.flaticon.com/free-icons/hand" title="hand icons">Hand icons created by Ilham Fitrotul Hayat - Flaticon</a>
     `;
 
     this.container.appendChild(this.sceneEl);
@@ -64,27 +82,35 @@ export default class StartMenuScene extends BaseScene {
     super.updateFrameCount();
 
     const timeSinceEntry = performance.now() - this.sceneEntryTime;
-    if (timeSinceEntry < 1000) return;
+    if (timeSinceEntry < 500) return;
 
     const predictions = Array.from(this.input.handPredictions?.values() || []);
     if (!predictions.length) return;
+
+    var interacted = false;
 
     predictions.forEach(pred => {
       const { gesture, x, y, i } = pred;
 
       if (gesture === 'Thumb_Up') {
-        if (this.lastFrameGestures[i] !== "Thumb_Up") {
-           this.scrollUp();
+        if (!interacted) {
+          interacted = true;
+          this.scrollUp();
         }
       }
       else if (gesture === 'Thumb_Down') {
-        if (this.lastFrameGestures[i] !== "Thumb_Down") {
-          this.scrollDown()
+        if (!interacted) {
+          interacted = true;
+          this.scrollDown();
         }
       } 
 
       this.lastFrameGestures[i] = gesture;
     });
+
+    if(interacted) {
+      this.sceneEntryTime = performance.now();
+    }
   }
 
   async destroy() {
@@ -115,7 +141,7 @@ export default class StartMenuScene extends BaseScene {
     [prev, curr, next].forEach((game, idx) => {
       if (!game) return;
       const card = document.createElement('button');
-      card.className = 'game-card ' + (idx === 1 ? 'active' : 'faded');
+      card.className = 'textStyle game-card ' + (idx === 1 ? 'active' : 'faded');
       card.innerHTML = `
         <img src="${game.logo}" alt="${game.name}">
         <span>${game.name}</span>
