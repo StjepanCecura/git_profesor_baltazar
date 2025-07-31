@@ -20,6 +20,7 @@ import KSPScene from "@scenes/KSPScene.js";
   scenes.register("Drawing", DrawingScene);
   scenes.register("Memory", MemoryScene);
   scenes.register("KSP", KSPScene);
+  //scenes.register("Labirint", LabyrintScene);
 
   const engine = new Engine({
     sceneManager: scenes,

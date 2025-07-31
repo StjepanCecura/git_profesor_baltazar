@@ -1,4 +1,6 @@
 @import url('/FontFamily/fontFamily.css');
+
+/*#region main_CSS*/
 body,
 html {
     margin: 0;
@@ -40,7 +42,7 @@ html {
 
 .drawing-container .mouse_pointer {
     pointer-events: none;
-    z-index: 999;
+    z-index: 950;
     border-radius: 100% 0% 100% 0%;
 }
 
@@ -77,6 +79,11 @@ html {
     height: 80%;
 }
 
+#btnBack:hover {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transform: scale(1.05);
+}
+
 .drawing-container .btnSecondLayer {
     border-radius: 7px;
     height: 60%;
@@ -90,8 +97,18 @@ html {
     left: 2%;
     width: 30%;
     font-size: 4em;
-    border-radius: 5px;
+    border-radius: 0.3em;
     box-shadow: 3px 5px 5px rgba(0, 0, 0, 0.3);
+}
+
+.drawing-container #btnPlayGame {
+    left: 2%;
+    width: 45%;
+    font-size: 8em;
+    border-radius: 0.3em;
+    box-shadow: 3px 5px 5px rgba(0, 0, 0, 0.3);
+    justify-content: center;
+    left: 27.5%;
 }
 
 .drawing-container #btnPauseDrawing {
@@ -106,7 +123,6 @@ html {
     border: 0cm;
     position: relative;
     cursor: none;
-    border-radius: 15px;
 }
 
 .drawing-container #btnGreen {
@@ -143,49 +159,54 @@ html {
     width: 10%;
 }
 
-.drawing-container #btnMinusThickness {
-    background-color: transparent;
-    height: 80%;
-    width: 10%;
-    left: 2%;
-    font-size: 6em;
+.secondLayerInstructions {
+    height: 70%;
+}
+.secondLayerInstructions .instructionsHeader {
+    color: white;
+    text-align: center;
+    font-weight: bold;
+    text-shadow: 0 0 0.1em #000;
+}
+.secondLayerInstructions .instructionsTextBlock {
+    color: white;
+    font-weight: bold;
+    text-shadow: 0 0 0.1em #000;
 }
 
-.drawing-container #btnPlusThickness {
-    background-color: transparent;
-    height: 80%;
-    width: 10%;
-    left: 0%;
-    font-size: 6em;
+.cursor-indicator {
+    position: absolute;
+    transform: translate(0%, -100%);
+    mix-blend-mode: multiply;
+    pointer-events: none;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    width: 32.6172%;
+    height: 34.1797%;
+
+    box-shadow: inset 0 0 2em rgba(0, 0, 0, 0.4);
+
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    mask-position: center;
+    -webkit-mask-position: center;
+
+    z-index: 999;
 }
 
-.drawing-container #selected_colour {
-    border: 0cm;
-    border-radius: 20%;
-    aspect-ratio: 1/1;
-    height: 40%;
-    position: relative;
-    top: -60%;
-    left: 70%;
-}
-
-.drawing-container #current_colour {
-    height: 80%;
-    width: 10%;
-    top: -100%;
-    left: 77%;
-    position: relative ;
-}
+/*#endregion main_CSS*/
 
 /* === Responsive dizajn za različite razlučivosti === */
 
-/* MOBITELI */
-@media screen and (max-width: 512px) and (max-aspect-ratio: 3/4) {
+/* MOBITELI - vertikalan */
+@media screen and (max-width: 512px) and (max-aspect-ratio: 1/1) {
     .drawing-container {
         background-position: 80%;
         background-size: auto 100%;
     }
-
     
     .drawing-container .mouse_pointer {
         height: 8vh;
@@ -193,7 +214,7 @@ html {
     }
 
     .drawing-container #btnClearBackground {
-        font-size: 0.6em;
+        font-size: 0.8em;
     }
 
     .drawing-container .firstLayer {
@@ -221,35 +242,39 @@ html {
     .drawing-container .mouse_pointer {
         height: 6vh;
     }
-}
 
-/* TABLETI I MANJI DESKTOPI: širina između 601px i 1024px */
-@media screen and (min-width: 601px) and (max-width: 1024px) {
-    .drawing-container .output_canvas {
-        height: 80%;
-    }
-
-    .drawing-container .textStyle {
+    .secondLayerInstructions .instructionsHeader {
         font-size: 3em;
     }
+    .secondLayerInstructions .instructionsTextBlock {
+        font-size: 1.5em;
+    }
+    .drawing-container #btnPlayGame {
+        font-size: 2em;
+        border-radius: 0.3em;
+    }
 
-    .drawing-container #btnClearBackground {
-        font-size: 3em;
+    .drawing-container .colourPicker {
+        border-radius: 0.5em;
     }
 }
 
-/* TV vertikalan */
-@media screen and (min-width: 1920px) and (max-aspect-ratio: 3/4) {
+/* TABLETI I MANJI DESKTOPI - vertikalan */
+@media screen and (min-width: 512px) and (max-width: 1920px) and (max-aspect-ratio: 1/1) {
     .drawing-container {
         background-position: 80%;
         background-size: auto 100%;
     }
-
+    
     .drawing-container .mouse_pointer {
         height: 8vh;
         width: auto;
     }
-    
+
+    .drawing-container #btnClearBackground {
+        font-size: 1.8em;
+    }
+
     .drawing-container .firstLayer {
         height: 6.5%;
     }
@@ -262,13 +287,85 @@ html {
         height: 69%;
     }
 
-    .drawing-container .textStyle {
-        font-size: 3.5em;
-    }
-
     .drawing-container .fourthLayer {
         height: 5%;
         grid-template-columns: 8% 8% 8% 8% 8% 8% 1fr 45%;
         gap: 1%;
+    }
+
+    .drawing-container .fifthLayer {
+        height: 8%;
+    }
+
+    .drawing-container .mouse_pointer {
+        height: 6vh;
+    }
+
+    .secondLayerInstructions .instructionsHeader {
+        font-size: 5em;
+    }
+    .secondLayerInstructions .instructionsTextBlock {
+        font-size: 3.5em;
+    }
+    .drawing-container #btnPlayGame {
+        font-size: 2em;
+        border-radius: 0.3em;
+    }
+
+    .drawing-container .colourPicker {
+        border-radius: 0.5em;
+    }
+}
+
+/* TV - vertikalan */
+@media screen and (min-width: 1920px) and (max-aspect-ratio: 1/1) {
+    .drawing-container {
+        background-position: 80%;
+        background-size: auto 100%;
+    }
+    .drawing-container .mouse_pointer {
+        height: 8vh;
+        width: auto;
+    }
+    .drawing-container .firstLayer {
+        height: 6.5%;
+    }
+    .drawing-container .secondLayer {
+        height: 8.64%;
+    }
+    .drawing-container .thirdLayer {
+        height: 69%;
+    }
+    .drawing-container .textStyle {
+        font-size: 3.5em;
+    }
+    .drawing-container .fourthLayer {
+        height: 5%;
+        grid-template-columns: 8% 8% 8% 8% 8% 8% 1fr 45%;
+        gap: 1%;
+    }
+    .secondLayerInstructions .instructionsHeader {
+        font-size: 16em;
+    }
+    .secondLayerInstructions .instructionsTextBlock {
+        font-size: 8em;
+    }
+    .drawing-container .colourPicker {
+        border-radius: 2.5em;
+    }
+}
+
+/* TABLETI I MANJI DESKTOPI: širina između 601px i 1024px */
+@media screen and (min-width: 601px) and (max-width: 1024px) and (min-aspect-ratio: 1/1){
+    .drawing-container .output_canvas {
+        height: 80%;
+    }
+
+    .drawing-container .textStyle {
+        font-size: 3em;
+    }
+
+    .drawing-container #btnClearBackground {
+        font-size: 3em;
     }
 }
