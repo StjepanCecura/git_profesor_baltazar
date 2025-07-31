@@ -1,5 +1,5 @@
 export default class BaseScene {
-  constructor({ assets, input, manager }) {
+  constructor({ assets, input, manager, useColorIndicator = false }) {
     this.assets = assets;
     this.input = input;
     this.manager = manager;
@@ -7,7 +7,7 @@ export default class BaseScene {
     this.handSmoothed = new Map(); 
     this.handLastSeen = new Map();
     this.cursorContainer = document.body;
-    this.useColorIndicator = false;
+    this.useColourIndicator = useColorIndicator;
     this.cursorOffset = () => ({ x: 0, y: 0 });
 
     this.MAX_MISSING_FRAMES = 5;
@@ -25,54 +25,44 @@ export default class BaseScene {
   }
 
   createCursor(id) {
-    /*const cursor = document.createElement('img');
-    cursor.classList.add('mouse_pointer');
-    cursor.id = `cursor_${id}`;
-    cursor.src = this.assets.images.get('cursor').src;
-    Object.assign(cursor.style, {
-      position: 'absolute',
-      pointerEvents: 'none',
-      backgroundSize: 'cover',
-    });
-    document.body.appendChild(cursor);
-    this.handCursors.set(id, cursor);
-    return cursor;*/
     const wrapper = document.createElement('div');
     wrapper.classList.add('cursor-wrapper');
+
     const img = document.createElement('img');
     img.classList.add('mouse_pointer');
     img.id = `cursor_${id}`;
     img.src = this.assets.images.get('cursor').src;
+
     Object.assign(img.style, {
       pointerEvents: 'none',
       backgroundSize: 'cover',
+      display: 'block'
     });
+
     wrapper.appendChild(img);
     wrapper.img = img;
-        const syncSize = () => {
-      wrapper.style.width = `${img.clientWidth}px`;
-      wrapper.style.height = `${img.clientHeight}px`;
-    };
-    if (img.complete) {
-      syncSize();
-    } else {
-      img.onload = syncSize;
-    }
-    if (this.useColorIndicator) {
+
+    if (this.useColourIndicator) {
       const indicator = document.createElement('div');
       indicator.classList.add('cursor-indicator');
+      indicator.style.backgroundColor = '#000';
+      indicator.style.maskImage = `url(${this.assets.images.get('cursorTip').src})`;
+      indicator.style.webkitMaskImage = `url(${this.assets.images.get('cursorTip').src})`;
       wrapper.appendChild(indicator);
       wrapper.indicator = indicator;
     }
+
     Object.assign(wrapper.style, {
       position: 'absolute',
       pointerEvents: 'none',
-      display: 'none',
+      display: 'block'
     });
+
     this.cursorContainer.appendChild(wrapper);
     this.handCursors.set(id, wrapper);
     return wrapper;
   }
+
 
   removeCursor(id) {
     if (this.handCursors.has(id)) {
@@ -130,10 +120,37 @@ export default class BaseScene {
   update(dt) {
   }
 
+  resetHands() {
+    this.handCursors.forEach(c => c.remove());
+    this.handCursors.clear();
+
+    this.handSmoothed.clear();
+    this.handLastSeen.clear();
+  }
+
   render() {}
 
   async destroy() {
     this.handCursors.forEach((c) => c.remove());
     this.handCursors.clear();
+  }
+
+  async waitForImage(key) {
+    const timeout = 5000;
+    const start = Date.now();
+
+    return new Promise((resolve, reject) => {
+      const check = () => {
+        const img = this.assets.images.get(key);
+        if (img && img.src) {
+          resolve(img.src);
+        } else if (Date.now() - start > timeout) {
+          reject(`Slika '${key}' se nije učitala unutar 5 sekundi.`);
+        } else {
+          setTimeout(check, 100);
+        }
+      };
+      check();
+    });
   }
 }

@@ -22,6 +22,7 @@ import SpojiCudoScene from "@scenes/SpojiCudoScene.js";
   scenes.register("Drawing", DrawingScene);
   scenes.register("Memory", MemoryScene);
   scenes.register("KSP", KSPScene);
+  //scenes.register("Labirint", LabyrintScene);
   scenes.register("Letimir", LetimirScene);
   scenes.register("SpojiCudo", SpojiCudoScene);
 
