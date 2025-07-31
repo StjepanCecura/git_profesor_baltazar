@@ -4,6 +4,7 @@ import InputManager from "@engine/InputManager.js";
 import AssetManager from "@engine/AssetManager.js";
 import BaseScene from "@engine/BaseScene.js";
 
+import TicTacToeScene from "@scenes/TicTacToeScene.js";
 import StartMenuScene from "@scenes/StartMenuScene.js";
 import DrawingScene from "@scenes/DrawingScene.js";
 import MemoryScene from "@scenes/MemoryScene.js";
@@ -23,6 +24,7 @@ import SpojiCudoScene from "@scenes/SpojiCudoScene.js";
   scenes.register("Memory", MemoryScene);
   scenes.register("KSP", KSPScene);
   //scenes.register("Labirint", LabyrintScene);
+  scenes.register("TicTacToe", TicTacToeScene);
   scenes.register("Letimir", LetimirScene);
   scenes.register("SpojiCudo", SpojiCudoScene);
 
