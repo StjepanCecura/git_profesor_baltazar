@@ -45,6 +45,9 @@ export default class BaseScene {
     if (this.useColourIndicator) {
       const indicator = document.createElement('div');
       indicator.classList.add('cursor-indicator');
+      indicator.style.backgroundColor = '#000';
+      indicator.style.maskImage = `url(${this.assets.images.get('cursorTip').src})`;
+      indicator.style.webkitMaskImage = `url(${this.assets.images.get('cursorTip').src})`;
       wrapper.appendChild(indicator);
       wrapper.indicator = indicator;
     }
@@ -117,10 +120,37 @@ export default class BaseScene {
   update(dt) {
   }
 
+  resetHands() {
+    this.handCursors.forEach(c => c.remove());
+    this.handCursors.clear();
+
+    this.handSmoothed.clear();
+    this.handLastSeen.clear();
+  }
+
   render() {}
 
   async destroy() {
     this.handCursors.forEach((c) => c.remove());
     this.handCursors.clear();
+  }
+
+  async waitForImage(key) {
+    const timeout = 5000;
+    const start = Date.now();
+
+    return new Promise((resolve, reject) => {
+      const check = () => {
+        const img = this.assets.images.get(key);
+        if (img && img.src) {
+          resolve(img.src);
+        } else if (Date.now() - start > timeout) {
+          reject(`Slika '${key}' se nije učitala unutar 5 sekundi.`);
+        } else {
+          setTimeout(check, 100);
+        }
+      };
+      check();
+    });
   }
 }

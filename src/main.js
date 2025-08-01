@@ -21,6 +21,7 @@ import KSPScene from "@scenes/KSPScene.js";
   scenes.register("Drawing", DrawingScene);
   scenes.register("Memory", MemoryScene);
   scenes.register("KSP", KSPScene);
+  //scenes.register("Labirint", LabyrintScene);
   scenes.register("TicTacToe", TicTacToeScene);
   scenes.register("NinjaFruit", NinjaFruitScene);
 

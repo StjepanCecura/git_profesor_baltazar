@@ -39,10 +39,11 @@ export default class InputManager {
         modelAssetPath: '/wasm/gesture_recognizer.task',
         delegate: "GPU"
       },
-      runningMode: 'VIDEO',
+      runningMode: 'LIVE_STREAM',
       numHands: 3,
-      minHandPresenceConfidence: 0.6,
-      minTrackingConfidence: 0.6
+      minHandDetectionConfidence: 0.6,
+      minHandPresenceConfidence: 0.8,
+      minTrackingConfidence: 0.5
     };
     this.gestureRecognizer = await GestureRecognizer.createFromOptions(wasmFileset, gestureOptions);
 
@@ -56,8 +57,8 @@ export default class InputManager {
     if (this.cameraAvailable) {
       this.camera = new Camera(this.video, {
         onFrame: async () => {},
-        width: 640,
-        height: 360
+        width: 320,
+        height: 180
       });
     }
 
@@ -107,8 +108,7 @@ export default class InputManager {
 
     const now = performance.now();
     const start = now;
-    this._frameCount = 0;
-    if (this._frameCount !== 0 || now < this.nextDetectionTime) {
+    if (now < this.nextDetectionTime) {
       return requestAnimationFrame(this._detectionLoop);
     }
 
@@ -122,10 +122,11 @@ export default class InputManager {
       if (results.gestures?.length) {
         for (let i = 0; i < results.gestures.length; i++) {
           const landmarks = results.landmarks[i];
-          if (landmarks && landmarks[8]) {
-            const x = Utils.xCameraCoordinate(landmarks[8].x);
-            const y = Utils.yCameraCoordinate(landmarks[8].y);
+          if (landmarks && landmarks[5]) {
+            const x = Utils.xCameraCoordinate(landmarks[5].x);
+            const y = Utils.yCameraCoordinate(landmarks[5].y);
             const gesture = results.gestures[i][0].categoryName;
+            
             const thickness = Math.sqrt(
               (landmarks[5].x - landmarks[0].x) ** 2 +
               (landmarks[5].y - landmarks[0].y) ** 2 +
@@ -241,6 +242,14 @@ export default class InputManager {
     }
     requestAnimationFrame(this._pointerLoop.bind(this));
   }
+
+  getGesture() {
+    for (const pred of this.handPredictions.values()) {
+      return pred.gesture;
+    }
+    return null;
+  }
+
 
   update() {
   }
