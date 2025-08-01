@@ -1,0 +1,327 @@
+/* Ninja Fruit Game Styles */
+
+/* Main container styles */
+.ninja-fruit-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  position: relative;
+}
+
+.ninja-fruit-container.menu-layout {
+  justify-content: space-between;
+}
+
+.ninja-fruit-container.center-layout {
+  justify-content: center;
+  align-items: center;
+}
+
+/* Background styles */
+.ninja-fruit-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  z-index: 0;
+}
+
+/* Overlay styles */
+.ninja-fruit-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.ninja-fruit-overlay.dark {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.ninja-fruit-overlay.light {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+/* Button styles */
+.ninja-fruit-button {
+  background-color: #008782;
+  color: white;
+  font-size: 6vw;
+  padding: 1em 2em;
+  margin: 2em auto 4em auto;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  z-index: 2;
+  position: relative;
+}
+
+.ninja-fruit-button:hover {
+  background-color: #006b67;
+  transform: scale(1.05);
+  transition: all 0.2s ease;
+}
+
+.ninja-fruit-button:active {
+  transform: scale(0.95);
+}
+
+/* Back button styles */
+.ninja-fruit-back-button {
+  position: absolute;
+  top: 4em;
+  left: 4em;
+  height: 220px;
+  margin-top: 4em;
+  margin-left: 4em;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.ninja-fruit-back-button:hover {
+  transform: scale(1.1);
+  transition: transform 0.2s ease;
+}
+
+/* Quit button styles */
+.ninja-fruit-quit-button {
+  position: absolute;
+  top: 2em;
+  left: 2em;
+  font-size: 4em;
+  z-index: 1000;
+  padding: 1em 1em;
+  background-color: #c00;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.ninja-fruit-quit-button:hover {
+  background-color: #a00;
+  transform: scale(1.05);
+  transition: all 0.2s ease;
+}
+
+/* Title styles */
+.ninja-fruit-title {
+  font-size: 12vw;
+  margin-top: 2em;
+  color: #fff;
+  z-index: 2;
+  position: relative;
+  align-self: center;
+}
+
+.ninja-fruit-subtitle {
+  font-size: 8vw;
+  color: white;
+  z-index: 2;
+  position: relative;
+  margin-top: 2em;
+}
+
+.ninja-fruit-game-over-title {
+  font-size: 10vw;
+  color: white;
+  z-index: 2;
+  position: relative;
+  text-align: center;
+  margin-top: 2em;
+}
+
+.ninja-fruit-play-again-text {
+  font-size: 6vw;
+  color: white;
+  z-index: 2;
+  position: relative;
+  text-align: center;
+  margin-top: -1em;
+}
+
+/* Instructions text */
+.ninja-fruit-instructions {
+  color: white;
+  font-size: 4vw;
+  text-align: center;
+  max-width: 80%;
+  z-index: 2;
+  position: relative;
+  margin-top: 2em;
+}
+
+/* Score display */
+.ninja-fruit-score {
+  position: absolute;
+  top: 2em;
+  right: 2em;
+  font-size: 4em;
+  color: black;
+  z-index: 99;
+}
+
+/* Game stats container */
+.ninja-fruit-stats {
+  position: relative;
+  top: 2em;
+  text-align: center;
+  right: 2em;
+  color: white;
+  font-size: 4em;
+  margin-top: 4em;
+  margin-left: 4em;
+  z-index: 2;
+}
+
+/* Button container for end screen */
+.ninja-fruit-button-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5em;
+  margin-top: 5em;
+  margin-bottom: 4em;
+  margin: 3em auto 0em;
+}
+
+/* Sword styles */
+.ninja-fruit-sword {
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  z-index: 20;
+  pointer-events: none;
+  transition: all 0.1s ease-out;
+  opacity: 0.8;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Fruit styles */
+.ninja-fruit-item {
+  position: absolute;
+  transition: transform 0.2s;
+  z-index: 10;
+  cursor: pointer;
+}
+
+.ninja-fruit-item:hover {
+  transform: scale(1.1);
+}
+
+/* Bomb styles */
+.ninja-fruit-bomb {
+  filter: drop-shadow(0 0 10px rgba(255, 0, 0, 0.5));
+  animation: bomb-pulse 1s infinite alternate;
+}
+
+.ninja-fruit-bomb:hover {
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 15px rgba(255, 0, 0, 0.8));
+}
+
+@keyframes bomb-pulse {
+  0% {
+    filter: drop-shadow(0 0 10px rgba(255, 0, 0, 0.5));
+  }
+  100% {
+    filter: drop-shadow(0 0 20px rgba(255, 0, 0, 0.8));
+  }
+}
+
+/* Slice styles */
+.ninja-fruit-slice {
+  position: absolute;
+  z-index: 15;
+  transition: transform 0.5s ease-out, opacity 1s ease-out;
+}
+
+.ninja-fruit-slice.left {
+  transform: rotate(-15deg) scale(1);
+}
+
+.ninja-fruit-slice.right {
+  transform: rotate(15deg) scale(1);
+}
+
+.ninja-fruit-slice.animated.left {
+  transform: rotate(-25deg) scale(0.9);
+}
+
+.ninja-fruit-slice.animated.right {
+  transform: rotate(25deg) scale(0.9);
+}
+
+.ninja-fruit-slice.fading {
+  opacity: 0.7;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .ninja-fruit-button {
+    font-size: 8vw;
+    padding: 0.8em 1.5em;
+  }
+  
+  .ninja-fruit-title {
+    font-size: 15vw;
+  }
+  
+  .ninja-fruit-subtitle {
+    font-size: 10vw;
+  }
+  
+  .ninja-fruit-instructions {
+    font-size: 5vw;
+  }
+  
+  .ninja-fruit-back-button {
+    height: 180px;
+    top: 2em;
+    left: 2em;
+    margin-top: 2em;
+    margin-left: 2em;
+  }
+  
+  .ninja-fruit-score {
+    font-size: 3em;
+    top: 1em;
+    right: 1em;
+  }
+  
+  .ninja-fruit-quit-button {
+    font-size: 3em;
+    top: 1em;
+    left: 1em;
+  }
+}
+
+@media (max-width: 480px) {
+  .ninja-fruit-button {
+    font-size: 10vw;
+    padding: 0.6em 1.2em;
+  }
+  
+  .ninja-fruit-title {
+    font-size: 18vw;
+  }
+  
+  .ninja-fruit-instructions {
+    font-size: 6vw;
+    max-width: 90%;
+  }
+  
+  .ninja-fruit-sword {
+    width: 120px;
+    height: 120px;
+  }
+}

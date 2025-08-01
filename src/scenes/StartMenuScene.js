@@ -24,12 +24,16 @@ export default class StartMenuScene extends BaseScene {
     await this.assets.loadImage('KSPLogo','/pictures/kspGame/icon.webp');
     await this.assets.loadImage('memoryLogo','/pictures/memoryGame/icon.webp');
     await this.assets.loadImage('labyrinthLogo','/pictures/labyrinthGame/icon.webp');
+    await this.assets.loadImage('tictactoeLogo','/pictures/tictactoeGame/krizic.webp');
+    await this.assets.loadImage('ninjafruitLogo','/pictures/ninjafruitGame/sword1.webp');
 
     this.games = [
       { name: "Crtanje", logo: this.assets.images.get('crtanjeLogo').src, scene: "Drawing" },
       { name: "Kamen papir škare", logo: this.assets.images.get('KSPLogo').src, scene: "KSP" },
       { name: "Memory", logo: this.assets.images.get('memoryLogo').src, scene: "Memory" },
-      { name: "Labirint", logo: this.assets.images.get('labyrinthLogo').src, scene: "Labirint" }
+      { name: "Labirint", logo: this.assets.images.get('labyrinthLogo').src, scene: "Labirint" },
+      { name: "Križić-kružić", logo: this.assets.images.get('tictactoeLogo').src, scene: "TicTacToe" },
+      { name: "Ninja fruit", logo: this.assets.images.get('ninjafruitLogo').src, scene: "NinjaFruit" }
     ];
     this.sceneEntryTime = performance.now();
     this.lastFrameGestures = {};
