@@ -32,6 +32,6 @@ import SpojiCudoScene from "@scenes/SpojiCudoScene.js";
   });
   await engine.init();
 
-  await scenes.switch("StartMenu");
+  await scenes.switch("SpojiCudo");
   engine.start();
 })();

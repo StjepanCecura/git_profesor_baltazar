@@ -29,15 +29,8 @@ export default class SpojiCudoScene extends BaseScene {
     this.cursorEl = null;
   }
 
-  async init() {
-    document.body.style.backgroundImage = "url('pictures/spojiCudoGame/Background.png')";
-    document.body.style.backgroundSize = "cover";
-    document.body.style.backgroundPosition = "center";
-    document.body.style.margin = "0";
-    document.body.style.height = "100vh";
-    document.body.style.width = "100vw";
-    document.body.style.overflow = "hidden";
-
+async init() {
+    this.styleEl = this.loadStyle("/css/SpojiCudo.css");
     this.sceneEl = document.createElement("div");
     this.sceneEl.classList.add("container");
 
@@ -45,15 +38,8 @@ export default class SpojiCudoScene extends BaseScene {
     const width = this.CELL * this.COLS * scale;
     const height = (this.CELL * this.ROWS + 100) * scale;
 
-    this.sceneEl.style.position = "absolute";
     this.sceneEl.style.width = width + "px";
     this.sceneEl.style.height = height + "px";
-    this.sceneEl.style.top = "50%";
-    this.sceneEl.style.left = "50%";
-    this.sceneEl.style.transform = "translate(-50%, -50%)";
-    this.sceneEl.style.border = "5px solid white";
-    this.sceneEl.style.backgroundColor = "transparent";
-    this.sceneEl.style.boxSizing = "border-box";
 
     this.container.appendChild(this.sceneEl);
 
@@ -68,10 +54,8 @@ export default class SpojiCudoScene extends BaseScene {
     this.ctx = this.canvas.getContext("2d");
 
     this.messageHeader = document.createElement("h2");
-    this.messageHeader.style.color = "blue";
+    this.messageHeader.classList.add("message-header");
     this.messageHeader.style.fontSize = (40 * scale) + "px";
-    this.messageHeader.style.marginTop = (10 * scale) + "px";
-    this.messageHeader.style.textAlign = "center";
     this.sceneEl.appendChild(this.messageHeader);
 
     this.drawBoard();
@@ -325,12 +309,8 @@ export default class SpojiCudoScene extends BaseScene {
 
   createCustomCursor() {
     this.cursorEl = document.createElement("img");
+    this.cursorEl.id = "customCursor";
     this.cursorEl.src = "/pictures/starCatching/starCatchingCursor.webp";
-    this.cursorEl.style.position = "absolute";
-    this.cursorEl.style.width = "250px";
-    this.cursorEl.style.height = "250px";
-    this.cursorEl.style.pointerEvents = "none";
-    this.cursorEl.style.zIndex = "1000";
     document.body.appendChild(this.cursorEl);
 
     window.addEventListener("mousemove", (e) => {
@@ -342,101 +322,100 @@ export default class SpojiCudoScene extends BaseScene {
   createBackButton() {
     const backButton = document.createElement("button");
     backButton.id = "btnBack";
-    backButton.innerHTML = `<img src="/pictures/backButton.webp" height="80"/>`;
-    backButton.style.position = "absolute";
-    backButton.style.top = "10px";
-    backButton.style.left = "10px";
-    backButton.style.zIndex = "1000";
-    backButton.style.border = "none";
-    backButton.style.background = "transparent";
-    backButton.style.cursor = "pointer";
-    backButton.style.transition = "filter 0.3s ease";
+    backButton.innerHTML = `<img src="/pictures/backButton.webp" />`;
+    document.body.appendChild(backButton);
 
     backButton.addEventListener("click", () => this.manager.switch('StartMenu'));
 
     backButton.addEventListener("mouseenter", () => {
-        backButton.style.filter = "brightness(1.2)";
-        this.manager.switch('StartMenu');
+      backButton.classList.add("hover");
+      this.manager.switch('StartMenu');
     });
 
     backButton.addEventListener("mouseleave", () => {
-        backButton.style.filter = "brightness(1)";
+      backButton.classList.remove("hover");
     });
-
-    document.body.appendChild(backButton);
-}
+  }
 
 checkCursorHoverOnBackButton() {
-  const backButton = document.getElementById("btnBack");
-  if (!backButton || !this.cursorEl) return;
+    const backButton = document.getElementById("btnBack");
+    if (!backButton || !this.cursorEl) return;
 
-  const cursorRect = this.cursorEl.getBoundingClientRect();
-  const backRect = backButton.getBoundingClientRect();
+    const cursorRect = this.cursorEl.getBoundingClientRect();
+    const backRect = backButton.getBoundingClientRect();
 
-  const isOverlapping = !(
-    cursorRect.right < backRect.left ||
-    cursorRect.left > backRect.right ||
-    cursorRect.bottom < backRect.top ||
-    cursorRect.top > backRect.bottom
-  );
+    const isOverlapping = !(
+      cursorRect.right < backRect.left ||
+      cursorRect.left > backRect.right ||
+      cursorRect.bottom < backRect.top ||
+      cursorRect.top > backRect.bottom
+    );
 
-  if (isOverlapping) {
-    backButton.style.filter = "brightness(1.2)";
-
-    this.manager.switch('StartMenu');
-
-  } else {
-    backButton.style.filter = "brightness(1)";
-  }
-}
-
-
-  moveCursorWithFinger(landmarks) {
-        const indexFinger = landmarks[8];
-
-        const viewportWidth = window.innerWidth;
-        const viewportHeight = window.innerHeight;
-
-        let x = (1 - indexFinger.x) * viewportWidth;
-        let y = indexFinger.y * viewportHeight;
-
-        const sensitivity = 1.6;
-
-        const cursorWidth = this.cursorEl ? this.cursorEl.offsetWidth || 40 : 40;
-        const cursorHeight = this.cursorEl ? this.cursorEl.offsetHeight || 40 : 40;
-
-        x = x - cursorWidth / 2;
-        y = y - cursorHeight / 2;
-
-        let centerX = viewportWidth / 2;
-        let centerY = viewportHeight / 2;
-
-        x = centerX + (x - centerX) * sensitivity;
-        y = centerY + (y - centerY) * sensitivity;
-
-        x = Math.min(Math.max(0, x), viewportWidth - cursorWidth);
-        y = Math.min(Math.max(0, y), viewportHeight - cursorHeight);
-
-        if (this.cursorEl) {
-            this.cursorEl.style.left = `${x}px`;
-            this.cursorEl.style.top = `${y}px`;
-        }
+    if (isOverlapping) {
+      backButton.classList.add("hover");
+      this.manager.switch('StartMenu');
+    } else {
+      backButton.classList.remove("hover");
     }
+  }
+
+moveCursorWithFinger(landmarks) {
+    const indexFinger = landmarks[8];
+
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+
+    let x = (1 - indexFinger.x) * viewportWidth;
+    let y = indexFinger.y * viewportHeight;
+
+    const sensitivity = 1.6;
+
+    const cursorWidth = this.cursorEl ? this.cursorEl.offsetWidth || 40 : 40;
+    const cursorHeight = this.cursorEl ? this.cursorEl.offsetHeight || 40 : 40;
+
+    x = x - cursorWidth / 2;
+    y = y - cursorHeight / 2;
+
+    let centerX = viewportWidth / 2;
+    let centerY = viewportHeight / 2;
+
+    x = centerX + (x - centerX) * sensitivity;
+    y = centerY + (y - centerY) * sensitivity;
+
+    x = Math.min(Math.max(0, x), viewportWidth - cursorWidth);
+    y = Math.min(Math.max(0, y), viewportHeight - cursorHeight);
+
+    if (this.cursorEl) {
+      this.cursorEl.style.left = `${x}px`;
+      this.cursorEl.style.top = `${y}px`;
+    }
+  }
 
   loop() {
     this.checkCursorHoverOnBackButton();
     requestAnimationFrame(() => this.loop());
   }
 
-  async destroy() {
-    this.camera?.stop();
-    this.video?.remove();
-    this.canvas?.remove();
-    this.messageHeader?.remove();
-    this.sceneEl?.remove();
-    if (this.cursorEl) this.cursorEl.remove();
-    const backButton = document.getElementById("btnBack");
-    if (backButton) backButton.remove();
-    await super.destroy();
+async destroy() {
+  this.camera?.stop();
+  this.video?.remove();
+  this.canvas?.remove();
+  this.messageHeader?.remove();
+  this.sceneEl?.remove();
+
+  if (this.cursorEl) {
+    this.cursorEl.remove();
+    this.cursorEl = null;
   }
+
+  const backButton = document.getElementById("btnBack");
+  if (backButton) backButton.remove();
+
+  if (this.styleEl) {
+    this.styleEl.remove();
+    this.styleEl = null;
+  }
+
+  await super.destroy();
+}
 }
