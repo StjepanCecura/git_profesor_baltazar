@@ -3,7 +3,7 @@ import SceneManager from "@engine/SceneManager.js";
 import InputManager from "@engine/InputManager.js";
 import AssetManager from "@engine/AssetManager.js";
 import BaseScene from "@engine/BaseScene.js";
-
+import NinjaFruitScene from "@scenes/NinjaFruitScene.js"; 
 import TicTacToeScene from "@scenes/TicTacToeScene.js";
 import StartMenuScene from "@scenes/StartMenuScene.js";
 import DrawingScene from "@scenes/DrawingScene.js";
@@ -23,6 +23,7 @@ import KSPScene from "@scenes/KSPScene.js";
   scenes.register("KSP", KSPScene);
   //scenes.register("Labirint", LabyrintScene);
   scenes.register("TicTacToe", TicTacToeScene);
+  scenes.register("NinjaFruit", NinjaFruitScene);
 
 
   const engine = new Engine({

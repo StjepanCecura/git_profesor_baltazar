@@ -19,13 +19,31 @@ export default class TicTacToeScene extends BaseScene {
   }
 
   async init() {
+    // Load CSS file
+    await this.loadCSS();
+    
+    // Load cursor images for hand tracking
+    await this.assets.loadImage("cursor", "/pictures/startMenu/hand.webp");
+    await this.assets.loadImage("cursorTip", "/pictures/startMenu/hand.webp");
+    
+    // Set up hand tracking input listeners
     this.input.on("move", this.handleMove);
     this.input.on("click", this.handleClick);
     this.input.on("frameCount", this.updateFrameCount);
 
-    this.cursorContainer = this.container;
-
     this.createMenuScreen();
+  }
+
+  async loadCSS() {
+    return new Promise((resolve, reject) => {
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = '/css/tictactoe.css';
+      link.onload = () => resolve();
+      link.onerror = () => reject(new Error('Failed to load CSS'));
+      document.head.appendChild(link);
+    });
   }
 
   clearScreen() {
@@ -39,58 +57,39 @@ export default class TicTacToeScene extends BaseScene {
     this.state = "menu";
 
     const sceneEl = document.createElement("div");
-    sceneEl.className = "container";
-    sceneEl.style.backgroundImage = "url('/pictures/tictactoeGame/background1.webp')";
-    sceneEl.style.display = "flex";
-    sceneEl.style.flexDirection = "column";
-    sceneEl.style.alignItems = "center";
-    sceneEl.style.justifyContent = "center";
-    sceneEl.style.position = "relative";
-    sceneEl.style.padding = "2em";
-    sceneEl.style.width = "100vw";
-    sceneEl.style.height = "100vh";
+    sceneEl.className = "container tictactoe-container";
 
     // NASLOV
     const title = document.createElement("h1");
     title.innerText = "Križić-kružić";
-    title.className = "textStyle";
-    title.style.fontSize = "12vw";
-    title.style.marginBottom = "1em";
-    title.style.textAlign = "center";
+    title.className = "textStyle tictactoe-title";
 
     // BALTHAZAR
     const img = document.createElement("img");
     img.src = "/pictures/tictactoeGame/baltazar.webp";
-    img.className = "imgProfBaltazar";
-    img.style.maxHeight = "40vh";
-    img.style.width = "auto";
-    img.style.marginBottom = "2em";
+    img.className = "imgProfBaltazar tictactoe-baltazar-img";
 
     // GUMBI
     const btnNewGame = this.createButton("Nova igra", () => this.createGameScreen());
     const btnUpute = this.createButton("Upute", () => this.createUputeScreen());
 
     [btnNewGame, btnUpute].forEach((btn) => {
-        btn.style.backgroundColor = "#008782";
-        btn.style.color = "white";
-        btn.style.fontFamily = "Marhey";
-        btn.style.fontSize = "6vw";
-        btn.style.width = "40%";
-        btn.style.margin = "-1em 0";
-        btn.style.marginBottom= "10%";
+        btn.classList.add("tictactoe-menu-button");
     });
 
     const back = this.createBackButton(() => {
       this.manager.switch('StartMenu');
     });
-    back.style.top = "4em";
-    back.style.left = "4em";
+    back.classList.add("tictactoe-back-button-menu");
 
     sceneEl.append(title, img, btnNewGame, btnUpute);
     sceneEl.appendChild(back);
 
     this.container.appendChild(sceneEl);
     this.sceneEl = sceneEl;
+    
+    // KLJUČNO: Postavi cursorContainer za hand tracking
+    this.cursorContainer = this.sceneEl;
   }
 
   createUputeScreen() {
@@ -98,78 +97,43 @@ export default class TicTacToeScene extends BaseScene {
     this.state = "upute";
 
     const sceneEl = document.createElement("div");
-    sceneEl.className = "container";
-    sceneEl.style.backgroundImage = "url('/pictures/tictactoeGame/background1.webp')";
-    sceneEl.style.backgroundColor = "rgba(0, 0, 0, 0.8)";
-    sceneEl.style.backgroundBlendMode = "darken";
-    sceneEl.style.width = "100vw";
-    sceneEl.style.height = "100vh";
-    sceneEl.style.display = "flex";
-    sceneEl.style.flexDirection = "column";
-    sceneEl.style.alignItems = "center";
-    sceneEl.style.justifyContent = "center";
-    sceneEl.style.boxSizing = "border-box";
-    sceneEl.style.padding = "5vh 5vw";
-    sceneEl.style.position = "relative";
-    sceneEl.style.margin = "0";
+    sceneEl.className = "container tictactoe-instructions-container";
 
     const title = document.createElement("h1");
     title.innerText = "Upute!";
-    title.className = "textStyle";
-    title.style.textAlign = "center";
-    title.style.fontSize = "12vw";
-    title.style.marginBottom = "3vh";
-    title.style.color = "white";
+    title.className = "textStyle tictactoe-instructions-title";
 
     const text = document.createElement("p");
-    text.className = "textStyle";
-    text.style.fontSize = "6vw";
-    text.style.textAlign = "center";
-    text.style.color = "white";
-    text.style.whiteSpace = "pre-line";
-    text.style.marginBottom = "4vh";
+    text.className = "textStyle tictactoe-instructions-text";
     text.innerText =
         "Koristi pokrete ruku kako bi postavio krug ili križić na željeno mjesto na tabli.\nPobjednik je onaj koji uspije spojiti svoja 3 znaka uzastopno u nekom redu, stupcu, glavnoj ili sporednoj dijagonali.";
 
     const icons = document.createElement("div");
-    icons.style.display = "flex";
-    icons.style.justifyContent = "center";
-    icons.style.gap = "10vw";
-    icons.style.marginBottom = "5vh";
+    icons.className = "tictactoe-icons-container";
 
     // Križić blok
     const krizicContainer = document.createElement("div");
-    krizicContainer.style.display = "flex";
-    krizicContainer.style.flexDirection = "column";
-    krizicContainer.style.alignItems = "center";
+    krizicContainer.className = "tictactoe-icon-container";
 
     const krizic = document.createElement("img");
     krizic.src = "/pictures/tictactoeGame/krizic.webp";
-    krizic.style.width = "40vw";
-    krizic.style.maxWidth = "220px";
+    krizic.className = "tictactoe-icon-img";
 
     const krizicLabel = document.createElement("p");
-    krizicLabel.className = "textStyle";
+    krizicLabel.className = "textStyle tictactoe-icon-label";
     krizicLabel.innerText = "Križić";
-    krizicLabel.style.fontSize = "6vw";
-    krizicLabel.style.marginTop = "1vh";
 
     // Kružić blok
     const kruzicContainer = document.createElement("div");
-    kruzicContainer.style.display = "flex";
-    kruzicContainer.style.flexDirection = "column";
-    kruzicContainer.style.alignItems = "center";
+    kruzicContainer.className = "tictactoe-icon-container";
 
     const kruzic = document.createElement("img");
     kruzic.src = "/pictures/tictactoeGame/kruzic.webp";
-    kruzic.style.width = "40vw";
-    kruzic.style.maxWidth = "220px";
+    kruzic.className = "tictactoe-icon-img";
 
     const kruzicLabel = document.createElement("p");
-    kruzicLabel.className = "textStyle";
+    kruzicLabel.className = "textStyle tictactoe-icon-label";
     kruzicLabel.innerText = "Kružić";
-    kruzicLabel.style.fontSize = "6vw";
-    kruzicLabel.style.marginTop = "1vh";
 
     // Spajanje
     krizicContainer.append(krizic, krizicLabel);
@@ -177,15 +141,14 @@ export default class TicTacToeScene extends BaseScene {
     icons.append(krizicContainer, kruzicContainer);
 
     const back = this.createBackButton(() => this.createMenuScreen());
-    back.style.position = "absolute";
-    back.style.top = "4em";
-    back.style.left = "4em";
-    back.style.height = "220px";
-    back.style.cursor = "pointer";
+    back.className = "tictactoe-back-button-instructions";
 
     sceneEl.append(back, title, text, icons);
     this.container.appendChild(sceneEl);
     this.sceneEl = sceneEl; // Store reference for cleanup
+    
+    // KLJUČNO: Postavi cursorContainer za hand tracking
+    this.cursorContainer = this.sceneEl;
   }
 
   createGameScreen() {
@@ -199,50 +162,26 @@ export default class TicTacToeScene extends BaseScene {
     this.gameOver = false;
 
     const sceneEl = document.createElement("div");
-    sceneEl.className = "container";
-    sceneEl.style.backgroundImage = "url('/pictures/tictactoeGame/background2.webp')";
-    sceneEl.style.display = "flex";
-    sceneEl.style.flexDirection = "column";
-    sceneEl.style.alignItems = "center";
-    sceneEl.style.justifyContent = "center";
-    sceneEl.style.minHeight = "100vh";
-    sceneEl.style.width = "100vw";
+    sceneEl.className = "container tictactoe-game-container";
 
     const timerText = document.createElement("div");
     timerText.id = "timerText";
-    timerText.className = "textStyle";
-    timerText.style.fontSize = "8vw";
-    timerText.style.textAlign = "center";
-    timerText.style.marginTop = "1.5em";
+    timerText.className = "textStyle tictactoe-timer";
     timerText.innerText = `Vrijeme igre: 0`;
 
     const currentPlayerText = document.createElement("div");
     currentPlayerText.id = "currentPlayer";
-    currentPlayerText.className = "textStyle";
-    currentPlayerText.style.fontSize = "6vw";
-    currentPlayerText.style.textAlign = "center";
-    currentPlayerText.style.marginTop = "-0.5em";
+    currentPlayerText.className = "textStyle tictactoe-current-player";
 
     const playerImg = document.createElement("img");
     playerImg.src = this.getPlayerImg(this.currentPlayer);
-    playerImg.style.height = "10vw";
-    playerImg.style.verticalAlign = "middle";
-    playerImg.style.marginLeft = "1vw";
+    playerImg.className = "tictactoe-player-img";
 
     currentPlayerText.innerText = "Na redu je igrač: ";
     currentPlayerText.appendChild(playerImg);
 
     const boardContainer = document.createElement("div");
-    boardContainer.style.position = "relative";
-    boardContainer.style.width = "100vw";  
-    boardContainer.style.height = "100vw";
-    boardContainer.style.margin = "2em auto";
-    boardContainer.style.backgroundImage = "url('/pictures/tictactoeGame/gameboard.webp')";
-    boardContainer.style.backgroundSize = "contain";  
-    boardContainer.style.backgroundRepeat = "no-repeat";
-    boardContainer.style.display = "grid";
-    boardContainer.style.gridTemplateColumns = "repeat(3, 1fr)";
-    boardContainer.style.gridTemplateRows = "repeat(3, 1fr)";
+    boardContainer.className = "tictactoe-board";
 
     // 3x3 GRID
     for (let y = 0; y < 3; y++) {
@@ -250,12 +189,7 @@ export default class TicTacToeScene extends BaseScene {
         const cell = document.createElement("div");
         cell.dataset.x = x;
         cell.dataset.y = y;
-        
-        cell.style.display = "flex";
-        cell.style.justifyContent = "center";
-        cell.style.alignItems = "center";
-        cell.style.cursor = "pointer";
-        cell.style.border = "1px solid transparent";
+        cell.className = "tictactoe-cell";
 
         cell.addEventListener("click", () => this.handleCellClick(x, y, cell));
         boardContainer.appendChild(cell);
@@ -263,12 +197,14 @@ export default class TicTacToeScene extends BaseScene {
     }
 
     const back = this.createBackButton(() => this.createMenuScreen());
-    back.style.marginTop = "4em";
-    back.style.marginLeft = "4em";
+    back.classList.add("tictactoe-back-button-game");
 
     sceneEl.append(back, timerText, currentPlayerText, boardContainer);
     this.container.appendChild(sceneEl);
     this.sceneEl = sceneEl; // Store reference for cleanup
+    
+    // KLJUČNO: Postavi cursorContainer za hand tracking
+    this.cursorContainer = this.sceneEl;
 
     this.timerInterval = setInterval(() => {
       this.timer++;
@@ -281,9 +217,7 @@ export default class TicTacToeScene extends BaseScene {
 
     const symbolImg = document.createElement("img");
     symbolImg.src = this.getPlayerImg(this.currentPlayer);
-    symbolImg.style.width = "50%";
-    symbolImg.style.height = "50%";
-    symbolImg.style.objectFit = "contain";
+    symbolImg.className = "tictactoe-symbol";
 
     // Pomaci za centriranje
     let translateX = 0;
@@ -315,8 +249,7 @@ export default class TicTacToeScene extends BaseScene {
         let img = playerText.querySelector("img");
         if (!img) {
         img = document.createElement("img");
-        img.style.height = "10vw";
-        img.style.verticalAlign = "middle";
+        img.className = "tictactoe-player-img-inline";
         playerText.appendChild(img);
         }
         playerText.firstChild.textContent = "Na redu je igrač: ";
@@ -330,24 +263,10 @@ export default class TicTacToeScene extends BaseScene {
     this.state = "kraj";
 
     const overlay = document.createElement("div");
-    overlay.style.position = "absolute";
-    overlay.style.top = "0";
-    overlay.style.left = "0";
-    overlay.style.width = "100%";
-    overlay.style.height = "100%";
-    overlay.style.backgroundColor = "rgba(0, 0, 0, 0.8)"; 
-    overlay.style.zIndex = "10";
-    overlay.style.display = "flex";
-    overlay.style.flexDirection = "column";
-    overlay.style.alignItems = "center";
-    overlay.style.justifyContent = "center";
-    overlay.style.padding = "2em";
+    overlay.className = "tictactoe-overlay";
 
     const resultText = document.createElement("h1");
-    resultText.className = "textStyle";
-    resultText.style.fontSize = "8vw";
-    resultText.style.color = "#FFFFFF";
-    resultText.style.marginBottom = "0.5em";
+    resultText.className = "textStyle tictactoe-result-text";
 
     if (winner) {
         resultText.innerText = "Pobijedio je igrač:";
@@ -361,41 +280,24 @@ export default class TicTacToeScene extends BaseScene {
         symbolImg.src = winner === "X"
         ? "/pictures/tictactoeGame/krizic.webp"
         : "/pictures/tictactoeGame/kruzic.webp";
-        symbolImg.style.width = "15vw";
-        symbolImg.style.marginTop = "0.3em";
+        symbolImg.className = "tictactoe-winner-symbol";
     }
 
     const endText = document.createElement("p");
-    endText.className = "textStyle";
-    endText.style.fontSize = "5vw";
-    endText.style.color = "#FFFFFF";
-    endText.style.marginBottom = "2em";
+    endText.className = "textStyle tictactoe-end-text";
     endText.innerText = "Kraj! Igrajte ponovo!";
-
-    const styleButton = (btn) => {
-        btn.style.backgroundColor = "#008782";  
-        btn.style.color = "#FFFFFF";
-        btn.style.fontSize = "5vw";
-        btn.style.fontFamily = "'Marhey', sans-serif";
-        btn.style.padding = "1em 2.5em";  
-        btn.style.border = "none";
-        btn.style.borderRadius = "8px";
-        btn.style.margin = "0.5em";
-        btn.style.cursor = "pointer";
-        btn.style.width = "50%";  
-    };
 
     const btnNew = this.createButton("Nova igra", () => {
         overlay.remove(); 
         this.createGameScreen();
     });
-    styleButton(btnNew);
+    btnNew.classList.add("tictactoe-end-button");
 
     const btnMenu = this.createButton("Izbornik", () => {
         overlay.remove(); 
         this.createMenuScreen();
     });
-    styleButton(btnMenu);
+    btnMenu.classList.add("tictactoe-end-button");
 
     overlay.append(resultText);
     if (symbolImg) overlay.appendChild(symbolImg);
@@ -429,12 +331,7 @@ export default class TicTacToeScene extends BaseScene {
   createBackButton(onClick) {
     const btn = document.createElement("img");
     btn.src = "/pictures/backButton.webp";
-    btn.style.position = "absolute";
-    btn.style.top = "1em";
-    btn.style.left = "1em";
-    btn.style.height = "220px";
-    btn.style.cursor = "pointer";
-    btn.style.zIndex = "1000";
+    btn.className = "tictactoe-back-button";
     btn.addEventListener("click", onClick);
     return btn;
   }
@@ -457,6 +354,9 @@ export default class TicTacToeScene extends BaseScene {
     if (!el) return;
 
     if (el.tagName === "BUTTON") {
+      el.click();
+    } else if (el.tagName === "IMG" && el.src && el.src.includes("backButton.webp")) {
+      // Handle back button clicks
       el.click();
     } else if (el.dataset && el.dataset.x !== undefined && el.dataset.y !== undefined) {
       const xCoord = parseInt(el.dataset.x, 10);
