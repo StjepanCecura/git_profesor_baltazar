@@ -9,6 +9,8 @@ import StartMenuScene from "@scenes/StartMenuScene.js";
 import DrawingScene from "@scenes/DrawingScene.js";
 import MemoryScene from "@scenes/MemoryScene.js";
 import KSPScene from "@scenes/KSPScene.js";
+import LetimirScene from "@scenes/LetimirScene";
+import SpojiCudoScene from "@scenes/SpojiCudoScene.js";
 
 (async () => {
   const videoEl = document.querySelector("#inputVideo");
@@ -21,9 +23,10 @@ import KSPScene from "@scenes/KSPScene.js";
   scenes.register("Drawing", DrawingScene);
   scenes.register("Memory", MemoryScene);
   scenes.register("KSP", KSPScene);
+  scenes.register("Letimir", LetimirScene);
+  scenes.register("SpojiCudo", SpojiCudoScene);
   //scenes.register("Labirint", LabyrintScene);
   scenes.register("TicTacToe", TicTacToeScene);
-
 
   const engine = new Engine({
     sceneManager: scenes,
@@ -32,6 +35,7 @@ import KSPScene from "@scenes/KSPScene.js";
   });
   await engine.init();
 
-  await scenes.switch("StartMenu");
+  await scenes.switch("StartMenuScene");
   engine.start();
 })();
+
