@@ -7,12 +7,12 @@ export default class NinjaFruitScene extends BaseScene {
     this.elapsedTime = 0;
     this.score = 0;
     this.fruits = [];
-    this.bombs = []; // Dodano za praćenje bombi
-    this.slices = []; // Dodano za praćenje kriški voća
-    this.gameOver = false; // Flag za kraj igre
-    this.swordAnimationTimer = 0; // Timer za animaciju mača
-    this.swordX = 0; // Trenutna X pozicija mača
-    this.swordY = 0; // Trenutna Y pozicija mača
+    this.bombs = [];
+    this.slices = [];
+    this.gameOver = false;
+    this.swordAnimationTimer = 0; 
+    this.swordX = 0;
+    this.swordY = 0;
     this.fruitTypes = {
       small: [
         { name: "lemon", size: 280, points: 50 },
@@ -29,35 +29,29 @@ export default class NinjaFruitScene extends BaseScene {
       ]
     };
     this.spawnTimer = 0;
-    this.baseSpawnInterval = 2500; // početno vrijeme između pojavljivanja (brže)
-    this.minSpawnInterval = 600; // najbrže moguće spawnjanje (brže)
+    this.baseSpawnInterval = 2500;
+    this.minSpawnInterval = 600;
     
-    // Bind methods for hand tracking
     this.handleMove = this.handleMove.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.updateFrameCount = this.updateFrameCount.bind(this);
   }
 
   async init() {
-    // Load CSS file
     await this.loadCSS();
     
-    // Load cursor images for hand tracking (using sword as cursor)
     await this.assets.loadImage("cursor", "/pictures/ninjafruitGame/sword1.webp");
     await this.assets.loadImage("cursorTip", "/pictures/ninjafruitGame/sword1.webp");
     
-    // Load background and UI images
     await this.assets.loadImage("background1", "/pictures/ninjafruitGame/background1.webp");
     await this.assets.loadImage("background2", "/pictures/ninjafruitGame/background2.webp");
     await this.assets.loadImage("backButton", "/pictures/backButton.webp");
     
-    // Load sword images
     await this.assets.loadImage("sword1", "/pictures/ninjafruitGame/sword1.webp");
     await this.assets.loadImage("sword2", "/pictures/ninjafruitGame/sword2.webp");
     await this.assets.loadImage("sword3", "/pictures/ninjafruitGame/sword3.webp");
     await this.assets.loadImage("sword4", "/pictures/ninjafruitGame/sword4.webp");
     
-    // Load whole fruits
     await this.assets.loadImage("apple", "/pictures/ninjafruitGame/apple.webp");
     await this.assets.loadImage("banana", "/pictures/ninjafruitGame/banana.webp");
     await this.assets.loadImage("lemon", "/pictures/ninjafruitGame/lemon.webp");
@@ -66,10 +60,8 @@ export default class NinjaFruitScene extends BaseScene {
     await this.assets.loadImage("strawberry", "/pictures/ninjafruitGame/strawberry.webp");
     await this.assets.loadImage("watermelon", "/pictures/ninjafruitGame/watermelon.webp");
 
-    // Load bomb
     await this.assets.loadImage("bomb", "/pictures/ninjafruitGame/bomb.webp");
 
-    // Load fruit slices
     await this.assets.loadImage("appleslice1", "/pictures/ninjafruitGame/appleslice1.webp");
     await this.assets.loadImage("appleslice2", "/pictures/ninjafruitGame/appleslice2.webp");
     await this.assets.loadImage("bananaslice1", "/pictures/ninjafruitGame/bananaslice1.webp");
@@ -85,7 +77,6 @@ export default class NinjaFruitScene extends BaseScene {
     await this.assets.loadImage("watermelonslice1", "/pictures/ninjafruitGame/watermelonslice1.webp");
     await this.assets.loadImage("watermelonslice2", "/pictures/ninjafruitGame/watermelonslice2.webp");
 
-    // Set up hand tracking input listeners
     this.input.on("move", this.handleMove);
     this.input.on("click", this.handleClick);
     this.input.on("frameCount", this.updateFrameCount);
@@ -95,7 +86,6 @@ export default class NinjaFruitScene extends BaseScene {
 
     this.container.appendChild(this.sceneEl);
 
-    // KLJUČNO: Postavi cursorContainer za hand tracking
     this.cursorContainer = this.sceneEl;
 
     this.createMenuScreen();
@@ -116,7 +106,6 @@ export default class NinjaFruitScene extends BaseScene {
   clearScene() {
     this.sceneEl.innerHTML = "";
     this.sceneEl.className = "container ninja-fruit-container";
-    // Očisti sve postojeće voće, bombe i kriške kada mijenjamo scene
     this.fruits = [];
     this.bombs = [];
     this.slices = [];
@@ -156,9 +145,9 @@ export default class NinjaFruitScene extends BaseScene {
   createMenuScreen() {
     this.inGame = false;
     this.clearScene();
+    this.resetHands();
     this.sceneEl.classList.add("menu-layout");
     
-    // Postavi cursorContainer za hand tracking
     this.cursorContainer = this.sceneEl;
     
     this.sceneEl.appendChild(this.createBackground("background1"));
@@ -177,8 +166,8 @@ export default class NinjaFruitScene extends BaseScene {
   createUputeScreen() {
     this.inGame = false;
     this.clearScene();
+    this.resetHands();
     
-    // Postavi cursorContainer za hand tracking
     this.cursorContainer = this.sceneEl;
     
     this.sceneEl.appendChild(this.createBackground("background1"));
@@ -203,8 +192,8 @@ export default class NinjaFruitScene extends BaseScene {
   createGameScreen() {
     this.inGame = true;
     this.clearScene();
+    this.resetHands();
     
-    // Postavi cursorContainer za hand tracking
     this.cursorContainer = this.sceneEl;
     
     this.sceneEl.appendChild(this.createBackground("background2"));
@@ -220,32 +209,27 @@ export default class NinjaFruitScene extends BaseScene {
     this.scoreEl.className = "textStyle ninja-fruit-score";
     this.sceneEl.appendChild(this.scoreEl);
 
-    // Reset game state
     this.elapsedTime = 0;
     this.score = 0;
     this.fruits = [];
-    this.bombs = []; // Reset bombs array
-    this.slices = []; // Reset slices array
-    this.gameOver = false; // Reset game over flag
+    this.bombs = [];
+    this.slices = [];
+    this.gameOver = false;
     this.spawnTimer = 0;
     this.spawnInterval = this.baseSpawnInterval;
 
-    // Mač se prikazuje kroz hand tracking cursor - ne trebamo zasebni mač
   }
 
   update(dt) {
-    // KLJUČNA PROMJENA: Spawn logika se izvršava SAMO kada je igra aktivna
     if (this.inGame && !this.gameOver) {
-      // Dinamička promjena spawn intervala - sporija progresija
       this.spawnInterval = Math.max(
         this.minSpawnInterval,
-        this.baseSpawnInterval - (this.elapsedTime * 30) // smanjuje se za 30ms po sekundi
+        this.baseSpawnInterval - (this.elapsedTime * 30)
       );
 
       this.spawnTimer += dt;
       if (this.spawnTimer > this.spawnInterval) {
         this.spawnTimer = 0;
-        // 15% šanse za spawnjanje bombe, 85% za voće
         if (Math.random() < 0.15) {
           this.spawnBomb();
         } else {
@@ -253,7 +237,6 @@ export default class NinjaFruitScene extends BaseScene {
         }
       }
 
-      // Ažuriranje vremena i score-a
       this.elapsedTime += dt / 1000;
       if (this.scoreEl) {
         const mins = Math.floor(this.elapsedTime / 60);
@@ -261,67 +244,51 @@ export default class NinjaFruitScene extends BaseScene {
         this.scoreEl.innerText = `Rezultat: ${this.score}\nVrijeme: ${mins}:${secs}`;
       }
 
-      // Ažuriranje pozicije voća s parabolic trajectory
       this.fruits.forEach((fruit, index) => {
-        const deltaTime = dt / 1000; // Konvertiraj u sekunde
-        
-        // Ažuriraj brzinu (gravitacija)
+        const deltaTime = dt / 1000; 
         fruit.velocityY += fruit.gravity * deltaTime;
         
-        // Ažuriraj poziciju
         fruit.y += fruit.velocityY * deltaTime;
         
-        // Ažuriraj DOM element
         fruit.el.style.top = `${fruit.y}px`;
 
-        // Označava da je voće doseglo vrh putanje (kada brzina postane pozitivna - pada prema dolje)
         if (fruit.velocityY > 0 && !fruit.hasReachedPeak) {
-          fruit.hasReachedPeak = true; // Voće je doseglo vrh i sada pada
+          fruit.hasReachedPeak = true;
         }
         
-        // Provjeri je li voće palo na pod NAKON što je doseglo vrh putanje
-        if (fruit.y >= window.innerHeight - 50) { // Malo tolerancije za detekciju poda
+        if (fruit.y >= window.innerHeight - 50) {
           if (fruit.hasReachedPeak) {
-            // GAME OVER - voće je palo na pod nakon što je bilo bačeno u zrak
             this.gameOver = true;
             fruit.el.remove();
             this.fruits.splice(index, 1);
             this.createEndScreen();
             return;
           } else {
-            // Ukloni voće koje nikad nije doseglo vrh (edge case)
             fruit.el.remove();
             this.fruits.splice(index, 1);
           }
         }
       });
 
-      // Ažuriranje pozicije bombi s parabolic trajectory
       this.bombs.forEach((bomb, index) => {
-        const deltaTime = dt / 1000; // Konvertiraj u sekunde
+        const deltaTime = dt / 1000;
         
-        // Ažuriraj brzinu (gravitacija)
         bomb.velocityY += bomb.gravity * deltaTime;
         
-        // Ažuriraj poziciju
         bomb.y += bomb.velocityY * deltaTime;
         
-        // Ažuriraj DOM element
         bomb.el.style.top = `${bomb.y}px`;
 
-        // Bomba se samo uklanja kada padne na pod (ne završava igru)
-        if (bomb.y >= window.innerHeight - 50) { // Malo tolerancije za detekciju poda
+        if (bomb.y >= window.innerHeight - 50) {
           bomb.el.remove();
           this.bombs.splice(index, 1);
         }
       });
 
-      // Ažuriranje pozicije kriški voća
       this.slices.forEach((slice, index) => {
         slice.y += slice.speed * (dt / 1000);
         slice.x += slice.velocityX * (dt / 1000);
         
-        // Kontinuirana rotacija za prirodniji efekt
         if (slice.rotationSpeed) {
           const currentTransform = slice.el.style.transform;
           const rotationMatch = currentTransform.match(/rotate\(([^)]+)\)/);
@@ -331,21 +298,19 @@ export default class NinjaFruitScene extends BaseScene {
             currentRotation = parseFloat(rotationMatch[1]);
           }
           
-          const newRotation = currentRotation + (slice.rotationSpeed * (dt / 16.67)); // 60fps normalizirano
+          const newRotation = currentRotation + (slice.rotationSpeed * (dt / 16.67));
           slice.el.style.transform = currentTransform.replace(/rotate\([^)]+\)/, `rotate(${newRotation}deg)`);
         }
         
         slice.el.style.top = `${slice.y}px`;
         slice.el.style.left = `${slice.x}px`;
 
-        // Ukloni kriške kada izađu izvan ekrana
         if (slice.y > window.innerHeight + 100) {
           slice.el.remove();
           this.slices.splice(index, 1);
         }
       });
 
-      // Provjeri kolizije između mača i objekata
       this.checkCollisions();
     }
   }
@@ -354,15 +319,12 @@ export default class NinjaFruitScene extends BaseScene {
     const currentY = parseFloat(originalElement.style.top);
     const currentSpeed = 150 + this.elapsedTime * 5;
 
-    // Definiraj koja voća trebaju obrnutu logiku
     const reversedFruits = ['orange', 'pineapple', 'lemon'];
     const isReversed = reversedFruits.includes(fruit.name);
 
-    // Povećaj offset pozicije za veće razdvajanje
-    const sliceOffset = fruit.size / 2.5; // Povećano za veće razdvajanje
-    const sliceSize = fruit.size * 0.8; // Smanjeno na 80% originalne veličine
+    const sliceOffset = fruit.size / 2.5;
+    const sliceSize = fruit.size * 0.8;
 
-    // Stvori lijevu kriška - spawna se lijevo od centra
     const leftSlice = document.createElement("img");
     leftSlice.src = this.assets.images.get(`${fruit.name}slice${isReversed ? '1' : '2'}`).src;
     leftSlice.classList.add("ninja-fruit-slice", "left");
@@ -371,7 +333,6 @@ export default class NinjaFruitScene extends BaseScene {
     leftSlice.style.width = `${sliceSize}px`;
     leftSlice.style.height = `${sliceSize}px`;
 
-    // Stvori desnu kriška - spawna se desno od centra
     const rightSlice = document.createElement("img");
     rightSlice.src = this.assets.images.get(`${fruit.name}slice${isReversed ? '2' : '1'}`).src;
     rightSlice.classList.add("ninja-fruit-slice", "right");
@@ -383,61 +344,49 @@ export default class NinjaFruitScene extends BaseScene {
     this.sceneEl.appendChild(leftSlice);
     this.sceneEl.appendChild(rightSlice);
 
-    // Dodaj animacije nakon kratke pauze
     setTimeout(() => {
       leftSlice.classList.add("animated");
       rightSlice.classList.add("animated");
     }, 50);
 
-    // Fade out efekt
     setTimeout(() => {
       leftSlice.classList.add("fading");
       rightSlice.classList.add("fading");
     }, 800);
 
-    // Dodaj kriške u niz za animaciju
     this.slices.push({
       el: leftSlice,
       x: originalX - sliceOffset,
       y: currentY,
-      velocityX: -120, // Povećana brzina za dramatičniji efekt
-      speed: currentSpeed + 150, // Brže padanje
-      rotationSpeed: -2 // Kontinuirana rotacija lijevo
+      velocityX: -120,
+      speed: currentSpeed + 150,
+      rotationSpeed: -2
     });
 
     this.slices.push({
       el: rightSlice,
       x: originalX + sliceOffset,
       y: currentY,
-      velocityX: 120, // Povećana brzina za dramatičniji efekt
-      speed: currentSpeed + 150, // Brže padanje
-      rotationSpeed: 2 // Kontinuirana rotacija desno
+      velocityX: 120,
+      speed: currentSpeed + 150,
+      rotationSpeed: 2
     });
   }
 
-  // createSword() metoda uklonjena - koristimo hand tracking cursor umjesto zasebnog mača
-
   updateSwordPosition(x, y) {
     if (this.inGame) {
-      // Konvertiraj relativne koordinate (0-1) u pixel koordinate za collision detection
       this.swordX = x * window.innerWidth;
       this.swordY = y * window.innerHeight;
-      
-      // Cursor pozicija se automatski ažurira kroz BaseScene.updateCursor()
-      // Ne trebamo ručno pozicionirati jer se koristi hand tracking cursor
     }
   }
 
   animateSwordSlash() {
-    // Animiraj cursor sword umjesto zasebnog sword elementa
     const cursors = Array.from(this.handCursors.values());
     if (cursors.length === 0) return;
 
-    // Animiraj prvi dostupni cursor
     const cursor = cursors[0];
     if (!cursor || !cursor.img) return;
 
-    // Animacija mača kroz sword2, sword3, sword4, pa nazad na sword1
     const swordFrames = ["sword2", "sword3", "sword4"];
     let frameIndex = 0;
 
@@ -445,9 +394,8 @@ export default class NinjaFruitScene extends BaseScene {
       if (frameIndex < swordFrames.length) {
         cursor.img.src = this.assets.images.get(swordFrames[frameIndex]).src;
         frameIndex++;
-        setTimeout(animate, 80); // 80ms po frame
+        setTimeout(animate, 80);
       } else {
-        // Vrati na osnovni mač
         setTimeout(() => {
           if (cursor.img) {
             cursor.img.src = this.assets.images.get("sword1").src;
@@ -461,50 +409,41 @@ export default class NinjaFruitScene extends BaseScene {
   checkCollisions() {
     if (!this.inGame || this.gameOver) return;
 
-    // Provjeri kolizije s voćem
     this.fruits.forEach((fruit, index) => {
       const fruitCenterX = parseFloat(fruit.el.style.left) + fruit.size / 2;
       const fruitCenterY = parseFloat(fruit.el.style.top) + fruit.size / 2;
       
-      // Izračunaj udaljenost između mača i voća
       const distance = Math.sqrt(
         Math.pow(this.swordX - fruitCenterX, 2) + 
         Math.pow(this.swordY - fruitCenterY, 2)
       );
       
-      // Ako je mač dovoljno blizu voću (collision radius)
-      if (distance < fruit.size / 2 + 50) { // 50px je collision radius mača
+      if (distance < fruit.size / 2 + 50) {
         this.sliceFruit(fruit, fruit.el, parseFloat(fruit.el.style.left));
         this.score += fruit.points;
         this.animateSwordSlash();
         
-        // Ukloni voće iz niza i DOM-a
         fruit.el.remove();
         this.fruits.splice(index, 1);
       }
     });
 
-    // Provjeri kolizije s bombama
     this.bombs.forEach((bomb, index) => {
       const bombCenterX = parseFloat(bomb.el.style.left) + bomb.width / 2;
       const bombCenterY = parseFloat(bomb.el.style.top) + bomb.height / 2;
       
-      // Izračunaj udaljenost između mača i bombe
       const distance = Math.sqrt(
         Math.pow(this.swordX - bombCenterX, 2) + 
         Math.pow(this.swordY - bombCenterY, 2)
       );
       
-      // Ako je mač dovoljno blizu bombi (collision radius)
-      if (distance < Math.min(bomb.width, bomb.height) / 2 + 50) { // 50px je collision radius mača
+      if (distance < Math.min(bomb.width, bomb.height) / 2 + 50) {
         this.gameOver = true;
         this.animateSwordSlash();
         
-        // Ukloni bombu iz niza i DOM-a
         bomb.el.remove();
         this.bombs.splice(index, 1);
         
-        // Završi igru
         this.createEndScreen();
       }
     });
@@ -515,13 +454,11 @@ export default class NinjaFruitScene extends BaseScene {
     this.clearScene();
     this.sceneEl.classList.add("center-layout");
     
-    // Postavi cursorContainer za hand tracking
     this.cursorContainer = this.sceneEl;
     
     this.sceneEl.appendChild(this.createBackground("background2"));
     this.sceneEl.appendChild(this.createOverlay("dark"));
 
-    // Statistike igre
     const statsContainer = document.createElement("div");
     statsContainer.className = "textStyle ninja-fruit-stats";
     
@@ -530,24 +467,19 @@ export default class NinjaFruitScene extends BaseScene {
     statsContainer.innerHTML = `Rezultat: ${this.score}<br>Vrijeme: ${mins}:${secs}`;
     this.sceneEl.appendChild(statsContainer);
 
-    // Naslov "Kraj!"
     const gameOverTitle = document.createElement("h1");
     gameOverTitle.innerText = "Kraj!";
     gameOverTitle.className = "textStyle ninja-fruit-game-over-title";
 
-    // Podnaslov "Igraj ponovo!"
     const playAgainText = document.createElement("h2");
     playAgainText.innerText = "Igraj ponovo!";
     playAgainText.className = "textStyle ninja-fruit-play-again-text";
 
-    // Container za gumbove
     const buttonContainer = document.createElement("div");
     buttonContainer.classList.add("ninja-fruit-button-container");
 
-    // Gumb "Igraj ponovo"
     const playAgainBtn = this.createButton("Nova igra", () => this.createGameScreen());
     
-    // Gumb "Izbornik"
     const menuBtn = this.createButton("Izbornik", () => this.createMenuScreen());
 
     buttonContainer.appendChild(playAgainBtn);
@@ -559,7 +491,6 @@ export default class NinjaFruitScene extends BaseScene {
   }
 
   spawnFruit() {
-    // Odaberi random kategoriju voća
     const categories = Object.keys(this.fruitTypes);
     const randomCategory = categories[Math.floor(Math.random() * categories.length)];
     const fruits = this.fruitTypes[randomCategory];
@@ -569,26 +500,22 @@ export default class NinjaFruitScene extends BaseScene {
     img.src = this.assets.images.get(randomFruit.name).src;
     img.classList.add("ninja-fruit-item");
     
-    // Računanje pozicije s obzirom na širinu voća
     const screenWidth = window.innerWidth;
     const screenHeight = window.innerHeight;
     const minLeft = 0;
     const maxLeft = screenWidth - randomFruit.size;
     const leftPosition = Math.random() * (maxLeft - minLeft) + minLeft;
     
-    // Voće počinje na dnu ekrana (simulira bacanje s poda)
-    const startY = screenHeight - randomFruit.size; // Počinje na dnu, ali vidljivo
+    const startY = screenHeight - randomFruit.size;
     img.style.top = `${startY}px`;
     img.style.left = `${leftPosition}px`;
     
-    // Postavi veličinu prema tipu voća
     img.style.width = `${randomFruit.size}px`;
     img.style.height = `${randomFruit.size}px`;
 
-    // Parabolic trajectory parametri - optimalna visina za gameplay
-    const initialVelocityY = -(1800 + Math.random() * 400); // Početna brzina prema gore (1800-2200 px/s)
-    const gravity = 800; // Gravitacija (pozitivna jer povlači prema dolje)
-    const maxHeight = screenHeight * 0.8; // Maksimalna visina (80% ekrana od vrha)
+    const initialVelocityY = -(1800 + Math.random() * 400);
+    const gravity = 800;
+    const maxHeight = screenHeight * 0.8;
     
     this.sceneEl.appendChild(img);
     this.fruits.push({ 
@@ -601,38 +528,34 @@ export default class NinjaFruitScene extends BaseScene {
       points: randomFruit.points,
       size: randomFruit.size,
       name: randomFruit.name,
-      hasReachedPeak: false // Flag za praćenje je li voće doseglo vrh putanje
+      hasReachedPeak: false
     });
   }
 
   spawnBomb() {
-    const bombWidth = 450; // Širina bombe - povećano za bolju vidljivost
-    const bombHeight = 380; // Visina bombe - zadržava razumnu visinu
+    const bombWidth = 450;
+    const bombHeight = 380;
     
     const img = document.createElement("img");
     img.src = this.assets.images.get("bomb").src;
     img.classList.add("ninja-fruit-item", "ninja-fruit-bomb");
     
-    // Računanje pozicije s obzirom na širinu bombe
     const screenWidth = window.innerWidth;
     const screenHeight = window.innerHeight;
     const minLeft = 0;
     const maxLeft = screenWidth - bombWidth;
     const leftPosition = Math.random() * (maxLeft - minLeft) + minLeft;
     
-    // Bomba počinje na dnu ekrana (simulira bacanje s poda)
-    const startY = screenHeight - bombHeight; // Počinje na dnu, ali vidljivo
+    const startY = screenHeight - bombHeight;
     img.style.top = `${startY}px`;
     img.style.left = `${leftPosition}px`;
     
-    // Postavi veličinu bombe - različite dimenzije za bolji omjer
     img.style.width = `${bombWidth}px`;
     img.style.height = `${bombHeight}px`;
 
-    // Parabolic trajectory parametri - optimalna visina za gameplay
-    const initialVelocityY = -(1800 + Math.random() * 400); // Početna brzina prema gore (1800-2200 px/s)
-    const gravity = 800; // Gravitacija
-    const maxHeight = screenHeight * 0.8; // Maksimalna visina (80% ekrana od vrha)
+    const initialVelocityY = -(1800 + Math.random() * 400);
+    const gravity = 800;
+    const maxHeight = screenHeight * 0.8;
 
     this.sceneEl.appendChild(img);
     this.bombs.push({ 
@@ -644,7 +567,7 @@ export default class NinjaFruitScene extends BaseScene {
       maxHeight: maxHeight,
       width: bombWidth,
       height: bombHeight,
-      hasReachedPeak: false // Flag za praćenje je li bomba dosegla vrh putanje
+      hasReachedPeak: false
     });
   }
 
@@ -652,7 +575,7 @@ export default class NinjaFruitScene extends BaseScene {
 
   handleMove({ x, y, i }) {
     this.updateCursor(x, y, i);
-    this.updateSwordPosition(x, y); // Ažuriraj poziciju mača
+    this.updateSwordPosition(x, y);
   }
 
   handleClick({ x, y }) {
@@ -662,11 +585,9 @@ export default class NinjaFruitScene extends BaseScene {
 
     if (!el) return;
 
-    // Rukuj klikom na gumbove i back button
     if (el.tagName === "BUTTON") {
       el.click();
     } else if (el.tagName === "IMG" && el.src && el.src.includes("backButton.webp")) {
-      // Handle back button clicks
       el.click();
     }
   }
@@ -676,12 +597,10 @@ export default class NinjaFruitScene extends BaseScene {
   }
 
   async destroy() {
-    // Ukloni hand tracking event listenere
     this.input.off("move", this.handleMove);
     this.input.off("click", this.handleClick);
     this.input.off("frameCount", this.updateFrameCount);
 
-    // Remove CSS file
     const cssLink = document.querySelector('link[href="/css/ninjafruit.css"]');
     if (cssLink) {
       cssLink.remove();

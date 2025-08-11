@@ -1,6 +1,5 @@
-/* Ninja Fruit Game Styles */
+@import url('/FontFamily/fontFamily.css');
 
-/* Main container styles */
 .ninja-fruit-container {
   display: flex;
   flex-direction: column;
@@ -19,7 +18,6 @@
   align-items: center;
 }
 
-/* Background styles */
 .ninja-fruit-background {
   position: absolute;
   top: 0;
@@ -31,7 +29,6 @@
   z-index: 0;
 }
 
-/* Overlay styles */
 .ninja-fruit-overlay {
   position: absolute;
   top: 0;
@@ -49,15 +46,16 @@
   background-color: rgba(255, 255, 255, 0.5);
 }
 
-/* Button styles */
 .ninja-fruit-button {
   background-color: #008782;
   color: white;
-  font-size: 6vw;
-  padding: 1em 2em;
-  margin: 2em auto 4em auto;
-  border: none;
-  border-radius: 12px;
+  font-size: 8vw;
+  width: 50%;
+  font-weight: bold;
+  padding: 0.2em;
+  margin: 1em auto 2em auto;
+  border-radius: 0.3em;
+  box-shadow: 3px 5px 5px rgba(0, 0, 0, 0.3);
   cursor: pointer;
   z-index: 2;
   position: relative;
@@ -76,13 +74,11 @@
 /* Back button styles */
 .ninja-fruit-back-button {
   position: absolute;
-  top: 4em;
-  left: 4em;
-  height: 220px;
-  margin-top: 4em;
-  margin-left: 4em;
+  top: 1%;
+  left: 1%;
+  height: 9%;
   cursor: pointer;
-  z-index: 1000;
+  z-index: 1;
 }
 
 .ninja-fruit-back-button:hover {
@@ -111,10 +107,10 @@
   transition: all 0.2s ease;
 }
 
-/* Title styles */
 .ninja-fruit-title {
-  font-size: 12vw;
+  font-size: 16em;
   margin-top: 2em;
+  text-shadow: 0 0 0.2em #000;
   color: #fff;
   z-index: 2;
   position: relative;
@@ -122,11 +118,12 @@
 }
 
 .ninja-fruit-subtitle {
-  font-size: 8vw;
+  font-size: 12vw;
   color: white;
   z-index: 2;
   position: relative;
   margin-top: 2em;
+  text-shadow: 0 0 0.2em #000;
 }
 
 .ninja-fruit-game-over-title {
@@ -147,15 +144,14 @@
   margin-top: -1em;
 }
 
-/* Instructions text */
 .ninja-fruit-instructions {
   color: white;
-  font-size: 4vw;
+  font-size:6vw;
   text-align: center;
   max-width: 80%;
   z-index: 2;
   position: relative;
-  margin-top: 2em;
+  text-shadow: 0 0 0.2em #000;
 }
 
 /* Score display */
@@ -181,7 +177,6 @@
   z-index: 2;
 }
 
-/* Button container for end screen */
 .ninja-fruit-button-container {
   display: flex;
   flex-direction: column;
@@ -189,7 +184,7 @@
   gap: 0.5em;
   margin-top: 5em;
   margin-bottom: 4em;
-  margin: 3em auto 0em;
+  width: 100%;
 }
 
 /* Sword styles */

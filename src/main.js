@@ -23,11 +23,11 @@ import SpojiCudoScene from "@scenes/SpojiCudoScene.js";
   scenes.register("Drawing", DrawingScene);
   scenes.register("Memory", MemoryScene);
   scenes.register("KSP", KSPScene);
-  //scenes.register("Labirint", LabyrintScene);
   scenes.register("TicTacToe", TicTacToeScene);
+
   scenes.register("NinjaFruit", NinjaFruitScene);
-  scenes.register("Letimir", LetimirScene);
-  scenes.register("SpojiCudo", SpojiCudoScene);
+  //scenes.register("Letimir", LetimirScene);
+  //scenes.register("SpojiCudo", SpojiCudoScene);
 
   const engine = new Engine({
     sceneManager: scenes,

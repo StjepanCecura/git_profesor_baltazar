@@ -1,6 +1,5 @@
-/* TicTacToe Game CSS Styles */
+@import url('/FontFamily/fontFamily.css');
 
-/* Main container styles */
 .tictactoe-container {
   background-image: url('/pictures/tictactoeGame/background1.webp');
   display: flex;
@@ -8,23 +7,20 @@
   align-items: center;
   justify-content: center;
   position: relative;
-  padding: 2em;
   width: 100vw;
   height: 100vh;
 }
 
-/* Game screen container */
 .tictactoe-game-container {
   background-image: url('/pictures/tictactoeGame/background2.webp');
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
+  height: 100vh;
   width: 100vw;
 }
 
-/* Instructions screen container */
 .tictactoe-instructions-container {
   background-image: url('/pictures/tictactoeGame/background1.webp');
   background-color: rgba(0, 0, 0, 0.8);
@@ -36,57 +32,97 @@
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
-  padding: 5vh 5vw;
   position: relative;
-  margin: 0;
 }
 
-/* Title styles */
 .tictactoe-title {
-  font-size: 12vw;
-  margin-bottom: 1em;
   text-align: center;
+  font-size: 16vw;
+  color: white;
+  text-shadow: 0 0 0.2em #000;
+}
+
+.layer {
+  display: block;
+  width: 100%;
+}
+
+.firstLayer {
+  height: 10%;
+}
+.secondLayer {
+  height: 50%;
+  align-content: center;
+}
+.thirdLayer {
+  height: 40%;
+}
+.secondLayerInstructions {
+  height: 90%;
+  align-content: center;
+}
+.secondLayerGame {
+  height: 90%;
+  align-content: center;
+}
+
+.btn {
+  top: 10%;
+  border: 0cm;
+  cursor: none;
+  width: auto;
+  position: relative;
+}
+
+#btnBack {
+  background-color: transparent;
+  left: 2%;
+  height: 80%;
 }
 
 .tictactoe-instructions-title {
   text-align: center;
   font-size: 12vw;
-  margin-bottom: 3vh;
   color: white;
+  text-shadow: 0 0 0.1em #000;
+  margin: 0%;
+  padding-top: 0%;
 }
 
-/* Baltazar image */
 .tictactoe-baltazar-img {
-  max-height: 40vh;
-  width: auto;
+  width: 32em;
+  height: auto;
   margin-bottom: 2em;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-/* Button styles */
 .tictactoe-menu-button {
   background-color: #008782;
   color: white;
-  font-family: Marhey;
-  font-size: 6vw;
-  width: 40%;
-  margin: -1em 0;
-  margin-bottom: 10%;
+  font-size: 8vw;
+  font-weight: bold;
+  width: 60%;
+  padding: 0.2em;
+  margin-left: 20%;
+  margin-bottom: 5%;
+  border-radius: 0.3em;
+  box-shadow: 3px 5px 5px rgba(0, 0, 0, 0.3);
 }
 
 .tictactoe-end-button {
   background-color: #008782;
   color: #FFFFFF;
-  font-size: 5vw;
-  font-family: 'Marhey', sans-serif;
-  padding: 1em 2.5em;
+  font-size: 9em;
   border: none;
-  border-radius: 8px;
   margin: 0.5em;
+  font-weight: bold;
   cursor: pointer;
   width: 50%;
+  border-radius: 0.3em;
+  box-shadow: 3px 5px 5px rgba(0, 0, 0, 0.3);
 }
 
-/* Back button styles */
 .tictactoe-back-button {
   position: absolute;
   top: 1em;
@@ -114,17 +150,19 @@
   margin-left: 4em;
 }
 
-/* Timer and player text */
 .tictactoe-timer {
-  font-size: 8vw;
+  font-size: 9vw;
   text-align: center;
-  margin-top: 1.5em;
+  font-weight: bold;
+  text-shadow: 0 0 0.1em #000;
 }
 
 .tictactoe-current-player {
   font-size: 6vw;
   text-align: center;
   margin-top: -0.5em;
+  font-weight: bold;
+  text-shadow: 0 0 0.1em #000;
 }
 
 .tictactoe-player-img {
@@ -138,7 +176,6 @@
   vertical-align: middle;
 }
 
-/* Game board */
 .tictactoe-board {
   position: relative;
   width: 100vw;
@@ -152,7 +189,6 @@
   grid-template-rows: repeat(3, 1fr);
 }
 
-/* Board cells */
 .tictactoe-cell {
   display: flex;
   justify-content: center;
@@ -161,14 +197,12 @@
   border: 1px solid transparent;
 }
 
-/* Cell symbols */
 .tictactoe-symbol {
   width: 50%;
   height: 50%;
   object-fit: contain;
 }
 
-/* Instructions text */
 .tictactoe-instructions-text {
   font-size: 6vw;
   text-align: center;
@@ -177,7 +211,6 @@
   margin-bottom: 4vh;
 }
 
-/* Instructions icons container */
 .tictactoe-icons-container {
   display: flex;
   justify-content: center;
@@ -185,7 +218,6 @@
   margin-bottom: 5vh;
 }
 
-/* Icon containers */
 .tictactoe-icon-container {
   display: flex;
   flex-direction: column;
@@ -202,7 +234,6 @@
   margin-top: 1vh;
 }
 
-/* End game overlay */
 .tictactoe-overlay {
   position: absolute;
   top: 0;
@@ -218,11 +249,12 @@
   padding: 2em;
 }
 
-/* End game text */
 .tictactoe-result-text {
   font-size: 8vw;
   color: #FFFFFF;
+  font-weight: bold;
   margin-bottom: 0.5em;
+  text-shadow: 0 0 0.1em #000;
 }
 
 .tictactoe-winner-symbol {
@@ -234,4 +266,6 @@
   font-size: 5vw;
   color: #FFFFFF;
   margin-bottom: 2em;
+  font-weight: bold;
+  text-shadow: 0 0 0.1em #000;
 }

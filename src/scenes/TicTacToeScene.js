@@ -4,11 +4,11 @@ export default class TicTacToeScene extends BaseScene {
   constructor(params) {
     super(params);
     this.container = document.getElementById('gameContainer');
-    this.state = "menu"; // menu | upute | igra | kraj
+    this.state = "menu";
     
     this.timer = 0;
     this.timerInterval = null;
-    this.currentPlayer = "X"; // X ili O
+    this.currentPlayer = "X";
     this.board = Array(3).fill(null).map(() => Array(3).fill(null));
     this.gameOver = false;
 
@@ -19,14 +19,14 @@ export default class TicTacToeScene extends BaseScene {
   }
 
   async init() {
-    // Load CSS file
-    await this.loadCSS();
+    await this.assets.loadImage("xPlayer", "/pictures/tictactoeGame/krizic.webp");
+    await this.assets.loadImage("oPlayer", "/pictures/tictactoeGame/kruzic.webp");
+    await this.assets.loadImage("backButton", "/pictures/backButton.webp");
+    await this.assets.loadImage("baltazar", "/pictures/tictactoeGame/baltazar.webp");
+    await this.assets.loadImage("cursor", "/pictures/drawingGame/brush.webp");
+
+    this.styleEl = this.loadStyle("/css/tictactoe.css");
     
-    // Load cursor images for hand tracking
-    await this.assets.loadImage("cursor", "/pictures/startMenu/hand.webp");
-    await this.assets.loadImage("cursorTip", "/pictures/startMenu/hand.webp");
-    
-    // Set up hand tracking input listeners
     this.input.on("move", this.handleMove);
     this.input.on("click", this.handleClick);
     this.input.on("frameCount", this.updateFrameCount);
@@ -34,16 +34,12 @@ export default class TicTacToeScene extends BaseScene {
     this.createMenuScreen();
   }
 
-  async loadCSS() {
-    return new Promise((resolve, reject) => {
-      const link = document.createElement('link');
-      link.rel = 'stylesheet';
-      link.type = 'text/css';
-      link.href = '/css/tictactoe.css';
-      link.onload = () => resolve();
-      link.onerror = () => reject(new Error('Failed to load CSS'));
-      document.head.appendChild(link);
-    });
+  createButton(text, onClick) {
+    const btn = document.createElement("button");
+    btn.className = "btnGameButtons";
+    btn.innerText = text;
+    btn.addEventListener("click", onClick);
+    return btn;
   }
 
   clearScreen() {
@@ -54,106 +50,77 @@ export default class TicTacToeScene extends BaseScene {
 
   createMenuScreen() {
     this.clearScreen();
+    this.resetHands();
     this.state = "menu";
 
-    const sceneEl = document.createElement("div");
-    sceneEl.className = "container tictactoe-container";
+    this.sceneEl = document.createElement("div");
+    this.sceneEl.className = "container tictactoe-container";
+    this.sceneEl.innerHTML = `
+      <div class="firstLayer layer">
+        <button class="btn" id="btnBack"><img src="${this.assets.images.get("backButton").src}" height="100%"/></button>
+      </div>
+      <div class="secondLayer layer">
+        <h1 class="textStyle tictactoe-title">Križić-kružić</h1>
+      </div>
+      <div class="thirdLayer layer">
+        <button class="textStyle btn tictactoe-menu-button" id="btnGame">Nova igra</button>
+        <button class="textStyle btn tictactoe-menu-button" id="btnInstructions">Upute</button>
+      </div>
+    `;
 
-    // NASLOV
-    const title = document.createElement("h1");
-    title.innerText = "Križić-kružić";
-    title.className = "textStyle tictactoe-title";
+    this.container.appendChild(this.sceneEl);
 
-    // BALTHAZAR
-    const img = document.createElement("img");
-    img.src = "/pictures/tictactoeGame/baltazar.webp";
-    img.className = "imgProfBaltazar tictactoe-baltazar-img";
+    this.btnBack = this.sceneEl.querySelector("#btnBack");
+    this.btnBack.addEventListener("click", () =>
+      this.manager.switch("StartMenu")
+    );
 
-    // GUMBI
-    const btnNewGame = this.createButton("Nova igra", () => this.createGameScreen());
-    const btnUpute = this.createButton("Upute", () => this.createUputeScreen());
+    this.btnGame = this.sceneEl.querySelector("#btnGame");
+    this.btnGame.addEventListener("click", () =>
+      this.createGameScreen()
+    );
 
-    [btnNewGame, btnUpute].forEach((btn) => {
-        btn.classList.add("tictactoe-menu-button");
-    });
-
-    const back = this.createBackButton(() => {
-      this.manager.switch('StartMenu');
-    });
-    back.classList.add("tictactoe-back-button-menu");
-
-    sceneEl.append(title, img, btnNewGame, btnUpute);
-    sceneEl.appendChild(back);
-
-    this.container.appendChild(sceneEl);
-    this.sceneEl = sceneEl;
+    this.btnInstructions = this.sceneEl.querySelector("#btnInstructions");
+    this.btnInstructions.addEventListener("click", () =>
+      this.createUputeScreen()
+    );
     
-    // KLJUČNO: Postavi cursorContainer za hand tracking
     this.cursorContainer = this.sceneEl;
   }
 
   createUputeScreen() {
     this.clearScreen();
+    this.resetHands();
     this.state = "upute";
 
-    const sceneEl = document.createElement("div");
-    sceneEl.className = "container tictactoe-instructions-container";
+    this.sceneEl.className = "container tictactoe-instructions-container";
+    this.sceneEl.innerHTML = `
+      <div class="firstLayer layer">
+        <button class="btn" id="btnBack"><img src="${this.assets.images.get("backButton").src}" height="100%"/></button>
+      </div>
+      <div class="secondLayerInstructions layer">
+        <h1 class="textStyle tictactoe-instructions-title">Upute!</h1>
+        <p class="textStyle tictactoe-instructions-text">Koristi pokrete ruku kako bi postavio krug ili križić na željeno mjesto na tabli.
+        \nPobjednik je onaj koji uspije spojiti svoja 3 znaka uzastopno u nekom redu, stupcu, glavnoj ili sporednoj dijagonali.</p>
+        <img class="imgProfBaltazar tictactoe-baltazar-img" src="${this.assets.images.get("baltazar").src}"/>
+      </div>
+    `;
 
-    const title = document.createElement("h1");
-    title.innerText = "Upute!";
-    title.className = "textStyle tictactoe-instructions-title";
+    this.container.appendChild(this.sceneEl);
 
-    const text = document.createElement("p");
-    text.className = "textStyle tictactoe-instructions-text";
-    text.innerText =
-        "Koristi pokrete ruku kako bi postavio krug ili križić na željeno mjesto na tabli.\nPobjednik je onaj koji uspije spojiti svoja 3 znaka uzastopno u nekom redu, stupcu, glavnoj ili sporednoj dijagonali.";
-
-    const icons = document.createElement("div");
-    icons.className = "tictactoe-icons-container";
-
-    // Križić blok
-    const krizicContainer = document.createElement("div");
-    krizicContainer.className = "tictactoe-icon-container";
-
-    const krizic = document.createElement("img");
-    krizic.src = "/pictures/tictactoeGame/krizic.webp";
-    krizic.className = "tictactoe-icon-img";
-
-    const krizicLabel = document.createElement("p");
-    krizicLabel.className = "textStyle tictactoe-icon-label";
-    krizicLabel.innerText = "Križić";
-
-    // Kružić blok
-    const kruzicContainer = document.createElement("div");
-    kruzicContainer.className = "tictactoe-icon-container";
-
-    const kruzic = document.createElement("img");
-    kruzic.src = "/pictures/tictactoeGame/kruzic.webp";
-    kruzic.className = "tictactoe-icon-img";
-
-    const kruzicLabel = document.createElement("p");
-    kruzicLabel.className = "textStyle tictactoe-icon-label";
-    kruzicLabel.innerText = "Kružić";
-
-    // Spajanje
-    krizicContainer.append(krizic, krizicLabel);
-    kruzicContainer.append(kruzic, kruzicLabel);
-    icons.append(krizicContainer, kruzicContainer);
-
-    const back = this.createBackButton(() => this.createMenuScreen());
-    back.className = "tictactoe-back-button-instructions";
-
-    sceneEl.append(back, title, text, icons);
-    this.container.appendChild(sceneEl);
-    this.sceneEl = sceneEl; // Store reference for cleanup
+    this.btnBack = this.sceneEl.querySelector("#btnBack");
+    this.btnBack.addEventListener("click", () =>
+      this.manager.switch("StartMenu")
+    );
     
-    // KLJUČNO: Postavi cursorContainer za hand tracking
     this.cursorContainer = this.sceneEl;
   }
 
   createGameScreen() {
     this.clearScreen();
+    this.resetHands();
     this.state = "igra";
+
     if (this.timerInterval) clearInterval(this.timerInterval);
 
     this.timer = 0;
@@ -161,29 +128,40 @@ export default class TicTacToeScene extends BaseScene {
     this.board = Array(3).fill(null).map(() => Array(3).fill(null));
     this.gameOver = false;
 
-    const sceneEl = document.createElement("div");
-    sceneEl.className = "container tictactoe-game-container";
+    this.sceneEl.className = "container tictactoe-game-container";
+    this.sceneEl.innerHTML = `
+      <div class="firstLayer layer">
+        <button class="btn" id="btnBack"><img src="${this.assets.images.get("backButton").src}" height="100%"/></button>
+      </div>
+      <div class="secondLayerGame layer">
+        <div id="timerText" class="textStyle tictactoe-timer">Vrijeme igre: 0</div>
+        <div id="currentPlayer" class="textStyle tictactoe-current-player">
+          Na redu je igrač: 
+          <img class="tictactoe-player-img" src="${this.getPlayerImg(this.currentPlayer)}"/>
+        </div>
+        <div class="tictactoe-board"></div>
+      </div>
+    `;
+    
+    this.btnBack = this.sceneEl.querySelector("#btnBack");
+    this.btnBack.addEventListener("click", () =>
+      this.manager.switch("StartMenu")
+    );
 
-    const timerText = document.createElement("div");
-    timerText.id = "timerText";
-    timerText.className = "textStyle tictactoe-timer";
-    timerText.innerText = `Vrijeme igre: 0`;
+    this.container.appendChild(this.sceneEl);
+    this.cursorContainer = this.sceneEl;
 
-    const currentPlayerText = document.createElement("div");
-    currentPlayerText.id = "currentPlayer";
-    currentPlayerText.className = "textStyle tictactoe-current-player";
+    this.fillContainer();
 
-    const playerImg = document.createElement("img");
-    playerImg.src = this.getPlayerImg(this.currentPlayer);
-    playerImg.className = "tictactoe-player-img";
+    this.timerInterval = setInterval(() => {
+      this.timer++;
+      timerText.innerText = `Vrijeme igre: ${this.timer}`;
+    }, 1000);
+  }
 
-    currentPlayerText.innerText = "Na redu je igrač: ";
-    currentPlayerText.appendChild(playerImg);
+  fillContainer() {
+    const boardContainer = document.getElementsByClassName("tictactoe-board")[0];
 
-    const boardContainer = document.createElement("div");
-    boardContainer.className = "tictactoe-board";
-
-    // 3x3 GRID
     for (let y = 0; y < 3; y++) {
       for (let x = 0; x < 3; x++) {
         const cell = document.createElement("div");
@@ -195,21 +173,6 @@ export default class TicTacToeScene extends BaseScene {
         boardContainer.appendChild(cell);
       }
     }
-
-    const back = this.createBackButton(() => this.createMenuScreen());
-    back.classList.add("tictactoe-back-button-game");
-
-    sceneEl.append(back, timerText, currentPlayerText, boardContainer);
-    this.container.appendChild(sceneEl);
-    this.sceneEl = sceneEl; // Store reference for cleanup
-    
-    // KLJUČNO: Postavi cursorContainer za hand tracking
-    this.cursorContainer = this.sceneEl;
-
-    this.timerInterval = setInterval(() => {
-      this.timer++;
-      timerText.innerText = `Vrijeme igre: ${this.timer}`;
-    }, 1000);
   }
 
   handleCellClick(x, y, cellElement) {
@@ -219,15 +182,12 @@ export default class TicTacToeScene extends BaseScene {
     symbolImg.src = this.getPlayerImg(this.currentPlayer);
     symbolImg.className = "tictactoe-symbol";
 
-    // Pomaci za centriranje
     let translateX = 0;
     let translateY = 0;
 
-    // Horizontalno pomicanje:
     if (x === 0) translateX = 35;
     else if (x === 2) translateX = -35;
 
-    // Vertikalno pomicanje:
     if (y === 0) translateY = 35;
     else if (y === 2) translateY = -35;
 
@@ -237,7 +197,6 @@ export default class TicTacToeScene extends BaseScene {
 
     this.board[y][x] = this.currentPlayer;
 
-    // Provjera pobjednika ili neriješenog stanja
     if (this.checkWin(this.currentPlayer)) {
         this.endGame(`${this.currentPlayer}`);
     } else if (this.checkDraw()) {
@@ -292,12 +251,14 @@ export default class TicTacToeScene extends BaseScene {
         this.createGameScreen();
     });
     btnNew.classList.add("tictactoe-end-button");
+    btnNew.classList.add("textStyle");
 
     const btnMenu = this.createButton("Izbornik", () => {
         overlay.remove(); 
         this.createMenuScreen();
     });
     btnMenu.classList.add("tictactoe-end-button");
+    btnMenu.classList.add("textStyle");
 
     overlay.append(resultText);
     if (symbolImg) overlay.appendChild(symbolImg);
@@ -320,26 +281,10 @@ export default class TicTacToeScene extends BaseScene {
     return this.board.flat().every(cell => cell);
   }
 
-  createButton(text, onClick) {
-    const btn = document.createElement("button");
-    btn.className = "btnGameButtons";
-    btn.innerText = text;
-    btn.addEventListener("click", onClick);
-    return btn;
-  }
-
-  createBackButton(onClick) {
-    const btn = document.createElement("img");
-    btn.src = "/pictures/backButton.webp";
-    btn.className = "tictactoe-back-button";
-    btn.addEventListener("click", onClick);
-    return btn;
-  }
-
   getPlayerImg(player) {
     return player === "X"
-      ? "/pictures/tictactoeGame/krizic.webp"
-      : "/pictures/tictactoeGame/kruzic.webp";
+      ? this.assets.images.get("xPlayer").src
+      : this.assets.images.get("oPlayer").src;
   }
 
   handleMove({ x, y, i }) {
@@ -356,7 +301,6 @@ export default class TicTacToeScene extends BaseScene {
     if (el.tagName === "BUTTON") {
       el.click();
     } else if (el.tagName === "IMG" && el.src && el.src.includes("backButton.webp")) {
-      // Handle back button clicks
       el.click();
     } else if (el.dataset && el.dataset.x !== undefined && el.dataset.y !== undefined) {
       const xCoord = parseInt(el.dataset.x, 10);
