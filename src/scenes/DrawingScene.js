@@ -329,7 +329,6 @@ export default class DrawingScene extends BaseScene {
 
     if (!el.id && el.parentElement) el = el.parentElement;
 
-    console.log("klik");
     const handId = this.findHandFromCursor(px, py);
 
     switch (el.id) {
