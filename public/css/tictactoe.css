@@ -269,3 +269,47 @@
   font-weight: bold;
   text-shadow: 0 0 0.1em #000;
 }
+
+/* MOBITELI */
+@media screen and (min-width: 380px) and (max-width: 512px) and (max-aspect-ratio: 1/1) {
+  .tictactoe-baltazar-img {
+    width: 8em;
+  }
+  .tictactoe-instructions-text {
+    font-size: 1.3em;
+  }
+}
+
+@media screen and (max-width: 380px) and (max-aspect-ratio: 1/1) {
+  .tictactoe-baltazar-img {
+    width: 8em;
+  }
+  .tictactoe-instructions-text {
+    font-size: 1.3em;
+  }
+}
+
+/* TABLETI I MANJI DESKTOPI - vertikalan */
+@media screen and (min-width: 512px) and (max-width: 1920px) and (max-aspect-ratio: 1/1) {
+  .tictactoe-baltazar-img {
+    width: 8em;
+  }
+  .tictactoe-instructions-text {
+    font-size: 1.3em;
+  }
+}
+
+/* TV vertikalan */
+@media screen and (min-width: 1920px) and (max-aspect-ratio: 1/1) {
+  .tictactoe-baltazar-img {
+    width: 8em;
+  }
+  .tictactoe-instructions-text {
+    font-size: 1.3em;
+  }
+}
+
+/* TABLETI I MANJI DESKTOPI: širina između 601px i 1024px */
+@media screen and (min-width: 601px) and (max-width: 1024px) {
+
+}

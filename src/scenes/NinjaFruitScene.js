@@ -15,17 +15,17 @@ export default class NinjaFruitScene extends BaseScene {
     this.swordY = 0;
     this.fruitTypes = {
       small: [
-        { name: "lemon", size: 280, points: 50 },
-        { name: "orange", size: 300, points: 50 },
-        { name: "strawberry", size: 250, points: 50 }
+        { name: "lemon", points: 50 },
+        { name: "orange", points: 50 },
+        { name: "strawberry", points: 50 }
       ],
       medium: [
-        { name: "apple", size: 350, points: 70 },
-        { name: "banana", size: 380, points: 70 }
+        { name: "apple", points: 70 },
+        { name: "banana", points: 70 }
       ],
       large: [
-        { name: "pineapple", size: 450, points: 100 },
-        { name: "watermelon", size: 480, points: 100 }
+        { name: "pineapple", points: 100 },
+        { name: "watermelon", points: 100 }
       ]
     };
     this.spawnTimer = 0;
@@ -499,23 +499,20 @@ export default class NinjaFruitScene extends BaseScene {
     const img = document.createElement("img");
     img.src = this.assets.images.get(randomFruit.name).src;
     img.classList.add("ninja-fruit-item");
-    
+
     const screenWidth = window.innerWidth;
     const screenHeight = window.innerHeight;
-    const minLeft = 0;
-    const maxLeft = screenWidth - randomFruit.size;
+    const minLeft = screenWidth * 0.05;
+    const maxLeft = screenWidth * 0.95;
     const leftPosition = Math.random() * (maxLeft - minLeft) + minLeft;
     
-    const startY = screenHeight - randomFruit.size;
+    const startY = screenHeight * 0.75
     img.style.top = `${startY}px`;
     img.style.left = `${leftPosition}px`;
-    
-    img.style.width = `${randomFruit.size}px`;
-    img.style.height = `${randomFruit.size}px`;
 
-    const initialVelocityY = -(1800 + Math.random() * 400);
-    const gravity = 800;
-    const maxHeight = screenHeight * 0.8;
+    const initialVelocityY = -(screenHeight * 0.01 + Math.random() * screenHeight * 0.1);
+    const gravity = screenHeight * 0.2;
+    const maxHeight = screenHeight * 0.2;
     
     this.sceneEl.appendChild(img);
     this.fruits.push({ 
@@ -526,15 +523,12 @@ export default class NinjaFruitScene extends BaseScene {
       gravity: gravity,
       maxHeight: maxHeight,
       points: randomFruit.points,
-      size: randomFruit.size,
       name: randomFruit.name,
       hasReachedPeak: false
     });
   }
 
   spawnBomb() {
-    const bombWidth = 450;
-    const bombHeight = 380;
     
     const img = document.createElement("img");
     img.src = this.assets.images.get("bomb").src;
@@ -543,19 +537,16 @@ export default class NinjaFruitScene extends BaseScene {
     const screenWidth = window.innerWidth;
     const screenHeight = window.innerHeight;
     const minLeft = 0;
-    const maxLeft = screenWidth - bombWidth;
+    const maxLeft = screenWidth * 0.9 + screenWidth * 0.05;
     const leftPosition = Math.random() * (maxLeft - minLeft) + minLeft;
     
-    const startY = screenHeight - bombHeight;
+    const startY = screenHeight * 1.1;
     img.style.top = `${startY}px`;
     img.style.left = `${leftPosition}px`;
-    
-    img.style.width = `${bombWidth}px`;
-    img.style.height = `${bombHeight}px`;
 
-    const initialVelocityY = -(1800 + Math.random() * 400);
-    const gravity = 800;
-    const maxHeight = screenHeight * 0.8;
+    const initialVelocityY = -(screenHeight * 0.01 + Math.random() * screenHeight * 0.1);
+    const gravity = screenHeight * 0.2;
+    const maxHeight = screenHeight * 0.2;
 
     this.sceneEl.appendChild(img);
     this.bombs.push({ 
@@ -565,8 +556,6 @@ export default class NinjaFruitScene extends BaseScene {
       velocityY: initialVelocityY,
       gravity: gravity,
       maxHeight: maxHeight,
-      width: bombWidth,
-      height: bombHeight,
       hasReachedPeak: false
     });
   }
