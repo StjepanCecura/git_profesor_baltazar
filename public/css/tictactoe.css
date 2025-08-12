@@ -1,0 +1,271 @@
+@import url('/FontFamily/fontFamily.css');
+
+.tictactoe-container {
+  background-image: url('/pictures/tictactoeGame/background1.webp');
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+}
+
+.tictactoe-game-container {
+  background-image: url('/pictures/tictactoeGame/background2.webp');
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+}
+
+.tictactoe-instructions-container {
+  background-image: url('/pictures/tictactoeGame/background1.webp');
+  background-color: rgba(0, 0, 0, 0.8);
+  background-blend-mode: darken;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.tictactoe-title {
+  text-align: center;
+  font-size: 16vw;
+  color: white;
+  text-shadow: 0 0 0.2em #000;
+}
+
+.layer {
+  display: block;
+  width: 100%;
+}
+
+.firstLayer {
+  height: 10%;
+}
+.secondLayer {
+  height: 50%;
+  align-content: center;
+}
+.thirdLayer {
+  height: 40%;
+}
+.secondLayerInstructions {
+  height: 90%;
+  align-content: center;
+}
+.secondLayerGame {
+  height: 90%;
+  align-content: center;
+}
+
+.btn {
+  top: 10%;
+  border: 0cm;
+  cursor: none;
+  width: auto;
+  position: relative;
+}
+
+#btnBack {
+  background-color: transparent;
+  left: 2%;
+  height: 80%;
+}
+
+.tictactoe-instructions-title {
+  text-align: center;
+  font-size: 12vw;
+  color: white;
+  text-shadow: 0 0 0.1em #000;
+  margin: 0%;
+  padding-top: 0%;
+}
+
+.tictactoe-baltazar-img {
+  width: 32em;
+  height: auto;
+  margin-bottom: 2em;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.tictactoe-menu-button {
+  background-color: #008782;
+  color: white;
+  font-size: 8vw;
+  font-weight: bold;
+  width: 60%;
+  padding: 0.2em;
+  margin-left: 20%;
+  margin-bottom: 5%;
+  border-radius: 0.3em;
+  box-shadow: 3px 5px 5px rgba(0, 0, 0, 0.3);
+}
+
+.tictactoe-end-button {
+  background-color: #008782;
+  color: #FFFFFF;
+  font-size: 9em;
+  border: none;
+  margin: 0.5em;
+  font-weight: bold;
+  cursor: pointer;
+  width: 50%;
+  border-radius: 0.3em;
+  box-shadow: 3px 5px 5px rgba(0, 0, 0, 0.3);
+}
+
+.tictactoe-back-button {
+  position: absolute;
+  top: 1em;
+  left: 1em;
+  height: 220px;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.tictactoe-back-button-menu {
+  top: 4em;
+  left: 4em;
+}
+
+.tictactoe-back-button-instructions {
+  position: absolute;
+  top: 4em;
+  left: 4em;
+  height: 220px;
+  cursor: pointer;
+}
+
+.tictactoe-back-button-game {
+  margin-top: 4em;
+  margin-left: 4em;
+}
+
+.tictactoe-timer {
+  font-size: 9vw;
+  text-align: center;
+  font-weight: bold;
+  text-shadow: 0 0 0.1em #000;
+}
+
+.tictactoe-current-player {
+  font-size: 6vw;
+  text-align: center;
+  margin-top: -0.5em;
+  font-weight: bold;
+  text-shadow: 0 0 0.1em #000;
+}
+
+.tictactoe-player-img {
+  height: 10vw;
+  vertical-align: middle;
+  margin-left: 1vw;
+}
+
+.tictactoe-player-img-inline {
+  height: 10vw;
+  vertical-align: middle;
+}
+
+.tictactoe-board {
+  position: relative;
+  width: 100vw;
+  height: 100vw;
+  margin: 2em auto;
+  background-image: url('/pictures/tictactoeGame/gameboard.webp');
+  background-size: contain;
+  background-repeat: no-repeat;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+}
+
+.tictactoe-cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.tictactoe-symbol {
+  width: 50%;
+  height: 50%;
+  object-fit: contain;
+}
+
+.tictactoe-instructions-text {
+  font-size: 6vw;
+  text-align: center;
+  color: white;
+  white-space: pre-line;
+  margin-bottom: 4vh;
+}
+
+.tictactoe-icons-container {
+  display: flex;
+  justify-content: center;
+  gap: 10vw;
+  margin-bottom: 5vh;
+}
+
+.tictactoe-icon-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.tictactoe-icon-img {
+  width: 40vw;
+  max-width: 220px;
+}
+
+.tictactoe-icon-label {
+  font-size: 6vw;
+  margin-top: 1vh;
+}
+
+.tictactoe-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2em;
+}
+
+.tictactoe-result-text {
+  font-size: 8vw;
+  color: #FFFFFF;
+  font-weight: bold;
+  margin-bottom: 0.5em;
+  text-shadow: 0 0 0.1em #000;
+}
+
+.tictactoe-winner-symbol {
+  width: 15vw;
+  margin-top: 0.3em;
+}
+
+.tictactoe-end-text {
+  font-size: 5vw;
+  color: #FFFFFF;
+  margin-bottom: 2em;
+  font-weight: bold;
+  text-shadow: 0 0 0.1em #000;
+}
