@@ -55,7 +55,7 @@ export default class DrawingScene extends BaseScene {
     }
   }
 
-   async renderRulesScreen() {
+  async renderRulesScreen() {
     await this.waitForImage('backButton');
 
     this.sceneEl.classList.add("drawing-container");
@@ -72,7 +72,8 @@ export default class DrawingScene extends BaseScene {
         <p class="textStyle instructionsTextBlock">
           Crtaj po zaslonu, promijeni boju kista i probudi svoju kreativnost uz jednostavne pokrete ruku. 
         </p>
-        <h1 class="textStyle instructionsTextBlock">☝️ - gestura interakcije</h1>
+        <h1 class="textStyle instructionsTextBlock">☝️ - crtaj</h1>
+        <h1 class="textStyle instructionsTextBlock">✊ - odaberi</h1>
       </div>
       <div class="thirdLayerInstructions layer">
         <button class="btnSecondLayer textStyle btn" id="btnPlayGame">Igraj</button>
@@ -328,6 +329,7 @@ export default class DrawingScene extends BaseScene {
 
     if (!el.id && el.parentElement) el = el.parentElement;
 
+    console.log("klik");
     const handId = this.findHandFromCursor(px, py);
 
     switch (el.id) {

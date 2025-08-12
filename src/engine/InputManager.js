@@ -41,8 +41,8 @@ export default class InputManager {
       },
       runningMode: 'LIVE_STREAM',
       numHands: 3,
-      minHandDetectionConfidence: 0.6,
-      minHandPresenceConfidence: 0.8,
+      minHandDetectionConfidence: 0.3,
+      minHandPresenceConfidence: 0.6,
       minTrackingConfidence: 0.5
     };
     this.gestureRecognizer = await GestureRecognizer.createFromOptions(wasmFileset, gestureOptions);
@@ -125,6 +125,7 @@ export default class InputManager {
           if (landmarks && landmarks[5]) {
             const x = Utils.xCameraCoordinate(landmarks[5].x);
             const y = Utils.yCameraCoordinate(landmarks[5].y);
+            const pointCoordinates = landmarks;
             const gesture = results.gestures[i][0].categoryName;
             
             const thickness = Math.sqrt(
@@ -132,7 +133,7 @@ export default class InputManager {
               (landmarks[5].y - landmarks[0].y) ** 2 +
               (landmarks[5].z - landmarks[0].z) ** 2
             );
-            detections.push({ x, y, gesture, thickness });
+            detections.push({ x, y, gesture, thickness, pointCoordinates });
           }
         }
       }
@@ -166,8 +167,17 @@ export default class InputManager {
         const lastClick = this.lastClickTime[det.id] || 0;
         if (
           det.gesture === "Pointing_Up" &&
-          this.lastGestures[det.id] !== "Pointing_Up" &&
           nowClick - lastClick > this.clickCooldown
+        ) {
+          this.emit('click', { x: det.x, y: det.y });
+          this.lastClickTime[det.id] = nowClick;
+        }
+
+        if(
+          (det.gesture === "Closed_Fist" || (det.pointCoordinates[5].y < det.pointCoordinates[8].y && 
+            det.pointCoordinates[9].y < det.pointCoordinates[12].y && det.pointCoordinates[13].y < det.pointCoordinates[16].y &&
+            det.pointCoordinates[17].y < det.pointCoordinates[20].y && det.pointCoordinates[8].y > det.pointCoordinates[17].y && 
+            det.gesture !== "Thumb_Up" && det.gesture !== "Thumb_Down")) && nowClick - lastClick > (this.clickCooldown + 300)
         ) {
           this.emit('click', { x: det.x, y: det.y });
           this.lastClickTime[det.id] = nowClick;
