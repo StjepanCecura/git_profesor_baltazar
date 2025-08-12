@@ -4,7 +4,7 @@ export default class Utils {
   }
 
   static xCameraCoordinate (value) {
-    return (1 - value) > (5 / 16) ? ((1 - value) < (11 / 16) ? (1 - value - (5 / 16)) * (16 / 5) : 1) : 0;
+    return (1 - value) > (5 / 16) ? ((1 - value) < (11 / 16) ? (1 - value - (5 / 16)) * (16 / 6) : 1) : 0;
   }
 
   static yCameraCoordinate (value) {
