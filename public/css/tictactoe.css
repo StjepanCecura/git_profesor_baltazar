@@ -1,7 +1,11 @@
 @import url('/FontFamily/fontFamily.css');
 
-.tictactoe-container {
-  background-image: url('/pictures/tictactoeGame/background1.webp');
+.tictactoe-container,
+.tictactoe-game-container,
+.tictactoe-instructions-container {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -11,33 +15,24 @@
   height: 100vh;
 }
 
+.tictactoe-container {
+  background-image: url('/pictures/tictactoeGame/background1.webp');
+}
+
 .tictactoe-game-container {
   background-image: url('/pictures/tictactoeGame/background2.webp');
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  width: 100vw;
 }
 
 .tictactoe-instructions-container {
   background-image: url('/pictures/tictactoeGame/background1.webp');
   background-color: rgba(0, 0, 0, 0.8);
   background-blend-mode: darken;
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   box-sizing: border-box;
-  position: relative;
 }
 
 .tictactoe-title {
   text-align: center;
-  font-size: 16vw;
+  font-size: min(16vw, 16vh);
   color: white;
   text-shadow: 0 0 0.2em #000;
 }
@@ -47,28 +42,15 @@
   width: 100%;
 }
 
-.firstLayer {
-  height: 10%;
-}
-.secondLayer {
-  height: 50%;
-  align-content: center;
-}
-.thirdLayer {
-  height: 40%;
-}
-.secondLayerInstructions {
-  height: 90%;
-  align-content: center;
-}
-.secondLayerGame {
-  height: 90%;
-  align-content: center;
-}
+.firstLayer { height: 10%; }
+.secondLayer { height: 50%; align-content: center; }
+.thirdLayer { height: 40%; }
+.secondLayerInstructions { height: 90%; align-content: center; }
+.secondLayerGame { height: 90%; align-content: center; }
 
 .btn {
   top: 10%;
-  border: 0cm;
+  border: none;
   cursor: none;
   width: auto;
   position: relative;
@@ -77,110 +59,85 @@
 #btnBack {
   background-color: transparent;
   left: 2%;
-  height: 80%;
+  height: 8vh;
 }
 
 .tictactoe-instructions-title {
   text-align: center;
-  font-size: 12vw;
+  font-size: min(12vw, 12vh);
   color: white;
   text-shadow: 0 0 0.1em #000;
-  margin: 0%;
-  padding-top: 0%;
+  margin: 0;
+  padding-top: 0;
 }
 
 .tictactoe-baltazar-img {
-  width: 32em;
+  width: min(28vw, 28vh);
   height: auto;
-  margin-bottom: 2em;
-  margin-left: auto;
-  margin-right: auto;
+  margin-bottom: 2vh;
+  margin-inline: auto;
 }
 
 .tictactoe-menu-button {
   background-color: #008782;
   color: white;
-  font-size: 8vw;
+  font-size: min(8vw, 8vh);
   font-weight: bold;
   width: 60%;
-  padding: 0.2em;
-  margin-left: 20%;
-  margin-bottom: 5%;
+  padding: 0.5em;
+  margin: 0 20% 5vh 20%;
   border-radius: 0.3em;
-  box-shadow: 3px 5px 5px rgba(0, 0, 0, 0.3);
+  box-shadow: 0.3vw 0.5vw 0.5vw rgba(0, 0, 0, 0.3);
 }
 
 .tictactoe-end-button {
   background-color: #008782;
-  color: #FFFFFF;
-  font-size: 9em;
+  color: white;
+  font-size: min(9vw, 9vh);
   border: none;
   margin: 0.5em;
   font-weight: bold;
   cursor: pointer;
   width: 50%;
   border-radius: 0.3em;
-  box-shadow: 3px 5px 5px rgba(0, 0, 0, 0.3);
+  box-shadow: 0.3vw 0.5vw 0.5vw rgba(0, 0, 0, 0.3);
 }
 
 .tictactoe-back-button {
   position: absolute;
-  top: 1em;
-  left: 1em;
-  height: 220px;
+  top: 2vh;
+  left: 2vh;
+  height: 12vh;
   cursor: pointer;
   z-index: 1000;
 }
 
-.tictactoe-back-button-menu {
-  top: 4em;
-  left: 4em;
-}
-
-.tictactoe-back-button-instructions {
-  position: absolute;
-  top: 4em;
-  left: 4em;
-  height: 220px;
-  cursor: pointer;
-}
-
-.tictactoe-back-button-game {
-  margin-top: 4em;
-  margin-left: 4em;
-}
-
 .tictactoe-timer {
-  font-size: 9vw;
+  font-size: min(9vw, 9vh);
   text-align: center;
   font-weight: bold;
   text-shadow: 0 0 0.1em #000;
 }
 
 .tictactoe-current-player {
-  font-size: 6vw;
+  font-size: min(6vw, 6vh);
   text-align: center;
   margin-top: -0.5em;
   font-weight: bold;
   text-shadow: 0 0 0.1em #000;
 }
 
-.tictactoe-player-img {
-  height: 10vw;
-  vertical-align: middle;
-  margin-left: 1vw;
-}
-
+.tictactoe-player-img,
 .tictactoe-player-img-inline {
-  height: 10vw;
+  height: min(10vw, 10vh);
   vertical-align: middle;
 }
 
 .tictactoe-board {
   position: relative;
-  width: 100vw;
-  height: 100vw;
-  margin: 2em auto;
+  width: 80vmin;
+  height: 80vmin;
+  margin: 2vh auto;
   background-image: url('/pictures/tictactoeGame/gameboard.webp');
   background-size: contain;
   background-repeat: no-repeat;
@@ -194,7 +151,6 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  border: 1px solid transparent;
 }
 
 .tictactoe-symbol {
@@ -204,11 +160,11 @@
 }
 
 .tictactoe-instructions-text {
-  font-size: 6vw;
+  font-size: min(5vw, 5vh);
   text-align: center;
   color: white;
   white-space: pre-line;
-  margin-bottom: 4vh;
+  margin-bottom: 2vh;
 }
 
 .tictactoe-icons-container {
@@ -218,19 +174,12 @@
   margin-bottom: 5vh;
 }
 
-.tictactoe-icon-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
 .tictactoe-icon-img {
-  width: 40vw;
-  max-width: 220px;
+  width: min(40vw, 220px);
 }
 
 .tictactoe-icon-label {
-  font-size: 6vw;
+  font-size: min(6vw, 6vh);
   margin-top: 1vh;
 }
 
@@ -246,11 +195,10 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 2em;
 }
 
 .tictactoe-result-text {
-  font-size: 8vw;
+  font-size: min(8vw, 8vh);
   color: #FFFFFF;
   font-weight: bold;
   margin-bottom: 0.5em;
@@ -258,58 +206,14 @@
 }
 
 .tictactoe-winner-symbol {
-  width: 15vw;
+  width: min(15vw, 15vh);
   margin-top: 0.3em;
 }
 
 .tictactoe-end-text {
-  font-size: 5vw;
+  font-size: min(5vw, 5vh);
   color: #FFFFFF;
   margin-bottom: 2em;
   font-weight: bold;
   text-shadow: 0 0 0.1em #000;
-}
-
-/* MOBITELI */
-@media screen and (min-width: 380px) and (max-width: 512px) and (max-aspect-ratio: 1/1) {
-  .tictactoe-baltazar-img {
-    width: 8em;
-  }
-  .tictactoe-instructions-text {
-    font-size: 1.3em;
-  }
-}
-
-@media screen and (max-width: 380px) and (max-aspect-ratio: 1/1) {
-  .tictactoe-baltazar-img {
-    width: 8em;
-  }
-  .tictactoe-instructions-text {
-    font-size: 1.3em;
-  }
-}
-
-/* TABLETI I MANJI DESKTOPI - vertikalan */
-@media screen and (min-width: 512px) and (max-width: 1920px) and (max-aspect-ratio: 1/1) {
-  .tictactoe-baltazar-img {
-    width: 8em;
-  }
-  .tictactoe-instructions-text {
-    font-size: 1.3em;
-  }
-}
-
-/* TV vertikalan */
-@media screen and (min-width: 1920px) and (max-aspect-ratio: 1/1) {
-  .tictactoe-baltazar-img {
-    width: 8em;
-  }
-  .tictactoe-instructions-text {
-    font-size: 1.3em;
-  }
-}
-
-/* TABLETI I MANJI DESKTOPI: širina između 601px i 1024px */
-@media screen and (min-width: 601px) and (max-width: 1024px) {
-
 }

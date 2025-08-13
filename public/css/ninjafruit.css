@@ -262,34 +262,6 @@
 }
 
 /* MOBITELI */
-@media screen and (min-width: 380px) and (max-width: 512px) and (max-aspect-ratio: 1/1) {
-  .ninja-fruit-title {
-    font-size: 4em;
-  }
-  .ninja-fruit-quit-button {
-    font-size: 1.1em;
-    border-radius: 0.3em;
-  }
-  .ninja-fruit-stats {
-    font-size: 2em;
-  }
-  .ninja-fruit-button {
-    font-size: 8vw;
-    margin: 1em auto 0.5em auto;
-  }
-  .ninja-fruit-score {
-    font-size: 1em;
-  }
-  .ninja-fruit-item {
-    width: 5em;
-    height: 5em;
-  }
-  .ninja-fruit-slice {
-    width: 5em;
-    height: 5em;
-  }
-}
-
 @media screen and (max-width: 380px) and (max-aspect-ratio: 1/1) {
   .ninja-fruit-title {
     font-size: 3em;
@@ -309,12 +281,40 @@
     font-size: 1em;
   }
   .ninja-fruit-item {
-    width: 5em;
-    height: 5em;
+    width: 4em;
+    height: auto;
   }
   .ninja-fruit-slice {
-    width: 5em;
-    height: 5em;
+    width: 4em;
+    height: auto;
+  }
+}
+
+@media screen and (min-width: 380px) and (max-width: 512px) and (max-aspect-ratio: 1/1) {
+  .ninja-fruit-title {
+    font-size: 4em;
+  }
+  .ninja-fruit-quit-button {
+    font-size: 1.1em;
+    border-radius: 0.3em;
+  }
+  .ninja-fruit-stats {
+    font-size: 2em;
+  }
+  .ninja-fruit-button {
+    font-size: 8vw;
+    margin: 1em auto 0.5em auto;
+  }
+  .ninja-fruit-score {
+    font-size: 1em;
+  }
+  .ninja-fruit-item {
+    width: 4em;
+    height: auto;
+  }
+  .ninja-fruit-slice {
+    width: 4em;
+    height: auto;
   }
 }
 
@@ -338,12 +338,12 @@
     font-size: 1.4em;
   }
   .ninja-fruit-item {
-    width: 8em;
-    height: 8em;
+    width: 4em;
+    height: auto;
   }
   .ninja-fruit-slice {
-    width: 8em;
-    height: 8em;
+    width: 4em;
+    height: auto;
   }
 }
 
@@ -366,12 +366,12 @@
     font-size: 2em;
   }
   .ninja-fruit-item {
-    width: 8em;
-    height: 8em;
+    width: 6em;
+    height: auto;
   }
   .ninja-fruit-slice {
-    width: 8em;
-    height: 8em;
+    width: 6em;
+    height: auto;
   }
 }
 
@@ -396,11 +396,11 @@
   }
   .ninja-fruit-item {
     width: 18em;
-    height: 18em;
+    height: auto;
   }
   .ninja-fruit-slice {
     width: 18em;
-    height: 18em;
+    height: auto;
   }
 }
 

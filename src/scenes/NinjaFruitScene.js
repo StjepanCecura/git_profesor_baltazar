@@ -256,7 +256,7 @@ export default class NinjaFruitScene extends BaseScene {
           fruit.hasReachedPeak = true;
         }
         
-        if (fruit.y >= window.innerHeight - 50) {
+        if (fruit.y >= window.innerHeight * 1.1) {
           if (fruit.hasReachedPeak) {
             this.gameOver = true;
             fruit.el.remove();
@@ -279,7 +279,7 @@ export default class NinjaFruitScene extends BaseScene {
         
         bomb.el.style.top = `${bomb.y}px`;
 
-        if (bomb.y >= window.innerHeight - 50) {
+        if (bomb.y >= window.innerHeight * 1.1) {
           bomb.el.remove();
           this.bombs.splice(index, 1);
         }
@@ -322,8 +322,8 @@ export default class NinjaFruitScene extends BaseScene {
     const reversedFruits = ['orange', 'pineapple', 'lemon'];
     const isReversed = reversedFruits.includes(fruit.name);
 
-    const sliceOffset = fruit.size / 2.5;
-    const sliceSize = fruit.size * 0.8;
+    const sliceOffset = fruit.el.offsetWidth / 2.5;
+    const sliceSize = fruit.el.offsetWidth * 0.8;
 
     const leftSlice = document.createElement("img");
     leftSlice.src = this.assets.images.get(`${fruit.name}slice${isReversed ? '1' : '2'}`).src;
@@ -410,15 +410,15 @@ export default class NinjaFruitScene extends BaseScene {
     if (!this.inGame || this.gameOver) return;
 
     this.fruits.forEach((fruit, index) => {
-      const fruitCenterX = parseFloat(fruit.el.style.left) + fruit.size / 2;
-      const fruitCenterY = parseFloat(fruit.el.style.top) + fruit.size / 2;
+      const fruitCenterX = parseFloat(fruit.el.style.left) + fruit.el.offsetWidth / 2;
+      const fruitCenterY = parseFloat(fruit.el.style.top) + fruit.el.offsetHeight / 2;
       
       const distance = Math.sqrt(
         Math.pow(this.swordX - fruitCenterX, 2) + 
         Math.pow(this.swordY - fruitCenterY, 2)
       );
       
-      if (distance < fruit.size / 2 + 50) {
+      if (distance < fruit.el.offsetWidth / 2) {
         this.sliceFruit(fruit, fruit.el, parseFloat(fruit.el.style.left));
         this.score += fruit.points;
         this.animateSwordSlash();
@@ -429,15 +429,15 @@ export default class NinjaFruitScene extends BaseScene {
     });
 
     this.bombs.forEach((bomb, index) => {
-      const bombCenterX = parseFloat(bomb.el.style.left) + bomb.width / 2;
-      const bombCenterY = parseFloat(bomb.el.style.top) + bomb.height / 2;
+      const bombCenterX = parseFloat(bomb.el.style.left) + bomb.el.offsetWidth / 2;
+      const bombCenterY = parseFloat(bomb.el.style.top) + bomb.el.offsetHeight / 2;
       
       const distance = Math.sqrt(
         Math.pow(this.swordX - bombCenterX, 2) + 
         Math.pow(this.swordY - bombCenterY, 2)
       );
       
-      if (distance < Math.min(bomb.width, bomb.height) / 2 + 50) {
+      if (distance < Math.min(bomb.el.offsetWidth, bomb.el.offsetHeight) / 2) {
         this.gameOver = true;
         this.animateSwordSlash();
         
@@ -506,11 +506,11 @@ export default class NinjaFruitScene extends BaseScene {
     const maxLeft = screenWidth * 0.95;
     const leftPosition = Math.random() * (maxLeft - minLeft) + minLeft;
     
-    const startY = screenHeight * 0.75
+    const startY = screenHeight;
     img.style.top = `${startY}px`;
     img.style.left = `${leftPosition}px`;
 
-    const initialVelocityY = -(screenHeight * 0.01 + Math.random() * screenHeight * 0.1);
+    const initialVelocityY = -(screenHeight * 0.55 + Math.random() * screenHeight * 0.1);
     const gravity = screenHeight * 0.2;
     const maxHeight = screenHeight * 0.2;
     
@@ -529,22 +529,21 @@ export default class NinjaFruitScene extends BaseScene {
   }
 
   spawnBomb() {
-    
     const img = document.createElement("img");
     img.src = this.assets.images.get("bomb").src;
     img.classList.add("ninja-fruit-item", "ninja-fruit-bomb");
     
     const screenWidth = window.innerWidth;
     const screenHeight = window.innerHeight;
-    const minLeft = 0;
-    const maxLeft = screenWidth * 0.9 + screenWidth * 0.05;
+    const minLeft = screenWidth * 0.05;
+    const maxLeft = screenWidth * 0.95;
     const leftPosition = Math.random() * (maxLeft - minLeft) + minLeft;
     
-    const startY = screenHeight * 1.1;
+    const startY = screenHeight;
     img.style.top = `${startY}px`;
     img.style.left = `${leftPosition}px`;
 
-    const initialVelocityY = -(screenHeight * 0.01 + Math.random() * screenHeight * 0.1);
+    const initialVelocityY = -(screenHeight * 0.55 + Math.random() * screenHeight * 0.1);
     const gravity = screenHeight * 0.2;
     const maxHeight = screenHeight * 0.2;
 

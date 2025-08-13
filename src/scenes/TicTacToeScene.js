@@ -110,7 +110,7 @@ export default class TicTacToeScene extends BaseScene {
 
     this.btnBack = this.sceneEl.querySelector("#btnBack");
     this.btnBack.addEventListener("click", () =>
-      this.manager.switch("StartMenu")
+      this.createMenuScreen()
     );
     
     this.cursorContainer = this.sceneEl;
@@ -145,7 +145,7 @@ export default class TicTacToeScene extends BaseScene {
     
     this.btnBack = this.sceneEl.querySelector("#btnBack");
     this.btnBack.addEventListener("click", () =>
-      this.manager.switch("StartMenu")
+      this.createMenuScreen()
     );
 
     this.container.appendChild(this.sceneEl);

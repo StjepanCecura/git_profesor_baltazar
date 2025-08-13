@@ -13,20 +13,19 @@ html {
 }
 
 h1 {
-    font-size: 300px;
+    font-size: 15vw;
     color: white;
     width: 100%;
     text-align: center;
-    margin-top: 50px;
-    margin-bottom: 150px;
+    margin-top: 10vh;
 }
 
 .backBtn {
-    height: 100px;
+    height: 10%;
     background-color: transparent;
     position: absolute;
-    top: 100px;
-    left: 50px;
+    top: 1%;
+    left: 1%;
     text-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
 }
 
@@ -46,7 +45,7 @@ h1 {
     background: linear-gradient(rgba(36, 35, 35, 0.8), rgba(36, 35, 35, 0.8)),
         url("../pictures/memoryGame/background_instructions.png");
     background-position: 50%;
-    background-size: auto 100%;
+    background-size: cover;
 }
 
 #gameScreen {
@@ -56,7 +55,7 @@ h1 {
     background: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)),
         url("../pictures/memoryGame/background_game.png");
     background-position: 50%;
-    background-size: auto 100%;
+    background-size: cover;
 }
 
 #overScreen {
@@ -66,7 +65,7 @@ h1 {
     background: linear-gradient(rgba(36, 35, 35, 0.8), rgba(36, 35, 35, 0.8)),
         url("../pictures/memoryGame/background_game.png");
     background-position: 50%;
-    background-size: auto 100%;
+    background-size: cover;
 }
 
 .titleRow {
@@ -75,28 +74,30 @@ h1 {
     flex-direction: row;
     align-items: center;
     font-family: Marhey;
+    height: 20%;
     text-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
 }
 
 .titleRow>p {
     width: 100%;
-    font-size: 100px;
+    font-size: 5vw;
     color: white;
     text-align: right;
-    padding-right: 80px;
+    padding-right: 1vw;
 }
 
 .memoryBtn {
+    font-size: 5.5vw;
     background-color: #008782;
     border: 0;
     height: max-content;
-    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
-    border-radius: 15px;
+    box-shadow: 0 0.3em 1em rgba(0, 0, 0, 0.6);
+    border-radius: 0.5em;
     color: white;
+    margin-bottom: 1vh;
     font-family: Marhey;
-    font-size: 100px;
     text-align: center;
-    padding: 20px 200px 20px 200px;
+    padding: 1% 4%;
     text-shadow: none;
 }
 
@@ -111,8 +112,7 @@ h1 {
     justify-content: center;
     position: absolute;
     width: 100%;
-    bottom: 200px;
-    gap: 150px;
+    bottom: 5vh;
 }
 
 .content {
@@ -124,25 +124,26 @@ h1 {
 }
 
 .content>p {
-    width: 50%;
-    font-size: 100px;
+    width: 100%;
+    font-size: 3.5vh;
     text-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
     text-align: center;
     font-family: Marhey;
-    padding: 0px 100px 0px 100px;
+    padding: 0vw 5vw;
 }
 
 .card-grid {
+    height: 80%;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    grid-gap: 50px;
-    padding-left: 50px;
-    padding-right: 50px;
+    grid-gap: 1vh;
+    padding-left: 2vh;
+    padding-right: 2vh;
 }
 
 .card {
-    width: 100%;
-    height: auto;
+    width: auto;
+    height: 100%;
 }
 
 .card img {
@@ -152,5 +153,23 @@ h1 {
     pointer-events: none;
     border-color: grey;
     border-radius: 15px;
-    border: 20px
+}
+
+/* MOBITELI */
+@media screen and (max-width: 380px) and (max-aspect-ratio: 1/1) {
+}
+
+@media screen and (min-width: 380px) and (max-width: 512px) and (max-aspect-ratio: 1/1) {
+}
+
+/* TABLETI I MANJI DESKTOPI - vertikalan */
+@media screen and (min-width: 512px) and (max-width: 1920px) and (max-aspect-ratio: 1/1) {
+}
+
+/* TV vertikalan */
+@media screen and (min-width: 1920px) and (max-aspect-ratio: 1/1) {
+}
+
+/* TABLETI I MANJI DESKTOPI: širina između 601px i 1024px */
+@media screen and (min-width: 601px) and (max-width: 1024px) {
 }
