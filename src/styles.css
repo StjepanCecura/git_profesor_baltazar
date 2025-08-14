@@ -24,12 +24,14 @@ body, html {
 .mouse_pointer {
     pointer-events: none;
     z-index: 950;
+    width: 10vw;
+    height: auto;
 }
 .cursor-wrapper {
     position: absolute;
     pointer-events: none;
-    width: 50px;
-    height: 70px;
+    width: 10vw;
+    height: auto;
     z-index: 950;
 }
 .btn {
@@ -47,56 +49,13 @@ body, html {
     border-radius: 5px;
     box-shadow: 3px 5px 5px rgba(0, 0, 0, 0.3);
 }
-
-/* MOBITELI */
-@media screen and (max-width: 1080px) and (max-aspect-ratio: 3/4) {
-    .btnGameButtons {
-        width: 80%;
-        font-size: 2em;
-        margin-left: 10%;
-        margin-right: 10%;
-    }
-    .imgProfBaltazar {
-        height: 60%;
-    }
-    .cursor-wrapper {
-        width: auto;
-        height: auto;
-    }
-    .mouse_pointer {
-        width: 48px;
-        height: auto;
-    }
-    .cursor-indicator {
-        width: 6px;
-        height: 6px;
-    }
+.cursor-indicator {
+    width: 2.5vw;
+    height: 2.5vw;
 }
 
-/* TABLETI */
-@media screen and (min-width: 601px) and (min-aspect-ratio: 4/3) {
-    .btnGameButtons {
-        width: 60%;
-        font-size: 4em;
-    }
-}
 
 /* TV vertikalan */
 @media screen and (min-width: 1920px) and (max-aspect-ratio: 3/4) {
-    .btnGameButtons {
-        width: 50%;
-        font-size: 6em;
-    }
-    .cursor-wrapper {
-        width: auto;
-        height: auto;
-    }
-    .mouse_pointer {
-        width: 256px;
-        height: auto;
-    }
-    .cursor-indicator {
-        width: 32px;
-        height: 32px;
-    }
+
 }

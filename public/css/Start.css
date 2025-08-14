@@ -37,13 +37,19 @@ body {
   align-items: center;
   height: 100%;
   overflow: hidden;
+  gap: 3%;
+  padding-top: 5%;
 }
 .game-card {
   display: flex;
   align-items: center;
   justify-content: start;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
   transition: transform 0.3s, opacity 0.3s;
+  width: 60%;
+  height: 25%;
+  gap: 5%;
+  padding: 1% 2%;
+  border-radius: 3vh;
 }
 .game-card img {
   width: 20%;
@@ -54,20 +60,21 @@ body {
 .game-card span {
   font-weight: bold;
   color: white;
+  font-size: 2.5vh;
 }
 .game-card.active {
   background: linear-gradient(145deg, #4fc3f7, #29b6f6);
   transform: scale(1.1);
   z-index: 2;
-  border: 5px solid #01579b;
-  box-shadow: 0 6px 15px rgba(33, 150, 243, 0.6);
+  border: 0.5vh solid #01579b;
+  box-shadow: 0 0.4vh 1.2vh rgba(33, 150, 243, 0.6);
 }
 .game-card.faded {
   margin: 1%;
   background: linear-gradient(145deg, #ba68c8, #ab47bc);
   opacity: 0.85;
-  border: 4px dashed #6a1b9a;
-  box-shadow: 0 4px 10px rgba(171, 71, 188, 0.5);
+  border: 0.4vh dashed #6a1b9a;
+  box-shadow: 0 0.4vh 1.2vh rgba(171, 71, 188, 0.5);
 }
 .instructionsTable {
   height: 100%;
@@ -76,106 +83,12 @@ body {
 tr.instructionsImages th {
   height: 10vh;
 }
-
-/* === Responsive dizajn za različite razlučivosti === */
-
-/* MOBITELI */
-@media screen and (max-width: 512px) and (max-aspect-ratio: 1/1) {
-  .game-menu {
-    gap: 3%;
-    padding-top: 5%;
-  }
-  .game-card {
-    width: 60%;
-    height: 25%;
-    border-radius: 1.5em;
-    gap: 5%;
-    padding: 1% 2%;
-  }
-  .game-card span {
-    font-size: 1.2em;
-  }
-  .game-card.active {
-    border: 0.25em solid #01579b;
-    box-shadow: 0 0.4em 0.9em rgba(33, 150, 243, 0.6);
-  }
-  .game-card.faded {
-    border: 0.3em dashed #6a1b9a;
-    box-shadow: 0 0.3em 0.7em rgba(171, 71, 188, 0.5);
-  }
-  .instructionsTable tr.instructionsImages img {
-    height: 12vh;
-  }
-  .instructionsTable tr.instructionsText {
-    font-size: 1.5em;
-    text-shadow: 0.2em 0.2em 0.5em black;
-  }
+.instructionsTable tr.instructionsImages img {
+  height: 10vh;
 }
-
-/* TABLETI I MANJI DESKTOPI - vertikalan */
-@media screen and (min-width: 512px) and (max-width: 1920px) and (max-aspect-ratio: 1/1) {
-  .game-menu {
-    gap: 3%;
-    padding-top: 5%;
-  }
-  .game-card {
-    width: 60%;
-    height: 27%;
-    border-radius: 1.5em;
-    gap: 5%;
-    padding: 1% 2%;
-  }
-  .game-card span {
-    font-size: 1.4em;
-  }
-  .game-card.active {
-    border: 0.3em solid #01579b;
-    box-shadow: 0 0.3em 1em rgba(33, 150, 243, 0.6);
-  }
-  .game-card.faded {
-    border: 0.4em dashed #6a1b9a;
-    box-shadow: 0 0.5em 2em rgba(171, 71, 188, 0.5);
-  }
-  .instructionsTable tr.instructionsImages img {
-    height: 12vh;
-  }
-  .instructionsTable tr.instructionsText {
-    font-size: 1.5em;
-    text-shadow: 0.2em 0.2em 0.5em black;
-  }
-}
-
-/* TV vertikalan */
-@media screen and (min-width: 1920px) and (max-aspect-ratio: 1/1) {
-  .game-menu {
-    gap: 3%;
-    padding-top: 5%;
-  }
-  .game-card {
-    width: 60%;
-    height: 25%;
-    border-radius: 5em;
-    gap: 5%;
-    padding: 1% 2%;
-  }
-  .game-card span {
-    font-size: 7em;
-  }
-  .game-card.active {
-    border: 1em solid #01579b;
-    box-shadow: 0 0.8em 2em rgba(33, 150, 243, 0.6);
-  }
-  .game-card.faded {
-    border: 1.3em dashed #6a1b9a;
-    box-shadow: 0 2em 4em rgba(171, 71, 188, 0.5);
-  }
-  .instructionsTable tr.instructionsImages img {
-    height: 10vh;
-  }
-  .instructionsTable tr.instructionsText {
-    font-size: 7em;
-    text-shadow: 0.2em 0.2em 0.5em black;
-  }
+.instructionsTable tr.instructionsText {
+  font-size: 2.5vh;
+  text-shadow: 0.2vh 0.2vh 1vh black;
 }
 
 /* TABLETI I MANJI DESKTOPI: širina između 601px i 1024px */

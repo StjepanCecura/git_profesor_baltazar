@@ -1,6 +1,6 @@
 import BaseScene from "@engine/BaseScene.js";
 
-export default class NinjaFruitScene extends BaseScene {
+export default class SjekacVockiScene extends BaseScene {
   constructor(params) {
     super(params);
     this.container = document.getElementById("gameContainer");
@@ -40,42 +40,42 @@ export default class NinjaFruitScene extends BaseScene {
   async init() {
     await this.loadCSS();
     
-    await this.assets.loadImage("cursor", "/pictures/ninjafruitGame/sword1.webp");
-    await this.assets.loadImage("cursorTip", "/pictures/ninjafruitGame/sword1.webp");
+    await this.assets.loadImage("cursor", "/pictures/sjekacVockiGame/sword1.webp");
+    await this.assets.loadImage("cursorTip", "/pictures/sjekacVockiGame/sword1.webp");
     
-    await this.assets.loadImage("background1", "/pictures/ninjafruitGame/background1.webp");
-    await this.assets.loadImage("background2", "/pictures/ninjafruitGame/background2.webp");
+    await this.assets.loadImage("background1", "/pictures/sjekacVockiGame/background1.webp");
+    await this.assets.loadImage("background2", "/pictures/sjekacVockiGame/background2.webp");
     await this.assets.loadImage("backButton", "/pictures/backButton.webp");
     
-    await this.assets.loadImage("sword1", "/pictures/ninjafruitGame/sword1.webp");
-    await this.assets.loadImage("sword2", "/pictures/ninjafruitGame/sword2.webp");
-    await this.assets.loadImage("sword3", "/pictures/ninjafruitGame/sword3.webp");
-    await this.assets.loadImage("sword4", "/pictures/ninjafruitGame/sword4.webp");
+    await this.assets.loadImage("sword1", "/pictures/sjekacVockiGame/sword1.webp");
+    await this.assets.loadImage("sword2", "/pictures/sjekacVockiGame/sword2.webp");
+    await this.assets.loadImage("sword3", "/pictures/sjekacVockiGame/sword3.webp");
+    await this.assets.loadImage("sword4", "/pictures/sjekacVockiGame/sword4.webp");
     
-    await this.assets.loadImage("apple", "/pictures/ninjafruitGame/apple.webp");
-    await this.assets.loadImage("banana", "/pictures/ninjafruitGame/banana.webp");
-    await this.assets.loadImage("lemon", "/pictures/ninjafruitGame/lemon.webp");
-    await this.assets.loadImage("orange", "/pictures/ninjafruitGame/orange.webp");
-    await this.assets.loadImage("pineapple", "/pictures/ninjafruitGame/pineapple.webp");
-    await this.assets.loadImage("strawberry", "/pictures/ninjafruitGame/strawberry.webp");
-    await this.assets.loadImage("watermelon", "/pictures/ninjafruitGame/watermelon.webp");
+    await this.assets.loadImage("apple", "/pictures/sjekacVockiGame/apple.webp");
+    await this.assets.loadImage("banana", "/pictures/sjekacVockiGame/banana.webp");
+    await this.assets.loadImage("lemon", "/pictures/sjekacVockiGame/lemon.webp");
+    await this.assets.loadImage("orange", "/pictures/sjekacVockiGame/orange.webp");
+    await this.assets.loadImage("pineapple", "/pictures/sjekacVockiGame/pineapple.webp");
+    await this.assets.loadImage("strawberry", "/pictures/sjekacVockiGame/strawberry.webp");
+    await this.assets.loadImage("watermelon", "/pictures/sjekacVockiGame/watermelon.webp");
 
-    await this.assets.loadImage("bomb", "/pictures/ninjafruitGame/bomb.webp");
+    await this.assets.loadImage("bomb", "/pictures/sjekacVockiGame/bomb.webp");
 
-    await this.assets.loadImage("appleslice1", "/pictures/ninjafruitGame/appleslice1.webp");
-    await this.assets.loadImage("appleslice2", "/pictures/ninjafruitGame/appleslice2.webp");
-    await this.assets.loadImage("bananaslice1", "/pictures/ninjafruitGame/bananaslice1.webp");
-    await this.assets.loadImage("bananaslice2", "/pictures/ninjafruitGame/bananaslice2.webp");
-    await this.assets.loadImage("lemonslice1", "/pictures/ninjafruitGame/lemonslice1.webp");
-    await this.assets.loadImage("lemonslice2", "/pictures/ninjafruitGame/lemonslice2.webp");
-    await this.assets.loadImage("orangeslice1", "/pictures/ninjafruitGame/orangeslice1.webp");
-    await this.assets.loadImage("orangeslice2", "/pictures/ninjafruitGame/orangeslice2.webp");
-    await this.assets.loadImage("pineappleslice1", "/pictures/ninjafruitGame/pineappleslice1.webp");
-    await this.assets.loadImage("pineappleslice2", "/pictures/ninjafruitGame/pineappleslice2.webp");
-    await this.assets.loadImage("strawberryslice1", "/pictures/ninjafruitGame/strawberryslice1.webp");
-    await this.assets.loadImage("strawberryslice2", "/pictures/ninjafruitGame/strawberryslice2.webp");
-    await this.assets.loadImage("watermelonslice1", "/pictures/ninjafruitGame/watermelonslice1.webp");
-    await this.assets.loadImage("watermelonslice2", "/pictures/ninjafruitGame/watermelonslice2.webp");
+    await this.assets.loadImage("appleslice1", "/pictures/sjekacVockiGame/appleslice1.webp");
+    await this.assets.loadImage("appleslice2", "/pictures/sjekacVockiGame/appleslice2.webp");
+    await this.assets.loadImage("bananaslice1", "/pictures/sjekacVockiGame/bananaslice1.webp");
+    await this.assets.loadImage("bananaslice2", "/pictures/sjekacVockiGame/bananaslice2.webp");
+    await this.assets.loadImage("lemonslice1", "/pictures/sjekacVockiGame/lemonslice1.webp");
+    await this.assets.loadImage("lemonslice2", "/pictures/sjekacVockiGame/lemonslice2.webp");
+    await this.assets.loadImage("orangeslice1", "/pictures/sjekacVockiGame/orangeslice1.webp");
+    await this.assets.loadImage("orangeslice2", "/pictures/sjekacVockiGame/orangeslice2.webp");
+    await this.assets.loadImage("pineappleslice1", "/pictures/sjekacVockiGame/pineappleslice1.webp");
+    await this.assets.loadImage("pineappleslice2", "/pictures/sjekacVockiGame/pineappleslice2.webp");
+    await this.assets.loadImage("strawberryslice1", "/pictures/sjekacVockiGame/strawberryslice1.webp");
+    await this.assets.loadImage("strawberryslice2", "/pictures/sjekacVockiGame/strawberryslice2.webp");
+    await this.assets.loadImage("watermelonslice1", "/pictures/sjekacVockiGame/watermelonslice1.webp");
+    await this.assets.loadImage("watermelonslice2", "/pictures/sjekacVockiGame/watermelonslice2.webp");
 
     this.input.on("move", this.handleMove);
     this.input.on("click", this.handleClick);
@@ -96,7 +96,7 @@ export default class NinjaFruitScene extends BaseScene {
       const link = document.createElement('link');
       link.rel = 'stylesheet';
       link.type = 'text/css';
-      link.href = '/css/ninjafruit.css';
+      link.href = '/css/SjekacVocki.css';
       link.onload = () => resolve();
       link.onerror = () => reject(new Error('Failed to load CSS'));
       document.head.appendChild(link);
@@ -589,7 +589,7 @@ export default class NinjaFruitScene extends BaseScene {
     this.input.off("click", this.handleClick);
     this.input.off("frameCount", this.updateFrameCount);
 
-    const cssLink = document.querySelector('link[href="/css/ninjafruit.css"]');
+    const cssLink = document.querySelector('link[href="/css/SjekacVocki.css"]');
     if (cssLink) {
       cssLink.remove();
     }

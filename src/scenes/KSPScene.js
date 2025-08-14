@@ -1,6 +1,6 @@
 import BaseScene from "@engine/BaseScene.js";
 
-export default class MemoryGameScene extends BaseScene {
+export default class KSPScene extends BaseScene {
   constructor(params) {
     super(params);
     this.container = document.getElementById("gameContainer");
@@ -39,7 +39,7 @@ export default class MemoryGameScene extends BaseScene {
       "ksp-skare",
     ];
     for (const name of assetImages) {
-      await this.assets.loadImage(name, `/pictures/kspGame/${name}.png`);
+      await this.assets.loadImage(name, `/pictures/kspGame/${name}.webp`);
     }
 
     this.styleEl = this.loadStyle("/css/KSP.css");
@@ -175,7 +175,7 @@ export default class MemoryGameScene extends BaseScene {
         <h1>Kamen<br>Škare papir</h1>
       </div>
       <div class="bottomRow">
-          <button id="btnNewGame" class="memoryBtn">Nova Igra</button>
+          <button id="btnNewGame" class="pamtilicaBtn">Nova Igra</button>
       </div>
     </div>
     `;
@@ -212,7 +212,7 @@ export default class MemoryGameScene extends BaseScene {
         </p>
       </div>
       <div class="bottomRow">
-        <button class="memoryBtn" id="btnStart">Igraj</button>
+        <button class="pamtilicaBtn" id="btnStart">Igraj</button>
       </div>
     </div>`;
 
@@ -232,6 +232,7 @@ export default class MemoryGameScene extends BaseScene {
     if (this.sceneEl) this.sceneEl.remove();
     this.sceneEl = document.createElement("div");
     this.sceneEl.classList.add("container");
+    this.currentScreen = "game";
 
     let htmlState = "";
     if (this.roundState === "show_result") {
@@ -256,28 +257,26 @@ export default class MemoryGameScene extends BaseScene {
 
       if (this.gameOver === 0) {
         htmlState += `
-        <button class="memoryBtn" id="btnNextRound">Sljedeća runda</button>
+        <button class="pamtilicaBtn" id="btnNextRound">Sljedeća runda</button>
       `;
       }
       if (this.gameOver === 1) {
         htmlState += `
-        <button class="memoryBtn" id="btnNextRound">Završi igru</button>
+        <button class="pamtilicaBtn" id="btnNextRound">Završi igru</button>
       `;
       }
     }
 
-    // -----------ODBROJAVANJE-----------
     if (this.roundState === "countdown") {
       htmlState += `<h1>${this.countdownTime}</h1>`;
     }
-    // -----------ČEKANJE-----------
     else if (this.roundState === "waiting") {
       htmlState += `<p>Prikaži ruku!</p>`;
     }
 
     this.sceneEl.innerHTML = `
     <div id="gameScreen">
-      <button class="btn backBtn memoryBtn" id="btnGiveUp">
+      <button class="btn backBtn pamtilicaBtn" id="btnGiveUp">
         Odustani
       </button>
       <div class="titleRow">
@@ -296,6 +295,7 @@ export default class MemoryGameScene extends BaseScene {
       clearInterval(this.timerInterval);
       this.currentScreen = "gameover";
       this.gameResult = 0;
+      this.roundState = "waiting"
       this.render();
     });
 
@@ -331,8 +331,8 @@ export default class MemoryGameScene extends BaseScene {
         </p>
       </div>
       <div class="bottomRow">
-        <button class="memoryBtn" id="btnRestart">Nova igra</button>
-        <button class="memoryBtn" id="btnMainMenu">Izbornik</button>
+        <button class="pamtilicaBtn" id="btnRestart">Nova igra</button>
+        <button class="pamtilicaBtn" id="btnMainMenu">Izbornik</button>
       </div>
     </div>
     `;
@@ -349,8 +349,8 @@ export default class MemoryGameScene extends BaseScene {
         </p>
       </div>
       <div class="bottomRow">
-        <button class="memoryBtn" id="btnRestart">Nova igra</button> <br>
-        <button class="memoryBtn" id="btnMainMenu">Izbornik</button>
+        <button class="pamtilicaBtn" id="btnRestart">Nova igra</button> <br>
+        <button class="pamtilicaBtn" id="btnMainMenu">Izbornik</button>
       </div>
     </div>
     `;

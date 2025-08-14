@@ -76,7 +76,7 @@ html {
 .drawing-container #btnBack {
     background-color: transparent;
     left: 2%;
-    height: 80%;
+    height: 100%;
 }
 
 #btnBack:hover {
@@ -96,19 +96,20 @@ html {
 .drawing-container #btnClearBackground {
     left: 2%;
     width: 30%;
-    font-size: 4em;
-    border-radius: 0.3em;
-    box-shadow: 3px 5px 5px rgba(0, 0, 0, 0.3);
+    font-size: 3vw;
+    border-radius: 1.3vw;
+    box-shadow: 1vw 1vw 2.5vw rgba(0, 0, 0, 0.3);
 }
 
 .drawing-container #btnPlayGame {
     left: 2%;
     width: 45%;
     font-size: 8em;
-    border-radius: 0.3em;
-    box-shadow: 3px 5px 5px rgba(0, 0, 0, 0.3);
+    border-radius: 1.3vw;
+    box-shadow: 1vw 1vw 2.5vw rgba(0, 0, 0, 0.3);
     justify-content: center;
     left: 27.5%;
+    font-size: 6vw;
 }
 
 .drawing-container #btnPauseDrawing {
@@ -123,6 +124,7 @@ html {
     border: 0cm;
     position: relative;
     cursor: none;
+    border-radius: 1.3vw;
 }
 
 .drawing-container #btnGreen {
@@ -166,14 +168,16 @@ html {
     color: white;
     text-align: center;
     font-weight: bold;
-    text-shadow: 0 0 0.1em #000;
+    text-shadow: 0 0 1vw #000;
+    font-size: 14vw;
+    margin-top: 3vh;
 }
 .secondLayerInstructions .instructionsTextBlock {
     color: white;
     font-weight: bold;
     text-shadow: 0 0 0.1em #000;
+    font-size: 6vw;
 }
-
 .cursor-indicator {
     position: absolute;
     transform: translate(0%, -100%);
@@ -196,277 +200,17 @@ html {
 
     z-index: 999;
 }
-
-/*#endregion main_CSS*/
-
-/* === Responsive dizajn za različite razlučivosti === */
-
-/* MOBITELI - vertikalan */
-
-@media screen and (max-width: 380px) and (max-aspect-ratio: 1/1) {
-        .drawing-container {
-        background-position: 80%;
-        background-size: auto 100%;
-    }
-    
-    .drawing-container .mouse_pointer {
-        height: 8vh;
-        width: auto;
-    }
-
-    .drawing-container #btnClearBackground {
-        font-size: 0.8em;
-    }
-
-    .drawing-container .firstLayer {
-        height: 6.5%;
-    }
-
-    .drawing-container .secondLayer {
-        height: 8.64%;
-    }
-
-    .drawing-container .thirdLayer {
-        height: 69%;
-    }
-
-    .drawing-container .fourthLayer {
-        height: 5%;
-        grid-template-columns: 8% 8% 8% 8% 8% 8% 1fr 45%;
-        gap: 1%;
-    }
-
-    .drawing-container .fifthLayer {
-        height: 8%;
-    }
-
-    .drawing-container .mouse_pointer {
-        height: 6vh;
-    }
-
-    .secondLayerInstructions .instructionsHeader {
-        font-size: 3em;
-    }
-    .secondLayerInstructions .instructionsTextBlock {
-        font-size: 1.5em;
-    }
-    .drawing-container #btnPlayGame {
-        font-size: 2em;
-        border-radius: 0.3em;
-    }
-
-    .drawing-container .colourPicker {
-        border-radius: 0.5em;
-    }
+.drawing-container .firstLayer {
+    height: 10%;
 }
-
-@media screen and (min-width: 380px) and (max-width: 512px) and (max-aspect-ratio: 1/1) {
-    .drawing-container {
-        background-position: 80%;
-        background-size: auto 100%;
-    }
-    
-    .drawing-container .mouse_pointer {
-        height: 8vh;
-        width: auto;
-    }
-
-    .drawing-container #btnClearBackground {
-        font-size: 0.8em;
-    }
-
-    .drawing-container .firstLayer {
-        height: 6.5%;
-    }
-
-    .drawing-container .secondLayer {
-        height: 8.64%;
-    }
-
-    .drawing-container .thirdLayer {
-        height: 69%;
-    }
-
-    .drawing-container .fourthLayer {
-        height: 5%;
-        grid-template-columns: 8% 8% 8% 8% 8% 8% 1fr 45%;
-        gap: 1%;
-    }
-
-    .drawing-container .fifthLayer {
-        height: 8%;
-    }
-
-    .drawing-container .mouse_pointer {
-        height: 6vh;
-    }
-
-    .secondLayerInstructions .instructionsHeader {
-        font-size: 3em;
-    }
-    .secondLayerInstructions .instructionsTextBlock {
-        font-size: 1.7em;
-    }
-    .drawing-container #btnPlayGame {
-        font-size: 2em;
-        border-radius: 0.3em;
-    }
-
-    .drawing-container .colourPicker {
-        border-radius: 0.5em;
-    }
+.drawing-container .secondLayer {
+    height: 8.64%;
 }
-
-/* TABLETI I MANJI DESKTOPI - vertikalan */
-
-@media screen and (min-width: 512px) and (max-width: 720px) and (max-aspect-ratio: 1/1) {
-    .drawing-container {
-        background-position: 80%;
-        background-size: auto 100%;
-    }
-    
-    .drawing-container .mouse_pointer {
-        height: 8vh;
-        width: auto;
-    }
-
-    .drawing-container #btnClearBackground {
-        font-size: 1em;
-    }
-
-    .drawing-container .firstLayer {
-        height: 6.5%;
-    }
-
-    .drawing-container .secondLayer {
-        height: 8.64%;
-    }
-
-    .drawing-container .thirdLayer {
-        height: 69%;
-    }
-
-    .drawing-container .fourthLayer {
-        height: 5%;
-        grid-template-columns: 8% 8% 8% 8% 8% 8% 1fr 45%;
-        gap: 1%;
-    }
-
-    .drawing-container .fifthLayer {
-        height: 8%;
-    }
-
-    .drawing-container .mouse_pointer {
-        height: 6vh;
-    }
-
-    .secondLayerInstructions .instructionsHeader {
-        font-size: 3.3em;
-    }
-    .secondLayerInstructions .instructionsTextBlock {
-        font-size: 1.8em;
-    }
-    .drawing-container #btnPlayGame {
-        font-size: 2em;
-        border-radius: 0.3em;
-    }
-
-    .drawing-container .colourPicker {
-        border-radius: 0.5em;
-    }
+.drawing-container .thirdLayer {
+    height: 69%;
 }
-
-@media screen and (min-width: 720px) and (max-width: 1920px) and (max-aspect-ratio: 1/1){
-    .drawing-container {
-        background-position: 80%;
-        background-size: auto 100%;
-    }
-    
-    .drawing-container .mouse_pointer {
-        height: 8vh;
-        width: auto;
-    }
-
-    .drawing-container #btnClearBackground {
-        font-size: 1.4em;
-    }
-
-    .drawing-container .firstLayer {
-        height: 6.5%;
-    }
-
-    .drawing-container .secondLayer {
-        height: 8.64%;
-    }
-
-    .drawing-container .thirdLayer {
-        height: 69%;
-    }
-
-    .drawing-container .fourthLayer {
-        height: 5%;
-        grid-template-columns: 8% 8% 8% 8% 8% 8% 1fr 45%;
-        gap: 1%;
-    }
-
-    .drawing-container .fifthLayer {
-        height: 8%;
-    }
-
-    .drawing-container .mouse_pointer {
-        height: 6vh;
-    }
-
-    .secondLayerInstructions .instructionsHeader {
-        font-size: 5em;
-    }
-    .secondLayerInstructions .instructionsTextBlock {
-        font-size: 2.7em;
-    }
-    .drawing-container #btnPlayGame {
-        font-size: 2em;
-        border-radius: 0.3em;
-    }
-
-    .drawing-container .colourPicker {
-        border-radius: 0.5em;
-    }
-}
-
-/* TV - vertikalan */
-@media screen and (min-width: 1920px) and (max-aspect-ratio: 1/1) {
-    .drawing-container {
-        background-position: 80%;
-        background-size: auto 100%;
-    }
-    .drawing-container .mouse_pointer {
-        height: 8vh;
-        width: auto;
-    }
-    .drawing-container .firstLayer {
-        height: 6.5%;
-    }
-    .drawing-container .secondLayer {
-        height: 8.64%;
-    }
-    .drawing-container .thirdLayer {
-        height: 69%;
-    }
-    .drawing-container .textStyle {
-        font-size: 3.5em;
-    }
-    .drawing-container .fourthLayer {
-        height: 5%;
-        grid-template-columns: 8% 8% 8% 8% 8% 8% 1fr 45%;
-        gap: 1%;
-    }
-    .secondLayerInstructions .instructionsHeader {
-        font-size: 16em;
-    }
-    .secondLayerInstructions .instructionsTextBlock {
-        font-size: 8em;
-    }
-    .drawing-container .colourPicker {
-        border-radius: 2.5em;
-    }
+.drawing-container .fourthLayer {
+    height: 5%;
+    grid-template-columns: 8% 8% 8% 8% 8% 8% 1fr 45%;
+    gap: 1%;
 }

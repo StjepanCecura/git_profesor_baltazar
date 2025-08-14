@@ -22,17 +22,19 @@ export default class StartMenuScene extends BaseScene {
     
     await this.assets.loadImage('crtanjeLogo','/pictures/drawingGame/icon.webp');
     await this.assets.loadImage('KSPLogo','/pictures/kspGame/icon.webp');
-    await this.assets.loadImage('memoryLogo','/pictures/memoryGame/icon.webp');
+    await this.assets.loadImage('pamtilicaLogo','/pictures/pamtilicaGame/icon.webp');
     await this.assets.loadImage('labyrinthLogo','/pictures/labyrinthGame/icon.webp');
-    await this.assets.loadImage('tictactoeLogo','/pictures/tictactoeGame/krizic.webp');
-    await this.assets.loadImage('ninjafruitLogo','/pictures/ninjafruitGame/sword1.webp');
+    await this.assets.loadImage('tictactoeLogo','/pictures/tictactoeGame/baltazar.webp');
+    await this.assets.loadImage('sjekacVockiLogo','/pictures/sjekacVockiGame/sword1.webp');
+    //await this.assets.loadImage('letimirLogo','/pictures/letimirGame/Icon.png');
 
     this.games = [
-      { name: "X Memory X", logo: this.assets.images.get('memoryLogo').src, scene: "Memory" },
+      //{ name: "Letimir", logo: this.assets.images.get('letimirLogo').src, scene: "Letimir" },
       { name: "Crtanje", logo: this.assets.images.get('crtanjeLogo').src, scene: "Drawing" },
       { name: "Kamen papir škare", logo: this.assets.images.get('KSPLogo').src, scene: "KSP" },
       { name: "Križić-kružić", logo: this.assets.images.get('tictactoeLogo').src, scene: "TicTacToe" },
-      { name: "Ninja fruit", logo: this.assets.images.get('ninjafruitLogo').src, scene: "NinjaFruit" },
+      { name: "Sjekač voćki", logo: this.assets.images.get('sjekacVockiLogo').src, scene: "SjekacVocki" },
+      { name: "Pamtilica", logo: this.assets.images.get('pamtilicaLogo').src, scene: "Pamtilica" },
     ];
     this.sceneEntryTime = performance.now();
     this.lastFrameGestures = {};

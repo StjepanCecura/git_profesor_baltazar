@@ -49,15 +49,15 @@
 .ninja-fruit-button {
   background-color: #008782;
   color: white;
-  font-size: 8vw;
-  width: 50%;
+  font-size: 7vw;
   font-weight: bold;
-  padding: 0.2em;
-  margin: 1em auto 2em auto;
-  border-radius: 0.3em;
-  box-shadow: 3px 5px 5px rgba(0, 0, 0, 0.3);
+  padding: 1vh 4vh;
+  border-radius: 1.5vh;
+  box-shadow: 1vh 1vh 2.5vh rgba(0, 0, 0, 0.3);
   cursor: pointer;
   z-index: 2;
+  margin-bottom: 5vh;
+  width: 50%;
   position: relative;
 }
 
@@ -90,14 +90,16 @@
   position: absolute;
   top: 1%;
   left: 1%;
-  font-size: 4em;
-  padding: 1em 1em;
+  width: 30%;
+  font-size: 5vw;
+  padding: 1vw 1vw;
   background-color: #c00;
-  border-radius: 0.3em;
-  box-shadow: 3px 5px 5px rgba(0, 0, 0, 0.3);
+  border-radius: 1.5vw;
+  box-shadow: 3vw 5vw 5vw rgba(0, 0, 0, 0.3);
   color: white;
   z-index: 2;
   border: none;
+  margin-bottom: 5vh;
 }
 
 .ninja-fruit-quit-button:hover {
@@ -107,8 +109,8 @@
 }
 
 .ninja-fruit-title {
-  font-size: 16em;
-  margin-top: 2em;
+  font-size: 15vw;
+  margin-top: 15vh;
   text-shadow: 0 0 0.2em #000;
   color: #fff;
   z-index: 2;
@@ -121,8 +123,8 @@
   color: white;
   z-index: 2;
   position: relative;
-  margin-top: 1em;
-  text-shadow: 0 0 0.2em #000;
+  margin-top: 15vh;
+  text-shadow: 0 0 0.2vw #000;
 }
 
 .ninja-fruit-game-over-title {
@@ -131,7 +133,7 @@
   z-index: 2;
   position: relative;
   text-align: center;
-  margin-top: 1.5em;
+  margin-top: 5vh;
 }
 
 .ninja-fruit-play-again-text {
@@ -148,32 +150,30 @@
   font-size:6vw;
   text-align: center;
   margin-bottom: 0%;
-  margin-top: 0.2em;
+  margin-top: 0.2vh;
   max-width: 80%;
   z-index: 2;
   position: relative;
-  text-shadow: 0 0 0.2em #000;
+  text-shadow: 0 0 0.2vw #000;
   font-weight: bold;
 }
 
-/* Score display */
 .ninja-fruit-score {
   position: absolute;
   top: 2%;
   right: 2%;
-  font-size: 4em;
+  font-size: 4vw;
   color: black;
   z-index: 99;
 }
 
-/* Game stats container */
 .ninja-fruit-stats {
   position: relative;
-  top: 2em;
+  top: 2vh;
   text-align: center;
   color: white;
-  font-size: 4em;
-  margin-top: 2em;
+  font-size: 5vh;
+  margin-top: 2vh;
   margin-left: auto;
   margin-right: auto;
   z-index: 2;
@@ -188,7 +188,6 @@
   width: 100%;
 }
 
-/* Sword styles */
 .ninja-fruit-sword {
   position: absolute;
   width: 150px;
@@ -202,19 +201,19 @@
   transform: translate(-50%, -50%);
 }
 
-/* Fruit styles */
 .ninja-fruit-item {
   position: absolute;
   transition: transform 0.2s;
   z-index: 10;
   cursor: pointer;
+  width: 14vw;
+  height: auto;
 }
 
 .ninja-fruit-item:hover {
   transform: scale(1.1);
 }
 
-/* Bomb styles */
 .ninja-fruit-bomb {
   filter: drop-shadow(0 0 10px rgba(255, 0, 0, 0.5));
   animation: bomb-pulse 1s infinite alternate;
@@ -234,11 +233,12 @@
   }
 }
 
-/* Slice styles */
 .ninja-fruit-slice {
   position: absolute;
   z-index: 15;
   transition: transform 0.5s ease-out, opacity 1s ease-out;
+  width: 14vw;
+  height: auto;
 }
 
 .ninja-fruit-slice.left {
@@ -259,149 +259,6 @@
 
 .ninja-fruit-slice.fading {
   opacity: 0.7;
-}
-
-/* MOBITELI */
-@media screen and (max-width: 380px) and (max-aspect-ratio: 1/1) {
-  .ninja-fruit-title {
-    font-size: 3em;
-  }
-  .ninja-fruit-quit-button {
-    font-size: 1em;
-    border-radius: 0.3em;
-  }
-  .ninja-fruit-stats {
-    font-size: 2em;
-  }
-  .ninja-fruit-button {
-    font-size: 8vw;
-    margin: 1em auto 0.5em auto;
-  }
-  .ninja-fruit-score {
-    font-size: 1em;
-  }
-  .ninja-fruit-item {
-    width: 4em;
-    height: auto;
-  }
-  .ninja-fruit-slice {
-    width: 4em;
-    height: auto;
-  }
-}
-
-@media screen and (min-width: 380px) and (max-width: 512px) and (max-aspect-ratio: 1/1) {
-  .ninja-fruit-title {
-    font-size: 4em;
-  }
-  .ninja-fruit-quit-button {
-    font-size: 1.1em;
-    border-radius: 0.3em;
-  }
-  .ninja-fruit-stats {
-    font-size: 2em;
-  }
-  .ninja-fruit-button {
-    font-size: 8vw;
-    margin: 1em auto 0.5em auto;
-  }
-  .ninja-fruit-score {
-    font-size: 1em;
-  }
-  .ninja-fruit-item {
-    width: 4em;
-    height: auto;
-  }
-  .ninja-fruit-slice {
-    width: 4em;
-    height: auto;
-  }
-}
-
-/* TABLETI I MANJI DESKTOPI - vertikalan */
-@media screen and (min-width: 512px) and (max-width: 720px) and (max-aspect-ratio: 1/1) {
-  .ninja-fruit-title {
-    font-size: 5em;
-  }
-  .ninja-fruit-quit-button {
-    font-size: 1.4em;
-    border-radius: 1em;
-  }
-  .ninja-fruit-stats {
-    font-size: 3em;
-  }
-  .ninja-fruit-button {
-    font-size: 7vw;
-    margin: 1em auto 0.5em auto;
-  }
-  .ninja-fruit-score {
-    font-size: 1.4em;
-  }
-  .ninja-fruit-item {
-    width: 4em;
-    height: auto;
-  }
-  .ninja-fruit-slice {
-    width: 4em;
-    height: auto;
-  }
-}
-
-@media screen and (min-width: 720px) and (max-width: 1920px) and (max-aspect-ratio: 1/1) {
-  .ninja-fruit-title {
-    font-size: 5em;
-  }
-  .ninja-fruit-quit-button {
-    font-size: 1.8em;
-    border-radius: 1em;
-  }
-  .ninja-fruit-stats {
-    font-size: 3em;
-  }
-  .ninja-fruit-button {
-    font-size: 7vw;
-    margin: 1em auto 0.5em auto;
-  }
-  .ninja-fruit-score {
-    font-size: 2em;
-  }
-  .ninja-fruit-item {
-    width: 6em;
-    height: auto;
-  }
-  .ninja-fruit-slice {
-    width: 6em;
-    height: auto;
-  }
-}
-
-/* TV vertikalan */
-@media screen and (min-width: 1920px) and (max-aspect-ratio: 1/1) {
-  .ninja-fruit-title {
-    font-size: 18em;
-  }
-  .ninja-fruit-quit-button {
-    font-size: 5em;
-    border-radius: 1em;
-  }
-  .ninja-fruit-stats {
-    font-size: 7em;
-  }
-  .ninja-fruit-button {
-    font-size: 8vw;
-    margin: 1em auto 1em auto;
-  }
-  .ninja-fruit-score {
-    font-size: 5em;
-  }
-  .ninja-fruit-item {
-    width: 18em;
-    height: auto;
-  }
-  .ninja-fruit-slice {
-    width: 18em;
-    height: auto;
-  }
 }
 
 /* TABLETI I MANJI DESKTOPI: širina između 601px i 1024px */

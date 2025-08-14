@@ -21,27 +21,19 @@ h1 {
     text-shadow: 0.2em 0.2em 0.5em black;
 }
 
-.backBtn {
-    height: 10%;
-    background-color: transparent;
-    position: absolute;
-    top: 1%;
-    left: 1%;
-}
-
 #startScreen {
     background: linear-gradient(rgba(255, 255, 255, 0.15), rgba(36, 35, 35, 0.15)),
-        url("../pictures/kspGame/background_baltazar.png");
+        url("../pictures/kspGame/background_baltazar.webp");
 }
 
 #uputeScreen {
     background: linear-gradient(rgba(36, 35, 35, 0.8), rgba(36, 35, 35, 0.8)),
-        url("../pictures/kspGame/background_stroj.png");
+        url("../pictures/kspGame/background_stroj.webp");
 }
 
 #gameScreen {
     background: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)),
-        url("../pictures/kspGame/background_stroj.png");
+        url("../pictures/kspGame/background_stroj.webp");
 }
 
 #startScreen, #uputeScreen, #gameScreen {
@@ -69,7 +61,15 @@ h1 {
     font-size: clamp(1rem, 3vw, 6rem);
 }
 
-.memoryBtn {
+.backBtn {
+    height: 10%;
+    background-color: transparent;
+    position: absolute;
+    top: 1%;
+    left: 1%;
+}
+
+.pamtilicaBtn {
     background-color: #008782;
     border: 0;
     height: max-content;
@@ -78,14 +78,25 @@ h1 {
     text-align: center;
     text-shadow: none;
     cursor: none;
+    width: 50%;
     margin-bottom: 5%;
-    border-radius: 0.5em;
-    font-size: clamp(1rem, 4vw, 9rem);
-    padding: 0.5em 1em;
+    border-radius: 1.5vw;
+    font-size: clamp(1rem, 5vw, 9rem);
+    padding: 0.5vh 1vw;
 }
 
-.memoryBtn:hover {
+.pamtilicaBtn:hover {
     cursor: none;
+}
+
+.backBtn#btnGiveUp {
+    width: 30%;
+    font-size: clamp(1rem, 4.5vw, 9rem);
+    background-color: #008782;
+    position: absolute;
+    top: 1%;
+    left: 1%;
+    padding: 0.5vh 1vw;
 }
 
 .bottomRow {
@@ -105,11 +116,12 @@ h1 {
     color: white;
     height: 70%;
     align-items: center;
+    justify-content: flex-start;
 }
 
 .content > p {
-    width: 70%;
-    font-size: clamp(1rem, 5vw, 7em);
+    width: 80%;
+    font-size: clamp(1rem, 4.6vw, 7em);
     text-shadow: 0.2em 0.2em 0.5em black;
     text-align: center;
     font-family: Marhey;

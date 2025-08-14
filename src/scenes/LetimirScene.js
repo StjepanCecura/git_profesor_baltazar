@@ -51,80 +51,40 @@ export default class LetimirScene extends BaseScene {
     await this.assets.loadImage("cursor", "/pictures/starCatching/starCatchingCursor.webp");
     this.setFavicon("pictures/letimirGame/Icon.png");
 
-    
     this.sceneEl = document.createElement('div');
-    this.sceneEl.classList.add('container');
-    this.sceneEl.style.position = 'relative';
+    this.sceneEl.classList.add('letimir-container');
     this.sceneEl.style.backgroundImage = `url('${this.backgrounds[this.backgroundIndex]}')`;
-    this.sceneEl.style.backgroundSize = 'cover';
 
     this.styleEl = this.loadStyle("/css/Letimir.css");
 
     this.canvas = document.createElement('canvas');
-    this.canvas.style.position = 'absolute';
-    this.canvas.style.top = '0px';
-    this.canvas.style.left = '0px';
+    this.canvas.classList.add('letimir-canvas');
     this.ctx = this.canvas.getContext('2d');
     this.sceneEl.appendChild(this.canvas);
 
     this.scoreDisplay = document.createElement('div');
-    this.scoreDisplay.style.position = 'absolute';
-    this.scoreDisplay.style.top = '10px';
-    this.scoreDisplay.style.left = '10px';
-    this.scoreDisplay.style.color = 'white';
-    this.scoreDisplay.style.fontSize = '24px';
-    this.scoreDisplay.style.fontFamily = 'Arial, sans-serif';
-    this.scoreDisplay.style.zIndex = '2';
+    this.scoreDisplay.id = 'scoreDisplay';
     this.scoreDisplay.textContent = "Score: 0";
     this.sceneEl.appendChild(this.scoreDisplay);
 
     this.startScreen = document.createElement('div');
-    this.startScreen.style.position = 'absolute';
-    this.startScreen.style.top = '0px';
-    this.startScreen.style.left = '0px';
-    this.startScreen.style.background = 'rgba(0, 0, 0, 0.8)';
-    this.startScreen.style.display = 'flex';
-    this.startScreen.style.justifyContent = 'center';
-    this.startScreen.style.alignItems = 'center';
-    this.startScreen.style.zIndex = '3';
-    this.startScreen.style.width = '100%';
-    this.startScreen.style.height = '100%';
+    this.startScreen.id = 'startScreenOverlay';
 
     const startImg = document.createElement('img');
     startImg.src = '/pictures/letimirGame/img_45.png';
-    startImg.style.width = '100%';
-    startImg.style.height = '100%';
-    startImg.style.objectFit = 'cover';
-
-    startImg.style.opacity = '0';
-    startImg.style.transition = 'opacity 0.5s ease-in-out';
-
-    startImg.onload = () => {
-    startImg.style.opacity = '1';
-    };
+    startImg.classList.add('letimir-start-img');
+    startImg.onload = () => { startImg.style.opacity = '1'; };
 
     this.startScreen.appendChild(startImg);
     this.sceneEl.appendChild(this.startScreen);
 
     this.finalScoreMessage = document.createElement('div');
-    this.finalScoreMessage.style.position = 'absolute';
-    this.finalScoreMessage.style.bottom = '50px';
-    this.finalScoreMessage.style.left = '50%';
-    this.finalScoreMessage.style.transform = 'translateX(-50%)';
-    this.finalScoreMessage.style.color = 'white';
-    this.finalScoreMessage.style.fontSize = '20px';
-    this.finalScoreMessage.style.fontWeight = 'bold';
-    this.finalScoreMessage.style.fontFamily = 'Arial, sans-serif';
-    this.finalScoreMessage.style.display = 'none';
-    this.finalScoreMessage.style.zIndex = '4';
+    this.finalScoreMessage.id = 'finalScoreMessageOverlay';
     this.sceneEl.appendChild(this.finalScoreMessage);
 
     this.container.appendChild(this.sceneEl);
 
-    this.birdFrames = await Promise.all(
-      this.birdFramesSrc.map(src => this.loadImage(src))
-    );
-
+    this.birdFrames = await Promise.all(this.birdFramesSrc.map(src => this.loadImage(src)));
     this.pipeImg = await this.loadImage('/pictures/letimirGame/greenpipe.png');
 
     this.video = document.createElement('video');
@@ -161,7 +121,7 @@ export default class LetimirScene extends BaseScene {
     this.loop();
   }
 
-    setFavicon(iconURL) {
+  setFavicon(iconURL) {
     let link = document.querySelector("link[rel~='icon']");
     if (!link) {
       link = document.createElement("link");
@@ -192,11 +152,11 @@ export default class LetimirScene extends BaseScene {
 
     this.sceneEl.style.width = width + 'px';
     this.sceneEl.style.height = height + 'px';
-
     this.sceneEl.style.position = 'absolute';
     this.sceneEl.style.top = '50%';
     this.sceneEl.style.left = '50%';
     this.sceneEl.style.transform = 'translate(-50%, -50%)';
+
     this.createCustomCursor();
     this.createBackButton();
   }
@@ -207,22 +167,21 @@ export default class LetimirScene extends BaseScene {
   }
 
     resetGame() {
-        this.birdY = 300;
-        this.velocity = 0;
-        this.pipes = [];
-        this.score = 0;
-        this.frame = 0;
-        this.birdFrameIndex = 0;
-        this.backgroundIndex = 0;
-        this.sceneEl.style.backgroundImage = `url('${this.backgrounds[this.backgroundIndex]}')`;
-        this.scoreDisplay.textContent = "Score: 0";
-        this.finalScoreMessage.style.display = "none";
-        this.isGameRunning = true;
-
-        if (this.cursorEl) {
-            this.cursorEl.style.display = 'none';
-        }
+    this.birdY = 300;
+    this.velocity = 0;
+    this.pipes = [];
+    this.score = 0;
+    this.frame = 0;
+    this.birdFrameIndex = 0;
+    this.backgroundIndex = 0;
+    this.sceneEl.style.backgroundImage = `url('${this.backgrounds[this.backgroundIndex]}')`;
+    this.scoreDisplay.textContent = "Score: 0";
+    this.finalScoreMessage.style.display = "none";
+    this.isGameRunning = true;
+    if (this.cursorEl) {
+      this.cursorEl.style.display = 'none';
     }
+  }
 
     spawnPipe() {
     const margin = 50;
@@ -392,45 +351,32 @@ export default class LetimirScene extends BaseScene {
   createCustomCursor() {
     this.cursorEl = document.createElement("img");
     this.cursorEl.src = this.assets.images.get("cursor").src;
-    this.cursorEl.style.position = "absolute";
-    this.cursorEl.style.width = "250px";
-    this.cursorEl.style.height = "250px";
-    this.cursorEl.style.pointerEvents = "none";
-    this.cursorEl.style.zIndex = "1000";
+    this.cursorEl.id = "customCursor";
     document.body.appendChild(this.cursorEl);
 
     window.addEventListener("mousemove", (e) => {
-        this.cursorEl.style.left = e.pageX + "px";
-        this.cursorEl.style.top = e.pageY + "px";
+      this.cursorEl.style.left = e.pageX + "px";
+      this.cursorEl.style.top = e.pageY + "px";
     });
-}
+  }
 
-    createBackButton() {
+  createBackButton() {
     const backButton = document.createElement("button");
     backButton.id = "btnBack";
     backButton.innerHTML = `<img src="/pictures/backButton.webp" height="80"/>`;
-    backButton.style.position = "absolute";
-    backButton.style.top = "10px";
-    backButton.style.left = "10px";
-    backButton.style.zIndex = "1000";
-    backButton.style.border = "none";
-    backButton.style.background = "transparent";
-    backButton.style.cursor = "pointer";
-    backButton.style.transition = "filter 0.3s ease";
 
     backButton.addEventListener("click", () => this.manager.switch('StartMenu'));
 
     backButton.addEventListener("mouseenter", () => {
-        backButton.style.filter = "brightness(1.2)";
-        this.manager.switch('StartMenu');
+      backButton.classList.add("hover");
     });
 
     backButton.addEventListener("mouseleave", () => {
-        backButton.style.filter = "brightness(1)";
+      backButton.classList.remove("hover");
     });
 
     document.body.appendChild(backButton);
-}
+  }
 
     moveCursorWithFinger(landmarks) {
         const indexFinger = landmarks[8];

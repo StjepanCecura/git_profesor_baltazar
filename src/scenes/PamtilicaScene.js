@@ -1,6 +1,6 @@
 import BaseScene from "@engine/BaseScene.js";
 
-export default class MemoryGameScene extends BaseScene {
+export default class PamtilicaGameScene extends BaseScene {
   constructor(params) {
     super(params);
     this.container = document.getElementById("gameContainer");
@@ -34,20 +34,20 @@ export default class MemoryGameScene extends BaseScene {
       "background_title",
     ];
     for (const name of assetImages) {
-      await this.assets.loadImage(name, `/pictures/memoryGame/${name}.png`);
+      await this.assets.loadImage(name, `/pictures/pamtilicaGame/${name}.webp`);
     }
     for (let i = 1; i <= 6; i++) {
       await this.assets.loadImage(
-        `mem-card${i}`,
-        `/pictures/memoryGame/memory-card${i}.png`
+        `pamtilica-card${i}`,
+        `/pictures/pamtilicaGame/pamtilica-card${i}.webp`
       );
     }
     await this.assets.loadImage(
-      "mem-card-back",
-      "/pictures/memoryGame/memory-card-back.png"
+      "pamtilica-card-back",
+      "/pictures/pamtilicaGame/pamtilica-card-back.webp"
     );
 
-    this.styleEl = this.loadStyle("/css/Memory.css");
+    this.styleEl = this.loadStyle("/css/Pamtilica.css");
 
     this.sceneEl = document.createElement("div");
     this.sceneEl.classList.add("container");
@@ -92,7 +92,7 @@ export default class MemoryGameScene extends BaseScene {
   setupCards() {
     const cardTypes = [];
     for (let i = 1; i <= 6; i++) {
-      cardTypes.push(`mem-card${i}`);
+      cardTypes.push(`pamtilica-card${i}`);
     }
 
     const allCards = [...cardTypes, ...cardTypes];
@@ -184,10 +184,10 @@ export default class MemoryGameScene extends BaseScene {
         <img src="${this.assets.images.get("backButton").src}" height="100%"/>
       </button>
       <div class="titleRow">
-        <h1>Memory</h1>
+        <h1>Pamtilica</h1>
       </div>
       <div class="bottomRow">
-          <button id="btnNewGame" class="memoryBtn">Nova Igra</button>
+          <button id="btnNewGame" class="pamtilicaBtn">Nova Igra</button>
       </div>
     </div>
     `;
@@ -222,7 +222,7 @@ export default class MemoryGameScene extends BaseScene {
         </p>
       </div>
       <div class="bottomRow">
-        <button class="memoryBtn" id="btnStart">Igraj</button>
+        <button class="pamtilicaBtn" id="btnStart">Igraj</button>
       </div>
     </div>`;
 
@@ -251,7 +251,7 @@ export default class MemoryGameScene extends BaseScene {
         <img src="${
           card.flipped || card.matched
             ? this.assets.images.get(card.type).src
-            : this.assets.images.get("mem-card-back").src
+            : this.assets.images.get("pamtilica-card-back").src
         }"/>
       </div>`
       )
@@ -259,7 +259,7 @@ export default class MemoryGameScene extends BaseScene {
 
     this.sceneEl.innerHTML = `
     <div id="gameScreen">
-      <button class="btn backBtn memoryBtn" id="btnGiveUp">
+      <button class="btn backBtn pamtilicaBtn" id="btnGiveUp">
         Odustani
       </button>
       <div class="titleRow">
@@ -300,8 +300,8 @@ export default class MemoryGameScene extends BaseScene {
         </p>
       </div>
       <div class="bottomRow">
-        <button class="memoryBtn" id="btnRestart">Nova igra</button>
-        <button class="memoryBtn" id="btnMainMenu">Izbornik</button>
+        <button class="pamtilicaBtn" id="btnRestart">Nova igra</button>
+        <button class="pamtilicaBtn" id="btnMainMenu">Izbornik</button>
       </div>
     </div>
     `;
@@ -318,8 +318,8 @@ export default class MemoryGameScene extends BaseScene {
         </p>
       </div>
       <div class="bottomRow">
-        <button class="memoryBtn" id="btnRestart">Nova igra</button> <br>
-        <button class="memoryBtn" id="btnMainMenu">Izbornik</button>
+        <button class="pamtilicaBtn" id="btnRestart">Nova igra</button> <br>
+        <button class="pamtilicaBtn" id="btnMainMenu">Izbornik</button>
       </div>
     </div>
     `;
