@@ -81,17 +81,6 @@ export default class VideoPlayerScene extends BaseScene {
 
 		var interacted = false;
 
-		predictions.forEach((pred) => {
-			const { gesture, x, y, i } = pred;
-
-			if (gesture === "Thumb_Up") {
-				if (!interacted) {
-					interacted = true;
-					this.scrollUp();
-				}
-			}
-		});
-
 		if (interacted) {
 			this.sceneEntryTime = performance.now();
 		}
