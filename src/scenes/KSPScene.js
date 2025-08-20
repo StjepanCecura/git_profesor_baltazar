@@ -1,175 +1,180 @@
 import BaseScene from "@engine/BaseScene.js";
+import Utils from "@engine/Utils.js";
 
 export default class KSPScene extends BaseScene {
-  constructor(params) {
-    super(params);
-    this.container = document.getElementById("gameContainer");
-    this.currentScreen = "start";
+	constructor(params) {
+		super(params);
+		this.container = document.getElementById("gameContainer");
+		this.currentScreen = "start";
 
-    this.handleMove = this.handleMove.bind(this);
-    this.handleClick = this.handleClick.bind(this);
-    this.updateFrameCount = this.updateFrameCount.bind(this);
+		this.handleMove = this.handleMove.bind(this);
+		this.handleClick = this.handleClick.bind(this);
+		this.updateFrameCount = this.updateFrameCount.bind(this);
 
-    this.round = 1;
-    this.playerWins = 0;
-    this.botWins = 0;
-    this.botChoice = null;
-    this.currentPlayerGesture = null;
-    this.sceneEl = null;
-    this.gameResult = 0;
-    this.roundResult = null;
-    this.roundState = "countdown";
-    this.countdownTime = 3;
-    this.countdownInterval = null;
-    this.gameOver = 0;
-  }
+		this.round = 1;
+		this.playerWins = 0;
+		this.botWins = 0;
+		this.botChoice = null;
+		this.currentPlayerGesture = null;
+		this.sceneEl = null;
+		this.gameResult = 0;
+		this.roundResult = null;
+		this.roundState = "countdown";
+		this.countdownTime = 3;
+		this.countdownInterval = null;
+		this.gameOver = 0;
+	}
 
-  async init() {
-    await this.assets.loadImage("backButton", "/pictures/backButton.webp");
-    await this.assets.loadImage(
-      "cursor",
-      "/pictures/starCatching/starCatchingCursor.webp"
-    );
+	async init() {
+		await this.assets.loadImage("backButton", "/pictures/backButton.webp");
+		await this.assets.loadImage(
+			"cursor",
+			"/pictures/starCatching/starCatchingCursor.webp"
+		);
 
-    const assetImages = [
-      "background_baltazar",
-      "background_stroj",
-      "ksp-kamen",
-      "ksp-papir",
-      "ksp-skare",
-    ];
-    for (const name of assetImages) {
-      await this.assets.loadImage(name, `/pictures/kspGame/${name}.webp`);
-    }
+		const assetImages = [
+			"background_baltazar",
+			"background_stroj",
+			"ksp-kamen",
+			"ksp-papir",
+			"ksp-skare",
+		];
+		for (const name of assetImages) {
+			await this.assets.loadImage(name, `/pictures/kspGame/${name}.webp`);
+		}
 
-    this.styleEl = this.loadStyle("/css/KSP.css");
+		this.styleEl = this.loadStyle("/css/KSP.css");
 
-    this.sceneEl = document.createElement("div");
-    this.sceneEl.classList.add("container");
-    this.render();
+		this.sceneEl = document.createElement("div");
+		this.sceneEl.classList.add("container");
+		this.render();
 
-    this.input.on("move", this.handleMove);
-    this.input.on("click", this.handleClick);
-    this.input.on("frameCount", this.updateFrameCount);
-  }
+		this.input.on("move", this.handleMove);
+		this.input.on("click", this.handleClick);
+		this.input.on("frameCount", this.updateFrameCount);
+	}
 
-  startNewGame() {
-    this.round = 1;
-    this.playerWins = 0;
-    this.botWins = 0;
-    this.currentPlayerGesture = null;
-    this.roundResult = null;
-    this.roundState = "countdown";
-    this.gameOver = 0;
+	startNewGame() {
+		this.round = 1;
+		this.playerWins = 0;
+		this.botWins = 0;
+		this.currentPlayerGesture = null;
+		this.roundResult = null;
+		this.roundState = "countdown";
+		this.gameOver = 0;
 
-    this.currentScreen = "game";
-    this.startNextRound();
-  }
+		this.currentScreen = "game";
+		this.startNextRound();
+	}
 
-  startNextRound() {
-    this.roundState = "countdown";
-    this.currentPlayerGesture = null;
-    this.roundResult = null;
-    this.countdownTime = 3;
+	startNextRound() {
+		this.roundState = "countdown";
+		this.currentPlayerGesture = null;
+		this.roundResult = null;
+		this.countdownTime = 3;
 
-    this.renderGameplayScreen();
+		this.renderGameplayScreen();
 
-    this.countdownInterval = setInterval(() => {
-      this.countdownTime--;
-      this.renderGameplayScreen();
+		this.countdownInterval = setInterval(() => {
+			this.countdownTime--;
+			this.renderGameplayScreen();
 
-      if (this.countdownTime <= 0) {
-        clearInterval(this.countdownInterval);
-        this.roundState = "waiting";
-        this.renderGameplayScreen();
-      }
-    }, 1000);
-  }
+			if (this.countdownTime <= 0) {
+				clearInterval(this.countdownInterval);
+				this.roundState = "waiting";
+				this.renderGameplayScreen();
+			}
+		}, 1000);
+	}
 
-  handleGesture({ gesture }) {
-    if (this.roundState !== "waiting") return;
-    const validGestures = {
-      Closed_Fist: "kamen",
-      Open_Palm: "papir",
-      Victory: "skare",
-    };
+	handleGesture({ gesture }) {
+		if (this.roundState !== "waiting") return;
+		const validGestures = {
+			Closed_Fist: "kamen",
+			Open_Palm: "papir",
+			Victory: "skare",
+		};
 
-    if (!validGestures[gesture]) return;
+		if (!validGestures[gesture]) return;
 
-    if (this.currentPlayerGesture) return;
+		if (this.currentPlayerGesture) return;
 
-    this.currentPlayerGesture = validGestures[gesture];
-    this.playComputerMove();
-  }
+		this.currentPlayerGesture = validGestures[gesture];
+		this.playComputerMove();
+	}
 
-  playComputerMove() {
-    const options = ["kamen", "papir", "skare"];
-    const botChoice = options[Math.floor(Math.random() * options.length)];
+	playComputerMove() {
+		const options = ["kamen", "papir", "skare"];
+		const botChoice = options[Math.floor(Math.random() * options.length)];
 
-    const winner = this.getWinner(this.currentPlayerGesture, botChoice);
+		const winner = this.getWinner(this.currentPlayerGesture, botChoice);
 
-    this.roundResult = {
-      player: this.currentPlayerGesture,
-      computer: botChoice,
-      winner,
-    };
-    if (this.playerWins === 3 || this.botWins === 3) {
-      this.gameResult = this.playerWins > this.botWins ? 1 : 0;
-      this.gameOver = 1;
-    }
-    this.roundState = "show_result";
-    this.renderGameplayScreen();
-  }
-  getWinner(player, computer) {
-    if (player === computer) return "draw";
-    if (
-      (player === "kamen" && computer === "skare") ||
-      (player === "skare" && computer === "papir") ||
-      (player === "papir" && computer === "kamen")
-    ) {
-      this.playerWins++;
-      return "player";
-    } else {
-      this.botWins++;
-      return "bot";
-    }
-  }
+		this.roundResult = {
+			player: this.currentPlayerGesture,
+			computer: botChoice,
+			winner,
+		};
+		if (this.playerWins === 3 || this.botWins === 3) {
+			this.gameResult = this.playerWins > this.botWins ? 1 : 0;
+			this.gameOver = 1;
+		}
+		this.roundState = "show_result";
+		this.renderGameplayScreen();
+	}
+	getWinner(player, computer) {
+		if (player === computer) return "draw";
+		if (
+			(player === "kamen" && computer === "skare") ||
+			(player === "skare" && computer === "papir") ||
+			(player === "papir" && computer === "kamen")
+		) {
+			this.playerWins++;
+			return "player";
+		} else {
+			this.botWins++;
+			return "bot";
+		}
+	}
 
-  update(dt) {}
+	update(dt) {
+		if (Utils.getVideoMode() && !Utils.getVideoPlaying()) {
+			this.manager.switch("VideoPlayer");
+			Utils.setVideoPlaying();
+		}
+	}
 
-  render() {
-    if (this.lastRenderedScreen === this.currentScreen) return;
-    this.lastRenderedScreen = this.currentScreen;
+	render() {
+		if (this.lastRenderedScreen === this.currentScreen) return;
+		this.lastRenderedScreen = this.currentScreen;
 
-    if (this.sceneEl) this.sceneEl.remove();
+		if (this.sceneEl) this.sceneEl.remove();
 
-    this.sceneEl = document.createElement("div");
-    this.sceneEl.classList.add("container");
-    this.container.innerHTML = '';
+		this.sceneEl = document.createElement("div");
+		this.sceneEl.classList.add("container");
+		this.container.innerHTML = "";
 
+		switch (this.currentScreen) {
+			case "start":
+				this.renderStartScreen();
+				break;
+			case "rules":
+				this.renderRulesScreen();
+				break;
+			case "game":
+				this.renderGameplayScreen();
+				break;
+			case "gameover":
+				this.renderGameOverScreen();
+				break;
+		}
+	}
 
-    switch (this.currentScreen) {
-      case "start":
-        this.renderStartScreen();
-        break;
-      case "rules":
-        this.renderRulesScreen();
-        break;
-      case "game":
-        this.renderGameplayScreen();
-        break;
-      case "gameover":
-        this.renderGameOverScreen();
-        break;
-    }
-  }
+	async renderStartScreen() {
+		await this.waitForImage("backButton");
 
-  async renderStartScreen() {
-    await this.waitForImage('backButton');
-
-    this.sceneEl.innerHTML = `<div id="startScreen">
+		this.sceneEl.innerHTML = `<div id="startScreen">
       <button class="btn backBtn" id="btnBack">
-        <img src="${this.assets.images.get('backButton').src}" height="100%"/>
+        <img src="${this.assets.images.get("backButton").src}" height="100%"/>
       </button>
       <div class="titleRow">
         <h1>Kamen<br>Škare papir</h1>
@@ -180,23 +185,23 @@ export default class KSPScene extends BaseScene {
     </div>
     `;
 
-    this.container.appendChild(this.sceneEl);
+		this.container.appendChild(this.sceneEl);
 
-    this.sceneEl.querySelector("#btnNewGame").addEventListener("click", () => {
-      this.currentScreen = "rules";
-      this.render();
-    });
+		this.sceneEl.querySelector("#btnNewGame").addEventListener("click", () => {
+			this.currentScreen = "rules";
+			this.render();
+		});
 
-    this.btnBack = this.sceneEl.querySelector("#btnBack");
-    this.sceneEl.querySelector("#btnBack").addEventListener("click", () => {
-      this.manager.switch("StartMenu");
-    });
-  }
+		this.btnBack = this.sceneEl.querySelector("#btnBack");
+		this.sceneEl.querySelector("#btnBack").addEventListener("click", () => {
+			this.manager.switch("StartMenu");
+		});
+	}
 
-  async renderRulesScreen() {
-    await this.waitForImage('backButton');
-    
-    this.sceneEl.innerHTML = `
+	async renderRulesScreen() {
+		await this.waitForImage("backButton");
+
+		this.sceneEl.innerHTML = `
     <div id="uputeScreen">
       <button class="btn backBtn" id="btnBack">
         <img src="${this.assets.images.get("backButton").src}" height="100%"/>
@@ -216,65 +221,64 @@ export default class KSPScene extends BaseScene {
       </div>
     </div>`;
 
-    this.container.appendChild(this.sceneEl);
+		this.container.appendChild(this.sceneEl);
 
-    this.sceneEl.querySelector("#btnStart").addEventListener("click", () => {
-      this.startNewGame();
-    });
+		this.sceneEl.querySelector("#btnStart").addEventListener("click", () => {
+			this.startNewGame();
+		});
 
-    this.sceneEl.querySelector("#btnBack").addEventListener("click", () => {
-      this.currentScreen = "start";
-      this.render();
-    });
-  }
+		this.sceneEl.querySelector("#btnBack").addEventListener("click", () => {
+			this.currentScreen = "start";
+			this.render();
+		});
+	}
 
-  renderGameplayScreen() {
-    if (this.sceneEl) this.sceneEl.remove();
-    this.sceneEl = document.createElement("div");
-    this.sceneEl.classList.add("container");
-    this.currentScreen = "game";
+	renderGameplayScreen() {
+		if (this.sceneEl) this.sceneEl.remove();
+		this.sceneEl = document.createElement("div");
+		this.sceneEl.classList.add("container");
+		this.currentScreen = "game";
 
-    let htmlState = "";
-    if (this.roundState === "show_result") {
-      const playerImg = this.assets.images.get(
-        `ksp-${this.roundResult.player}`
-      ).src;
-      const compImg = this.assets.images.get(
-        `ksp-${this.roundResult.computer}`
-      ).src;
-      const resultText =
-        this.roundResult.winner === "draw"
-          ? "NERIJEŠENO !"
-          : this.roundResult.winner === "player"
-          ? "POBJEDA!"
-          : "PORAZ!";
+		let htmlState = "";
+		if (this.roundState === "show_result") {
+			const playerImg = this.assets.images.get(
+				`ksp-${this.roundResult.player}`
+			).src;
+			const compImg = this.assets.images.get(
+				`ksp-${this.roundResult.computer}`
+			).src;
+			const resultText =
+				this.roundResult.winner === "draw"
+					? "NERIJEŠENO !"
+					: this.roundResult.winner === "player"
+					? "POBJEDA!"
+					: "PORAZ!";
 
-      htmlState += `<p class="gameText">Ti:</p>
+			htmlState += `<p class="gameText">Ti:</p>
         <img src="${playerImg}" class="gestureIcon" />
         <p class="resultText gameText">${resultText}</p> <br>
         <p class="gameText">Baltazorov stroj:</p>
         <img src="${compImg}" class="gestureIcon" />`;
 
-      if (this.gameOver === 0) {
-        htmlState += `
+			if (this.gameOver === 0) {
+				htmlState += `
         <button class="pamtilicaBtn" id="btnNextRound">Sljedeća runda</button>
       `;
-      }
-      if (this.gameOver === 1) {
-        htmlState += `
+			}
+			if (this.gameOver === 1) {
+				htmlState += `
         <button class="pamtilicaBtn" id="btnNextRound">Završi igru</button>
       `;
-      }
-    }
+			}
+		}
 
-    if (this.roundState === "countdown") {
-      htmlState += `<h1>${this.countdownTime}</h1>`;
-    }
-    else if (this.roundState === "waiting") {
-      htmlState += `<p>Prikaži ruku!</p>`;
-    }
+		if (this.roundState === "countdown") {
+			htmlState += `<h1>${this.countdownTime}</h1>`;
+		} else if (this.roundState === "waiting") {
+			htmlState += `<p>Prikaži ruku!</p>`;
+		}
 
-    this.sceneEl.innerHTML = `
+		this.sceneEl.innerHTML = `
     <div id="gameScreen">
       <button class="btn backBtn pamtilicaBtn" id="btnGiveUp">
         Odustani
@@ -289,35 +293,35 @@ export default class KSPScene extends BaseScene {
       <div class="content">${htmlState}</div>
     </div>
     `;
-    this.container.appendChild(this.sceneEl);
+		this.container.appendChild(this.sceneEl);
 
-    this.sceneEl.querySelector("#btnGiveUp").addEventListener("click", () => {
-      clearInterval(this.timerInterval);
-      this.currentScreen = "gameover";
-      this.gameResult = 0;
-      this.roundState = "waiting"
-      this.render();
-    });
+		this.sceneEl.querySelector("#btnGiveUp").addEventListener("click", () => {
+			clearInterval(this.timerInterval);
+			this.currentScreen = "gameover";
+			this.gameResult = 0;
+			this.roundState = "waiting";
+			this.render();
+		});
 
-    if (this.roundState === "show_result") {
-      this.sceneEl
-        .querySelector("#btnNextRound")
-        .addEventListener("click", () => {
-          if (this.gameOver === 1) {
-            this.currentScreen = "gameover";
-            this.render();
-          }
-          if (this.gameOver === 0) {
-            this.round++;
-            this.startNextRound();
-          }
-        });
-    }
-  }
+		if (this.roundState === "show_result") {
+			this.sceneEl
+				.querySelector("#btnNextRound")
+				.addEventListener("click", () => {
+					if (this.gameOver === 1) {
+						this.currentScreen = "gameover";
+						this.render();
+					}
+					if (this.gameOver === 0) {
+						this.round++;
+						this.startNextRound();
+					}
+				});
+		}
+	}
 
-  renderGameOverScreen() {
-    if (this.gameResult === 0) {
-      this.sceneEl.innerHTML = `
+	renderGameOverScreen() {
+		if (this.gameResult === 0) {
+			this.sceneEl.innerHTML = `
     <div id="uputeScreen">
       <div class="titleRow">
         <h1>Kraj</h1>
@@ -336,8 +340,8 @@ export default class KSPScene extends BaseScene {
       </div>
     </div>
     `;
-    } else {
-      this.sceneEl.innerHTML = `
+		} else {
+			this.sceneEl.innerHTML = `
    <div id="uputeScreen">
       <div class="titleRow">
         <h1>Kraj</h1>
@@ -354,58 +358,59 @@ export default class KSPScene extends BaseScene {
       </div>
     </div>
     `;
-    }
+		}
 
-    this.container.appendChild(this.sceneEl);
+		this.container.appendChild(this.sceneEl);
 
-    this.sceneEl.querySelector("#btnRestart").addEventListener("click", () => {
-      this.currentScreen = "start";
-      this.render();
-    });
+		this.sceneEl.querySelector("#btnRestart").addEventListener("click", () => {
+			this.currentScreen = "start";
+			this.render();
+		});
 
-    this.btnBack = this.sceneEl.querySelector("#btnMainMenu");
-    this.sceneEl.querySelector("#btnMainMenu").addEventListener("click", () => {
-      this.manager.switch("StartMenu");
-    });
-  }
+		this.btnBack = this.sceneEl.querySelector("#btnMainMenu");
+		this.sceneEl.querySelector("#btnMainMenu").addEventListener("click", () => {
+			this.manager.switch("StartMenu");
+		});
+	}
 
-  updateFrameCount() {
-    super.updateFrameCount();
-  }
+	updateFrameCount() {
+		super.updateFrameCount();
+	}
 
-  async destroy() {
-    if (this.countdownInterval) clearInterval(this.countdownInterval);
-    this.lastRenderedScreen = null;
-    this.input.off("move", this.handleMove);
-    this.input.off("click", this.handleClick);
-    this.sceneEl.remove();
-    this.container.innerHTML = '';
-    await super.destroy();
-  }
+	async destroy() {
+		if (this.countdownInterval) clearInterval(this.countdownInterval);
+		this.lastRenderedScreen = null;
+		this.removeStyle(this.styleEl);
+		this.input.off("move", this.handleMove);
+		this.input.off("click", this.handleClick);
+		this.sceneEl.remove();
+		this.container.innerHTML = "";
+		await super.destroy();
+	}
 
-  handleMove({ x, y, i, gesture }) {
-    this.updateCursor(x, y, i);
+	handleMove({ x, y, i, gesture }) {
+		this.updateCursor(x, y, i);
 
-    if (this.currentScreen === "game") {
-      if (
-        gesture === "Victory" ||
-        gesture === "Open_Palm" ||
-        gesture === "Closed_Fist"
-      ) {
-        this.handleGesture({ gesture });
-      }
-    }
-  }
+		if (this.currentScreen === "game") {
+			if (
+				gesture === "Victory" ||
+				gesture === "Open_Palm" ||
+				gesture === "Closed_Fist"
+			) {
+				this.handleGesture({ gesture });
+			}
+		}
+	}
 
-  handleClick({ x, y }) {
-    var el = document.elementFromPoint(
-      x * window.innerWidth,
-      y * window.innerHeight
-    );
+	handleClick({ x, y }) {
+		var el = document.elementFromPoint(
+			x * window.innerWidth,
+			y * window.innerHeight
+		);
 
-    if (!el) return;
-    if (!el.id && el.parentElement) el = el.parentElement;
+		if (!el) return;
+		if (!el.id && el.parentElement) el = el.parentElement;
 
-    if (el && el.tagName === "BUTTON") el.click();
-  }
+		if (el && el.tagName === "BUTTON") el.click();
+	}
 }

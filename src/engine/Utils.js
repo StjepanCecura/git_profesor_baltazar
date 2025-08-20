@@ -1,17 +1,40 @@
 export default class Utils {
-  static mapRange(value, inMin, inMax, outMin, outMax) {
-    return ((value - inMin) * (outMax - outMin)) / (inMax - inMin) + outMin;
-  }
+	static videoMode = false;
+	static videoPlaying = false;
 
-  static xCameraCoordinate (value) {
-    return (1 - value) > (5 / 16) ? ((1 - value) < (11 / 16) ? (1 - value - (5 / 16)) * (16 / 6) : 1) : 0;
-  }
+	static mapRange(value, inMin, inMax, outMin, outMax) {
+		return ((value - inMin) * (outMax - outMin)) / (inMax - inMin) + outMin;
+	}
 
-  static yCameraCoordinate (value) {
-    return (value) > (2 / 9) ? (value < (7 / 9) ? (value - (2 / 9)) * (9 / 4) : 1) : 0;
-  }
+	static xCameraCoordinate(value) {
+		return 1 - value > 5 / 16
+			? 1 - value < 11 / 16
+				? (1 - value - 5 / 16) * (16 / 6)
+				: 1
+			: 0;
+	}
 
-  static clamp(val, min, max) {
-    return Math.min(Math.max(val, min), max);
-  }
+	static yCameraCoordinate(value) {
+		return value > 2 / 9 ? (value < 7 / 9 ? (value - 2 / 9) * (9 / 4) : 1) : 0;
+	}
+
+	static clamp(val, min, max) {
+		return Math.min(Math.max(val, min), max);
+	}
+
+	static getVideoMode() {
+		return Utils.videoMode;
+	}
+
+	static setVideoMode() {
+		Utils.videoMode = !Utils.videoMode;
+	}
+
+	static getVideoPlaying() {
+		return Utils.videoPlaying;
+	}
+
+	static setVideoPlaying() {
+		Utils.videoPlaying = !Utils.videoPlaying;
+	}
 }

@@ -1,0 +1,134 @@
+@import url("/css/FontFamily/fontFamily.css");
+body,
+html {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    cursor: none;
+}
+.container {
+    width: 100%;
+    height: 100%;
+    display: block;
+    background-image: url("/pictures/fruitCollecting/fruitCollectingBackground.png");
+    background-size: 100% auto;
+    justify-content: center;
+    align-items: center;
+}
+.output_canvas {
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    height: 100%;
+    border: 0%;
+    background: url("/pictures/fruitCollecting/fruitCollectingGameBackground.png");
+    background-size: auto 100%;
+    background-position: 50%;
+    display: none;
+}
+.textStyle {
+    color: white;
+    font-family: Marhey;
+}
+.layer {
+    display: block;
+    width: 100%;
+}
+.firstLayer {
+    position: relative;
+    height: 6.5%;
+}
+.secondLayer {
+    height: 79.33%;
+    position: relative;
+    overflow: hidden;
+    width: 96%;
+    margin-left: 2%;
+    margin-right: 2%;
+}
+.thirdLayer {
+    height: 14.17%;
+}
+.mouse_pointer {
+    pointer-events: none;
+    position: absolute;
+    width: 20%;
+    height: auto;
+    z-index: 999;
+}
+.btn {
+    top: 10%;
+    border: 0cm;
+    cursor: none;
+    position: relative;
+}
+.btnGameButtons {
+    background-color: #203D69;
+    width: 40%;
+    left: 30%;
+    top: 10%;
+    font-size: 6em;
+    border-radius: 5px;
+    box-shadow: 3px 5px 5px rgba(0, 0, 0, 0.3);
+}
+#btnBack {
+    background-color: transparent;
+    left: 2%;
+    height: 80%;
+}
+#btnStartGame {
+    top: 20%;
+    height: 35%;
+}
+#btnNewGame{
+    visibility: hidden;
+    top: -20%;
+    height: 75%;
+    left: 10%;
+}
+#lblGameOver{
+    display: none;
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 990;
+}
+.lbl{
+    position: relative;
+    margin: auto;
+    width: 90%;
+    height: 100%;
+    align-content: center;
+    text-align: center;
+    font-weight: 600;
+}
+#lblCatchStars{
+    width: 50%;
+    font-size: 16em;    
+    text-shadow: 3px 5px 5px rgba(0, 0, 0, 0.3);
+}
+#lblScoreView{
+    visibility: hidden;
+    position: absolute;
+    top: 0%;
+    right: 2%;
+    height: 100%;
+    text-align: right;
+    width: 65%;
+    font-size: 6em; 
+    margin: 0;  
+    text-shadow: 3px 5px 5px rgba(0, 0, 0, 0.3);
+}
+.falling_fruits{
+    width: 9%;
+    height: auto;
+}
+#bomb{
+    width: 12%;
+}

@@ -1,0 +1,10 @@
+.video-player {
+    position: absolute;
+    top: 50%;
+    transform: translate(0%, -50%);
+    left: 0;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    z-index: 0;
+}

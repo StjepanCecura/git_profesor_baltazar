@@ -1,185 +1,191 @@
 import BaseScene from "@engine/BaseScene.js";
+import Utils from "@engine/Utils.js";
 
 export default class PamtilicaGameScene extends BaseScene {
-  constructor(params) {
-    super(params);
-    this.container = document.getElementById("gameContainer");
-    this.currentScreen = "start";
+	constructor(params) {
+		super(params);
+		this.container = document.getElementById("gameContainer");
+		this.currentScreen = "start";
 
-    this.handleMove = this.handleMove.bind(this);
-    this.handleClick = this.handleClick.bind(this);
-    this.updateFrameCount = this.updateFrameCount.bind(this);
+		this.handleMove = this.handleMove.bind(this);
+		this.handleClick = this.handleClick.bind(this);
+		this.updateFrameCount = this.updateFrameCount.bind(this);
 
-    this.cards = [];
-    this.flippedCards = [];
-    this.matchedCards = new Set();
+		this.cards = [];
+		this.flippedCards = [];
+		this.matchedCards = new Set();
 
-    this.score = 0;
-    this.timeLeft = 120;
-    this.gameResult = 0;
+		this.score = 0;
+		this.timeLeft = 120;
+		this.gameResult = 0;
 
-    this.timerInterval = null;
-  }
+		this.timerInterval = null;
+	}
 
-  async init() {
-    await this.assets.loadImage("backButton", "/pictures/backButton.webp");
-    await this.assets.loadImage(
-      "cursor",
-      "/pictures/starCatching/starCatchingCursor.webp"
-    );
+	async init() {
+		await this.assets.loadImage("backButton", "/pictures/backButton.webp");
+		await this.assets.loadImage(
+			"cursor",
+			"/pictures/starCatching/starCatchingCursor.webp"
+		);
 
-    const assetImages = [
-      "background_game",
-      "background_instructions",
-      "background_title",
-    ];
-    for (const name of assetImages) {
-      await this.assets.loadImage(name, `/pictures/pamtilicaGame/${name}.webp`);
-    }
-    for (let i = 1; i <= 6; i++) {
-      await this.assets.loadImage(
-        `pamtilica-card${i}`,
-        `/pictures/pamtilicaGame/pamtilica-card${i}.webp`
-      );
-    }
-    await this.assets.loadImage(
-      "pamtilica-card-back",
-      "/pictures/pamtilicaGame/pamtilica-card-back.webp"
-    );
+		const assetImages = [
+			"background_game",
+			"background_instructions",
+			"background_title",
+		];
+		for (const name of assetImages) {
+			await this.assets.loadImage(name, `/pictures/pamtilicaGame/${name}.webp`);
+		}
+		for (let i = 1; i <= 6; i++) {
+			await this.assets.loadImage(
+				`pamtilica-card${i}`,
+				`/pictures/pamtilicaGame/pamtilica-card${i}.webp`
+			);
+		}
+		await this.assets.loadImage(
+			"pamtilica-card-back",
+			"/pictures/pamtilicaGame/pamtilica-card-back.webp"
+		);
 
-    this.styleEl = this.loadStyle("/css/Pamtilica.css");
+		this.styleEl = this.loadStyle("/css/Pamtilica.css");
 
-    this.sceneEl = document.createElement("div");
-    this.sceneEl.classList.add("container");
-    this.render();
+		this.sceneEl = document.createElement("div");
+		this.sceneEl.classList.add("container");
+		this.render();
 
-    this.input.on("move", this.handleMove);
-    this.input.on("click", this.handleClick);
-    this.input.on("frameCount", this.updateFrameCount);
-  }
+		this.input.on("move", this.handleMove);
+		this.input.on("click", this.handleClick);
+		this.input.on("frameCount", this.updateFrameCount);
+	}
 
-  startNewGame() {
-    this.score = 0;
-    this.timeLeft = 120;
-    this.flippedCards = [];
-    this.matchedCards.clear();
+	startNewGame() {
+		this.score = 0;
+		this.timeLeft = 120;
+		this.flippedCards = [];
+		this.matchedCards.clear();
 
-    this.setupCards();
+		this.setupCards();
 
-    if (this.timerInterval) clearInterval(this.timerInterval);
-    this.timerInterval = setInterval(() => {
-      this.timeLeft--;
-      if (this.timeLeft <= 0) {
-        this.timeLeft = 0;
-        this.currentScreen = "gameover";
-        this.gameResult = 0;
-        clearInterval(this.timerInterval);
-      } else {
-        this.renderGameplayScreen();
-      }
-    }, 1000);
+		if (this.timerInterval) clearInterval(this.timerInterval);
+		this.timerInterval = setInterval(() => {
+			this.timeLeft--;
+			if (this.timeLeft <= 0) {
+				this.timeLeft = 0;
+				this.currentScreen = "gameover";
+				this.gameResult = 0;
+				clearInterval(this.timerInterval);
+			} else {
+				this.renderGameplayScreen();
+			}
+		}, 1000);
 
-    this.currentScreen = "game";
-    this.render();
-  }
-  formatTime(seconds) {
-    const mins = Math.floor(seconds / 60)
-      .toString()
-      .padStart(2, "0");
-    const secs = (seconds % 60).toString().padStart(2, "0");
-    return `${mins}:${secs}`;
-  }
-  setupCards() {
-    const cardTypes = [];
-    for (let i = 1; i <= 6; i++) {
-      cardTypes.push(`pamtilica-card${i}`);
-    }
+		this.currentScreen = "game";
+		this.render();
+	}
+	formatTime(seconds) {
+		const mins = Math.floor(seconds / 60)
+			.toString()
+			.padStart(2, "0");
+		const secs = (seconds % 60).toString().padStart(2, "0");
+		return `${mins}:${secs}`;
+	}
+	setupCards() {
+		const cardTypes = [];
+		for (let i = 1; i <= 6; i++) {
+			cardTypes.push(`pamtilica-card${i}`);
+		}
 
-    const allCards = [...cardTypes, ...cardTypes];
-    for (let i = allCards.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [allCards[i], allCards[j]] = [allCards[j], allCards[i]];
-    }
+		const allCards = [...cardTypes, ...cardTypes];
+		for (let i = allCards.length - 1; i > 0; i--) {
+			const j = Math.floor(Math.random() * (i + 1));
+			[allCards[i], allCards[j]] = [allCards[j], allCards[i]];
+		}
 
-    this.cards = allCards.map((type, index) => ({
-      id: index,
-      type,
-      flipped: false,
-      matched: false,
-    }));
-  }
+		this.cards = allCards.map((type, index) => ({
+			id: index,
+			type,
+			flipped: false,
+			matched: false,
+		}));
+	}
 
-  onCardClick(index) {
-    const card = this.cards[index];
+	onCardClick(index) {
+		const card = this.cards[index];
 
-    if (card.flipped || card.matched || this.flippedCards.length === 2) return;
+		if (card.flipped || card.matched || this.flippedCards.length === 2) return;
 
-    card.flipped = true;
-    this.flippedCards.push(card);
+		card.flipped = true;
+		this.flippedCards.push(card);
 
-    this.renderGameplayScreen();
+		this.renderGameplayScreen();
 
-    if (this.flippedCards.length === 2) {
-      setTimeout(() => this.checkMatch(), 800);
-    }
-  }
-  checkMatch() {
-    const [cardA, cardB] = this.flippedCards;
+		if (this.flippedCards.length === 2) {
+			setTimeout(() => this.checkMatch(), 800);
+		}
+	}
+	checkMatch() {
+		const [cardA, cardB] = this.flippedCards;
 
-    if (cardA.type === cardB.type) {
-      cardA.matched = true;
-      cardB.matched = true;
-      this.matchedCards.add(cardA.id);
-      this.matchedCards.add(cardB.id);
-      this.score += 10;
-    } else {
-      cardA.flipped = false;
-      cardB.flipped = false;
-    }
+		if (cardA.type === cardB.type) {
+			cardA.matched = true;
+			cardB.matched = true;
+			this.matchedCards.add(cardA.id);
+			this.matchedCards.add(cardB.id);
+			this.score += 10;
+		} else {
+			cardA.flipped = false;
+			cardB.flipped = false;
+		}
 
-    this.flippedCards = [];
-    this.renderGameplayScreen();
+		this.flippedCards = [];
+		this.renderGameplayScreen();
 
-    if (this.cards.every((c) => c.matched)) {
-      clearInterval(this.timerInterval);
-      this.gameResult = 1;
-      this.currentScreen = "gameover";
-      this.render();
-    }
-  }
+		if (this.cards.every((c) => c.matched)) {
+			clearInterval(this.timerInterval);
+			this.gameResult = 1;
+			this.currentScreen = "gameover";
+			this.render();
+		}
+	}
 
-  update(dt) {}
+	update(dt) {
+		if (Utils.getVideoMode() && !Utils.getVideoPlaying()) {
+			this.manager.switch("VideoPlayer");
+			Utils.setVideoPlaying();
+		}
+	}
 
-  render() {
-    if (this.lastRenderedScreen === this.currentScreen) return;
-    this.lastRenderedScreen = this.currentScreen;
+	render() {
+		if (this.lastRenderedScreen === this.currentScreen) return;
+		this.lastRenderedScreen = this.currentScreen;
 
-    if (this.sceneEl) this.sceneEl.remove();
+		if (this.sceneEl) this.sceneEl.remove();
 
-    this.sceneEl = document.createElement("div");
-    this.sceneEl.classList.add("container");
-    this.container.innerHTML = '';
+		this.sceneEl = document.createElement("div");
+		this.sceneEl.classList.add("container");
+		this.container.innerHTML = "";
 
-    switch (this.currentScreen) {
-      case "start":
-        this.renderStartScreen();
-        break;
-      case "rules":
-        this.renderRulesScreen();
-        break;
-      case "game":
-        this.renderGameplayScreen();
-        break;
-      case "gameover":
-        this.renderGameOverScreen();
-        break;
-    }
-  }
+		switch (this.currentScreen) {
+			case "start":
+				this.renderStartScreen();
+				break;
+			case "rules":
+				this.renderRulesScreen();
+				break;
+			case "game":
+				this.renderGameplayScreen();
+				break;
+			case "gameover":
+				this.renderGameOverScreen();
+				break;
+		}
+	}
 
-  async renderStartScreen() {
-    await this.waitForImage('backButton');
+	async renderStartScreen() {
+		await this.waitForImage("backButton");
 
-    this.sceneEl.innerHTML = `<div id="startScreen">
+		this.sceneEl.innerHTML = `<div id="startScreen">
       <button class="btn backBtn" id="btnBack">
         <img src="${this.assets.images.get("backButton").src}" height="100%"/>
       </button>
@@ -192,21 +198,21 @@ export default class PamtilicaGameScene extends BaseScene {
     </div>
     `;
 
-    this.container.appendChild(this.sceneEl);
+		this.container.appendChild(this.sceneEl);
 
-    this.sceneEl.querySelector("#btnNewGame").addEventListener("click", () => {
-      this.currentScreen = "rules";
-      this.render();
-    });
+		this.sceneEl.querySelector("#btnNewGame").addEventListener("click", () => {
+			this.currentScreen = "rules";
+			this.render();
+		});
 
-    this.btnBack = this.sceneEl.querySelector("#btnBack");
-    this.sceneEl.querySelector("#btnBack").addEventListener("click", () => {
-      this.manager.switch("StartMenu");
-    });
-  }
+		this.btnBack = this.sceneEl.querySelector("#btnBack");
+		this.sceneEl.querySelector("#btnBack").addEventListener("click", () => {
+			this.manager.switch("StartMenu");
+		});
+	}
 
-  renderRulesScreen() {
-    this.sceneEl.innerHTML = `
+	renderRulesScreen() {
+		this.sceneEl.innerHTML = `
     <div id="uputeScreen">
       <button class="btn backBtn" id="btnBack">
         <img src="${this.assets.images.get("backButton").src}" height="100%"/>
@@ -226,67 +232,68 @@ export default class PamtilicaGameScene extends BaseScene {
       </div>
     </div>`;
 
-    this.container.appendChild(this.sceneEl);
+		this.container.appendChild(this.sceneEl);
 
-    this.sceneEl.querySelector("#btnStart").addEventListener("click", () => {
-      this.startNewGame();
-    });
+		this.sceneEl.querySelector("#btnStart").addEventListener("click", () => {
+			this.startNewGame();
+		});
 
-    this.sceneEl.querySelector("#btnBack").addEventListener("click", () => {
-      this.currentScreen = "start";
-      this.render();
-    });
-  }
+		this.sceneEl.querySelector("#btnBack").addEventListener("click", () => {
+			this.currentScreen = "start";
+			this.render();
+		});
+	}
 
-  renderGameplayScreen() {
+	renderGameplayScreen() {
+		if (this.sceneEl) this.sceneEl.remove();
+		this.sceneEl = document.createElement("div");
+		this.sceneEl.classList.add("container");
 
-    if (this.sceneEl) this.sceneEl.remove();
-    this.sceneEl = document.createElement("div");
-    this.sceneEl.classList.add("container");
-
-    let gridHTML = this.cards
-      .map(
-        (card) => `
+		let gridHTML = this.cards
+			.map(
+				(card) => `
       <div class="card" id="card" data-index="${card.id}">
         <img src="${
-          card.flipped || card.matched
-            ? this.assets.images.get(card.type).src
-            : this.assets.images.get("pamtilica-card-back").src
-        }"/>
+					card.flipped || card.matched
+						? this.assets.images.get(card.type).src
+						: this.assets.images.get("pamtilica-card-back").src
+				}"/>
       </div>`
-      )
-      .join("");
+			)
+			.join("");
 
-    this.sceneEl.innerHTML = `
+		this.sceneEl.innerHTML = `
     <div id="gameScreen">
       <button class="btn backBtn pamtilicaBtn" id="btnGiveUp">
         Odustani
       </button>
       <div class="titleRow">
-        <p>Rezultat: ${this.score}<br> Vrijeme: ${this.formatTime(this.timeLeft)}</p>
+        <p>Rezultat: ${this.score}<br> Vrijeme: ${this.formatTime(
+			this.timeLeft
+		)}</p>
       </div>
       <div class="card-grid">${gridHTML}</div>
     </div>`;
-    this.container.appendChild(this.sceneEl);
+		this.container.appendChild(this.sceneEl);
 
-    this.sceneEl.querySelector("#btnGiveUp").addEventListener("click", () => {
-      clearInterval(this.timerInterval);
-      this.currentScreen = "gameover";
-      this.gameResult = 0;
-      this.render();
-    });
+		this.sceneEl.querySelector("#btnGiveUp").addEventListener("click", () => {
+			clearInterval(this.timerInterval);
+			this.currentScreen = "gameover";
+			this.gameResult = 0;
+			this.render();
+		});
 
-    this.sceneEl.querySelectorAll(".card").forEach((cardEl) => {
-      cardEl.addEventListener("click", (e) => {
-        const index = parseInt(cardEl.getAttribute("data-index"));
-        this.onCardClick(index);
-      });
-    });
-  }
+		this.sceneEl.querySelectorAll(".card").forEach((cardEl) => {
+			cardEl.addEventListener("click", (e) => {
+				const index = parseInt(cardEl.getAttribute("data-index"));
+				this.onCardClick(index);
+			});
+		});
+	}
 
-  renderGameOverScreen() {
-    if (this.gameResult === 0) {
-      this.sceneEl.innerHTML = `
+	renderGameOverScreen() {
+		if (this.gameResult === 0) {
+			this.sceneEl.innerHTML = `
     <div id="overScreen">
       <div class="titleRow">
         <h1>Kraj</h1>
@@ -305,8 +312,8 @@ export default class PamtilicaGameScene extends BaseScene {
       </div>
     </div>
     `;
-    } else {
-      this.sceneEl.innerHTML = `
+		} else {
+			this.sceneEl.innerHTML = `
    <div id="overScreen">
       <div class="titleRow">
         <h1>Kraj</h1>
@@ -323,56 +330,56 @@ export default class PamtilicaGameScene extends BaseScene {
       </div>
     </div>
     `;
-    }
+		}
 
-    this.container.appendChild(this.sceneEl);
+		this.container.appendChild(this.sceneEl);
 
-    this.sceneEl.querySelector("#btnRestart").addEventListener("click", () => {
-      this.currentScreen = "start";
-      this.render();
-    });
+		this.sceneEl.querySelector("#btnRestart").addEventListener("click", () => {
+			this.currentScreen = "start";
+			this.render();
+		});
 
-    this.btnBack = this.sceneEl.querySelector("#btnMainMenu");
-    this.sceneEl.querySelector("#btnMainMenu").addEventListener("click", () => {
-      this.manager.switch("StartMenu");
-    });
-  }
+		this.btnBack = this.sceneEl.querySelector("#btnMainMenu");
+		this.sceneEl.querySelector("#btnMainMenu").addEventListener("click", () => {
+			this.manager.switch("StartMenu");
+		});
+	}
 
-  updateFrameCount() {
-    super.updateFrameCount();
-  }
+	updateFrameCount() {
+		super.updateFrameCount();
+	}
 
-  async destroy() {
-    if (this.timerInterval) clearInterval(this.timerInterval);
-    this.lastRenderedScreen = null;
-    this.input.off("move", this.handleMove);
-    this.input.off("click", this.handleClick);
-    this.sceneEl.remove();
-    this.container.innerHTML = '';
-    await super.destroy();
-  }
+	async destroy() {
+		if (this.timerInterval) clearInterval(this.timerInterval);
+		this.lastRenderedScreen = null;
+		this.removeStyle(this.styleEl);
+		this.input.off("move", this.handleMove);
+		this.input.off("click", this.handleClick);
+		this.sceneEl.remove();
+		this.container.innerHTML = "";
+		await super.destroy();
+	}
 
-  handleMove({ x, y, i }) {
-    this.updateCursor(x, y, i);
-  }
+	handleMove({ x, y, i }) {
+		this.updateCursor(x, y, i);
+	}
 
-  handleClick({ x, y }) {
-    var el = document.elementFromPoint(
-      x * window.innerWidth,
-      y * window.innerHeight
-    );
-    if (!el) return;
-    if (!el.id && el.parentElement) el = el.parentElement;
+	handleClick({ x, y }) {
+		var el = document.elementFromPoint(
+			x * window.innerWidth,
+			y * window.innerHeight
+		);
+		if (!el) return;
+		if (!el.id && el.parentElement) el = el.parentElement;
 
-    if (el && el.tagName === "BUTTON") el.click();
+		if (el && el.tagName === "BUTTON") el.click();
 
-    const cardEl = el.closest(".card");
-    if (cardEl) {
-      const index = parseInt(cardEl.getAttribute("data-index"));
-      if (!isNaN(index)) {
-        this.onCardClick(index);
-      }
-    }
-  }
+		const cardEl = el.closest(".card");
+		if (cardEl) {
+			const index = parseInt(cardEl.getAttribute("data-index"));
+			if (!isNaN(index)) {
+				this.onCardClick(index);
+			}
+		}
+	}
 }
-
