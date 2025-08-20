@@ -31,7 +31,7 @@ export default class InputManager {
 
 		this.lostHands = new Map();
 		this.inputInactive = 0;
-		this.inactivityTimeOut = 3 * 60 * 1000;
+		this.inactivityTimeOut = 1 * 60 * 1000;
 	}
 
 	async init() {
