@@ -93,7 +93,7 @@ export default class EnigmaScene extends BaseScene {
         <button class="btn" id="btnBack">${this.assets.images.get("backButton") ? `<img src="${this.assets.images.get("backButton").src}" height="100%"/>` : "Back"}</button>
       </div>
       <div class="secondLayer layer">
-        <h1 class="textStyle enigma-title">Enigma Pi</h1>
+        <h1 class="textStyle enigma-title">Enigma</h1>
       </div>
       <div class="thirdLayer layer">
         <button class="textStyle btn enigma-menu-button" id="btnMachine">Open Machine</button>
