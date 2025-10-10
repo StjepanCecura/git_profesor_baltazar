@@ -13,11 +13,14 @@ export default class EnigmaScene extends BaseScene {
       II: { wiring: "AJDKSIRUXBLHWTMCQGZNPYFVOE", notch: "E" },
       III: { wiring: "BDFHJLCPRTXVZNYEIWGAKMUSQO", notch: "V" },
       IV: { wiring: "ESOVPZJAYQUIRHXLNFTGKDCMWB", notch: "J" },
-      V: { wiring: "VZBRGITYUPSDNHLXAWMJQOFECK", notch: "Z" }
+      V: { wiring: "VZBRGITYUPSDNHLXAWMJQOFECK", notch: "Z" },
     };
+    // keep an ordered list of rotor names for cycling left/right
+    this.ROTOR_ORDER = Object.keys(this.ROTORS);
+
     this.REFLECTORS = {
       B: "YRUHQSLDPXNGOKMIEBFZCWVJAT",
-      C: "FVPJIAOYEDRZXWGCTKUQSBNMHL"
+      C: "FVPJIAOYEDRZXWGCTKUQSBNMHL",
     };
 
     // runtime state
@@ -25,11 +28,11 @@ export default class EnigmaScene extends BaseScene {
       rotors: [
         { type: "I", ring: 0, pos: 0 },
         { type: "II", ring: 0, pos: 0 },
-        { type: "III", ring: 0, pos: 0 }
+        { type: "III", ring: 0, pos: 0 },
       ],
       reflector: Array.from(this.REFLECTORS["B"]),
       plugboard: {}, // e.g. { A: 'G', G: 'A' }
-      outputText: ""
+      outputText: "",
     };
 
     // UI refs
@@ -72,9 +75,15 @@ export default class EnigmaScene extends BaseScene {
   }
 
   // ---------- Utility ----------
-  idx(c) { return this.alphabet.indexOf(c); }
-  mod(n, m) { return ((n % m) + m) % m; }
-  wiringMapFromString(s) { return s.split("").map(c => this.idx(c)); }
+  idx(c) {
+    return this.alphabet.indexOf(c);
+  }
+  mod(n, m) {
+    return ((n % m) + m) % m;
+  }
+  wiringMapFromString(s) {
+    return s.split("").map((c) => this.idx(c));
+  }
 
   // ---------- Screen Creation ----------
   clearScreen() {
@@ -90,7 +99,13 @@ export default class EnigmaScene extends BaseScene {
     this.sceneEl.className = "container enigma-container";
     this.sceneEl.innerHTML = `
       <div class="firstLayer layer">
-        <button class="btn" id="btnBack">${this.assets.images.get("backButton") ? `<img src="${this.assets.images.get("backButton").src}" height="100%"/>` : "Back"}</button>
+        <button class="btn" id="btnBack">${
+          this.assets.images.get("backButton")
+            ? `<img src="${
+                this.assets.images.get("backButton").src
+              }" height="100%"/>`
+            : "Back"
+        }</button>
       </div>
       <div class="secondLayer layer">
         <h1 class="textStyle enigma-title">Enigma</h1>
@@ -122,36 +137,72 @@ export default class EnigmaScene extends BaseScene {
     this.sceneEl = document.createElement("div");
     this.sceneEl.className = "container enigma-settings-container";
     this.sceneEl.innerHTML = `
-      <div class="firstLayer layer">
-        <button class="btn" id="btnBack">Back</button>
-      </div>
-      <div class="secondLayerSettings layer">
-        <h1 class="textStyle enigma-settings-title">Settings</h1>
-        <div class="textStyle">
-          <label>Reflector:
-            <select id="reflectorSelect">
-              <option value="B">B</option>
-              <option value="C">C</option>
-            </select>
-          </label>
+    <button id="btnBack" class="btn enigma-back-button" aria-label="Back">
+      ${
+        this.assets.images.get
+          ? `<img src="${
+              (this.assets.images.get("backButton") || {}).src ||
+              "/pictures/backButton.webp"
+            }" alt="Back"/>`
+          : '<img src="/pictures/backButton.webp" alt="Back"/>'
+      }
+    </button>
+
+    <h1 class="enigma-settings-title">Settings</h1>
+
+    <div class="enigma-settings-panel">
+      <div class="enigma-setting-row">
+        <div class="enigma-setting-label">Reflector</div>
+        <div class="enigma-setting-control">
+          <select id="reflectorSelect" class="enigma-select" aria-label="Reflector type">
+            <option value="B">B</option>
+            <option value="C">C</option>
+          </select>
         </div>
-        <div style="margin-top:12px;">
-          <button id="resetPlugboard" class="btn">Reset Plugboard</button>
+      </div>
+
+      <div class="enigma-setting-row">
+        <div class="enigma-setting-label">Plugboard</div>
+        <div class="enigma-setting-control">
+          <button id="resetPlugboard" class="enigma-reset-btn" aria-label="Reset plugboard">Reset Plugboard</button>
         </div>
       </div>
-    `;
+
+      <p class="enigma-settings-note">Choose the reflector type (B or C). Resetting the plugboard will clear all pairings immediately.</p>
+    </div>
+  `;
+
     this.container.appendChild(this.sceneEl);
 
-    this.sceneEl.querySelector("#btnBack").addEventListener("click", () => this.createMenuScreen());
-    this.sceneEl.querySelector("#reflectorSelect").value = Object.keys(this.REFLECTORS).includes(this.state.reflector.join("")) ? "B" : "B";
-    this.sceneEl.querySelector("#reflectorSelect").addEventListener("change", (e) => {
-      const v = e.target.value;
-      this.state.reflector = this.REFLECTORS[v].split("");
-    });
-    this.sceneEl.querySelector("#resetPlugboard").addEventListener("click", () => {
-      this.state.plugboard = {};
-      window.alert("Plugboard reset.");
-    });
+    // Back button -> menu
+    const btnBack = this.sceneEl.querySelector("#btnBack");
+    if (btnBack)
+      btnBack.addEventListener("click", () => this.createMenuScreen());
+
+    // Reflector default selection: detect current reflector string
+    const sel = this.sceneEl.querySelector("#reflectorSelect");
+    if (sel) {
+      // pick C if current reflector equals REFLECTORS['C'], else default to B
+      const currentRefl = (this.state.reflector || []).join("");
+      sel.value = currentRefl === (this.REFLECTORS["C"] || "") ? "C" : "B";
+
+      sel.addEventListener("change", (e) => {
+        const v = e.target.value;
+        if (this.REFLECTORS[v]) {
+          this.state.reflector = this.REFLECTORS[v].split("");
+        }
+      });
+    }
+
+    // Reset plugboard
+    const btnReset = this.sceneEl.querySelector("#resetPlugboard");
+    if (btnReset) {
+      btnReset.addEventListener("click", () => {
+        this.state.plugboard = {};
+        // Use a nicer in-scene confirmation if you prefer; window.alert is fine for now.
+        window.alert("Plugboard reset.");
+      });
+    }
 
     this.cursorContainer = this.sceneEl;
   }
@@ -164,31 +215,41 @@ export default class EnigmaScene extends BaseScene {
     // build main interface
     this.sceneEl = document.createElement("div");
     this.sceneEl.className = "container enigma-machine-container";
+    // inside createMachineScreen() — replace the firstLayer HTML chunk with:
     this.sceneEl.innerHTML = `
-      <div class="firstLayer layer">
-        <button class="btn" id="btnBack">Back</button>
-      </div>
+  <div class="firstLayer layer">
+    <button id="btnBack" class="btn enigma-back-button" aria-label="Back">
+      ${
+        this.assets.images.get
+          ? `<img src="${
+              (this.assets.images.get("backButton") || {}).src ||
+              "/pictures/backButton.webp"
+            }" alt="Back"/>`
+          : '<img src="/pictures/backButton.webp" alt="Back"/>'
+      }
+    </button>
+  </div>
 
-      <div class="secondLayer layer">
-        <div id="output" class="output">Type using the keyboard below — output will appear here.</div>
-        <button id="clearOutputBtn" class="clear-btn">Clear Output</button>
-        <div class="controls">
-          <div class="rotor-row" id="rotorRow"></div>
-        </div>
-      </div>
+  <div class="secondLayer layer">
+    <div id="output" class="output">Type using the keyboard below — output will appear here.</div>
+    <button id="clearOutputBtn" class="clear-btn">Clear Output</button>
+    <div class="controls">
+      <div class="rotor-row" id="rotorRow"></div>
+    </div>
+  </div>
 
-      <div class="thirdLayer layer">
-        <div class="keyboard" id="keyboard"></div>
-        <div class="small" style="text-align:center;margin-top:8px">QWERTY keyboard — tap letters to encrypt</div>
-      </div>
+  <div class="thirdLayer layer">
+    <div class="keyboard" id="keyboard"></div>
+    <div class="small" style="text-align:center;margin-top:8px">QWERTY keyboard — tap letters to encrypt</div>
+  </div>
 
-      <div class="fourthLayer layer">
-        <div class="plugboard" id="plugboard"></div>
-        <div class="small" style="text-align:center;margin-top:8px">Tap two letters to create a plugboard connection. Tap a connected letter to remove its plug.</div>
-      </div>
+  <div class="fourthLayer layer">
+    <div class="plugboard" id="plugboard"></div>
+    <div class="small" style="text-align:center;margin-top:8px">Tap two letters to create a plugboard connection. Tap a connected letter to remove its plug.</div>
+  </div>
 
-      <div id="modalRoot"></div>
-    `;
+  <div id="modalRoot"></div>
+`;
 
     this.container.appendChild(this.sceneEl);
 
@@ -200,7 +261,9 @@ export default class EnigmaScene extends BaseScene {
     this.modalRoot = this.sceneEl.querySelector("#modalRoot");
     this.clearOutputBtn = this.sceneEl.querySelector("#clearOutputBtn");
 
-    this.sceneEl.querySelector("#btnBack").addEventListener("click", () => this.createMenuScreen());
+    this.sceneEl
+      .querySelector("#btnBack")
+      .addEventListener("click", () => this.createMenuScreen());
     this.clearOutputBtn.addEventListener("click", () => {
       this.state.outputText = "";
       this.updateOutputArea();
@@ -212,85 +275,173 @@ export default class EnigmaScene extends BaseScene {
     this.renderPlugboard();
 
     // support keyboard input
-    window.addEventListener("keydown", this._nativeKeydownHandler = (e) => {
-      const ch = (e.key || "").toUpperCase();
-      // qwerty subset
-      if (this.alphabet.includes(ch) && this.qwerty.includes(ch)) {
-        e.preventDefault();
-        this._pressKey(ch);
-      }
-    });
+    window.addEventListener(
+      "keydown",
+      (this._nativeKeydownHandler = (e) => {
+        const ch = (e.key || "").toUpperCase();
+        // qwerty subset
+        if (this.alphabet.includes(ch) && this.qwerty.includes(ch)) {
+          e.preventDefault();
+          this._pressKey(ch);
+        }
+      })
+    );
 
     this.cursorContainer = this.sceneEl;
   }
 
   // ---------- Rendering helpers ----------
   renderRotors() {
-    // show left-to-right: left, middle, right plus separate reflector control at end
+    if (!this.rotorRowEl) return;
     this.rotorRowEl.innerHTML = "";
-    for (let i = 2; i >= 0; i--) {
-      const r = this.state.rotors[i];
+
+    // Render visual left -> right; internal indices are [2,1,0]
+    for (let uiIndex = 0; uiIndex < 3; uiIndex++) {
+      const internalIndex = 2 - uiIndex; // convert visual slot to internal
+      const r = this.state.rotors[internalIndex];
+
       const el = document.createElement("div");
       el.className = "rotor";
+      el.dataset.slotIndex = internalIndex;
+
+      // Build the two-line control: rotor type selector (left/right) and ring selector (− / value / +)
       el.innerHTML = `
-        <button class="top-btn" data-i="${i}">${r.type} · Ring: ${r.ring + 1}</button>
+        <div class="rotor-top-menu">
+          <button class="rotor-arrow left" data-slot="${internalIndex}" data-action="prevType">◀</button>
+          <div class="rotor-type-display">${r.type}</div>
+          <button class="rotor-arrow right" data-slot="${internalIndex}" data-action="nextType">▶</button>
+        </div>
         <div class="letter">${this.alphabet[r.pos]}</div>
-        <div class="pos">
-          <button class="icon up" data-i="${i}">▲</button>
-          <button class="icon down" data-i="${i}">▼</button>
+        <div class="rotor-ring-menu">
+          <button class="ring-btn minus" data-slot="${internalIndex}" data-action="decRing">−</button>
+          <div class="ring-display">Ring ${r.ring + 1}</div>
+          <button class="ring-btn plus" data-slot="${internalIndex}" data-action="incRing">+</button>
         </div>
       `;
+
+      // attach handlers for arrows and ring buttons using event delegation on the rotor element
+      el.querySelectorAll("button").forEach((btn) => {
+        const action = btn.dataset.action;
+        const slot = Number(btn.dataset.slot);
+        if (!action) return;
+        btn.addEventListener("click", (ev) => {
+          ev.stopPropagation();
+          if (action === "prevType") this.cycleRotorType(slot, -1);
+          else if (action === "nextType") this.cycleRotorType(slot, 1);
+          else if (action === "decRing") this.changeRing(slot, -1);
+          else if (action === "incRing") this.changeRing(slot, 1);
+        });
+      });
+
+      // clicking the rotor body (outside buttons) still opens reflector for the reflector position; for rotor, open picker if you still want it
+      el.addEventListener("click", (ev) => {
+        ev.stopPropagation();
+        // open rotor picker modal if user long-clicks or wants a detailed view
+        // (kept commented — you can enable if you want)
+        // this.openRotorPicker(internalIndex);
+      });
+
       this.rotorRowEl.appendChild(el);
     }
 
-    // reflector block
-    const refl = document.createElement("div");
-    refl.className = "rotor reflector";
-    refl.innerHTML = `
-      <button class="top-btn" id="reflectorBtn">Reflector (edit)</button>
+    // Reflector block to the right of rotors
+    const reflEl = document.createElement("div");
+    reflEl.className = "rotor reflector";
+    reflEl.innerHTML = `
+      <div class="rotor-top-menu">
+        <button class="rotor-arrow left" id="reflectorPrev">◀</button>
+        <div class="rotor-type-display">REF</div>
+        <button class="rotor-arrow right" id="reflectorNext">▶</button>
+      </div>
       <div class="letter">REF</div>
-      <div class="pos"><div class="small">13 pairs</div></div>
+      <div class="rotor-ring-menu">
+        <div class="ring-display small">Pairs: 13</div>
+      </div>
     `;
-    this.rotorRowEl.appendChild(refl);
-
-    // wire up handlers
-    this.rotorRowEl.querySelectorAll(".rotor .top-btn").forEach(btn => {
-      const di = btn.dataset.i;
-      if (typeof di !== "undefined") {
-        btn.addEventListener("click", () => this.openRotorPicker(Number(di)));
-      }
+    // reflector previous/next to switch between B and C quickly
+    reflEl.querySelector("#reflectorPrev")?.addEventListener("click", (e) => {
+      e.stopPropagation();
+      this.toggleReflector(-1);
     });
-    const reflectorBtn = this.rotorRowEl.querySelector("#reflectorBtn");
-    if (reflectorBtn) reflectorBtn.addEventListener("click", () => this.openReflectorEditor());
+    reflEl.querySelector("#reflectorNext")?.addEventListener("click", (e) => {
+      e.stopPropagation();
+      this.toggleReflector(1);
+    });
 
-    this.rotorRowEl.querySelectorAll(".rotor .up").forEach(b => b.addEventListener("click", (e) => {
-      const i = Number(e.currentTarget.dataset.i);
-      this.state.rotors[i].pos = this.mod(this.state.rotors[i].pos + 1, 26);
-      this.renderRotors();
-      this.updateOutputArea();
-    }));
-    this.rotorRowEl.querySelectorAll(".rotor .down").forEach(b => b.addEventListener("click", (e) => {
-      const i = Number(e.currentTarget.dataset.i);
-      this.state.rotors[i].pos = this.mod(this.state.rotors[i].pos - 1, 26);
-      this.renderRotors();
-      this.updateOutputArea();
-    }));
+    // allow opening the full reflector editor by clicking the REF area (optional)
+    reflEl.addEventListener("click", (e) => {
+      e.stopPropagation();
+      this.openReflectorEditor();
+    });
 
+    this.rotorRowEl.appendChild(reflEl);
+  }
+
+  // helper: cycle rotor type left (-1) or right (+1) among available rotor names
+  cycleRotorType(internalIndex, direction) {
+    const order = this.ROTOR_ORDER;
+    const current = this.state.rotors[internalIndex].type;
+    let i = order.indexOf(current);
+    if (i === -1) i = 0;
+    i = this.mod(i + direction, order.length);
+    this.state.rotors[internalIndex].type = order[i];
+    // optionally reset position so user can clearly see effect
+    this.state.rotors[internalIndex].pos = 0;
+    this.renderRotors();
     this.updateOutputArea();
   }
 
-  qwerty = ['Q','W','E','R','T','Y','U','I','O','P','A','S','D','F','G','H','J','K','L','Z','X','C','V','B','N','M'];
+  // helper: change ring setting by delta (-1 or +1)
+  changeRing(internalIndex, delta) {
+    let r = this.state.rotors[internalIndex].ring + delta;
+    r = this.mod(r, 26);
+    this.state.rotors[internalIndex].ring = r;
+    this.renderRotors();
+    this.updateOutputArea();
+  }
 
+  // helper: toggle reflector B <-> C
+  toggleReflector(direction) {
+    // treat direction irrelevant — just toggle B<->C
+    const current = (this.state.reflector || []).join("");
+    if (current === this.REFLECTORS["C"]) this.state.reflector = this.REFLECTORS["B"].split("");
+    else this.state.reflector = this.REFLECTORS["C"].split("");
+    this.renderRotors();
+    this.updateOutputArea();
+  }
+
+  // --- new keyboard rows definition ---
+  qwertyRows = [
+    ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"],
+    ["A", "S", "D", "F", "G", "H", "J", "K", "L"],
+    ["Z", "X", "C", "V", "B", "N", "M"],
+  ];
+
+  // --- new renderKeyboard() ---
   renderKeyboard() {
+    // keyboardEl is the parent container; clear it
     this.keyboardEl.innerHTML = "";
-    this.qwerty.forEach(k => {
-      const b = document.createElement("button");
-      b.className = "key";
-      b.textContent = k;
-      b.addEventListener("click", () => this._pressKey(k));
-      this.keyboardEl.appendChild(b);
+
+    // build each row container
+    this.qwertyRows.forEach((row, rowIndex) => {
+      const rowDiv = document.createElement("div");
+      rowDiv.className = "keyboard-row";
+
+      // Add a spacer in the second row so the keys visually center (optional)
+      // For aesthetics: add left & right padding on shorter rows by applying width constraints via CSS.
+      row.forEach((key) => {
+        const b = document.createElement("button");
+        b.className = "key";
+        b.textContent = key;
+        b.addEventListener("click", () => this._pressKey(key));
+        rowDiv.appendChild(b);
+      });
+
+      this.keyboardEl.appendChild(rowDiv);
     });
   }
+
+  
 
   renderPlugboard() {
     this.plugboardEl.innerHTML = "";
@@ -298,7 +449,8 @@ export default class EnigmaScene extends BaseScene {
       const p = document.createElement("div");
       p.className = "plug";
       p.textContent = c;
-      if (this.state.plugboard[c]) p.textContent = c + '\u2194' + this.state.plugboard[c];
+      if (this.state.plugboard[c])
+        p.textContent = c + "\u2194" + this.state.plugboard[c];
       p.addEventListener("click", () => this.togglePlug(c));
       this.plugboardEl.appendChild(p);
     }
@@ -314,8 +466,16 @@ export default class EnigmaScene extends BaseScene {
       this.renderPlugboard();
       return;
     }
-    if (!this.plugSelection) { this.plugSelection = letter; this.highlightPlug(letter); return; }
-    if (this.plugSelection === letter) { this.plugSelection = null; this.renderPlugboard(); return; }
+    if (!this.plugSelection) {
+      this.plugSelection = letter;
+      this.highlightPlug(letter);
+      return;
+    }
+    if (this.plugSelection === letter) {
+      this.plugSelection = null;
+      this.renderPlugboard();
+      return;
+    }
     // create connection
     this.state.plugboard[this.plugSelection] = letter;
     this.state.plugboard[letter] = this.plugSelection;
@@ -326,7 +486,8 @@ export default class EnigmaScene extends BaseScene {
     this.renderPlugboard();
     const nodes = Array.from(this.plugboardEl.children);
     for (const n of nodes) {
-      if (n.textContent.startsWith(letter)) n.style.background = "rgba(234,179,8,0.12)";
+      if (n.textContent.startsWith(letter))
+        n.style.background = "rgba(234,179,8,0.12)";
     }
   }
 
@@ -339,13 +500,15 @@ export default class EnigmaScene extends BaseScene {
       <div class="modal">
         <h3>Choose rotor for slot ${index + 1}</h3>
         <div class="rotor-list" id="rotorList"></div>
-        <div style="margin-top:8px"><label class="small">Ring setting (1-26): <input id="ringInput" type="number" min="1" max="26" value="${this.state.rotors[index].ring + 1}" style="width:64px;margin-left:6px"/></label></div>
-        <div style="margin-top:10px;text-align:right"><button id="closePicker">Cancel</button></div>
+        <div style="margin-top:8px"><label class="small">Ring setting (1-26): <input id="ringInput" type="number" min="1" max="26" value="${
+          this.state.rotors[index].ring + 1
+        }"/></label></div>
+        <div><button id="closePicker">Cancel</button></div>
       </div>
     `;
     this.modalRoot.appendChild(modal);
     const list = modal.querySelector("#rotorList");
-    Object.keys(this.ROTORS).forEach(name => {
+    Object.keys(this.ROTORS).forEach((name) => {
       const item = document.createElement("div");
       item.className = "rotor-item";
       item.textContent = name + " — notch " + this.ROTORS[name].notch;
@@ -359,11 +522,17 @@ export default class EnigmaScene extends BaseScene {
       });
       list.appendChild(item);
     });
-    modal.querySelector("#closePicker").addEventListener("click", () => this.closeModal());
-    modal.addEventListener("click", (e) => { if (e.target === modal) this.closeModal(); });
+    modal
+      .querySelector("#closePicker")
+      .addEventListener("click", () => this.closeModal());
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) this.closeModal();
+    });
   }
 
-  closeModal() { if (this.modalRoot) this.modalRoot.innerHTML = ""; }
+  closeModal() {
+    if (this.modalRoot) this.modalRoot.innerHTML = "";
+  }
 
   // ---------- Reflector editor ----------
   openReflectorEditor() {
@@ -392,11 +561,27 @@ export default class EnigmaScene extends BaseScene {
         if (mapped) btn.textContent = c + "↔" + mapped;
         btn.addEventListener("click", () => {
           if (pairs[c]) {
-            const peer = pairs[c]; delete pairs[c]; delete pairs[peer]; selection = null; redraw(); return;
+            const peer = pairs[c];
+            delete pairs[c];
+            delete pairs[peer];
+            selection = null;
+            redraw();
+            return;
           }
-          if (!selection) { selection = c; btn.style.background = "rgba(234,179,8,0.12)"; return; }
-          if (selection === c) { selection = null; redraw(); return; }
-          pairs[selection] = c; pairs[c] = selection; selection = null; redraw();
+          if (!selection) {
+            selection = c;
+            btn.style.background = "rgba(234,179,8,0.12)";
+            return;
+          }
+          if (selection === c) {
+            selection = null;
+            redraw();
+            return;
+          }
+          pairs[selection] = c;
+          pairs[c] = selection;
+          selection = null;
+          redraw();
         });
         grid.appendChild(btn);
       }
@@ -405,7 +590,12 @@ export default class EnigmaScene extends BaseScene {
 
     modal.querySelector("#clearRefl").addEventListener("click", () => {
       pairs = {};
-      for (let i = 0; i < 13; i++) { const a = this.alphabet[2 * i], b = this.alphabet[2 * i + 1]; pairs[a] = b; pairs[b] = a; }
+      for (let i = 0; i < 13; i++) {
+        const a = this.alphabet[2 * i],
+          b = this.alphabet[2 * i + 1];
+        pairs[a] = b;
+        pairs[b] = a;
+      }
       redraw();
     });
 
@@ -417,7 +607,9 @@ export default class EnigmaScene extends BaseScene {
       this.renderRotors();
     });
 
-    modal.addEventListener("click", (e) => { if (e.target === modal) this.closeModal(); });
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) this.closeModal();
+    });
   }
 
   buildPairsFromReflector(arr) {
@@ -429,7 +621,9 @@ export default class EnigmaScene extends BaseScene {
   // ---------- Encryption core ----------
   stepRotorsBeforeKey() {
     const r = this.state.rotors;
-    const right = r[0], middle = r[1], left = r[2];
+    const right = r[0],
+      middle = r[1],
+      left = r[2];
     const rightNotch = this.ROTORS[right.type].notch;
     const middleNotch = this.ROTORS[middle.type].notch;
 
@@ -444,7 +638,9 @@ export default class EnigmaScene extends BaseScene {
     right.pos = this.mod(right.pos + 1, 26);
   }
 
-  plugSub(c) { return this.state.plugboard[c] || c; }
+  plugSub(c) {
+    return this.state.plugboard[c] || c;
+  }
 
   rotorForward(rotor, letter) {
     const wiring = this.wiringMapFromString(this.ROTORS[rotor.type].wiring);
@@ -476,7 +672,8 @@ export default class EnigmaScene extends BaseScene {
     let c = this.plugSub(ch);
     for (let i = 0; i < 3; i++) c = this.rotorForward(this.state.rotors[i], c);
     c = this.reflect(c);
-    for (let i = 2; i >= 0; i--) c = this.rotorBackward(this.state.rotors[i], c);
+    for (let i = 2; i >= 0; i--)
+      c = this.rotorBackward(this.state.rotors[i], c);
     c = this.plugSub(c);
     this.state.outputText += c;
     this.updateOutputArea();
@@ -504,8 +701,17 @@ export default class EnigmaScene extends BaseScene {
     const el = document.elementFromPoint(px, py);
     if (!el) return;
     if (el.tagName === "BUTTON") el.click();
-    else if (el.tagName === "IMG" && el.src && el.src.includes("backButton.webp")) el.click();
-    else if (el.dataset && el.dataset.x !== undefined && el.dataset.y !== undefined) {
+    else if (
+      el.tagName === "IMG" &&
+      el.src &&
+      el.src.includes("backButton.webp")
+    )
+      el.click();
+    else if (
+      el.dataset &&
+      el.dataset.x !== undefined &&
+      el.dataset.y !== undefined
+    ) {
       // not used here, but left for compatibility
     } else if (el.classList.contains("key") && el.textContent) {
       this._pressKey(el.textContent.trim());

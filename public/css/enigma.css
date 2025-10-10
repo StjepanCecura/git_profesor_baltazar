@@ -38,9 +38,9 @@
    thirdLayer: keyboard (big but smaller than output)
    fourthLayer: plugboard / extras */
 .firstLayer  { height: 8%; }   /* back button area */
-.secondLayer { height: 44%; display:flex; flex-direction:column; align-items:center; justify-content:center; } /* output + rotors */
+.secondLayer { height: 30%; display:flex; flex-direction:column; align-items:center; justify-content:center; } /* output + rotors */
 .thirdLayer  { height: 32%; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; }  /* keyboard */
-.fourthLayer { height: 16%; display:flex; align-items:center; justify-content:center; } /* plugboard */
+.fourthLayer { height: 30%; display:flex; flex-direction:column; align-items:center; justify-content:center; } /* plugboard */
 
 /* Back button: big tappable area aligned top-left like TicTacToe */
 .firstLayer .btn {
@@ -68,18 +68,33 @@
   text-shadow: 0 0 0.2em #000;
 }
 
-/* Output card (centered in secondLayer) */
+h3{
+  font-size: 3vw;
+}
+
+#ringInput{
+  width: 3vw;
+  height: 3vw;
+}
+
+#closePicker{
+  width: 3vw;
+  height: 3vw;
+}
+/* ========== Layout tweaks: output, rotors, keyboard, plugboard ========== */
+
+/* Shorter output area */
 .output {
   width: 86vw;
-  height: 22vh;
+  height: 12vh;              /* shortened */
   background: var(--card);
   border-radius: 1.6vw;
   padding: 2vw;
   box-sizing: border-box;
-  font-size: 4.8vw;     /* large readable text */
+  font-size: 5.2vw;          /* still readable */
+  text-align: center;
   line-height: 1.1;
   color: #f1f5f9;
-  text-align: center;
   overflow-wrap: break-word;
   box-shadow: 0 6px 18px rgba(0,0,0,0.6);
 }
@@ -87,134 +102,313 @@
 /* Clear button below output */
 .clear-btn {
   margin-top: 1.2vh;
-  background: rgba(250,204,21,0.12);
+  background: rgba(250,204,21,0.7);
   border-radius: 1.2vw;
   border: none;
   padding: 0.8vh 1.2vw;
   font-size: 3.2vw;
   font-weight: 700;
-  color: var(--accent);
+  color: rgba(00, 135, 130);
   cursor: pointer;
   display: inline-block;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.6);
 }
 
-/* Rotor row inside secondLayer: below or next to output */
+/* Make rotors taller (visually larger) */
 .controls {
   width: 100%;
-  display:flex;
-  justify-content:center;
+  display: flex;
+  justify-content: center;
   margin-top: 2vh;
   box-sizing: border-box;
 }
 
 .rotor-row {
-  display:flex;
-  justify-content:center;
-  align-items:flex-end;
-  gap: 2.4vw;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 3.2vw;
   width: 92vw;
   box-sizing: border-box;
 }
 
-/* Individual rotor card */
+/* Bigger rotor cards */
 .rotor {
-  width: 14vw;
-  min-width: 110px;
-  max-width: 220px;
-  padding: 1.4vw;
-  background: linear-gradient(180deg,#081226,#071020);
-  border-radius: 1.2vw;
-  text-align:center;
-  box-shadow: inset 0 -6px 12px rgba(0,0,0,0.45);
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-}
-
-.rotor .top-btn {
-  font-size: 2.2vw;
-  padding: 0.6vw 0.8vw;
-  border-radius: 0.8vw;
-  background:rgba(255,255,255,0.03);
-  border: none;
-  color: var(--muted);
-  width:100%;
-  cursor: pointer;
+  width: 20vw;               /* wider */
+  min-width: 180px;
+  max-width: 420px;
+  height: 14vh;              /* taller rotor height */
+  padding: 1.6vw;
+  background: linear-gradient(180deg,#081226,#0a0f24);
+  border-radius: 1.6vw;
+  text-align: center;
+  box-shadow: inset 0 -8px 16px rgba(0,0,0,0.4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .rotor .letter {
-  font-size: 5.6vw;
-  margin: 1vh 0;
-  font-weight: 800;
+  font-size: 8vw;           /* much larger letter */
+  font-weight: 900;
   color: #fff;
 }
 
-.rotor .pos { display:flex; gap:1vw; align-items:center; }
-.rotor button.icon { background: none; border: none; color: var(--muted); font-size: 2.4vw; cursor:pointer; }
+.rotor .rotor-top-menu {
+  background: linear-gradient(
+    180deg,
+    rgba(250,204,21,0.95),
+    rgba(250,204,21,0.85)
+  );
+  border-radius: 1.2vw;
+  border: none;
+  padding: 0.8vh 1.2vw;
+  font-size: 2.5vw;
+  font-weight: 700;
+  color: rgb(0,135,130);
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.3);
+  position: relative;
+  z-index: 2;
+}
 
-/* Reflector block wider */
-.rotor.reflector { min-width: 18vw; }
+.rotor .rotor-ring-menu{
+  background: rgba(250,204,21);
+  width: 10vw;
+  border-radius: 1.2vw;
+  border: none;
+  padding: 0.8vh 1.2vw;
+  font-size: 2vw;
+  font-weight: 700;
+  color: rgba(00, 135, 130);
+  cursor: pointer;
+  display: inline-block;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+}
 
-/* Keyboard (thirdLayer) - qwerty grid similar to other game styles */
+.rotor-top-menu,
+.rotor-ring-menu {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.6vw;                /* spacing between parts */
+  box-sizing: border-box;
+}
+
+/* Top menu: left-arrow  [ rotor type ]  right-arrow */
+.rotor-top-menu {
+  margin-bottom: 0.6vh;
+}
+
+/* Ring menu: minus  [ Ring X ]  plus */
+.rotor-ring-menu {
+  margin-top: 0.6vh;
+}
+
+/* Shared button styles for arrows and ring +/- */
+.rotor-arrow,
+.ring-btn {
+  --btn-size-w: 2vw;         /* base width for button square */
+  --btn-size-h: 4vh;       /* base height to match key height */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--btn-size-w);
+  min-width: 42px;
+  max-width: 105px;
+  height: var(--btn-size-h);
+  min-height: 30px;
+  max-height: 66px;
+  border-radius: 1.2vw;
+  border: none;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  font-weight: 800;
+  font-size: 2vw;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.45);
+  transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease;
+  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+  color: var(--muted);
+  outline: none;
+  position: relative;
+  z-index: 2;
+}
+
+/* Slightly different visual for arrows to stand out */
+.rotor-arrow {
+  background: linear-gradient(180deg, rgba(250,204,21,0.95), rgba(250,204,21,0.9)); /* gold-ish */
+  color: rgb(0, 60, 50);
+  font-size: 2vw;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.5);
+}
+
+/* Ring +/- buttons: subtle accent */
+.ring-btn {
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+  color: var(--muted);
+  font-size: 2vw;
+}
+
+/* center display blocks for rotor type and ring value */
+.rotor-type-display,
+.ring-display {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 8vw;
+  padding: 0.4vh 0.1vw;
+  box-sizing: border-box;
+  font-size: 4.6vw;
+  font-weight: 900;
+  color: #fff;
+  text-align: center;
+  user-select: none;
+}
+
+/* ring display slightly smaller / muted label */
+.ring-display { font-size: 4.0vw; color: var(--muted); font-weight: 800; }
+
+/* Selected / active visual states */
+.rotor-arrow:active,
+.ring-btn:active {
+  transform: translateY(2px) scale(0.995);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.45);
+}
+
+/* hover/focus for desktop (does not affect touch) */
+.rotor-arrow:hover,
+.ring-btn:hover,
+.rotor-arrow:focus,
+.ring-btn:focus {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.55);
+}
+
+/* if you want a clear selected/pressed look when cycling rotor types */
+.rotor .rotor-type-display.updated {
+  background: rgba(250,204,21,0.12);
+  border-radius: 1.0vw;
+  color: #fff;
+}
+
+/* ensure the top/bottom menus don't let the rotor background bleed through */
+.rotor-top-menu .rotor-arrow,
+.rotor-top-menu .rotor-type-display,
+.rotor-ring-menu .ring-btn,
+.rotor-ring-menu .ring-display {
+  background-clip: padding-box;
+}
+
+/* make sure buttons look good on very narrow screens */
+@media (max-width: 1200px) {
+  .rotor-arrow,
+  .ring-btn {
+    --btn-size-w: 14vw;
+    height: 8.0vh;
+    font-size: 5.6vw;
+    min-width: 60px;
+    max-width: 180px;
+  }
+  .rotor-type-display { font-size: 6.4vw; min-width: 22vw; }
+  .ring-display { font-size: 5.2vw; }
+}
+
+/* Accessibility: visible focus ring for keyboard users */
+.rotor-arrow:focus-visible,
+.ring-btn:focus-visible {
+  box-shadow: 0 0 0 4px rgba(250,204,21,0.18), 0 10px 20px rgba(0,0,0,0.45);
+  outline: none;
+}
+
+/* Prevent pointer events leaking to parent rotor card when touching small gaps */
+.rotor-top-menu,
+.rotor-ring-menu {
+  touch-action: manipulation;
+}
+
+/* Optional: tighten spacing when rotor has many characters (if your font causes wrap) */
+.rotor-type-display,
+.ring-display {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Keyboard: three centered rows; each row centers its keys */
 .keyboard {
   width: 96vw;
-  display: grid;
-  grid-template-columns: repeat(10, 1fr);
-  gap: 1.6vw;
-  justify-items: center;
-  align-content: start;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2vh;
+  align-items: center;       /* center the rows */
+  justify-content: flex-start;
   padding-top: 1vh;
 }
 
-.key {
-  width: 8.2vw;
-  height: 8.2vw;
-  min-width: 72px;
-  min-height: 72px;
-  max-width: 140px;
-  max-height: 140px;
-  border-radius: 1.2vw;
-  background: linear-gradient(180deg,#0b1726,#071022);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size: 3.6vw;
-  font-weight: 700;
-  color: #fff;
-  border: none;
-  cursor: pointer;
+/* keyboard row container */
+.keyboard-row {
+  display: flex;
+  gap: 2.2vw;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-/* Plugboard (fourthLayer) */
+/* larger square keys that scale with viewport */
+.key {
+  background: linear-gradient(180deg,#0b1726,#071022);
+  border-radius: 2vw;
+  width: calc( (82vw) / 10 ); /* base size, will be constrained by min/max */
+  min-width: 110px;
+  max-width: 340px;
+  height: 6.4vh;            /* tall keys to fill vertical space */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 8vw;          /* bigger letter size */
+  font-weight: 900;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.5);
+  cursor: pointer;
+  user-select: none;
+  color: #fff;
+}
+
+/* Plugboard: make plugs larger and fill more space */
 .plugboard {
   width: 96vw;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 1.4vw;
+  gap: 2vw;
   padding: 1.4vh 1vw;
   box-sizing: border-box;
   background: rgba(255,255,255,0.01);
 }
 
 .plug {
-  width: 7.6vw;
-  height: 7.6vw;
-  min-width: 64px;
-  min-height: 64px;
-  max-width: 120px;
-  max-height: 120px;
-  border-radius: 0.9vw;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size: 3.2vw;
-  font-weight: 800;
-  background: rgba(255,255,255,0.02);
-  color: #fff;
+  background: linear-gradient(180deg,#0b1726,#071022);
+  border-radius: 2vw;
+  width: calc( (82vw) / 10 ); /* base size, will be constrained by min/max */
+  min-width: 110px;
+  max-width: 340px;
+  height: 6.4vh;            /* tall keys to fill vertical space */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 8vw;          /* bigger letter size */
+  font-weight: 900;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.5);
   cursor: pointer;
+  user-select: none;
+  color: #fff;
 }
+
 
 /* Modal styles (rotor picker / reflector editor) */
 .modal-back {
@@ -246,7 +440,7 @@
 }
 
 /* small helper text */
-.small { font-size: 2.2vw; color: var(--muted); }
+.small { font-size: 4vw; color: rgba(00, 135, 130); }
 
 /* responsive guards similar to other scenes — ensure consistent scaling */
 @media (max-width: 1200px) {
@@ -341,4 +535,136 @@
   width: 80%;
   text-align: center;
   white-space: pre-line;
+}
+
+/* ===========================
+   ENIGMA SETTINGS SCREEN
+   =========================== */
+
+.enigma-settings-container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  position: relative;
+  background-image: url('/pictures/enigma/background_settings.webp');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: #ffffff;
+  text-shadow: 0 0 0.1em #000;
+  box-sizing: border-box;
+  padding-top: 4vh;
+}
+
+/* Back button at top-left (large tappable area) */
+.enigma-settings-container .btn#btnBack,
+.enigma-settings-container .enigma-back-button {
+  position: absolute;
+  top: 3.5vh;
+  left: 3.5vw;
+  width: 12vw;
+  height: 12vw;
+  min-width: 140px;
+  min-height: 140px;
+  max-width: 260px;
+  max-height: 260px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+.enigma-settings-container .btn#btnBack img { max-width: 100%; max-height: 100%; object-fit: contain; }
+
+/* Title */
+.enigma-settings-title {
+  font-size: 10.5vw;    /* large title */
+  margin-top: 2vh;
+  margin-bottom: 2vh;
+  text-align: center;
+}
+
+/* Settings card / panel */
+.enigma-settings-panel {
+  width: 86vw;
+  max-width: 1400px;
+  background: rgba(11,18,32,0.86);
+  border-radius: 2vw;
+  padding: 3.2vw;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 2.6vh;
+  align-items: center;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.6);
+}
+
+/* Row layout for each setting */
+.enigma-setting-row {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2vw;
+}
+
+/* Label */
+.enigma-setting-label {
+  font-size: 5.2vw;
+  font-weight: 700;
+  color: #f8fafc;
+  min-width: 34%;
+  text-align: left;
+}
+
+/* Controls area (select, inputs, buttons) */
+.enigma-setting-control {
+  display: flex;
+  gap: 1.6vw;
+  align-items: center;
+  justify-content: flex-end;
+  min-width: 60%;
+}
+
+/* Big select / dropdown styling */
+.enigma-select {
+  font-size: 4.8vw;
+  padding: 1.2vh 1.4vw;
+  border-radius: 1.2vw;
+  background: rgba(255,255,255,0.04);
+  color: #fff;
+  border: none;
+  min-width: 36vw;
+  box-sizing: border-box;
+}
+
+/* Big reset button */
+.enigma-reset-btn {
+  font-size: 4.8vw;
+  padding: 1.2vh 2vw;
+  border-radius: 1.2vw;
+  background: #008782;
+  color: #fff;
+  border: none;
+  min-width: 32vw;
+  box-shadow: 3px 6px 12px rgba(0,0,0,0.4);
+  cursor: pointer;
+}
+
+/* Smaller help/description text inside panel */
+.enigma-settings-note {
+  font-size: 3.2vw;
+  color: #cbd5e1;
+  text-align: center;
+  width: 92%;
+}
+
+/* Ensure elements stay readable on narrower screens */
+@media (max-width: 1200px) {
+  .enigma-settings-title { font-size: 9vw; }
+  .enigma-setting-label { font-size: 5.6vw; min-width: 40%; }
+  .enigma-select { font-size: 5.2vw; min-width: 48vw; }
+  .enigma-reset-btn { font-size: 5.2vw; min-width: 40vw; }
 }
