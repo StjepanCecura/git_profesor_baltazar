@@ -185,7 +185,8 @@ h3{
   font-weight: 700;
   color: rgba(00, 135, 130);
   cursor: pointer;
-  display: inline-block;
+  display: flex;
+  flex-direction: row;
   box-shadow: 0 6px 18px rgba(0,0,0,0.6);
 }
 
@@ -195,7 +196,7 @@ h3{
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 1.6vw;                /* spacing between parts */
+  gap: 0.2vw;                /* spacing between parts */
   box-sizing: border-box;
 }
 
@@ -212,17 +213,17 @@ h3{
 /* Shared button styles for arrows and ring +/- */
 .rotor-arrow,
 .ring-btn {
-  --btn-size-w: 2vw;         /* base width for button square */
-  --btn-size-h: 4vh;       /* base height to match key height */
+  --btn-size-w: 6vw;         /* base width for button square */
+  --btn-size-h: 6vh;       /* base height to match key height */
   display: inline-flex;
   align-items: center;
   justify-content: center;
   width: var(--btn-size-w);
-  min-width: 42px;
+  min-width: 80px;
   max-width: 105px;
   height: var(--btn-size-h);
-  min-height: 30px;
-  max-height: 66px;
+  min-height: 80px;
+  max-height: 166px;
   border-radius: 1.2vw;
   border: none;
   cursor: pointer;
@@ -260,7 +261,7 @@ h3{
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 8vw;
+  min-width: 6vw;
   padding: 0.4vh 0.1vw;
   box-sizing: border-box;
   font-size: 4.6vw;
