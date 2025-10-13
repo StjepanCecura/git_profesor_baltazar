@@ -314,7 +314,7 @@ export default class EnigmaScene extends BaseScene {
         <div class="letter">${this.alphabet[r.pos]}</div>
         <div class="rotor-ring-menu">
           <button class="ring-btn minus" data-slot="${internalIndex}" data-action="decRing">−</button>
-          <div class="ring-display">Ring ${r.ring + 1}</div>
+          <div class="ring-display">${r.ring + 1}</div>
           <button class="ring-btn plus" data-slot="${internalIndex}" data-action="incRing">+</button>
         </div>
       `;
