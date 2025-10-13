@@ -345,28 +345,51 @@ export default class EnigmaScene extends BaseScene {
     }
 
     // Reflector block to the right of rotors
-    const reflEl = document.createElement("div");
-    reflEl.className = "rotor reflector";
-    reflEl.innerHTML = `
-      <div class="rotor-top-menu">
-        <button class="rotor-arrow left" id="reflectorPrev">◀</button>
-        <div class="rotor-type-display">REF</div>
-        <button class="rotor-arrow right" id="reflectorNext">▶</button>
-      </div>
-      <div class="letter">REF</div>
-      <div class="rotor-ring-menu">
-        <div class="ring-display small">Pairs: 13</div>
-      </div>
-    `;
-    // reflector previous/next to switch between B and C quickly
-    reflEl.querySelector("#reflectorPrev")?.addEventListener("click", (e) => {
-      e.stopPropagation();
-      this.toggleReflector(-1);
-    });
-    reflEl.querySelector("#reflectorNext")?.addEventListener("click", (e) => {
-      e.stopPropagation();
-      this.toggleReflector(1);
-    });
+const reflEl = document.createElement("div");
+reflEl.className = "rotor reflector";
+
+// get current reflector label (default to "B" if not set)
+const currentReflector =
+  this.state.reflectorLabel ||
+  (this.state.reflector && this.state.reflector.name) ||
+  "B";
+
+reflEl.innerHTML = `
+  <div class="rotor-top-menu">
+    <button class="rotor-arrow left" id="reflectorPrev">◀</button>
+    <div class="rotor-type-display" id="reflectorDisplay">${currentReflector}</div>
+    <button class="rotor-arrow right" id="reflectorNext">▶</button>
+  </div>
+  <div class="letter" id="reflectorLetter">${currentReflector}</div>
+  <div class="rotor-ring-menu">
+    <div class="ring-display small">Pairs</div>
+  </div>
+`;
+
+// update function for display when reflector changes
+const updateReflectorDisplay = (label) => {
+  reflEl.querySelector("#reflectorDisplay").textContent = label;
+  reflEl.querySelector("#reflectorLetter").textContent = label;
+};
+
+// reflector previous/next to switch between B and C quickly
+reflEl.querySelector("#reflectorPrev")?.addEventListener("click", (e) => {
+  e.stopPropagation();
+  const label = this.toggleReflector(-1);
+  updateReflectorDisplay(label);
+});
+
+reflEl.querySelector("#reflectorNext")?.addEventListener("click", (e) => {
+  e.stopPropagation();
+  const label = this.toggleReflector(1);
+  updateReflectorDisplay(label);
+});
+
+// optional: update once initially if the reflector changes elsewhere
+if (!this.state.reflectorLabel) {
+  this.state.reflectorLabel = currentReflector;
+}
+
 
     // allow opening the full reflector editor by clicking the REF area (optional)
     reflEl.addEventListener("click", (e) => {
@@ -402,13 +425,15 @@ export default class EnigmaScene extends BaseScene {
 
   // helper: toggle reflector B <-> C
   toggleReflector(direction) {
-    // treat direction irrelevant — just toggle B<->C
-    const current = (this.state.reflector || []).join("");
-    if (current === this.REFLECTORS["C"]) this.state.reflector = this.REFLECTORS["B"].split("");
-    else this.state.reflector = this.REFLECTORS["C"].split("");
-    this.renderRotors();
-    this.updateOutputArea();
-  }
+  const reflectors = ["B", "C"];
+  let idx = reflectors.indexOf(this.state.reflectorLabel || "B");
+  idx = (idx + direction + reflectors.length) % reflectors.length;
+  const label = reflectors[idx];
+  this.state.reflectorLabel = label;
+  this.state.reflector = this.REFLECTORS[label].split("");
+  return label; // return current reflector name for UI update
+}
+
 
   // --- new keyboard rows definition ---
   qwertyRows = [
@@ -440,8 +465,6 @@ export default class EnigmaScene extends BaseScene {
       this.keyboardEl.appendChild(rowDiv);
     });
   }
-
-  
 
   renderPlugboard() {
     this.plugboardEl.innerHTML = "";

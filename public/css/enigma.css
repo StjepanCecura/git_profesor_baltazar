@@ -38,7 +38,7 @@
    thirdLayer: keyboard (big but smaller than output)
    fourthLayer: plugboard / extras */
 .firstLayer  { height: 8%; }   /* back button area */
-.secondLayer { height: 30%; display:flex; flex-direction:column; align-items:center; justify-content:center; } /* output + rotors */
+.secondLayer { height: 40%; display:flex; flex-direction:column; align-items:center; justify-content:center; } /* output + rotors */
 .thirdLayer  { height: 32%; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; }  /* keyboard */
 .fourthLayer { height: 30%; display:flex; flex-direction:column; align-items:center; justify-content:center; } /* plugboard */
 
@@ -86,7 +86,7 @@ h3{
 /* Shorter output area */
 .output {
   width: 86vw;
-  height: 12vh;              /* shortened */
+  height: 8vh;              /* shortened */
   background: var(--card);
   border-radius: 1.6vw;
   padding: 2vw;
@@ -137,7 +137,7 @@ h3{
   width: 20vw;               /* wider */
   min-width: 180px;
   max-width: 420px;
-  height: 14vh;              /* taller rotor height */
+  height: 18vh;              /* taller rotor height */
   padding: 1.6vw;
   background: linear-gradient(180deg,#081226,#0a0f24);
   border-radius: 1.6vw;
