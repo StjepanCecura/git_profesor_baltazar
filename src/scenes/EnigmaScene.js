@@ -34,6 +34,23 @@ export default class EnigmaScene extends BaseScene {
       plugboard: {}, // e.g. { A: 'G', G: 'A' }
       outputText: "",
     };
+    // ---------- plugboard color management ----------
+    this.plugColors = {}; // mapping pairKey -> color (e.g. { "AG": "#ef4444" })
+    this.plugColorPalette = [
+      "#ef4444",
+      "#f97316",
+      "#f59e0b",
+      "#84cc16",
+      "#10b981",
+      "#06b6d4",
+      "#3b82f6",
+      "#6366f1",
+      "#a78bfa",
+      "#ec4899",
+      "#fb7185",
+      "#f43f5e",
+      "#fb923c",
+    ];
 
     // UI refs
     this.sceneEl = null;
@@ -345,16 +362,16 @@ export default class EnigmaScene extends BaseScene {
     }
 
     // Reflector block to the right of rotors
-const reflEl = document.createElement("div");
-reflEl.className = "rotor reflector";
+    const reflEl = document.createElement("div");
+    reflEl.className = "rotor reflector";
 
-// get current reflector label (default to "B" if not set)
-const currentReflector =
-  this.state.reflectorLabel ||
-  (this.state.reflector && this.state.reflector.name) ||
-  "B";
+    // get current reflector label (default to "B" if not set)
+    const currentReflector =
+      this.state.reflectorLabel ||
+      (this.state.reflector && this.state.reflector.name) ||
+      "B";
 
-reflEl.innerHTML = `
+    reflEl.innerHTML = `
   <div class="rotor-top-menu">
     <button class="rotor-arrow left" id="reflectorPrev">◀</button>
     <div class="rotor-type-display" id="reflectorDisplay">${currentReflector}</div>
@@ -366,30 +383,29 @@ reflEl.innerHTML = `
   </div>
 `;
 
-// update function for display when reflector changes
-const updateReflectorDisplay = (label) => {
-  reflEl.querySelector("#reflectorDisplay").textContent = label;
-  reflEl.querySelector("#reflectorLetter").textContent = label;
-};
+    // update function for display when reflector changes
+    const updateReflectorDisplay = (label) => {
+      reflEl.querySelector("#reflectorDisplay").textContent = label;
+      reflEl.querySelector("#reflectorLetter").textContent = label;
+    };
 
-// reflector previous/next to switch between B and C quickly
-reflEl.querySelector("#reflectorPrev")?.addEventListener("click", (e) => {
-  e.stopPropagation();
-  const label = this.toggleReflector(-1);
-  updateReflectorDisplay(label);
-});
+    // reflector previous/next to switch between B and C quickly
+    reflEl.querySelector("#reflectorPrev")?.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const label = this.toggleReflector(-1);
+      updateReflectorDisplay(label);
+    });
 
-reflEl.querySelector("#reflectorNext")?.addEventListener("click", (e) => {
-  e.stopPropagation();
-  const label = this.toggleReflector(1);
-  updateReflectorDisplay(label);
-});
+    reflEl.querySelector("#reflectorNext")?.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const label = this.toggleReflector(1);
+      updateReflectorDisplay(label);
+    });
 
-// optional: update once initially if the reflector changes elsewhere
-if (!this.state.reflectorLabel) {
-  this.state.reflectorLabel = currentReflector;
-}
-
+    // optional: update once initially if the reflector changes elsewhere
+    if (!this.state.reflectorLabel) {
+      this.state.reflectorLabel = currentReflector;
+    }
 
     // allow opening the full reflector editor by clicking the REF area (optional)
     reflEl.addEventListener("click", (e) => {
@@ -425,15 +441,14 @@ if (!this.state.reflectorLabel) {
 
   // helper: toggle reflector B <-> C
   toggleReflector(direction) {
-  const reflectors = ["B", "C"];
-  let idx = reflectors.indexOf(this.state.reflectorLabel || "B");
-  idx = (idx + direction + reflectors.length) % reflectors.length;
-  const label = reflectors[idx];
-  this.state.reflectorLabel = label;
-  this.state.reflector = this.REFLECTORS[label].split("");
-  return label; // return current reflector name for UI update
-}
-
+    const reflectors = ["B", "C"];
+    let idx = reflectors.indexOf(this.state.reflectorLabel || "B");
+    idx = (idx + direction + reflectors.length) % reflectors.length;
+    const label = reflectors[idx];
+    this.state.reflectorLabel = label;
+    this.state.reflector = this.REFLECTORS[label].split("");
+    return label; // return current reflector name for UI update
+  }
 
   // --- new keyboard rows definition ---
   qwertyRows = [
@@ -467,52 +482,126 @@ if (!this.state.reflectorLabel) {
   }
 
   renderPlugboard() {
-    this.plugboardEl.innerHTML = "";
-    for (const c of this.alphabet) {
-      const p = document.createElement("div");
-      p.className = "plug";
-      p.textContent = c;
-      if (this.state.plugboard[c])
-        p.textContent = c + "\u2194" + this.state.plugboard[c];
-      p.addEventListener("click", () => this.togglePlug(c));
-      this.plugboardEl.appendChild(p);
-    }
+  if (!this.plugboardEl) return;
+  this.plugboardEl.innerHTML = "";
+
+  // ensure existing pairs have assigned colors
+  const assigned = this.plugColors;
+  const pb = this.state.plugboard || {};
+  const seen = new Set();
+  for (const a of Object.keys(pb)) {
+    const b = pb[a];
+    if (!b) continue;
+    const key = this.pairKey(a, b);
+    if (seen.has(key)) continue;
+    seen.add(key);
+    if (!assigned[key]) assigned[key] = this.getNextPlugColor();
   }
+
+  for (const ch of this.alphabet) {
+    const plugEl = document.createElement("div");
+    plugEl.className = "plug";
+    plugEl.textContent = ch;
+
+    if (pb[ch]) {
+      const key = this.pairKey(ch, pb[ch]);
+      const color = assigned[key] || this.getNextPlugColor();
+      if (!assigned[key]) assigned[key] = color;
+      plugEl.classList.add("paired");
+      plugEl.style.background = color;
+      plugEl.style.color = "#fff";
+    } else {
+      plugEl.classList.remove("paired");
+      plugEl.style.background = "";
+      plugEl.style.color = "";
+      plugEl.style.border = "";
+    }
+
+    plugEl.addEventListener("click", (e) => {
+      e.stopPropagation();
+      this.togglePlug(ch);
+    });
+
+    this.plugboardEl.appendChild(plugEl);
+  }
+}
+
 
   // ---------- Plugboard interactions ----------
   plugSelection = null;
   togglePlug(letter) {
-    if (this.state.plugboard[letter]) {
-      const peer = this.state.plugboard[letter];
-      delete this.state.plugboard[letter];
-      delete this.state.plugboard[peer];
-      this.renderPlugboard();
-      return;
-    }
-    if (!this.plugSelection) {
-      this.plugSelection = letter;
-      this.highlightPlug(letter);
-      return;
-    }
-    if (this.plugSelection === letter) {
-      this.plugSelection = null;
-      this.renderPlugboard();
-      return;
-    }
-    // create connection
-    this.state.plugboard[this.plugSelection] = letter;
-    this.state.plugboard[letter] = this.plugSelection;
+  // if already paired, remove the pair and free its color
+  if (this.state.plugboard[letter]) {
+    const peer = this.state.plugboard[letter];
+    const key = this.pairKey(letter, peer);
+    delete this.state.plugboard[letter];
+    delete this.state.plugboard[peer];
+    if (this.plugColors[key]) delete this.plugColors[key];
     this.plugSelection = null;
     this.renderPlugboard();
+    return;
   }
-  highlightPlug(letter) {
+
+  // start a new selection
+  if (!this.plugSelection) {
+    this.plugSelection = letter;
+    this.highlightPlug(letter);
+    return;
+  }
+
+  // if same letter clicked again -> cancel selection
+  if (this.plugSelection === letter) {
+    this.plugSelection = null;
     this.renderPlugboard();
-    const nodes = Array.from(this.plugboardEl.children);
-    for (const n of nodes) {
-      if (n.textContent.startsWith(letter))
-        n.style.background = "rgba(234,179,8,0.12)";
+    return;
+  }
+
+  // finalize connection if both free
+  const a = this.plugSelection;
+  const b = letter;
+  if (this.state.plugboard[a] || this.state.plugboard[b]) {
+    this.plugSelection = null;
+    this.renderPlugboard();
+    return;
+  }
+
+  this.state.plugboard[a] = b;
+  this.state.plugboard[b] = a;
+  const key = this.pairKey(a, b);
+  if (!this.plugColors[key]) this.plugColors[key] = this.getNextPlugColor();
+  this.plugSelection = null;
+  this.renderPlugboard();
+}
+
+  highlightPlug(letter) {
+  // re-render then highlight the chosen one visually
+  this.renderPlugboard();
+  const nodes = Array.from(this.plugboardEl.children || []);
+  for (const n of nodes) {
+    if (n.textContent && n.textContent.startsWith(letter)) {
+      n.style.color = "rgba(0,0,0,1)"
+    } else {
+      n.style.outline = "";
     }
   }
+}
+
+
+  // return alphabetical pair key (e.g. pairKey('A','G') -> 'AG')
+pairKey(a, b) {
+  return [a, b].sort().join("");
+}
+
+// return next unused color from palette or generate fallback
+getNextPlugColor() {
+  const used = new Set(Object.values(this.plugColors));
+  for (const c of this.plugColorPalette) if (!used.has(c)) return c;
+  // fallback deterministic hue
+  const usedCount = used.size;
+  const hue = (usedCount * 47) % 360;
+  return `hsl(${hue} 85% 60%)`;
+}
+
 
   // ---------- Rotor picker modal ----------
   openRotorPicker(index) {
