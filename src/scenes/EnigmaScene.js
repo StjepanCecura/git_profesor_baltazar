@@ -328,7 +328,13 @@ export default class EnigmaScene extends BaseScene {
           <div class="rotor-type-display">${r.type}</div>
           <button class="rotor-arrow right" data-slot="${internalIndex}" data-action="nextType">▶</button>
         </div>
-        <div class="letter">${this.alphabet[r.pos]}</div>
+
+        <div class="letter-controls">
+          <button class=pos-btn up" data-slot="${internalIndex}" data-action="posDown">◀</button>
+          <div class="letter">${this.alphabet[r.pos]}</div>
+          <button class=pos-btn down" data-slot="${internalIndex}" data-action="posUp">▶</button>
+        </div>
+
         <div class="rotor-ring-menu">
           <button class="ring-btn minus" data-slot="${internalIndex}" data-action="decRing">−</button>
           <div class="ring-display">${r.ring + 1}</div>
@@ -347,6 +353,16 @@ export default class EnigmaScene extends BaseScene {
           else if (action === "nextType") this.cycleRotorType(slot, 1);
           else if (action === "decRing") this.changeRing(slot, -1);
           else if (action === "incRing") this.changeRing(slot, 1);
+          else if (action === "posUp") {
+          // increase rotor pos (advance visible letter)
+          this.state.rotors[slot].pos = this.mod(this.state.rotors[slot].pos + 1, 26);
+          this.renderRotors();
+          this.updateOutputArea();
+        } else if (action === "posDown") {
+          this.state.rotors[slot].pos = this.mod(this.state.rotors[slot].pos - 1, 26);
+          this.renderRotors();
+          this.updateOutputArea();
+        }
         });
       });
 
