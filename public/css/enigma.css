@@ -15,7 +15,14 @@
 .container.enigma-container,
 .container.enigma-machine-container,
 .container.enigma-settings-container {
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
   width: 100vw;
+  max-width: calc(100vh * (9/16));
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -49,10 +56,10 @@
   left: 2vw;
   width: 10vw;   /* will be scaled by viewport */
   height: 10vw;
-  min-width: 80px;
-  min-height: 80px;
-  max-width: 220px;
-  max-height: 220px;
+  min-width: 100px;
+  min-height: 100px;
+  max-width: calc(8vh * (9/16));;
+  max-height: calc(8vh * (9/16));;
   border: 0;
   background: transparent;
   cursor: none; /* keep same as your project if using hidden cursor */
@@ -62,22 +69,25 @@
 /* Title (if shown) */
 .enigma-title {
   text-align: center;
-  font-size: 6.5vw;
+  font-size: calc(6.5vh * (9/16));
   margin-top: 2vh;
   color: white;
   text-shadow: 0 0 0.2em #000;
 }
 
 h3{
+  /* TODO correct vh and vw */
   font-size: 3vw;
 }
 
 #ringInput{
+  /* TODO correct vh and vw */
   width: 3vw;
   height: 3vw;
 }
 
 #closePicker{
+  /* TODO correct vh and vw */
   width: 3vw;
   height: 3vw;
 }
@@ -85,13 +95,12 @@ h3{
 
 /* Shorter output area */
 .output {
-  width: 86vw;
+  width: 86%;
   height: 8vh;              /* shortened */
   background: var(--card);
-  border-radius: 1.6vw;
-  padding: 2vw;
+  border-radius: 1.6vh;
   box-sizing: border-box;
-  font-size: 5.2vw;          /* still readable */
+  font-size: 2vh;
   text-align: center;
   line-height: 1.1;
   color: #f1f5f9;
@@ -101,12 +110,13 @@ h3{
 
 /* Clear button below output */
 .clear-btn {
+  /* TODO correct vh and vw */
   margin-top: 1.2vh;
   background: rgba(250,204,21,0.7);
-  border-radius: 1.2vw;
+  border-radius: 1vh;
   border: none;
   padding: 0.8vh 1.2vw;
-  font-size: 3.2vw;
+  font-size: 3vh;
   font-weight: 700;
   color: rgba(00, 135, 130);
   cursor: pointer;
@@ -116,6 +126,7 @@ h3{
 
 /* Make rotors taller (visually larger) */
 .controls {
+  /* TODO correct vh and vw */
   width: 100%;
   display: flex;
   justify-content: center;
@@ -125,21 +136,22 @@ h3{
 }
 
 .rotor-row {
+  /* TODO correct vh and vw */
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  gap: 3.2vw;
-  width: 92vw;
+  gap: calc(1vh * (9/16));
+  width: calc(92vh * (9/16));
   box-sizing: border-box;
 }
 
 /* Bigger rotor cards */
 .rotor {
-  width: 20vw;               /* wider */
-  min-width: 180px;
+  /* TODO correct vh and vw */
+  width: calc(20vh * (9/16));               /* wider */
   max-width: 420px;
   height: 21vh;              /* taller rotor height */
-  padding: 1.6vw;
+  padding: 1vh;
   background: linear-gradient(180deg,#081226,#0a0f24);
   border-radius: 1.6vw;
   text-align: center;
@@ -151,13 +163,15 @@ h3{
 }
 
 .rotor .letter {
-  font-size: 8vw;           /* much larger letter */
+  /* TODO correct vh and vw */
+  font-size: calc(8vh * (9/16));           /* much larger letter */
   font-weight: 900;
   color: #fff;
 }
 
 /* ------- Grundstellung (pos) controls on rotor letter ------- */
 .letter-controls {
+  /* TODO correct vh and vw */
   display: flex;
   flex-direction: row;       /* up arrow above, letter, down arrow below */
   align-items: center;
@@ -170,22 +184,19 @@ h3{
 
 /* small circular pos buttons */
 .pos-btn {
-
+  /* TODO correct vh and vw */
   background: linear-gradient(180deg, rgba(250,204,21,0.95), rgba(250,204,21,0.9)); /* gold-ish */
   color: rgb(0, 60, 50);
-  font-size: 2vw;
+  font-size: 2vh;
   box-shadow: 0 8px 18px rgba(0,0,0,0.5);
-
   --btn-size-w: 6vw;         /* base width for button square */
   --btn-size-h: 6vh;       /* base height to match key height */
   display: inline-flex;
   align-items: center;
   justify-content: center;
   width: var(--btn-size-w);
-  min-width: 80px;
   max-width: 105px;
   height: var(--btn-size-h);
-  min-height: 80px;
   max-height: 166px;
   border-radius: 1.2vw;
   border: none;
@@ -205,12 +216,14 @@ h3{
 
 /* Responsive tune-down on small screens */
 @media (max-width: 1200px) {
+  /* TODO correct vh and vw */
   .pos-btn { width: 12vw; height: 7.6vh; font-size: 4.6vw; }
   .rotor .letter { font-size: 7.5vw; }
 }
 
 
 .rotor .rotor-top-menu {
+  /* TODO correct vh and vw */
   background: linear-gradient(
     180deg,
     rgba(250,204,21,0.95),
@@ -231,15 +244,16 @@ h3{
 }
 
 .rotor .rotor-ring-menu{
+  /* TODO correct vh and vw */
   background: rgba(250,204,21);
   background: linear-gradient(
     180deg,
     rgba(250,204,21,0.95),
     rgba(250,204,21,0.85)
   );
-  border-radius: 1.2vw;
+  border-radius: 1.2vh;
   border: none;
-  padding: 0.8vh 1.2vw;
+  padding: 0.8vh 0.8vh;
   font-size: 2.5vw;
   font-weight: 700;
   color: rgb(0,135,130);
@@ -253,6 +267,7 @@ h3{
 
 .rotor-top-menu,
 .rotor-ring-menu {
+  /* TODO correct vh and vw */
   width: 100%;
   display: flex;
   align-items: center;
@@ -263,29 +278,30 @@ h3{
 
 /* Top menu: left-arrow  [ rotor type ]  right-arrow */
 .rotor-top-menu {
+  /* TODO correct vh and vw */
   margin-bottom: 0.6vh;
 }
 
 /* Ring menu: minus  [ Ring X ]  plus */
 .rotor-ring-menu {
+  /* TODO correct vh and vw */
   margin-top: 0.6vh;
 }
 
 /* Shared button styles for arrows and ring +/- */
 .rotor-arrow,
 .ring-btn {
-  --btn-size-w: 6vw;         /* base width for button square */
-  --btn-size-h: 6vh;       /* base height to match key height */
+  /* TODO correct vh and vw */
+  --btn-size-w: 6vh;         /* base width for button square */
+  --btn-size-h: 5vh;       /* base height to match key height */
   display: inline-flex;
   align-items: center;
   justify-content: center;
   width: var(--btn-size-w);
-  min-width: 80px;
   max-width: 105px;
   height: var(--btn-size-h);
-  min-height: 80px;
   max-height: 166px;
-  border-radius: 1.2vw;
+  border-radius: 1.2vh;
   border: none;
   cursor: pointer;
   user-select: none;
@@ -303,30 +319,33 @@ h3{
 
 /* Slightly different visual for arrows to stand out */
 .rotor-arrow {
+  /* TODO correct vh and vw */
   background: linear-gradient(180deg, rgba(250,204,21,0.95), rgba(250,204,21,0.9)); /* gold-ish */
   color: rgb(0, 60, 50);
-  font-size: 2vw;
+  font-size: 2vh;
   box-shadow: 0 8px 18px rgba(0,0,0,0.5);
 }
 
 /* Ring +/- buttons: subtle accent */
 .ring-btn {
+  /* TODO correct vh and vw */
   background: linear-gradient(180deg, rgba(250,204,21,0.95), rgba(250,204,21,0.9)); /* gold-ish */
   color: rgb(0, 60, 50);
-  font-size: 2vw;
+  font-size: 2vh;
   box-shadow: 0 8px 18px rgba(0,0,0,0.5);
 }
 
 /* center display blocks for rotor type and ring value */
 .rotor-type-display,
 .ring-display {
+  /* TODO correct vh and vw */
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 6vw;
+  min-width: calc(6vh * (9/16));
   padding: 0.4vh 0.1vw;
   box-sizing: border-box;
-  font-size: 4.6vw;
+  font-size: calc( 4.6vh * (9/16));
   font-weight: 900;
   color: #fff;
   text-align: center;
@@ -353,6 +372,7 @@ h3{
 
 /* if you want a clear selected/pressed look when cycling rotor types */
 .rotor .rotor-type-display.updated {
+  /* TODO correct vh and vw */
   background: rgba(250,204,21,0.12);
   border-radius: 1.0vw;
   color: #fff;
@@ -364,20 +384,6 @@ h3{
 .rotor-ring-menu .ring-btn,
 .rotor-ring-menu .ring-display {
   background-clip: padding-box;
-}
-
-/* make sure buttons look good on very narrow screens */
-@media (max-width: 1200px) {
-  .rotor-arrow,
-  .ring-btn {
-    --btn-size-w: 14vw;
-    height: 8.0vh;
-    font-size: 5.6vw;
-    min-width: 60px;
-    max-width: 180px;
-  }
-  .rotor-type-display { font-size: 6.4vw; min-width: 22vw; }
-  .ring-display { font-size: 5.2vw; }
 }
 
 /* Accessibility: visible focus ring for keyboard users */
@@ -403,6 +409,7 @@ h3{
 
 /* Keyboard: three centered rows; each row centers its keys */
 .keyboard {
+  /* TODO correct vh and vw */
   width: 96vw;
   display: flex;
   flex-direction: column;
@@ -414,6 +421,7 @@ h3{
 
 /* keyboard row container */
 .keyboard-row {
+  /* TODO correct vh and vw */
   display: flex;
   gap: 2.2vw;
   justify-content: center;
@@ -424,6 +432,7 @@ h3{
 
 /* larger square keys that scale with viewport */
 .key {
+  /* TODO correct vh and vw */
   background: linear-gradient(180deg,#0b1726,#071022);
   border-radius: 2vw;
   width: calc( (82vw) / 10 ); /* base size, will be constrained by min/max */
@@ -443,6 +452,7 @@ h3{
 
 /* Plugboard (updated to use colored pairs) */
 .plugboard {
+  /* TODO correct vh and vw */
   width: 96vw;
   display: flex;
   flex-wrap: wrap;
@@ -454,6 +464,7 @@ h3{
 }
 
 .plug {
+  /* TODO correct vh and vw */
   background: rgba(255, 255, 255, 0.04);
   width: calc( (82vw) / 10 );
   height: 6.4vh;
@@ -477,6 +488,7 @@ h3{
 /* Paired plugs get a colored background via inline style set from JS,
    but keep a common paired class to adjust text color, contrast, and border. */
 .plug.paired {
+  /* TODO correct vh and vw */
   color: #ffffff !important;
   box-shadow: 0 6px 16px rgba(0,0,0,0.55), inset 0 -6px 12px rgba(0,0,0,0.15);
   border-radius: 1.2vw;
@@ -487,6 +499,7 @@ h3{
 
 @media (max-width: 1200px) {
   .plug { font-size: 7.2vw; min-width: 96px; min-height: 96px; }
+  /* TODO correct vh and vw */
 }
 
 /* Modal styles (rotor picker / reflector editor) */
@@ -501,6 +514,7 @@ h3{
 }
 
 .modal {
+  /* TODO correct vh and vw */
   width: 92vw;
   max-width: 1200px;
   background: var(--card);
@@ -511,6 +525,7 @@ h3{
 
 .rotor-list { display:flex; flex-wrap:wrap; gap:1.6vw; justify-content:center; }
 .rotor-item {
+  /* TODO correct vh and vw */
   padding: 0.8vw 1.2vw;
   font-size: 3.2vw;
   border-radius: 0.8vw;
@@ -519,7 +534,7 @@ h3{
 }
 
 /* small helper text */
-.small { font-size: 4vw; color: rgba(00, 135, 130); }
+.small { font-size: calc(4vh * (9/16)); color: rgba(00, 135, 130); }
 
 /* responsive guards similar to other scenes — ensure consistent scaling */
 @media (max-width: 1200px) {
@@ -530,6 +545,7 @@ h3{
 /* === ENIGMA MENU SCREEN === */
 
 .enigma-menu-container {
+  /* TODO correct vh and vw */
   background-image: url('/pictures/enigma/background_menu.webp'); /* optional */
   background-size: cover;
   background-position: center;
@@ -545,7 +561,7 @@ h3{
 
 .enigma-title {
   text-align: center;
-  font-size: 16vw; /* big title like TicTacToe */
+  font-size: calc(16vh * (9/16)); /* big title like TicTacToe */
   color: white;
   text-shadow: 0 0 0.2em #000;
   margin-bottom: 5vh;
@@ -555,7 +571,7 @@ h3{
 .enigma-menu-button {
   background-color: #008782;
   color: white;
-  font-size: 8vw;       /* large text */
+  font-size: calc(8vh * (9/16));       /* large text */
   font-weight: bold;
   width: 60%;
   padding: 0.3em;
@@ -573,6 +589,7 @@ h3{
 
 /* Back button in menu */
 .enigma-back-button {
+  /* TODO correct vh and vw */
   position: absolute;
   top: 4vh;
   left: 4vw;
@@ -590,6 +607,7 @@ h3{
 
 /* Instructions screen */
 .enigma-instructions-container {
+  /* TODO correct vh and vw */
   background-image: url('/pictures/enigma/background_instructions.webp');
   background-size: cover;
   background-position: center;
@@ -605,11 +623,13 @@ h3{
 }
 
 .enigma-instructions-title {
+  /* TODO correct vh and vw */
   font-size: 12vw;
   margin-bottom: 2vh;
 }
 
 .enigma-instructions-text {
+  /* TODO correct vh and vw */
   font-size: 6vw;
   width: 80%;
   text-align: center;
@@ -621,6 +641,7 @@ h3{
    =========================== */
 
 .enigma-settings-container {
+  /* TODO correct vh and vw */
   width: 100vw;
   height: 100vh;
   display: flex;
@@ -641,6 +662,7 @@ h3{
 /* Back button at top-left (large tappable area) */
 .enigma-settings-container .btn#btnBack,
 .enigma-settings-container .enigma-back-button {
+  /* TODO correct vh and vw */
   position: absolute;
   top: 3.5vh;
   left: 3.5vw;
@@ -648,8 +670,8 @@ h3{
   height: 12vw;
   min-width: 140px;
   min-height: 140px;
-  max-width: 260px;
-  max-height: 260px;
+  max-width: calc(3.5vh * (9/16));;
+  max-height: calc(8vh * (9/16));;
   border: none;
   background: transparent;
   cursor: pointer;
@@ -658,6 +680,7 @@ h3{
 
 /* Title */
 .enigma-settings-title {
+  /* TODO correct vh and vw */
   font-size: 10.5vw;    /* large title */
   margin-top: 2vh;
   margin-bottom: 2vh;
@@ -666,6 +689,7 @@ h3{
 
 /* Settings card / panel */
 .enigma-settings-panel {
+  /* TODO correct vh and vw */
   width: 86vw;
   max-width: 1400px;
   background: rgba(11,18,32,0.86);
@@ -681,6 +705,7 @@ h3{
 
 /* Row layout for each setting */
 .enigma-setting-row {
+  /* TODO correct vh and vw */
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -691,6 +716,7 @@ h3{
 
 /* Label */
 .enigma-setting-label {
+  /* TODO correct vh and vw */
   font-size: 5.2vw;
   font-weight: 700;
   color: #f8fafc;
@@ -700,6 +726,7 @@ h3{
 
 /* Controls area (select, inputs, buttons) */
 .enigma-setting-control {
+  /* TODO correct vh and vw */
   display: flex;
   gap: 1.6vw;
   align-items: center;
@@ -709,6 +736,7 @@ h3{
 
 /* Big select / dropdown styling */
 .enigma-select {
+  /* TODO correct vh and vw */
   font-size: 4.8vw;
   padding: 1.2vh 1.4vw;
   border-radius: 1.2vw;
@@ -721,6 +749,7 @@ h3{
 
 /* Big reset button */
 .enigma-reset-btn {
+  /* TODO correct vh and vw */
   font-size: 4.8vw;
   padding: 1.2vh 2vw;
   border-radius: 1.2vw;
@@ -734,6 +763,7 @@ h3{
 
 /* Smaller help/description text inside panel */
 .enigma-settings-note {
+  /* TODO correct vh and vw */
   font-size: 3.2vw;
   color: #cbd5e1;
   text-align: center;
@@ -742,6 +772,7 @@ h3{
 
 /* Ensure elements stay readable on narrower screens */
 @media (max-width: 1200px) {
+  /* TODO correct vh and vw */
   .enigma-settings-title { font-size: 9vw; }
   .enigma-setting-label { font-size: 5.6vw; min-width: 40%; }
   .enigma-select { font-size: 5.2vw; min-width: 48vw; }
