@@ -52,14 +52,10 @@
 /* Back button: big tappable area aligned top-left like TicTacToe */
 .firstLayer .btn {
   position: absolute;
-  top: 2vh;
-  left: 2vw;
-  width: 10vw;   /* will be scaled by viewport */
-  height: 10vw;
-  min-width: 100px;
-  min-height: 100px;
-  max-width: calc(8vh * (9/16));;
-  max-height: calc(8vh * (9/16));;
+  top: 0vh;
+  left: 1vw;
+  width: calc(10vh * (9/16));   /* will be scaled by viewport */
+  height: calc(10vh * (9/16));
   border: 0;
   background: transparent;
   cursor: none; /* keep same as your project if using hidden cursor */
@@ -592,7 +588,6 @@ h3{
   top: 4vh;
   left: 4vw;
   height: 12vw;   /* scaled for tall display */
-  min-height: 160px;
   cursor: pointer;
   background: none;
   border: none;
