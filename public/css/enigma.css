@@ -112,7 +112,7 @@ h3{
   border-radius: 1vh;
   border: none;
   padding: 0.8vh 1.2vw;
-  font-size: 3vh;
+  font-size: calc(4vh * (9/16));
   font-weight: 700;
   color: rgba(00, 135, 130);
   cursor: pointer;
@@ -136,20 +136,20 @@ h3{
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  gap: calc(1vh * (9/16));
-  width: calc(92vh * (9/16));
+  gap: 1%;
+  width: 100%;
   box-sizing: border-box;
 }
 
 /* Bigger rotor cards */
 .rotor {
   /* TODO correct vh and vw */
-  width: calc(20vh * (9/16));               /* wider */
+  width: 19%;               /* wider */
   max-width: 420px;
-  height: 21vh;              /* taller rotor height */
+  height: 90%;              /* taller rotor height */
   padding: 1vh;
   background: linear-gradient(180deg,#081226,#0a0f24);
-  border-radius: 1.6vw;
+  border-radius: 1.6vh;
   text-align: center;
   box-shadow: inset 0 -8px 16px rgba(0,0,0,0.4);
   display: flex;
@@ -163,6 +163,12 @@ h3{
   font-size: calc(8vh * (9/16));           /* much larger letter */
   font-weight: 900;
   color: #fff;
+}
+
+@media(max-aspect-ratio: 9/17){
+  .rotor .letter{
+    font-size: 200%;
+  }
 }
 
 /* ------- Grundstellung (pos) controls on rotor letter ------- */
@@ -194,7 +200,7 @@ h3{
   max-width: 105px;
   height: var(--btn-size-h);
   max-height: 166px;
-  border-radius: 1.2vw;
+  border-radius: 1.2vh;
   border: none;
   cursor: pointer;
   user-select: none;
@@ -280,8 +286,8 @@ h3{
 .rotor-arrow,
 .ring-btn {
   /* TODO correct vh and vw */
-  --btn-size-w: 6vh;         /* base width for button square */
-  --btn-size-h: 5vh;       /* base height to match key height */
+  --btn-size-w: 40%;         /* base width for button square */
+  --btn-size-h: 100%;       /* base height to match key height */
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -330,7 +336,7 @@ h3{
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: calc(6vh * (9/16));
+  min-width: 26%;
   padding: 0.4vh 0.1vw;
   box-sizing: border-box;
   font-size: calc( 4.6vh * (9/16));
@@ -398,7 +404,7 @@ h3{
 /* Keyboard: three centered rows; each row centers its keys */
 .keyboard {
   /* TODO correct vh and vw */
-  width: calc(96vh * (9/16));
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 1.2vh;
@@ -425,7 +431,7 @@ h3{
   border-radius: calc(2vh *(9/16));
   width: calc( (82vw) / 10 ); /* base size, will be constrained by min/max */
   min-width: calc(3vh * (9/16));
-  max-width: 340px;
+  max-width: 10%;
   height: 6.4vh;            /* tall keys to fill vertical space */
   display: flex;
   align-items: center;
@@ -438,15 +444,22 @@ h3{
   color: #fff;
 }
 
+
+@media(max-aspect-ratio: 9/17){
+  .key{
+    font-size: calc(6vh * (9/16));
+  }
+}
+
 /* Plugboard (updated to use colored pairs) */
 .plugboard {
   /* TODO correct vh and vw */
-  width: calc(96vh * (9/16));
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 1vh;
-  padding: 1.4vh 1vw;
+  padding: 2%;
   box-sizing: border-box;
   background: rgba(255,255,255,0.01);
 }
@@ -471,6 +484,13 @@ h3{
   user-select: none;
   position: relative;
 }
+
+@media(max-aspect-ratio: 9/17){
+  .plug{
+    font-size: calc(6vh * (9/16));
+    width: calc(6vh * (9/16));
+  }
+} 
 
 /* Paired plugs get a colored background via inline style set from JS,
    but keep a common paired class to adjust text color, contrast, and border. */
@@ -516,6 +536,13 @@ h3{
 
 /* small helper text */
 .small { font-size: calc(4vh * (9/16)); color: rgba(00, 135, 130); }
+
+
+@media(max-aspect-ratio: 9/17){
+  .small{
+    font-size: calc(3vh * (9/16));
+  }
+}
 
 /* === ENIGMA MENU SCREEN === */
 
