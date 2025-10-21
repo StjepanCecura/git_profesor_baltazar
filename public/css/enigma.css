@@ -210,14 +210,6 @@ h3{
 .pos-btn:active { transform: translateY(1px); box-shadow: 0 4px 10px rgba(0,0,0,0.45); }
 .pos-btn:focus { outline: none; box-shadow: 0 8px 18px rgba(0,0,0,0.45); }
 
-/* Responsive tune-down on small screens */
-@media (max-width: 1200px) {
-  /* TODO correct vh and vw */
-  .pos-btn { width: 12vw; height: 7.6vh; font-size: 4.6vw; }
-  .rotor .letter { font-size: 7.5vw; }
-}
-
-
 .rotor .rotor-top-menu {
   /* TODO correct vh and vw */
   background: linear-gradient(
@@ -491,11 +483,6 @@ h3{
 .plug:active { transform: translateY(2px) scale(0.995); }
 .plug:focus { outline: none; box-shadow: 0 10px 22px rgba(0,0,0,0.55); }
 
-@media (max-width: 1200px) {
-  .plug { font-size: 7.2vw; min-width: 96px; min-height: 96px; }
-  /* TODO correct vh and vw */
-}
-
 /* Modal styles (rotor picker / reflector editor) */
 .modal-back {
   position: fixed;
@@ -529,12 +516,6 @@ h3{
 
 /* small helper text */
 .small { font-size: calc(4vh * (9/16)); color: rgba(00, 135, 130); }
-
-/* responsive guards similar to other scenes — ensure consistent scaling */
-@media (max-width: 1200px) {
-  .output { font-size: 4.4vw; height: 20vh; }
-  .rotor .letter { font-size: 6.4vw; }
-}
 
 /* === ENIGMA MENU SCREEN === */
 
@@ -763,11 +744,7 @@ h3{
   width: 92%;
 }
 
-/* Ensure elements stay readable on narrower screens */
-@media (max-width: 1200px) {
-  /* TODO correct vh and vw */
-  .enigma-settings-title { font-size: 9vw; }
-  .enigma-setting-label { font-size: 5.6vw; min-width: 40%; }
-  .enigma-select { font-size: 5.2vw; min-width: 48vw; }
-  .enigma-reset-btn { font-size: 5.2vw; min-width: 40vw; }
+
+.pair-btn{
+  font-size: 2vh;
 }
