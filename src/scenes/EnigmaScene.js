@@ -297,7 +297,7 @@ export default class EnigmaScene extends BaseScene {
       (this._nativeKeydownHandler = (e) => {
         const ch = (e.key || "").toUpperCase();
         // qwerty subset
-        if (this.alphabet.includes(ch) && this.qwerty.includes(ch)) {
+        if (this.alphabet.includes(ch)) {
           e.preventDefault();
           this._pressKey(ch);
         }
