@@ -457,7 +457,7 @@ h3{
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 2vh;
+  gap: 1vh;
   padding: 1.4vh 1vw;
   box-sizing: border-box;
   background: rgba(255,255,255,0.01);
@@ -466,8 +466,9 @@ h3{
 .plug {
   /* TODO correct vh and vw */
   background: rgba(255, 255, 255, 0.04);
-  width: calc( (82vw) / 10 );
+  width: calc(8vh * (9/16));
   height: 6.4vh;
+  min-width: calc(3vh * (9/16));
   max-width: 340px;
   max-height: 340px;
   display: flex;
@@ -475,7 +476,7 @@ h3{
   justify-content: center;
   font-size: calc(8vh * (9/16));          /* bigger letter size */
   font-weight: 900;
-  border-radius: 1.2vw;
+  border-radius: calc(2vh *(9/16));
   cursor: pointer;
   box-shadow: 0 6px 16px rgba(0,0,0,0.45);
   transition: transform 120ms ease, box-shadow 120ms ease, background 150ms ease;
@@ -489,7 +490,6 @@ h3{
   /* TODO correct vh and vw */
   color: #ffffff !important;
   box-shadow: 0 6px 16px rgba(0,0,0,0.55), inset 0 -6px 12px rgba(0,0,0,0.15);
-  border-radius: 1.2vw;
 }
 
 .plug:active { transform: translateY(2px) scale(0.995); }
