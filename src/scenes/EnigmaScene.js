@@ -129,7 +129,6 @@ export default class EnigmaScene extends BaseScene {
       </div>
       <div class="thirdLayer layer">
         <button class="textStyle btn enigma-menu-button" id="btnMachine">Open Machine</button>
-        <button class="textStyle btn enigma-menu-button" id="btnSettings">Settings</button>
       </div>
     `;
     this.container.appendChild(this.sceneEl);
@@ -139,87 +138,6 @@ export default class EnigmaScene extends BaseScene {
 
     const btnMachine = this.sceneEl.querySelector("#btnMachine");
     btnMachine.addEventListener("click", () => this.createMachineScreen());
-
-    const btnSettings = this.sceneEl.querySelector("#btnSettings");
-    btnSettings.addEventListener("click", () => this.createSettingsScreen());
-
-    this.cursorContainer = this.sceneEl;
-  }
-
-  createSettingsScreen() {
-    // simple settings: pick reflector, reset plugboard, default rotor selection
-    this.clearScreen();
-    this.stateName = "settings";
-
-    this.sceneEl = document.createElement("div");
-    this.sceneEl.className = "container enigma-settings-container";
-    this.sceneEl.innerHTML = `
-    <button id="btnBack" class="btn enigma-back-button" aria-label="Back">
-      ${
-        this.assets.images.get
-          ? `<img src="${
-              (this.assets.images.get("backButton") || {}).src ||
-              "/pictures/backButton.webp"
-            }" alt="Back"/>`
-          : '<img src="/pictures/backButton.webp" alt="Back"/>'
-      }
-    </button>
-
-    <h1 class="enigma-settings-title">Settings</h1>
-
-    <div class="enigma-settings-panel">
-      <div class="enigma-setting-row">
-        <div class="enigma-setting-label">Reflector</div>
-        <div class="enigma-setting-control">
-          <select id="reflectorSelect" class="enigma-select" aria-label="Reflector type">
-            <option value="B">B</option>
-            <option value="C">C</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="enigma-setting-row">
-        <div class="enigma-setting-label">Plugboard</div>
-        <div class="enigma-setting-control">
-          <button id="resetPlugboard" class="enigma-reset-btn" aria-label="Reset plugboard">Reset Plugboard</button>
-        </div>
-      </div>
-
-      <p class="enigma-settings-note">Choose the reflector type (B or C). Resetting the plugboard will clear all pairings immediately.</p>
-    </div>
-  `;
-
-    this.container.appendChild(this.sceneEl);
-
-    // Back button -> menu
-    const btnBack = this.sceneEl.querySelector("#btnBack");
-    if (btnBack)
-      btnBack.addEventListener("click", () => this.createMenuScreen());
-
-    // Reflector default selection: detect current reflector string
-    const sel = this.sceneEl.querySelector("#reflectorSelect");
-    if (sel) {
-      // pick C if current reflector equals REFLECTORS['C'], else default to B
-      const currentRefl = (this.state.reflector || []).join("");
-      sel.value = currentRefl === (this.REFLECTORS["C"] || "") ? "C" : "B";
-
-      sel.addEventListener("change", (e) => {
-        const v = e.target.value;
-        if (this.REFLECTORS[v]) {
-          this.state.reflector = this.REFLECTORS[v].split("");
-        }
-      });
-    }
-
-    // Reset plugboard
-    const btnReset = this.sceneEl.querySelector("#resetPlugboard");
-    if (btnReset) {
-      btnReset.addEventListener("click", () => {
-        this.state.plugboard = {};
-        // Use a nicer in-scene confirmation if you prefer; window.alert is fine for now.
-        window.alert("Plugboard reset.");
-      });
-    }
 
     this.cursorContainer = this.sceneEl;
   }
