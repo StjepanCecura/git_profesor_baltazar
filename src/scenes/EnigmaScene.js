@@ -75,6 +75,7 @@ export default class EnigmaScene extends BaseScene {
     // optional assets — load if you want (kept consistent with other scenes)
     try {
       await this.assets.loadImage("backButton", "/pictures/backButton.webp");
+      await this.assets.loadImage("profBaltazarMainScreen", "/pictures/startMenu/profBaltazarMainScreen.webp")
     } catch (e) {
       // ignore if asset missing
     }
@@ -163,6 +164,16 @@ export default class EnigmaScene extends BaseScene {
           : '<img src="/pictures/backButton.webp" alt="Back"/>'
       }
     </button>
+    <div class="baltazarTitle">
+      ${
+        this.assets.images.get
+          ? `<img src="${
+            (this.assets.images.get("profBaltazarMainScreen") || {}).src ||
+            "/pictures/startMenu/profBaltazarMainScreen.webp"
+          }" alt="Profesor Baltazar"/>`
+        : '<img src="/pictures/startMenu/profBaltazarMainScreen.webp" alt="Profesor Baltazar"/>'
+      }
+    </div>
   </div>
 
   <div class="secondLayer layer">
