@@ -7,7 +7,7 @@ npm run dev - pokretanje servera
 
 ## Pull request
 
-Obavezno dodati "Matej Franjić" za review
+Obavezno dodati "Stjepan Čečura" za review
 
 ## Postavke prikaza pri testiranju
 
