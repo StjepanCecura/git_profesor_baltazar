@@ -674,3 +674,232 @@ h3{
 .pair-btn{
   font-size: 2vh;
 }
+/* Mobile Layout Optimization: Compact 2 rows for rotors */
+@media (max-width: 768px) {
+  .container.enigma-machine-container {
+    justify-content: space-evenly;
+  }
+
+  /* Logo on left, output on right in top row */
+  .firstLayer {
+    height: 7.5vh;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    position: relative;
+    padding-left: 20px;
+    padding-right: 2vw;
+    padding-top: 0.5vh;
+    gap: 2vw;
+  }
+
+  .firstLayer .baltazarTitle {
+    flex-shrink: 0;
+    margin-top: 0.8vh;
+  }
+
+  .firstLayer .baltazarTitle img {
+    max-height: 6.5vh;
+    margin: 0.6vh;
+    display: block;
+  }
+
+  /* Position output in firstLayer area to the right of logo */
+  .secondLayer {
+    position: relative;
+    height: auto;
+    flex-grow: 1;
+    max-height: 26%;
+    min-height: 0;
+    padding-top: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+
+  .secondLayer .output {
+    position: absolute;
+    top: -6.7vh;
+    left: 120px;
+    right: 2vw;
+    width: auto;
+    min-height: 5.2vh;     
+    height: auto;
+    font-size: 1.6vh;
+    line-height: 1.2;
+    padding: 0.6vh 0.8vw;
+    margin: 0;
+    z-index: 10;
+  }
+
+  .secondLayer .clear-btn {
+    position: relative;
+    transform: translateY(-1vh);
+    top: auto;
+    left: auto;
+    margin-top: 0.8vh;      
+    padding: 0.6vh 1.2vw;
+    font-size: 1.4vh;
+    line-height: 1.2;
+    z-index: 10;
+  }
+
+  .letter-controls {
+    margin-top: 0.5vh;
+    margin-bottom: 0.5vh;
+  }
+
+  .letter-controls .pos-btn {
+    width: 3.5vh;
+    height: 3.5vh;
+  }
+
+  .rotor-row {
+    flex-wrap: wrap;
+    column-gap: 3vw;
+    row-gap: 0.5vh;
+    align-content: center;
+    justify-content: center;
+  }
+
+  .rotor {
+    width: 36%;
+    height: auto;
+    min-height: 7vh;
+    padding: 0.25vh;
+    border-radius: 1.2vh;
+    position: relative;
+  }
+
+  /* Rotor position markers (L, S, D) - inside top-left corner */
+  .rotor::before {
+    content: '';
+    position: absolute;
+    top: 0.4vh;
+    left: 0.5vw;
+    font-size: 1.4vh;
+    font-weight: 800;
+    color: #facc15;
+    background: rgba(8, 18, 38, 0.7);
+    padding: 0.2vh 0.4vw;
+    border-radius: 0.3vh;
+    pointer-events: none;
+    z-index: 3;
+    letter-spacing: 0;
+    line-height: 1;
+    display: block;
+    white-space: nowrap;
+  }
+
+  /* Label each rotor position */
+  .rotor:nth-child(1)::before {
+    content: 'L';  /* Left rotor */
+
+  }
+
+  .rotor:nth-child(2)::before {
+    content: 'S';   /* Middle (srednji) rotor */
+  }
+
+  .rotor:nth-child(3)::before {
+    content: 'D';  /* Right (desni) rotor */
+  }
+
+  /* Compact internals for mobile */
+  .rotor .rotor-top-menu,
+  .rotor .rotor-ring-menu {
+    padding: 0.15vh 0.3vw;
+    margin: 0;
+    gap: 0.1vw;
+  }
+
+  .rotor .letter {
+    font-size: 2vh;
+    margin: 0.1vh 0;
+  }
+
+  .rotor-type-display,
+  .ring-display {
+    font-size: calc(2.8vh * (9/16));
+    padding: 0.15vh 0.05vw;
+  }
+
+  .rotor-arrow,
+  .ring-btn {
+    font-size: 1.1vh;
+    max-width: 65px;
+    max-height: 90px;
+  }
+
+  .pos-btn {
+    width: 4vw;
+    height: 3.5vh;
+    font-size: 1.2vh;
+  }
+
+  .controls {
+    margin-top: 0.3vh;
+    gap: 0.3vh;
+    padding-top: 2vh;
+  }
+
+  /* Maximize keyboard space */
+  .thirdLayer {
+    height: auto;
+    flex-grow: 0;
+    max-height: 35%;
+    margin-top: 0.5vh;
+    margin-bottom: 0.3vh;
+    padding: 0 1vw;
+  }
+  .keyboard {
+    gap: 0.5vh;
+    padding: 0.5vh;
+  }
+  .keyboard-row{
+    gap: 0.3vh;
+    justify-content: center;
+    margin: 0.2vh 0;
+  }
+  .key{
+    min-width: 8vw;
+    max-width: 10%;
+    height: 4.5vh;
+    padding: 0.5vh 0.8vw;
+    border-radius: 0.8vh; 
+    font-size: 1.8vh;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;    
+    transition: all 0.15s ease;    
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  .plugboard {
+    gap: 0.5vh;
+    padding: 0.5vh;
+  }
+
+  .plug {
+    min-width: 8vw;
+    max-width: 10%;
+    height: 4.5vh;
+    padding: 0.5vh 0.8vw;
+    border-radius: 0.8vh;
+    font-size: 1.8vh;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  .fourthLayer {
+    height: auto;
+    max-height: 24%;
+    flex-grow: 0;
+  }
+}
