@@ -525,7 +525,7 @@ h3{
   /* TODO correct vh and vw */
   width: 92vw;
   max-width: 1200px;
-  background: var(--card);
+  background: rgba(42, 38, 15, 0.95);
   border-radius: 1.6vw;
   padding: 2.4vw;
   box-sizing: border-box;
@@ -713,36 +713,44 @@ h3{
   box-shadow: 0 4px 10px rgba(0,0,0,0.45);
 }
 
-.pair-btn {
-  background: linear-gradient(180deg,#0b1726,#071022);
-  border-radius: calc(2vh *(9/16));
-  box-shadow: 0 8px 16px rgba(0,0,0,0.5);
-  color: #fff;
+/* Reflector pairs modal - keycap style */
+.reflect-grid .pair-btn {
+  background: linear-gradient(180deg, rgba(250,204,21,0.95), rgba(250,204,21,0.9));
+  border: 2px solid rgba(0,0,0,0.8);
+  border-radius: calc(1.2vh * (9/16));
+  box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+  color: rgb(0, 60, 50);
   font-size: 2vh;
   font-weight: 900;
-  padding: 0.8vh 1.2vw;
+  padding: 0.6vh 1vw;
   cursor: pointer;
   user-select: none;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   transition: transform 120ms ease, box-shadow 120ms ease, background 150ms ease;
-  min-width: calc(3vh * (9/16));
-  height: 6.4vh;
+  width: calc(8vh * (9/16));
+  min-width: 44px;
+  height: 5vh;
+  min-height: 44px;
+  box-sizing: border-box;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.pair-btn:hover {
-  box-shadow: 0 10px 22px rgba(0,0,0,0.55);
+.reflect-grid .pair-btn:hover {
+  box-shadow: 0 6px 12px rgba(0,0,0,0.5);
+  transform: translateY(-1px);
 }
 
-.pair-btn:active {
-  transform: translateY(2px) scale(0.995);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.45);
+.reflect-grid .pair-btn:active {
+  transform: translateY(1px) scale(0.98);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.4);
 }
 
-.pair-btn:focus {
+.reflect-grid .pair-btn:focus {
   outline: none;
-  box-shadow: 0 10px 22px rgba(0,0,0,0.55);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.5), 0 0 0 2px rgba(250,204,21,0.3);
 }
 
 /* Mobile Layout Optimization: Compact 2 rows for rotors */
@@ -906,15 +914,22 @@ h3{
     font-weight: 500;
   }
 
-  .pair-btn {
-    min-width: 8vw;
-    max-width: 10%;
+  .reflect-grid .pair-btn {
+    width: 8vw;
+    min-width: 44px;
     height: 4.5vh;
+    min-height: 44px;
     padding: 0.5vh 0.8vw;
     border-radius: 0.8vh;
+    border: 2px solid rgba(0,0,0,0.8);
     font-size: 1.8vh;
-    font-weight: 500;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    font-weight: 900;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    background: linear-gradient(180deg, rgba(250,204,21,0.95), rgba(250,204,21,0.9));
+    color: rgb(0, 60, 50);
+    box-sizing: border-box;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
   }
 
   .rotor-arrow,
