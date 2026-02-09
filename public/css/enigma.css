@@ -3,17 +3,17 @@
 /* basics & font import (if you use project font, keep same import pattern) */
 /* @import url('/FontFamily/fontFamily.css'); */
 
-:root{
+:root {
   --bg-img: none;
   --bg-color: #071028;
-  --card: rgba(11,18,32,0.95);
+  --card: rgba(11, 18, 32, 0.95);
   --accent: #facc15;
   --muted: #b6c1cf;
 }
 
 /* Container: match other games (full viewport) */
 .container.enigma-container,
-.container.enigma-machine-container{
+.container.enigma-machine-container {
 
   position: absolute;
   top: 50%;
@@ -36,37 +36,77 @@
 }
 
 /* Keep .layer definitions consistent with project */
-.layer { display: block; width: 100%; box-sizing: border-box; }
+.layer {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+}
 
 /* Layer heights tuned for Enigma:
    firstLayer: small (back button)
    secondLayer: large (output & rotors)
    thirdLayer: keyboard (big but smaller than output)
    fourthLayer: plugboard / extras */
-.firstLayer  { height: 8%; }   /* back button area */
-.secondLayer { height: 40%; display:flex; flex-direction:column; align-items:center; justify-content:center; } /* output + rotors */
-.thirdLayer  { height: 32%; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; }  /* keyboard */
-.fourthLayer { height: 30%; display:flex; flex-direction:column; align-items:center; justify-content:center; } /* plugboard */
+.firstLayer {
+  height: 8%;
+}
+
+/* back button area */
+.secondLayer {
+  height: 40%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* output + rotors */
+.thirdLayer {
+  height: 32%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+/* keyboard */
+.fourthLayer {
+  height: 30%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* plugboard */
 
 /* Back button: big tappable area aligned top-left like TicTacToe */
 .firstLayer .btn {
   position: absolute;
   top: 0vh;
   left: 1vw;
-  width: calc(10vh * (9/16));   /* will be scaled by viewport */
+  width: calc(10vh * (9/16));
+  /* will be scaled by viewport */
   height: calc(10vh * (9/16));
   border: 0;
   background: transparent;
-  cursor: none; /* keep same as your project if using hidden cursor */
+  cursor: none;
+  /* keep same as your project if using hidden cursor */
 }
-.firstLayer .btn img { max-width: 100%; max-height: 100%; object-fit: contain; }
-.firstLayer .baltazarTitle img { 
-  max-width: 100%; 
-  max-height: 7vh; 
-  object-fit: contain; 
+
+.firstLayer .btn img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.firstLayer .baltazarTitle img {
+  max-width: 100%;
+  max-height: 7vh;
+  object-fit: contain;
   align-items: center;
-  display:block;
-  margin:auto;
+  display: block;
+  margin: auto;
 }
 
 /* Title (if shown) */
@@ -78,28 +118,30 @@
   text-shadow: 0 0 0.2em #000;
 }
 
-h3{
+h3 {
   /* TODO correct vh and vw */
   font-size: 3vw;
 }
 
-#ringInput{
+#ringInput {
   /* TODO correct vh and vw */
   width: 3vw;
   height: 3vw;
 }
 
-#closePicker{
+#closePicker {
   /* TODO correct vh and vw */
   width: 3vw;
   height: 3vw;
 }
+
 /* ========== Layout tweaks: output, rotors, keyboard, plugboard ========== */
 
 /* Shorter output area */
 .output {
   width: 86%;
-  height: 8vh;              /* shortened */
+  height: 8vh;
+  /* shortened */
   background: var(--card);
   border-radius: 1.6vh;
   box-sizing: border-box;
@@ -108,14 +150,14 @@ h3{
   line-height: 1.1;
   color: #f1f5f9;
   overflow-wrap: break-word;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6);
 }
 
 /* Clear button below output */
 .clear-btn {
   /* TODO correct vh and vw */
   margin-top: 1.2vh;
-  background: rgba(250,204,21,0.7);
+  background: rgba(250, 204, 21, 0.7);
   border-radius: 1vh;
   border: none;
   padding: 0.8vh 1.2vw;
@@ -124,7 +166,7 @@ h3{
   color: rgba(00, 135, 130);
   cursor: pointer;
   display: inline-block;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6);
 }
 
 /* Make rotors taller (visually larger) */
@@ -151,14 +193,16 @@ h3{
 /* Bigger rotor cards */
 .rotor {
   /* TODO correct vh and vw */
-  width: 19%;               /* wider */
+  width: 19%;
+  /* wider */
   max-width: 420px;
-  height: 90%;              /* taller rotor height */
+  height: 90%;
+  /* taller rotor height */
   padding: 1vh;
-  background: linear-gradient(180deg,#081226,#0a0f24);
+  background: linear-gradient(180deg, #081226, #0a0f24);
   border-radius: 1.6vh;
   text-align: center;
-  box-shadow: inset 0 -8px 16px rgba(0,0,0,0.4);
+  box-shadow: inset 0 -8px 16px rgba(0, 0, 0, 0.4);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -167,13 +211,14 @@ h3{
 
 .rotor .letter {
   /* TODO correct vh and vw */
-  font-size: calc(8vh * (9/16));           /* much larger letter */
+  font-size: calc(8vh * (9/16));
+  /* much larger letter */
   font-weight: 900;
   color: #fff;
 }
 
-@media(max-aspect-ratio: 9/17){
-  .rotor .letter{
+@media(max-aspect-ratio: 9/17) {
+  .rotor .letter {
     font-size: 200%;
   }
 }
@@ -182,7 +227,8 @@ h3{
 .letter-controls {
   /* TODO correct vh and vw */
   display: flex;
-  flex-direction: row;       /* up arrow above, letter, down arrow below */
+  flex-direction: row;
+  /* up arrow above, letter, down arrow below */
   align-items: center;
   justify-content: center;
   gap: 0.6vh;
@@ -194,12 +240,15 @@ h3{
 /* small circular pos buttons */
 .pos-btn {
   /* TODO correct vh and vw */
-  background: linear-gradient(180deg, rgba(250,204,21,0.95), rgba(250,204,21,0.9)); /* gold-ish */
+  background: linear-gradient(180deg, rgba(250, 204, 21, 0.95), rgba(250, 204, 21, 0.9));
+  /* gold-ish */
   color: rgb(0, 60, 50);
   font-size: 2vh;
-  box-shadow: 0 8px 18px rgba(0,0,0,0.5);
-  --btn-size-w: 6vw;         /* base width for button square */
-  --btn-size-h: 6vh;       /* base height to match key height */
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.5);
+  --btn-size-w: 6vw;
+  /* base width for button square */
+  --btn-size-h: 6vh;
+  /* base height to match key height */
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -220,48 +269,51 @@ h3{
 }
 
 /* smaller visual weight than rotor-arrow */
-.pos-btn:active { transform: translateY(1px); box-shadow: 0 4px 10px rgba(0,0,0,0.45); }
-.pos-btn:focus { outline: none; box-shadow: 0 8px 18px rgba(0,0,0,0.45); }
+.pos-btn:active {
+  transform: translateY(1px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.45);
+}
+
+.pos-btn:focus {
+  outline: none;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.45);
+}
 
 .rotor .rotor-top-menu {
   /* TODO correct vh and vw */
-  background: linear-gradient(
-    180deg,
-    rgba(250,204,21,0.95),
-    rgba(250,204,21,0.85)
-  );
+  background: linear-gradient(180deg,
+      rgba(250, 204, 21, 0.95),
+      rgba(250, 204, 21, 0.85));
   border-radius: 1.2vw;
   border: none;
   padding: 0.8vh 1.2vw;
   font-size: 2.5vw;
   font-weight: 700;
-  color: rgb(0,135,130);
+  color: rgb(0, 135, 130);
   cursor: pointer;
   display: flex;
   flex-direction: row;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.3);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
   position: relative;
   z-index: 2;
 }
 
-.rotor .rotor-ring-menu{
+.rotor .rotor-ring-menu {
   /* TODO correct vh and vw */
-  background: rgba(250,204,21);
-  background: linear-gradient(
-    180deg,
-    rgba(250,204,21,0.95),
-    rgba(250,204,21,0.85)
-  );
+  background: rgba(250, 204, 21);
+  background: linear-gradient(180deg,
+      rgba(250, 204, 21, 0.95),
+      rgba(250, 204, 21, 0.85));
   border-radius: 1.2vh;
   border: none;
   padding: 0.8vh 0.8vh;
   font-size: 2.5vw;
   font-weight: 700;
-  color: rgb(0,135,130);
+  color: rgb(0, 135, 130);
   cursor: pointer;
   display: flex;
   flex-direction: row;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.3);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
   position: relative;
   z-index: 2;
 }
@@ -273,7 +325,8 @@ h3{
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.2vw;                /* spacing between parts */
+  gap: 0.2vw;
+  /* spacing between parts */
   box-sizing: border-box;
 }
 
@@ -293,8 +346,10 @@ h3{
 .rotor-arrow,
 .ring-btn {
   /* TODO correct vh and vw */
-  --btn-size-w: 40%;         /* base width for button square */
-  --btn-size-h: 100%;       /* base height to match key height */
+  --btn-size-w: 40%;
+  /* base width for button square */
+  --btn-size-h: 100%;
+  /* base height to match key height */
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -309,9 +364,9 @@ h3{
   -webkit-tap-highlight-color: transparent;
   font-weight: 800;
   font-size: 2vw;
-  box-shadow: 0 6px 14px rgba(0,0,0,0.45);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.45);
   transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease;
-  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
   color: var(--muted);
   outline: none;
   position: relative;
@@ -321,19 +376,21 @@ h3{
 /* Slightly different visual for arrows to stand out */
 .rotor-arrow {
   /* TODO correct vh and vw */
-  background: linear-gradient(180deg, rgba(250,204,21,0.95), rgba(250,204,21,0.9)); /* gold-ish */
+  background: linear-gradient(180deg, rgba(250, 204, 21, 0.95), rgba(250, 204, 21, 0.9));
+  /* gold-ish */
   color: rgb(0, 60, 50);
   font-size: 2vh;
-  box-shadow: 0 8px 18px rgba(0,0,0,0.5);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.5);
 }
 
 /* Ring +/- buttons: subtle accent */
 .ring-btn {
   /* TODO correct vh and vw */
-  background: linear-gradient(180deg, rgba(250,204,21,0.95), rgba(250,204,21,0.9)); /* gold-ish */
+  background: linear-gradient(180deg, rgba(250, 204, 21, 0.95), rgba(250, 204, 21, 0.9));
+  /* gold-ish */
   color: rgb(0, 60, 50);
   font-size: 2vh;
-  box-shadow: 0 8px 18px rgba(0,0,0,0.5);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.5);
 }
 
 /* center display blocks for rotor type and ring value */
@@ -346,7 +403,7 @@ h3{
   min-width: 26%;
   padding: 0.4vh 0.1vw;
   box-sizing: border-box;
-  font-size: calc( 4.6vh * (9/16));
+  font-size: calc(4.6vh * (9/16));
   font-weight: 900;
   color: #fff;
   text-align: center;
@@ -359,7 +416,7 @@ h3{
 .rotor-arrow:active,
 .ring-btn:active {
   transform: translateY(2px) scale(0.995);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.45);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.45);
 }
 
 /* hover/focus for desktop (does not affect touch) */
@@ -368,13 +425,13 @@ h3{
 .rotor-arrow:focus,
 .ring-btn:focus {
   transform: translateY(-2px);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.55);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.55);
 }
 
 /* if you want a clear selected/pressed look when cycling rotor types */
 .rotor .rotor-type-display.updated {
   /* TODO correct vh and vw */
-  background: rgba(250,204,21,0.12);
+  background: rgba(250, 204, 21, 0.12);
   border-radius: 1.0vw;
   color: #fff;
 }
@@ -390,7 +447,7 @@ h3{
 /* Accessibility: visible focus ring for keyboard users */
 .rotor-arrow:focus-visible,
 .ring-btn:focus-visible {
-  box-shadow: 0 0 0 4px rgba(250,204,21,0.18), 0 10px 20px rgba(0,0,0,0.45);
+  box-shadow: 0 0 0 4px rgba(250, 204, 21, 0.18), 0 10px 20px rgba(0, 0, 0, 0.45);
   outline: none;
 }
 
@@ -415,9 +472,10 @@ h3{
   display: flex;
   flex-direction: column;
   gap: 1.2vh;
-  align-items: center;       /* center the rows */
+  align-items: center;
+  /* center the rows */
   justify-content: flex-start;
-  padding-top: 1vh;
+  padding-top: 2vh;
 }
 
 /* keyboard row container */
@@ -434,26 +492,32 @@ h3{
 /* larger square keys that scale with viewport */
 .key {
   /* TODO correct vh and vw */
-  background: linear-gradient(180deg,#0b1726,#071022);
+  background: linear-gradient(180deg, #0b1726, #071022);
   border-radius: calc(2vh *(9/16));
-  width: calc( (82vw) / 10 ); /* base size, will be constrained by min/max */
+  width: calc((82vw) / 10);
+  /* base size, will be constrained by min/max */
   min-width: calc(3vh * (9/16));
   max-width: 10%;
-  height: 6.4vh;            /* tall keys to fill vertical space */
+  height: 6.4vh;
+  /* tall keys to fill vertical space */
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: calc(8vh * (9/16));          /* bigger letter size */
+  font-size: calc(8vh * (9/16));
+  /* bigger letter size */
   font-weight: 900;
-  box-shadow: 0 8px 16px rgba(0,0,0,0.5);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
   cursor: pointer;
   user-select: none;
   color: #fff;
 }
 
 
-@media(max-aspect-ratio: 9/17){
-  .key{
+@media(max-aspect-ratio: 9/17) {
+  .key {
+    font-size: calc(6vh * (9/16));
+  }
+  .plug {
     font-size: calc(6vh * (9/16));
   }
 }
@@ -468,56 +532,65 @@ h3{
   gap: 1vh;
   padding: 2%;
   box-sizing: border-box;
-  background: rgba(255,255,255,0.01);
+  background: rgba(255, 255, 255, 0.01);
 }
 
 .plug {
   /* TODO correct vh and vw */
   background: rgba(255, 255, 255, 0.04);
-  width: calc(8vh * (9/16));
-  height: 6.4vh;
+  border-radius: calc(2vh *(9/16));
+  width: calc((82vw) / 10);
+  /* base size, will be constrained by min/max */
   min-width: calc(3vh * (9/16));
-  max-width: 340px;
-  max-height: 340px;
+  max-width: 10%;
+  height: 6.4vh;
+  /* tall keys to fill vertical space */
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: calc(8vh * (9/16));          /* bigger letter size */
+  font-size: calc(8vh * (9/16));
+  /* bigger letter size */
   font-weight: 900;
-  border-radius: calc(2vh *(9/16));
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
   cursor: pointer;
-  box-shadow: 0 6px 16px rgba(0,0,0,0.45);
-  transition: transform 120ms ease, box-shadow 120ms ease, background 150ms ease;
   user-select: none;
+  color: #fff;
+  transition: transform 120ms ease, box-shadow 120ms ease, background 150ms ease;
   position: relative;
 }
 
-@media(max-aspect-ratio: 9/17){
-  .plug{
+@media(max-aspect-ratio: 9/17) {
+  .plug {
     font-size: calc(6vh * (9/16));
     width: calc(6vh * (9/16));
   }
-} 
+}
 
 /* Paired plugs get a colored background via inline style set from JS,
    but keep a common paired class to adjust text color, contrast, and border. */
 .plug.paired {
   /* TODO correct vh and vw */
   color: #ffffff !important;
-  box-shadow: 0 6px 16px rgba(0,0,0,0.55), inset 0 -6px 12px rgba(0,0,0,0.15);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.55), inset 0 -6px 12px rgba(0, 0, 0, 0.15);
 }
 
-.plug:active { transform: translateY(2px) scale(0.995); }
-.plug:focus { outline: none; box-shadow: 0 10px 22px rgba(0,0,0,0.55); }
+.plug:active {
+  transform: translateY(2px) scale(0.995);
+}
+
+.plug:focus {
+  outline: none;
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.55);
+}
 
 /* Modal styles (rotor picker / reflector editor) */
 .modal-back {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.6);
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   z-index: 9999;
 }
 
@@ -531,22 +604,31 @@ h3{
   box-sizing: border-box;
 }
 
-.rotor-list { display:flex; flex-wrap:wrap; gap:1.6vw; justify-content:center; }
+.rotor-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.6vw;
+  justify-content: center;
+}
+
 .rotor-item {
   /* TODO correct vh and vw */
   padding: 0.8vw 1.2vw;
   font-size: 3.2vw;
   border-radius: 0.8vw;
-  background: rgba(255,255,255,0.02);
+  background: rgba(255, 255, 255, 0.02);
   cursor: pointer;
 }
 
 /* small helper text */
-.small { font-size: calc(4vh * (9/16)); color: rgba(00, 135, 130); }
+.small {
+  font-size: calc(4vh * (9/16));
+  color: rgba(00, 135, 130);
+}
 
 
-@media(max-aspect-ratio: 9/17){
-  .small{
+@media(max-aspect-ratio: 9/17) {
+  .small {
     font-size: calc(3vh * (9/16));
   }
 }
@@ -555,7 +637,8 @@ h3{
 
 .enigma-menu-container {
   /* TODO correct vh and vw */
-  background-image: url('/pictures/enigma/background_menu.webp'); /* optional */
+  background-image: url('/pictures/enigma/background_menu.webp');
+  /* optional */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -570,7 +653,8 @@ h3{
 
 .enigma-title {
   text-align: center;
-  font-size: calc(16vh * (9/16)); /* big title like TicTacToe */
+  font-size: calc(16vh * (9/16));
+  /* big title like TicTacToe */
   color: white;
   text-shadow: 0 0 0.2em #000;
   margin-bottom: 5vh;
@@ -580,7 +664,8 @@ h3{
 .enigma-menu-button {
   background-color: #008782;
   color: white;
-  font-size: calc(8vh * (9/16));       /* large text */
+  font-size: calc(8vh * (9/16));
+  /* large text */
   font-weight: bold;
   width: 60%;
   padding: 0.3em;
@@ -602,7 +687,8 @@ h3{
   position: absolute;
   top: 4vh;
   left: 4vw;
-  height: 12vw;   /* scaled for tall display */
+  height: 12vw;
+  /* scaled for tall display */
   cursor: pointer;
   background: none;
   border: none;
@@ -650,7 +736,7 @@ h3{
   font-size: 4.8vw;
   padding: 1.2vh 1.4vw;
   border-radius: 1.2vw;
-  background: rgba(255,255,255,0.04);
+  background: rgba(255, 255, 255, 0.04);
   color: #fff;
   border: none;
   min-width: 36vw;
@@ -667,58 +753,56 @@ h3{
   color: #fff;
   border: none;
   min-width: 32vw;
-  box-shadow: 3px 6px 12px rgba(0,0,0,0.4);
+  box-shadow: 3px 6px 12px rgba(0, 0, 0, 0.4);
   cursor: pointer;
 }
 
 /* Reflector styling to match keyboard/plugboard keys */
 .rotor.reflector {
-  background: linear-gradient(180deg,#0b1726,#071022);
-  box-shadow: 0 8px 16px rgba(0,0,0,0.5);
+  background: linear-gradient(180deg, #0b1726, #071022);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
 }
 
 .rotor.reflector .rotor-type-display {
-  background: linear-gradient(180deg,#0b1726,#071022);
+  background: linear-gradient(180deg, #0b1726, #071022);
   border-radius: calc(2vh *(9/16));
-  box-shadow: 0 8px 16px rgba(0,0,0,0.5);
-  color: #fff;
   padding: 0.4vh 0.8vw;
   transition: transform 120ms ease, box-shadow 120ms ease, background 150ms ease;
 }
 
 .rotor.reflector .rotor-type-display:hover {
-  box-shadow: 0 10px 22px rgba(0,0,0,0.55);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.55);
 }
 
 .rotor.reflector .rotor-type-display:active {
   transform: translateY(2px) scale(0.995);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.45);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.45);
 }
 
 .rotor.reflector .ring-display.small {
-  background: linear-gradient(180deg,#0b1726,#071022);
+  background: linear-gradient(180deg, #0b1726, #071022);
   border-radius: calc(2vh *(9/16));
-  box-shadow: 0 8px 16px rgba(0,0,0,0.5);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
   color: #fff;
   padding: 0.4vh 0.8vw;
   transition: transform 120ms ease, box-shadow 120ms ease, background 150ms ease;
 }
 
 .rotor.reflector .ring-display.small:hover {
-  box-shadow: 0 10px 22px rgba(0,0,0,0.55);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.55);
 }
 
 .rotor.reflector .ring-display.small:active {
   transform: translateY(2px) scale(0.995);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.45);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.45);
 }
 
 /* Reflector pairs modal - keycap style */
 .reflect-grid .pair-btn {
-  background: linear-gradient(180deg, rgba(250,204,21,0.95), rgba(250,204,21,0.9));
-  border: 2px solid rgba(0,0,0,0.8);
+  background: linear-gradient(180deg, rgba(250, 204, 21, 0.95), rgba(250, 204, 21, 0.9));
+  border: 2px solid rgba(0, 0, 0, 0.8);
   border-radius: calc(1.2vh * (9/16));
-  box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
   color: rgb(0, 60, 50);
   font-size: 2vh;
   font-weight: 900;
@@ -739,30 +823,58 @@ h3{
 }
 
 .reflect-grid .pair-btn:hover {
-  box-shadow: 0 6px 12px rgba(0,0,0,0.5);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
   transform: translateY(-1px);
 }
 
 .reflect-grid .pair-btn:active {
   transform: translateY(1px) scale(0.98);
-  box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
 }
 
 .reflect-grid .pair-btn:focus {
   outline: none;
-  box-shadow: 0 6px 12px rgba(0,0,0,0.5), 0 0 0 2px rgba(250,204,21,0.3);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5), 0 0 0 2px rgba(234, 221, 172, 0.3);
 }
 
-/* Mobile Layout Optimization: Compact 2 rows for rotors */
+/* ========== BASE STYLES (Mobile & Desktop up to 1920px) ========== */
+@media (max-width: 1920px) {
+  .key,
+  .plug {
+    min-width: 8vw;
+    max-width: 10%;
+    height: 4.5vh;
+    padding: 0.5vh 0.8vw;
+    border-radius: 0.8vh;
+    font-size: 1.8vh;
+    font-weight: 500;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  .plug {
+    border: none;
+  }
+
+  .reflect-grid .pair-btn {
+    width: 8vw;
+    min-width: 44px;
+    height: 4.5vh;
+    min-height: 44px;
+    padding: 0.5vh 0.8vw;
+    border-radius: 0.8vh;
+    font-size: 1.8vh;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+  }
+}
+
+/* ========== MOBILE LAYOUT (max-width: 768px) ========== */
 @media (max-width: 768px) {
   .container.enigma-machine-container {
     justify-content: space-evenly;
   }
 
-  /* Logo on left, output on right in top row */
   .firstLayer {
     height: 7.5vh;
-    display: flex;
     flex-direction: row;
     align-items: flex-start;
     justify-content: flex-start;
@@ -781,10 +893,8 @@ h3{
   .firstLayer .baltazarTitle img {
     max-height: 6.5vh;
     margin: 0.6vh;
-    display: block;
   }
 
-  /* Position output in firstLayer area to the right of logo */
   .secondLayer {
     position: relative;
     height: auto;
@@ -792,18 +902,16 @@ h3{
     max-height: 26%;
     min-height: 0;
     padding-top: 0;
-    display: flex;
-    flex-direction: column;
     justify-content: flex-end;
   }
 
   .secondLayer .output {
     position: absolute;
     top: -7.7vh;
-    left: 120px;
+    left: clamp(100px, 30vw, 130px);
     right: 2vw;
     width: auto;
-    min-height: 5.2vh;     
+    min-height: 5.2vh;
     height: auto;
     font-size: 1.6vh;
     line-height: 1.2;
@@ -815,9 +923,7 @@ h3{
   .secondLayer .clear-btn {
     position: relative;
     transform: translateY(-0.6vh);
-    top: auto;
-    left: auto;
-    margin-top: 0.8vh;      
+    margin-top: 0.8vh;
     padding: 0.6vh 1.2vw;
     font-size: 1.4vh;
     line-height: 1.2;
@@ -834,12 +940,17 @@ h3{
     height: 3.5vh;
   }
 
+  .controls {
+    margin-top: 0.3vh;
+    gap: 0.3vh;
+    padding-top: 2vh;
+  }
+
   .rotor-row {
     flex-wrap: wrap;
     column-gap: 3vw;
     row-gap: 0.5vh;
     align-content: center;
-    justify-content: center;
   }
 
   .rotor {
@@ -851,7 +962,6 @@ h3{
     position: relative;
   }
 
-  /* Rotor position markers (L, S, D) - inside top-left corner */
   .rotor::before {
     content: '';
     position: absolute;
@@ -867,25 +977,29 @@ h3{
     z-index: 3;
     letter-spacing: 0;
     line-height: 1;
-    display: block;
     white-space: nowrap;
   }
 
-  /* Label each rotor position */
   .rotor:nth-child(1)::before {
-    content: 'L';  /* Left rotor */
-
+    content: 'L';
   }
 
   .rotor:nth-child(2)::before {
-    content: 'S';   /* Middle (srednji) rotor */
+    content: 'S';
   }
 
   .rotor:nth-child(3)::before {
-    content: 'D';  /* Right (desni) rotor */
+    content: 'D';
   }
 
-  /* Compact internals for mobile */
+  .rotor.reflector::before {
+    content: none !important;
+  }
+
+  .rotor.reflector input[type="radio"] {
+    display: none !important;
+  }
+
   .rotor .rotor-top-menu,
   .rotor .rotor-ring-menu {
     padding: 0.15vh 0.3vw;
@@ -904,34 +1018,6 @@ h3{
     padding: 0.15vh 0.05vw;
   }
 
-  /* Reflector mobile styles to match keyboard/plugboard */
-  .rotor.reflector .rotor-type-display,
-  .rotor.reflector .ring-display.small {
-    border-radius: 0.8vh;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    padding: 0.5vh 0.8vw;
-    font-size: 1.8vh;
-    font-weight: 500;
-  }
-
-  .reflect-grid .pair-btn {
-    width: 8vw;
-    min-width: 44px;
-    height: 4.5vh;
-    min-height: 44px;
-    padding: 0.5vh 0.8vw;
-    border-radius: 0.8vh;
-    border: 2px solid rgba(0,0,0,0.8);
-    font-size: 1.8vh;
-    font-weight: 900;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
-    background: linear-gradient(180deg, rgba(250,204,21,0.95), rgba(250,204,21,0.9));
-    color: rgb(0, 60, 50);
-    box-sizing: border-box;
-    touch-action: manipulation;
-    -webkit-tap-highlight-color: transparent;
-  }
-
   .rotor-arrow,
   .ring-btn {
     font-size: 1.1vh;
@@ -945,13 +1031,6 @@ h3{
     font-size: 1.2vh;
   }
 
-  .controls {
-    margin-top: 0.3vh;
-    gap: 0.3vh;
-    padding-top: 2vh;
-  }
-
-  /* Maximize keyboard space */
   .thirdLayer {
     height: auto;
     flex-grow: 0;
@@ -960,54 +1039,447 @@ h3{
     margin-bottom: 0.3vh;
     padding: 0 1vw;
   }
+
   .keyboard {
     gap: 0.5vh;
     padding: 0.5vh;
   }
-  .keyboard-row{
+
+  .keyboard-row {
     gap: 0.3vh;
-    justify-content: center;
     margin: 0.2vh 0;
   }
-  .key{
-    min-width: 8vw;
-    max-width: 10%;
-    height: 4.5vh;
-    padding: 0.5vh 0.8vw;
-    border-radius: 0.8vh; 
-    font-size: 1.8vh;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    justify-content: center;    
-    transition: all 0.15s ease;    
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+
+  .fourthLayer {
+    height: auto;
+    max-height: 24%;
+    flex-grow: 0;
   }
 
   .plugboard {
     gap: 0.5vh;
     padding: 0.5vh;
   }
+}
 
+/* ========== SHARED DESKTOP STYLES (769px+ Landscape) ========== */
+@media (min-width: 769px) and (orientation: landscape) {
+  .container.enigma-machine-container {
+    max-width: none;
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    top: 0;
+    left: 0;
+    transform: none;
+  }
+
+  .rotor-row {
+    flex-wrap: nowrap;
+  }
+}
+
+/* ========== DESKTOP LANDSCAPE (769px - 1920px) ========== */
+@media (min-width: 769px) and (max-width: 1920px) and (orientation: landscape) {
+  .container.enigma-container {
+    max-width: 100vw !important;
+    width: 100vw !important;
+  }
+  .enigma-menu-button {
+    max-width: 400px !important;
+    width: auto !important;
+    padding: 0.3em 1.5em !important;
+    margin: 2vh auto !important;
+    transition: all 0.2s ease !important;
+  }
+  .enigma-menu-button:hover {
+    transform: scale(1.05) !important;
+    box-shadow: 5px 7px 10px rgba(0, 0, 0, 0.4) !important;
+  }
+  .instructionsTable tr.instructionsImages img {
+    max-width: 20% !important;
+    height: auto !important;
+  }
+  .thirdLayer {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    margin-top: 2vh;
+  }
+
+  .fourthLayer {
+    margin-top: -2.5vh;
+    padding-top: 0;
+    padding-bottom: 2vh;
+    overflow: visible;
+  }
+
+  .output {
+    width: 60% !important;
+    max-width: 800px !important;
+  }
+
+  .keyboard,
+  .plugboard {
+    max-width: 1600px !important;
+    width: 100% !important;
+    margin: 0 auto !important;
+    gap: 0.5vh !important;
+    padding: 0.5vh !important;
+  }
+
+  .plugboard {
+    justify-content: center !important;
+    margin-bottom: 1vh;
+  }
+
+  .key,
+  .plug {
+    min-width: 9vw;
+    max-width: 11%;
+    height: 5.5vh;
+    padding: 0.6vh 1vw;
+    border-radius: 0.9vh;
+    font-size: 2.2vh;
+    font-weight: 800;
+    color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+  }
+
+  .plug {
+    border: none;
+  }
+
+  .small {
+    font-size: clamp(1.4vh, 1.6vh, 1.8vh) !important;
+    margin-top: 1vh !important;
+    margin-bottom: 1vh !important;
+    padding: 0 2vw;
+  }
+}
+
+/* Show cursor on devices with mouse (laptops/desktops) */
+@media (hover: hover) and (pointer: fine) {
+  body, html {
+    cursor: default !important;
+  }
+  .firstLayer .btn {
+    cursor: pointer !important;
+  }
+}
+
+/* ========== VERTICAL 4K TV PORTRAIT (2160×3840) ========== */
+@media (width: 2160px) and (height: 3840px) and (orientation: portrait) {
+  .container.enigma-machine-container {
+    position: relative;
+    top: 0;
+    left: 0;
+    transform: none;
+    width: 100vw;
+    height: 100vh;
+    max-width: 100vw;
+    justify-content: space-evenly;
+    align-items: center;
+    overflow: visible;
+  }
+
+  .firstLayer {
+    height: 10vh;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    gap: 0;
+    display: flex;
+  }
+
+  .firstLayer .baltazarTitle {
+    flex-shrink: 0;
+    margin-top: 0.8vh;
+    display: block;
+    visibility: visible;
+  }
+
+  .firstLayer .baltazarTitle img {
+    max-height: 6.5vh !important;
+    height: auto !important;
+    width: auto !important;
+    margin-left: 6vw !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: relative;
+    top: -4vh;
+    left: 6vw;
+  }
+
+  .secondLayer {
+    position: relative;
+    height: auto;
+    flex-grow: 1;
+    max-height: 26%;
+    min-height: 0;
+    padding-top: 0;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  .secondLayer .output {
+    position: absolute;
+    top: -14vh;
+    right: clamp(30px, 5vw, 100px);
+    left: auto;
+    max-width: 60vw;
+    height: clamp(120px, 10vh, 220px);
+    font-size: 2vh;
+    line-height: 1.2;
+    padding: 1.5vh 2vw;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+  }
+
+  .secondLayer .clear-btn {
+    position: absolute;
+    top: calc(-14vh + 5.7vh + 0.8vh);
+    padding: 0.3vh 0.8vw;
+    font-size: 1.6vh;
+    z-index: 10;
+    cursor: pointer;
+  }
+
+  .letter-controls {
+    margin-top: 0.5vh;
+    margin-bottom: 0.5vh;
+  }
+
+  .letter-controls .pos-btn {
+    width: 4.5vh;
+    height: 4.5vh;
+    cursor: pointer;
+  }
+
+  .controls {
+    margin-top: 0.3vh;
+    gap: 0.3vh;
+    padding-top: 2vh;
+  }
+
+  .rotor-row {
+    flex-wrap: wrap;
+    column-gap: 3vw;
+    row-gap: 0.5vh;
+    align-content: center;
+    justify-content: center;
+  }
+
+  .rotor {
+    width: 44%;
+    max-width: 38%;
+    height: auto;
+    min-height: 7vh;
+    padding: 0.25vh;
+    border-radius: 1.2vh;
+    position: relative;
+  }
+
+  .rotor::before {
+    content: '';
+    position: absolute;
+    top: 0.4vh;
+    left: 0.5vw;
+    font-size: 2.1vh;
+    font-weight: 800;
+    color: #facc15;
+    background: rgba(8, 18, 38, 0.7);
+    padding: 0.3vh 0.6vw;
+    border-radius: 0.3vh;
+    pointer-events: none;
+    z-index: 3;
+    letter-spacing: 0;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  .rotor:nth-child(1)::before {
+    content: 'L';
+  }
+
+  .rotor:nth-child(2)::before {
+    content: 'S';
+  }
+
+  .rotor:nth-child(3)::before {
+    content: 'D';
+  }
+
+  .rotor.reflector::before {
+    content: none !important;
+  }
+
+  .rotor.reflector input[type="radio"] {
+    display: none !important;
+  }
+
+  .rotor .rotor-top-menu,
+  .rotor .rotor-ring-menu {
+    padding: 0.15vh 0.3vw;
+    margin: 0;
+    gap: 0.1vw;
+  }
+
+  .rotor .letter {
+    font-size: 3vh;
+    margin: 0.1vh 0;
+  }
+
+  .rotor-type-display,
+  .ring-display {
+    font-size: calc(4.2vh * (9/16));
+    padding: 0.15vh 0.05vw;
+  }
+
+  .rotor-arrow,
+  .ring-btn {
+    font-size: 1.65vh;
+    max-width: 98px;
+    max-height: 135px;
+    cursor: pointer;
+  }
+
+  .pos-btn {
+    width: 4vw;
+    height: 3.5vh;
+    font-size: 1.8vh;
+    cursor: pointer;
+  }
+
+  .thirdLayer {
+    height: auto;
+    flex-grow: 0;
+    max-height: 35%;
+    margin-top: 0.5vh;
+    margin-bottom: 0.3vh;
+    padding: 0 1vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .keyboard,
+  .plugboard {
+    gap: 0.5vh;
+    padding: 0.5vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .keyboard {
+    flex-direction: column;
+  }
+
+  .keyboard-row {
+    gap: 0.3vh;
+    margin: 0.2vh 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .key,
   .plug {
     min-width: 8vw;
     max-width: 10%;
     height: 4.5vh;
     padding: 0.5vh 0.8vw;
-    border-radius: 1vh;
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    font-size: 1.8vh;
-    font-weight: 900;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.15s ease;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    border-radius: 0.8vh;
+    font-size: 2.7vh;
+    cursor: pointer;
   }
-  
+
   .fourthLayer {
     height: auto;
     max-height: 24%;
     flex-grow: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
-}
+
+  .plugboard {
+    flex-wrap: wrap;
+  }
+  .instructionsTable tr.instructionsImages img {
+    max-width: 20% !important;
+    height: auto !important;
+    display: block;
+    margin: 0 auto;
+  }
+
+  .modal {
+    width: 95vw !important;
+    max-width: 2000px !important;
+    padding: 4vh 3vw !important;
+    border-radius: 2vh !important;
+  }
+
+  .modal h3 {
+    font-size: 4vh !important;
+    margin-bottom: 3vh !important;
+  }
+
+  .reflect-grid {
+    width: 100% !important;
+    max-width: 90% !important;
+    margin: 2vh auto !important;
+    display: grid !important;
+    grid-template-columns: repeat(5, 1fr) !important;
+    gap: 2vh 2.5vw !important;
+    padding: 2vh 1vw !important;
+    justify-content: center !important;
+    box-sizing: border-box !important;
+  }
+  
+  .reflect-grid .pair-btn {
+    font-size: 2.2vh !important;
+    height: 6vh !important;
+    width: 100% !important;           
+    padding: 0.8vh 0 !important;
+  
+    border-radius: 1.2vh !important;
+    font-weight: 600 !important;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4) !important;
+    border: 2px solid rgba(0, 0, 0, 0.8) !important;
+  
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  
+    text-align: center !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+    box-sizing: border-box !important;
+  }
+  .modal button {
+    font-size: 2.5vh !important;
+    padding: 0.8vh 1vw !important;
+    min-height: 5vh !important;
+    min-width: 150px !important;
+    margin-left: 1.5vw !important;
+    border-radius: 1vh !important;
+    font-weight: 500 !important;
+    cursor: pointer !important;
+  }
+
+  .modal div[style*="margin-top"] {
+    margin-top: 3vh !important;
+    text-align: right !important;
+  }
+} 
