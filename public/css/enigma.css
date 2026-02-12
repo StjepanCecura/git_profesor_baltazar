@@ -1200,7 +1200,7 @@ h3 {
   }
 
   .firstLayer .baltazarTitle img {
-    max-height: 6.5vh !important;
+    max-height: 4.5vh !important;
     height: auto !important;
     width: auto !important;
     margin-left: 6vw !important;
@@ -1225,10 +1225,10 @@ h3 {
 
   .secondLayer .output {
     position: absolute;
-    top: -14vh;
+    top: -5vh;
     right: clamp(30px, 5vw, 100px);
     left: auto;
-    max-width: 60vw;
+    max-width: 55vw;
     height: clamp(120px, 10vh, 220px);
     font-size: 2vh;
     line-height: 1.2;
