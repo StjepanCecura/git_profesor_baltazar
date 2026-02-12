@@ -1225,7 +1225,8 @@ h3 {
 
   .secondLayer .output {
     position: absolute;
-    top: -5vh;
+    top: 0;
+    transform: translateY(-14vh);
     right: clamp(30px, 5vw, 100px);
     left: auto;
     max-width: 55vw;
