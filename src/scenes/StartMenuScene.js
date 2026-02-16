@@ -30,12 +30,14 @@ export default class StartMenuScene extends BaseScene {
 
     this.games = [
       { name: "Enigma stroj", logo: this.assets.images.get('enigmaMachine').src, scene: "Enigma"},
+      /*
       { name: "Ninja fruit", logo: this.assets.images.get('ninjafruitLogo').src, scene: "NinjaFruit" },
       { name: "Crtanje", logo: this.assets.images.get('crtanjeLogo').src, scene: "Drawing" },
       { name: "Kamen papir škare", logo: this.assets.images.get('KSPLogo').src, scene: "KSP" },
       { name: "Memory", logo: this.assets.images.get('memoryLogo').src, scene: "Memory" },
       { name: "Labirint", logo: this.assets.images.get('labyrinthLogo').src, scene: "Labirint" },
       { name: "Križić-kružić", logo: this.assets.images.get('tictactoeLogo').src, scene: "TicTacToe" },
+      */
     ];
     this.sceneEntryTime = performance.now();
     this.lastFrameGestures = {};
