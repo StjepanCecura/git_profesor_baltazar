@@ -18,6 +18,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Show workspace info
+        run: |
+          echo "Current directory:"
+          pwd
+          echo "Repository contents:"
+          ls -la
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
@@ -26,24 +33,19 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
-        working-directory: ./git_profesor_baltazar
 
       - name: Build (staging)
         run: npm run build -- --mode staging
-        working-directory: ./git_profesor_baltazar
 
-      - name: Check dist folder exists
+      - name: Verify build output
         run: |
-          echo "Checking if dist folder exists"
+          echo "Checking dist folder..."
           if [ ! -d "./dist" ]; then
             echo "ERROR: dist folder missing!"
             exit 1
           fi
-        working-directory: ./git_profesor_baltazar
-
-      - name: List build output
-        run: ls -la dist
-        working-directory: ./git_profesor_baltazar
+          echo "dist contents:"
+          ls -la dist
 
       - name: Setup SSH
         run: |
@@ -53,17 +55,18 @@ jobs:
           ssh-keyscan -p ${{ secrets.SSH_PORT }} -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
 
       - name: Test SSH connection
-        run: ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "echo 'SSH connection OK'"
+        run: ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "echo SSH connection successful"
 
       - name: Ensure remote directory exists
         run: ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "mkdir -p /home/${{ secrets.SSH_USER }}/public_html/igre-staging"
 
       - name: Deploy to Staging
-        run: rsync -avz --progress --delete -e "ssh -p ${{ secrets.SSH_PORT }}" ./dist/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/${{ secrets.SSH_USER }}/public_html/igre-staging/
-        working-directory: ./git_profesor_baltazar
+        run: rsync -avz --progress --delete -e "ssh -p ${{ secrets.SSH_PORT }}" dist/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/${{ secrets.SSH_USER }}/public_html/igre-staging/
 
-      - name: List remote folder
+      - name: Verify remote deployment
         run: ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "ls -la /home/${{ secrets.SSH_USER }}/public_html/igre-staging"
+
+
 
   deploy-production:
     if: github.event_name == 'release'
@@ -74,6 +77,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Show workspace info
+        run: |
+          echo "Current directory:"
+          pwd
+          echo "Repository contents:"
+          ls -la
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
@@ -82,24 +92,19 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
-        working-directory: ./git_profesor_baltazar
 
       - name: Build (production)
         run: npm run build -- --mode production
-        working-directory: ./git_profesor_baltazar
 
-      - name: Check dist folder exists
+      - name: Verify build output
         run: |
-          echo "Checking if dist folder exists"
+          echo "Checking dist folder..."
           if [ ! -d "./dist" ]; then
             echo "ERROR: dist folder missing!"
             exit 1
           fi
-        working-directory: ./git_profesor_baltazar
-
-      - name: List build output
-        run: ls -la dist
-        working-directory: ./git_profesor_baltazar
+          echo "dist contents:"
+          ls -la dist
 
       - name: Setup SSH
         run: |
@@ -109,14 +114,13 @@ jobs:
           ssh-keyscan -p ${{ secrets.SSH_PORT }} -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
 
       - name: Test SSH connection
-        run: ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "echo 'SSH connection OK'"
+        run: ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "echo SSH connection successful"
 
       - name: Ensure remote directory exists
         run: ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "mkdir -p /home/${{ secrets.SSH_USER }}/public_html/igre"
 
       - name: Deploy to Production
-        run: rsync -avz --progress --delete -e "ssh -p ${{ secrets.SSH_PORT }}" ./dist/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/${{ secrets.SSH_USER }}/public_html/igre/
-        working-directory: ./git_profesor_baltazar
+        run: rsync -avz --progress --delete -e "ssh -p ${{ secrets.SSH_PORT }}" dist/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/${{ secrets.SSH_USER }}/public_html/igre/
 
-      - name: List remote folder
+      - name: Verify remote deployment
         run: ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "ls -la /home/${{ secrets.SSH_USER }}/public_html/igre"
