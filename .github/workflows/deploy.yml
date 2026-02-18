@@ -39,13 +39,13 @@ jobs:
 
       - name: Verify build output
         run: |
-          echo "Checking dist folder..."
-          if [ ! -d "./dist" ]; then
-            echo "ERROR: dist folder missing!"
+          echo "Checking src/dist folder..."
+          if [ ! -d "./src/dist" ]; then
+            echo "ERROR: src/dist folder missing!"
             exit 1
           fi
-          echo "dist contents:"
-          ls -la dist
+          echo "Build output contents:"
+          ls -la src/dist
 
       - name: Setup SSH
         run: |
@@ -61,7 +61,7 @@ jobs:
         run: ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "mkdir -p /home/${{ secrets.SSH_USER }}/public_html/igre-staging"
 
       - name: Deploy to Staging
-        run: rsync -avz --progress --delete -e "ssh -p ${{ secrets.SSH_PORT }}" dist/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/${{ secrets.SSH_USER }}/public_html/igre-staging/
+        run: rsync -avz --progress --delete -e "ssh -p ${{ secrets.SSH_PORT }}" src/dist/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/${{ secrets.SSH_USER }}/public_html/igre-staging/
 
       - name: Verify remote deployment
         run: ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "ls -la /home/${{ secrets.SSH_USER }}/public_html/igre-staging"
@@ -98,13 +98,13 @@ jobs:
 
       - name: Verify build output
         run: |
-          echo "Checking dist folder..."
-          if [ ! -d "./dist" ]; then
-            echo "ERROR: dist folder missing!"
+          echo "Checking src/dist folder..."
+          if [ ! -d "./src/dist" ]; then
+            echo "ERROR: src/dist folder missing!"
             exit 1
           fi
-          echo "dist contents:"
-          ls -la dist
+          echo "Build output contents:"
+          ls -la src/dist
 
       - name: Setup SSH
         run: |
@@ -120,7 +120,7 @@ jobs:
         run: ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "mkdir -p /home/${{ secrets.SSH_USER }}/public_html/igre"
 
       - name: Deploy to Production
-        run: rsync -avz --progress --delete -e "ssh -p ${{ secrets.SSH_PORT }}" dist/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/${{ secrets.SSH_USER }}/public_html/igre/
+        run: rsync -avz --progress --delete -e "ssh -p ${{ secrets.SSH_PORT }}" src/dist/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/${{ secrets.SSH_USER }}/public_html/igre/
 
       - name: Verify remote deployment
         run: ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "ls -la /home/${{ secrets.SSH_USER }}/public_html/igre"
