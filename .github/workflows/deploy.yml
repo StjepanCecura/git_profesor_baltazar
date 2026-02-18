@@ -15,26 +15,35 @@ jobs:
     environment: staging
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: npm
 
-      - run: npm ci
-      - run: npm run build -- --mode staging
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build (staging)
+        run: npm run build -- --mode staging
 
       - name: Setup SSH
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
-          ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+          ssh-keyscan -p ${{ secrets.SSH_PORT }} -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
 
       - name: Deploy to Staging
         run: |
-          rsync -avz --delete dist/ \
-          ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/public_html/igre-staging/
+          rsync -az --delete \
+          -e "ssh -p ${{ secrets.SSH_PORT }}" \
+          dist/ \
+          ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/${{ secrets.SSH_USER }}/public_html/igre-staging/
+
 
   deploy-production:
     if: github.event_name == 'release'
@@ -42,23 +51,31 @@ jobs:
     environment: production
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: npm
 
-      - run: npm ci
-      - run: npm run build -- --mode production
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build (production)
+        run: npm run build -- --mode production
 
       - name: Setup SSH
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
-          ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+          ssh-keyscan -p ${{ secrets.SSH_PORT }} -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
 
       - name: Deploy to Production
         run: |
-          rsync -avz --delete dist/ \
-          ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/public_html/igre/
+          rsync -az \
+          -e "ssh -p ${{ secrets.SSH_PORT }}" \
+          dist/ \
+          ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/${{ secrets.SSH_USER }}/public_html/igre/
