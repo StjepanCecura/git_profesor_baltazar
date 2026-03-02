@@ -20,6 +20,7 @@ Sigurnosne ranjivosti **ne prijavljuju se putem javnih GitHub issue-a**.
 Molimo da ih prijavite privatno putem e-maila:
 
 **[stjepan.cecura777@gmail.com](mailto:stjepan.cecura777@gmail.com)**
+**[direktor@git.hr](mailto:direktor@git.hr)**
 
 U prijavi je potrebno navesti:
 
