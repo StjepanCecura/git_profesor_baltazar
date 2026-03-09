@@ -1,0 +1,17 @@
+name: Ostalo
+description: Otvorite issue bez unaprijed definirane strukture
+title: "[ISSUE] Naslov"
+labels: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Molimo jasno opišite problem, prijedlog ili pitanje.
+
+  - type: textarea
+    id: opis
+    attributes:
+      label: Opis
+      placeholder: Opišite ovdje...
+    validations:
+      required: true
