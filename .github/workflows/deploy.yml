@@ -1,0 +1,138 @@
+name: Deploy igre
+
+on:
+  push:
+    branches:
+      - main
+  release:
+    types: [published]
+
+jobs:
+
+  deploy-staging:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    environment: staging
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Show workspace info
+        run: |
+          echo "Current directory:"
+          pwd
+          echo "Repository contents:"
+          ls -la
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run ESLint
+        run: npm run lint
+
+      - name: Audit dependencies
+        run: npm audit --audit-level=high
+
+      - name: Build (staging)
+        run: npm run build -- --mode staging
+
+      - name: Verify build output
+        run: |
+          echo "Checking src/dist folder..."
+          if [ ! -d "./src/dist" ]; then
+            echo "ERROR: src/dist folder missing!"
+            exit 1
+          fi
+          echo "Build output contents:"
+          ls -la src/dist
+
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -p ${{ secrets.SSH_PORT }} -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Test SSH connection
+        run: ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "echo SSH connection successful"
+
+      - name: Ensure remote directory exists
+        run: ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "mkdir -p /home/${{ secrets.SSH_USER }}/public_html/igre-staging"
+
+      - name: Deploy to Staging
+        run: rsync -avz --progress --delete -e "ssh -p ${{ secrets.SSH_PORT }}" src/dist/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/${{ secrets.SSH_USER }}/public_html/igre-staging/
+
+      - name: Verify remote deployment
+        run: ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "ls -la /home/${{ secrets.SSH_USER }}/public_html/igre-staging"
+
+
+
+  deploy-production:
+    if: github.event_name == 'release'
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Show workspace info
+        run: |
+          echo "Current directory:"
+          pwd
+          echo "Repository contents:"
+          ls -la
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run ESLint
+        run: npm run lint
+
+      - name: Audit dependencies
+        run: npm audit --audit-level=high
+
+      - name: Build (production)
+        run: npm run build -- --mode production
+
+      - name: Verify build output
+        run: |
+          echo "Checking src/dist folder..."
+          if [ ! -d "./src/dist" ]; then
+            echo "ERROR: src/dist folder missing!"
+            exit 1
+          fi
+          echo "Build output contents:"
+          ls -la src/dist
+
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -p ${{ secrets.SSH_PORT }} -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Test SSH connection
+        run: ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "echo SSH connection successful"
+
+      - name: Ensure remote directory exists
+        run: ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "mkdir -p /home/${{ secrets.SSH_USER }}/public_html/igre"
+
+      - name: Deploy to Production
+        run: rsync -avz --progress --delete -e "ssh -p ${{ secrets.SSH_PORT }}" src/dist/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/${{ secrets.SSH_USER }}/public_html/igre/
+
+      - name: Verify remote deployment
+        run: ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "ls -la /home/${{ secrets.SSH_USER }}/public_html/igre"
