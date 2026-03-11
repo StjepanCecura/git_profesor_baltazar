@@ -1,0 +1,69 @@
+name: Prijava greške
+description: Prijavite reproducibilnu grešku u aplikaciji
+title: "[BUG] Kratak opis problema"
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Hvala na prijavi greške. Molimo ispunite sve relevantne informacije kako bismo mogli reproducirati i ispraviti problem.
+
+  - type: textarea
+    id: opis
+    attributes:
+      label: Opis problema
+      description: Jasno i sažeto opišite što se događa.
+      placeholder: Opišite problem...
+    validations:
+      required: true
+
+  - type: textarea
+    id: koraci
+    attributes:
+      label: Koraci za reprodukciju
+      description: Navedite točne korake kako reproducirati problem.
+      placeholder: |
+        1. Otvoriti...
+        2. Pokrenuti...
+        3. Izvesti gestu...
+    validations:
+      required: true
+
+  - type: textarea
+    id: ocekivano
+    attributes:
+      label: Očekivano ponašanje
+      description: Što se trebalo dogoditi?
+    validations:
+      required: true
+
+  - type: textarea
+    id: stvarno
+    attributes:
+      label: Stvarno ponašanje
+      description: Što se zapravo dogodilo?
+    validations:
+      required: true
+
+  - type: dropdown
+    id: uredaj
+    attributes:
+      label: Vrsta uređaja
+      options:
+        - Desktop
+        - Mobilni uređaj
+        - Tablet
+    validations:
+      required: true
+
+  - type: input
+    id: preglednik
+    attributes:
+      label: Preglednik i verzija
+      placeholder: npr. Chrome 122, Firefox 123
+
+  - type: textarea
+    id: dodatno
+    attributes:
+      label: Dodatne informacije
+      description: Screenshot, logovi, dodatni detalji (ako postoje)

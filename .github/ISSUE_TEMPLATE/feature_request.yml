@@ -1,0 +1,38 @@
+name: Prijedlog nove funkcionalnosti
+description: Predložite novu funkcionalnost ili poboljšanje
+title: "[FEATURE] Naziv prijedloga"
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Hvala na prijedlogu. Molimo detaljno opišite ideju i njezinu svrhu.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem koji se rješava
+      description: Koji problem ova funkcionalnost rješava?
+      placeholder: Trenutno nije moguće...
+    validations:
+      required: true
+
+  - type: textarea
+    id: rjesenje
+    attributes:
+      label: Predloženo rješenje
+      description: Opišite kako bi funkcionalnost trebala raditi.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternativa
+    attributes:
+      label: Alternativna rješenja
+      description: Postoje li druga moguća rješenja?
+
+  - type: textarea
+    id: utjecaj
+    attributes:
+      label: Utjecaj na postojeću funkcionalnost
+      description: Hoće li ova promjena utjecati na postojeće igre ili sustav gesti?

@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Sigurnosna ranjivost
+    url: mailto:security@yourdomain.com
+    about: Sigurnosne ranjivosti prijavljuju se privatno putem e-maila.
