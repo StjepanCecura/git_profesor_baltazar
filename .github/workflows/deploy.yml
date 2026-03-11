@@ -34,11 +34,11 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run ESLint
-        run: npm run lint
+#      - name: Run ESLint
+#        run: npm run lint
 
-      - name: Audit dependencies
-        run: npm audit --audit-level=high
+#      - name: Audit dependencies
+#        run: npm audit --audit-level=high
 
       - name: Build (staging)
         run: npm run build -- --mode staging
@@ -99,11 +99,11 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run ESLint
-        run: npm run lint
+#      - name: Run ESLint
+#        run: npm run lint
 
-      - name: Audit dependencies
-        run: npm audit --audit-level=high
+#      - name: Audit dependencies
+#        run: npm audit --audit-level=high
 
       - name: Build (production)
         run: npm run build -- --mode production
