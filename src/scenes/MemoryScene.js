@@ -116,22 +116,29 @@ export default class MemoryGameScene extends BaseScene {
     return `${mins}:${secs}`;
   }
   setupCards() {
-    const cardTypes = [];
-    for (let i = 1; i <= 6; i++) {
-      cardTypes.push(`mem-card${i}`);
-    }
+    let allCards = [];
 
-    const allCards = [...cardTypes, ...cardTypes];
+    this.cardPairs.forEach((pair, pairIndex) => {
+      pair.forEach((type) => {
+        allCards.push({
+          type,
+          pairId: pairIndex,
+          flipped: false,
+          matched: false,
+        });
+      });
+    });
+
+    // shuffle
     for (let i = allCards.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [allCards[i], allCards[j]] = [allCards[j], allCards[i]];
     }
 
-    this.cards = allCards.map((type, index) => ({
+    // assign ids AFTER shuffle
+    this.cards = allCards.map((card, index) => ({
+      ...card,
       id: index,
-      type,
-      flipped: false,
-      matched: false,
     }));
   }
 
@@ -153,7 +160,7 @@ export default class MemoryGameScene extends BaseScene {
   checkMatch() {
     const [cardA, cardB] = this.flippedCards;
 
-    if (cardA.type === cardB.type) {
+   if (cardA.pairId === cardB.pairId){
       cardA.matched = true;
       cardB.matched = true;
       this.matchedCards.add(cardA.id);
