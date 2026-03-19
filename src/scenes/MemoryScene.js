@@ -303,15 +303,19 @@ export default class MemoryGameScene extends BaseScene {
         .map(
           (card) => `
         <div class="card" data-index="${card.id}">
-          <img />
+          <img data-current="" />
         </div>
       `,
         )
         .join('');
 
       // attach listeners ONCE
-      this.gridEl.querySelectorAll('.card').forEach((cardEl) => {
+      this.cardElements = this.gridEl.querySelectorAll('.card');
+
+      this.cardElements.forEach((cardEl) => {
+        console.log("Attaching listeners");
         cardEl.addEventListener('click', () => {
+          console.log("Card clicked");
           const index = parseInt(cardEl.getAttribute('data-index'));
           this.onCardClick(index);
         });
@@ -336,9 +340,7 @@ export default class MemoryGameScene extends BaseScene {
     this.infoEl.textContent = `Rezultat: ${this.score} | Vrijeme: ${this.formatTime(this.timeLeft)}`;
 
     // update cards
-    const cardElements = this.gridEl.querySelectorAll('.card');
-
-    cardElements.forEach((cardEl, index) => {
+    this.cardElements.forEach((cardEl, index) => {
       const card = this.cards[index];
       const img = cardEl.querySelector('img');
 
@@ -347,10 +349,12 @@ export default class MemoryGameScene extends BaseScene {
           ? this.assets.images.get(card.type).src
           : this.assets.images.get('mem-card-back').src;
 
-      if (img.src !== newSrc) {
+      if (img.dataset.current !== newSrc) {
         img.src = newSrc;
+        img.dataset.current = newSrc;
       }
     });
+    console.log(this.cardElements.length);
   }
 
   renderGameOverScreen() {
