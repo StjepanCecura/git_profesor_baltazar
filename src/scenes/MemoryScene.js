@@ -44,15 +44,15 @@ export default class MemoryGameScene extends BaseScene {
       ['Racunalo', 'Mozak'],
       ['Slusalice', 'Usi'],
       ['Pumpa', 'Srce'],
-//      ['Drobilica', 'Zubi'],
-//      ['Detektor', 'Jezik'],
-//      ['Usisavac', 'Nos'],
+      //      ['Drobilica', 'Zubi'],
+      //      ['Detektor', 'Jezik'],
+      //      ['Usisavac', 'Nos'],
       ['Ventilator', 'Pluća'],
     ];
 
     for (const pair of this.cardPairs) {
       for (const name of pair) {
-        console.log("Loading:", name);
+        console.log('Loading:', name);
         await this.assets.loadImage(name, `/pictures/memoryGame/${name}.png`);
       }
     }
@@ -161,7 +161,7 @@ export default class MemoryGameScene extends BaseScene {
   checkMatch() {
     const [cardA, cardB] = this.flippedCards;
 
-   if (cardA.pairId === cardB.pairId){
+    if (cardA.pairId === cardB.pairId) {
       cardA.matched = true;
       cardB.matched = true;
       this.matchedCards.add(cardA.id);
@@ -426,21 +426,14 @@ export default class MemoryGameScene extends BaseScene {
   }
 
   handleClick({ x, y }) {
-    var el = document.elementFromPoint(
+    const el = document.elementFromPoint(
       x * window.innerWidth,
       y * window.innerHeight,
     );
     if (!el) return;
-    if (!el.id && el.parentElement) el = el.parentElement;
 
-    if (el && el.tagName === 'BUTTON') el.click();
-
-    const cardEl = el.closest('.card');
-    if (cardEl) {
-      const index = parseInt(cardEl.getAttribute('data-index'));
-      if (!isNaN(index)) {
-        this.onCardClick(index);
-      }
+    if (el.tagName === 'BUTTON') {
+      el.click();
     }
   }
 }
