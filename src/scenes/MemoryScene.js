@@ -38,30 +38,22 @@ export default class MemoryGameScene extends BaseScene {
     }
 
     this.cardTypes = [
-      'Detektor',
-      'Drobilica',
-      'Jezik',
-      'Kablovi',
-      'Kamera',
-      'Kosti',
-      'Metalna konstrukcija',
-      'Mozak',
-      'Nos',
-      'Oči',
-      'Pluća',
-      'Pumpa',
-      'Racunalo',
-      'Slusalice',
-      'Srce',
-      'Usi',
-      'Usisivac',
-      'Ventilaor',
-      'Žile',
-      'Zubi',
+      ['Kablovi', 'Žile'],
+      ['Kamera', 'Oči'],
+      ['Metalna konstrukcija', 'Kosti'],
+      ['Racunalo', 'Mozak'],
+      ['Slusalice', 'Usi'],
+      ['Pumpa', 'Srce'],
+      ['Drobilica', 'Zubi'],
+      ['Detektor', 'Jezik'],
+      ['Usisivac', 'Nos'],
+      ['Ventilator', 'Pluća'],
     ];
 
-    for (const name of this.cardTypes) {
-      await this.assets.loadImage(name, `/pictures/memoryGame/${name}.jpg`);
+    for (const pair of this.cardPairs) {
+      for (const name of pair) {
+        await this.assets.loadImage(name, `/pictures/memoryGame/${name}.png`);
+      }
     }
     await this.assets.loadImage(
       'mem-card-back',
