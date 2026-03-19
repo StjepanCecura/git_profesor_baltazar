@@ -67,17 +67,30 @@ export default class MemoryGameScene extends BaseScene {
     this.setupCards();
 
     if (this.timerInterval) clearInterval(this.timerInterval);
+
+    // store start time
+    this.startTime = Date.now();
+    this.duration = 120 * 1000; // 120 seconds in ms
+
     this.timerInterval = setInterval(() => {
-      this.timeLeft--;
-      if (this.timeLeft <= 0) {
+      const elapsed = Date.now() - this.startTime;
+      const remaining = Math.max(0, this.duration - elapsed);
+
+      this.timeLeft = Math.ceil(remaining / 1000);
+
+      if (remaining <= 0) {
         this.timeLeft = 0;
+        clearInterval(this.timerInterval);
+
         this.currentScreen = 'gameover';
         this.gameResult = 0;
-        clearInterval(this.timerInterval);
-      } else {
-        this.updateGameplayUI();
+        this.render();
+        return;
       }
-    }, 1000);
+
+      // only update UI, no full render
+      this.updateGameplayUI();
+    }, 250); // faster tick, smoother updates
 
     this.currentScreen = 'game';
     this.render();
