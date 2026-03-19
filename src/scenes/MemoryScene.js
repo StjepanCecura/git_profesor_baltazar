@@ -37,21 +37,22 @@ export default class MemoryGameScene extends BaseScene {
       await this.assets.loadImage(name, `/pictures/memoryGame/${name}.png`);
     }
 
-    this.cardTypes = [
+    this.cardPairs = [
       ['Kablovi', 'Žile'],
       ['Kamera', 'Oči'],
       ['Metalna konstrukcija', 'Kosti'],
       ['Racunalo', 'Mozak'],
       ['Slusalice', 'Usi'],
       ['Pumpa', 'Srce'],
-      ['Drobilica', 'Zubi'],
-      ['Detektor', 'Jezik'],
-      ['Usisivac', 'Nos'],
+//      ['Drobilica', 'Zubi'],
+//      ['Detektor', 'Jezik'],
+//      ['Usisavac', 'Nos'],
       ['Ventilator', 'Pluća'],
     ];
 
     for (const pair of this.cardPairs) {
       for (const name of pair) {
+        console.log("Loading:", name);
         await this.assets.loadImage(name, `/pictures/memoryGame/${name}.png`);
       }
     }
@@ -103,7 +104,7 @@ export default class MemoryGameScene extends BaseScene {
 
       // only update UI, no full render
       this.updateGameplayUI();
-    }, 250); // faster tick, smoother updates
+    }, 1000); // faster tick, smoother updates
 
     this.currentScreen = 'game';
     this.render();
