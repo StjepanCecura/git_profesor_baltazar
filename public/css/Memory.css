@@ -124,9 +124,9 @@ h1 {
 
 .card-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 15px;
-    padding: 20px;
+    grid-template-columns: repeat(7, 1fr); /* 5 columns = 20 cards → 4 rows */
+    gap: 20px;
+    padding: 40px;
 }
 
 .card {
@@ -139,6 +139,14 @@ h1 {
     object-fit: cover;
     pointer-events: none;
     border-radius: 10px;
+}
+
+@media (max-width: 1200px) {
+    .card-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 15px;
+        padding: 20px;
+    }
 }
 
 /* =========================
@@ -170,7 +178,15 @@ h1 {
     }
 
     .card-grid {
-        grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+        padding: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .card-grid {
+        grid-template-columns: repeat(4, 1fr);
     }
 }
 
