@@ -84,7 +84,7 @@ export default class MemoryGameScene extends BaseScene {
 
     // store start time
     this.startTime = Date.now();
-    this.duration = 120 * 1000; // 120 seconds in ms
+    this.duration = 300 * 1000; // 120 seconds in ms
 
     this.timerInterval = setInterval(() => {
       const elapsed = Date.now() - this.startTime;
