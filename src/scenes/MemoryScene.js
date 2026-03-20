@@ -84,7 +84,7 @@ export default class MemoryGameScene extends BaseScene {
 
     // store start time
     this.startTime = Date.now();
-    this.duration = 300 * 1000; // 120 seconds in ms
+    this.duration = 300 * 1000; // 5 minutes/300 seconds in ms
 
     this.timerInterval = setInterval(() => {
       const elapsed = Date.now() - this.startTime;
@@ -313,9 +313,9 @@ export default class MemoryGameScene extends BaseScene {
       this.cardElements = this.gridEl.querySelectorAll('.card');
 
       this.cardElements.forEach((cardEl) => {
-        console.log("Attaching listeners");
+        console.log('Attaching listeners');
         cardEl.addEventListener('click', () => {
-          console.log("Card clicked");
+          console.log('Card clicked');
           const index = parseInt(cardEl.getAttribute('data-index'));
           this.onCardClick(index);
         });
@@ -430,14 +430,26 @@ export default class MemoryGameScene extends BaseScene {
   }
 
   handleClick({ x, y }) {
-    const el = document.elementFromPoint(
-      x * window.innerWidth,
-      y * window.innerHeight,
+    const rect = document.body.getBoundingClientRect();
+
+    let el = document.elementFromPoint(
+      rect.left + x * rect.width,
+      rect.top + y * rect.height,
     );
+
     if (!el) return;
 
-    if (el.tagName === 'BUTTON') {
-      el.click();
+    // ALWAYS resolve to meaningful parent
+    const button = el.closest('button');
+    if (button) {
+      button.click();
+      return;
+    }
+
+    const card = el.closest('.card');
+    if (card) {
+      card.click(); // IMPORTANT: trigger DOM click
+      return;
     }
   }
 }
