@@ -181,8 +181,6 @@ export default class MemoryGameScene extends BaseScene {
     }
   }
 
-  update(dt) {}
-
   render() {
     if (this.lastRenderedScreen === this.currentScreen) return;
     this.lastRenderedScreen = this.currentScreen;
