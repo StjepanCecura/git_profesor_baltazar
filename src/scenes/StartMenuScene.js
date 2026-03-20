@@ -29,7 +29,7 @@ export default class StartMenuScene extends BaseScene {
     await this.assets.loadImage('enigmaMachine', '/pictures/enigmaMachine/enigma.webp');
 
     this.games = [
-      { name: "Memory", logo: this.assets.images.get('memoryLogo').src, scene: "Memory" },
+      { name: "Baltazarova anatomija čudesa", logo: this.assets.images.get('memoryLogo').src, scene: "Memory" },
       { name: "Enigma stroj", logo: this.assets.images.get('enigmaMachine').src, scene: "Enigma"}
       /*
       { name: "Ninja fruit", logo: this.assets.images.get('ninjafruitLogo').src, scene: "NinjaFruit" },
