@@ -52,7 +52,6 @@ export default class MemoryGameScene extends BaseScene {
 
     for (const pair of this.cardPairs) {
       for (const name of pair) {
-        console.log('Loading:', name);
         await this.assets.loadImage(name, `/pictures/memoryGame/${name}.png`);
       }
     }
@@ -313,9 +312,7 @@ export default class MemoryGameScene extends BaseScene {
       this.cardElements = this.gridEl.querySelectorAll('.card');
 
       this.cardElements.forEach((cardEl) => {
-        console.log('Attaching listeners');
         cardEl.addEventListener('click', () => {
-          console.log('Card clicked');
           const index = parseInt(cardEl.getAttribute('data-index'));
           this.onCardClick(index);
         });
@@ -354,7 +351,6 @@ export default class MemoryGameScene extends BaseScene {
         img.dataset.current = newSrc;
       }
     });
-    console.log(this.cardElements.length);
   }
 
   renderGameOverScreen() {
