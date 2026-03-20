@@ -163,13 +163,30 @@ h1 {
         padding: 10px 20px;
     }
 
-    .titleRow > p {
-        font-size: 1.2rem;
+    #gameScreen {
+        padding-top: 20vh; /* reserves space for button + timer */
     }
 
+    #gameScreen .titleRow {
+        position: absolute;
+        top: 10vh; /* 10% of screen height */
+        left: 0;
+        width: 100%;
+        justify-content: center;
+        z-index: 5;
+    }
+
+    .titleRow > p {
+        font-size: 1.2rem;
+        padding: 0;
+        margin: 0;
+        text-align: right;
+        padding-right: 20px;
+    }
     .content > p {
         font-size: 1.2rem;
         width: 90%;
+        top: 15vh;
     }
 
     .bottomRow {
@@ -236,10 +253,21 @@ h1 {
 }
 
 .memoryBtn {
-    font-size: 100px;
-    padding: 20px 200px;
-    border-radius: 15px;
+    background-color: #008782;
+    border: 0;
+    height: max-content;
     box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
+    border-radius: 15px;
+    color: white;
+    font-family: Marhey;
+    font-size: 100px;
+    text-align: center;
+    padding: 20px 200px 20px 200px;
+    text-shadow: none;
+}
+
+#btnGiveUp{
+    padding: 20px;
 }
 
 .memoryBtn:hover {
