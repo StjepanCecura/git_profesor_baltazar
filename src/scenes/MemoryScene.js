@@ -270,22 +270,36 @@ export default class MemoryGameScene extends BaseScene {
   }
 
   renderGameplayScreen() {
-    // FIRST TIME: create DOM
     if (!this.sceneEl || !this.sceneEl.querySelector('#gameScreen')) {
       if (this.sceneEl) this.sceneEl.remove();
 
       this.sceneEl = document.createElement('div');
       this.sceneEl.classList.add('container');
 
+      // CREATE CARDS WITH BACK IMAGE
+      const gridHTML = this.cards
+        .map(
+          (card) => `
+      <div class="card" data-index="${card.id}">
+        <img src="${this.assets.images.get('mem-card-back').src}" data-current="back" />
+      </div>`,
+        )
+        .join('');
+
+      // FULL SCREEN LAYOUT
       this.sceneEl.innerHTML = `
       <div id="gameScreen">
-        <button class="btn backBtn memoryBtn" id="btnGiveUp">
-          Odustani
-        </button>
-        <div class="titleRow">
-          <p id="gameInfo"></p>
+        <div class="topBar">
+          <button class="btn backBtn memoryBtn" id="btnGiveUp">Odustani</button>
+          <div id="gameInfo" class="scoreTime">
+            Rezultat: ${this.score} | Vrijeme: ${this.formatTime(this.timeLeft)}
+          </div>
         </div>
-        <div class="card-grid"></div>
+        <div class="gridWrapper">
+          <div class="card-grid">
+            ${gridHTML}
+          </div>
+        </div>
       </div>
     `;
 
@@ -294,21 +308,9 @@ export default class MemoryGameScene extends BaseScene {
       // cache elements
       this.gridEl = this.sceneEl.querySelector('.card-grid');
       this.infoEl = this.sceneEl.querySelector('#gameInfo');
-
-      // create cards ONCE
-      this.gridEl.innerHTML = this.cards
-        .map(
-          (card) => `
-        <div class="card" data-index="${card.id}">
-          <img data-current="" />
-        </div>
-      `,
-        )
-        .join('');
-
-      // attach listeners ONCE
       this.cardElements = this.gridEl.querySelectorAll('.card');
 
+      // attach listeners
       this.cardElements.forEach((cardEl) => {
         cardEl.addEventListener('click', () => {
           const index = parseInt(cardEl.getAttribute('data-index'));
@@ -324,7 +326,7 @@ export default class MemoryGameScene extends BaseScene {
       });
     }
 
-    // ALWAYS: update UI only
+    // ALWAYS update UI
     this.updateGameplayUI();
   }
 

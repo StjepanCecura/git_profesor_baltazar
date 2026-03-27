@@ -1,300 +1,262 @@
-@import url("/FontFamily/fontFamily.css");
+/* =====================
+   Memory Game CSS
+   ===================== */
 
-/* =========================
-   DEFAULT (ALL DEVICES)
-========================= */
-
-body,
-html {
+/* Default reset and container */
+html, body {
     margin: 0;
     padding: 0;
+    width: 100%;
+    height: 100%;
+    font-family: 'Arial', sans-serif;
     overflow: hidden;
+}
+
+.container {
     width: 100%;
     height: 100%;
-    font-weight: bold;
-    cursor: default;
-    touch-action: none;
+    position: relative;
 }
 
-h1 {
-    font-size: 4rem;
-    color: white;
-    width: 100%;
-    text-align: center;
-    margin: 20px 0;
-}
-
-.backBtn {
-    height: 60px;
-    background-color: transparent;
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    text-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
-}
-
-#startScreen,
-#uputeScreen,
-#gameScreen,
-#overScreen {
-    width: 100%;
-    height: 100%;
-    display: block;
-    background-position: center;
-    background-size: cover;
-}
-
+/* =====================
+   Screen backgrounds
+   ===================== */
 #startScreen {
-    background-image: url("../pictures/memoryGame/background_title.png");
-}
-
-#uputeScreen {
-    background: linear-gradient(rgba(36, 35, 35, 0.8), rgba(36, 35, 35, 0.8)),
-        url("../pictures/memoryGame/background_instructions.png");
-}
-
-#gameScreen {
-    background: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)),
-        url("../pictures/memoryGame/background_game.png");
-}
-
-#overScreen {
-    background: linear-gradient(rgba(36, 35, 35, 0.8), rgba(36, 35, 35, 0.8)),
-        url("../pictures/memoryGame/background_game.png");
-}
-
-.titleRow {
-    display: flex;
-    align-items: center;
-    font-family: Marhey;
-    text-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
-}
-
-.titleRow > p {
     width: 100%;
-    font-size: 2rem;
-    color: white;
-    text-align: right;
-    padding-right: 20px;
-}
-
-.memoryBtn {
-    background-color: #008782;
-    border: 0;
-    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
-    border-radius: 10px;
-    color: white;
-    font-family: Marhey;
-    font-size: 1.5rem;
-    text-align: center;
-    padding: 10px 40px;
-}
-
-.memoryBtn:hover {
-    cursor: pointer;
-}
-
-.bottomRow {
+    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    position: absolute;
+    justify-content: flex-start;
+    background: url("../pictures/memoryGame/background_title.png") no-repeat center center;
+    background-size: cover;
+}
+
+#uputeScreen {
     width: 100%;
-    bottom: 40px;
-    gap: 20px;
-}
-
-.content {
-    color: white;
+    height: 100%;
     display: flex;
-    height: 50%;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
+    background: linear-gradient(rgba(36, 35, 35, 0.8), rgba(36, 35, 35, 0.8)),
+                url("../pictures/memoryGame/background_instructions.png") no-repeat center center;
+    background-size: cover;
 }
 
-.content > p {
-    width: 80%;
-    font-size: 1.5rem;
-    text-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
-    text-align: center;
-    font-family: Marhey;
-    padding: 0 20px;
+#gameScreen {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    background: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)),
+                url("../pictures/memoryGame/background_game.png") no-repeat center center;
+    background-size: cover;
+}
+
+#overScreen {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    background: linear-gradient(rgba(36, 35, 35, 0.8), rgba(36, 35, 35, 0.8)),
+                url("../pictures/memoryGame/background_game.png") no-repeat center center;
+    background-size: cover;
+}
+
+/* =====================
+   Top bar and buttons
+   ===================== */
+.topBar {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 1vh 2vw;
+    box-sizing: border-box;
+}
+
+.backBtn {
+    height: auto;
+    max-height: 6vh;
+    cursor: pointer;
+}
+
+.memoryBtn {
+    font-size: 1.5vh;
+    padding: 1vh 2vw;
+    margin: 0.5vh;
+    cursor: pointer;
+}
+
+/* =====================
+   Score and Timer
+   ===================== */
+.scoreTime {
+    font-size: 2vh;
+    color: #fff;
+    text-align: right;
+}
+
+/* =====================
+   Card Grid
+   ===================== */
+.gridWrapper {
+    flex: 1 1 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 1vh 1vw;
+    box-sizing: border-box;
+    overflow-y: auto;
 }
 
 .card-grid {
     display: grid;
-    grid-template-columns: repeat(7, 1fr); /* 5 columns = 20 cards → 4 rows */
-    gap: 20px;
-    padding: 40px;
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    gap: 1vw;
+    justify-items: center;
+    align-items: center;
 }
 
 .card {
     width: 100%;
+    max-width: 120px;
+    aspect-ratio: 1/1;
+    cursor: pointer;
 }
 
 .card img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    pointer-events: none;
-    border-radius: 10px;
+    object-fit: contain;
 }
 
-@media (max-width: 1200px) {
-    .card-grid {
-        grid-template-columns: repeat(4, 1fr);
-        gap: 15px;
-        padding: 20px;
-    }
-}
-
-/* =========================
-   MOBILE
-========================= */
-
-@media (max-width: 768px) {
-    h1 {
-        font-size: 2.5rem;
-    }
-
-    .memoryBtn {
-        font-size: 1.2rem;
-        padding: 10px 20px;
-    }
-
-    #gameScreen {
-        padding-top: 20vh; /* reserves space for button + timer */
-    }
-
-    #gameScreen .titleRow {
-        position: absolute;
-        top: 10vh; /* 10% of screen height */
-        left: 0;
-        width: 100%;
-        justify-content: center;
-        z-index: 5;
-    }
-
-    .titleRow > p {
-        font-size: 1.2rem;
-        padding: 0;
-        margin: 0;
-        text-align: right;
-        padding-right: 20px;
-    }
-    .content > p {
-        font-size: 1.2rem;
-        width: 90%;
-        top: 15vh;
-    }
-
-    .bottomRow {
-        gap: 15px;
-        bottom: 20px;
-    }
-
-    .card-grid {
-        grid-template-columns: repeat(4, 1fr);
-        gap: 10px;
-        padding: 10px;
-    }
-}
-
-@media (max-width: 480px) {
-    .card-grid {
-        grid-template-columns: repeat(4, 1fr);
-    }
-}
-
-/* =========================
-   4K VERTICAL (PROTECTED)
-========================= */
-
-@media (min-width: 2000px) and (min-height: 3500px) {
-
-body,
-html {
-    cursor: none;
-}
-
-h1 {
-    font-size: 300px;
-    margin-top: 50px;
-    margin-bottom: 150px;
-}
-
-.backBtn {
-    height: 100px;
-    top: 100px;
-    left: 50px;
-    text-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
-}
-
-#startScreen {
-    background-size: auto 100%;
-}
-
-#uputeScreen {
-    background-size: auto 100%;
-}
-
-#gameScreen {
-    background-size: auto 100%;
-}
-
-#overScreen {
-    background-size: auto 100%;
-}
-
-.titleRow > p {
-    font-size: 100px;
-    padding-right: 80px;
-}
-
-.memoryBtn {
-    background-color: #008782;
-    border: 0;
-    height: max-content;
-    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
-    border-radius: 15px;
-    color: white;
-    font-family: Marhey;
-    font-size: 100px;
+/* =====================
+   Title row and content
+   ===================== */
+.titleRow {
+    width: 100%;
     text-align: center;
-    padding: 20px 200px 20px 200px;
-    text-shadow: none;
+    padding: 2vh 0;
+    font-size: 3vh;
+    color: #fff;
 }
 
-#btnGiveUp{
-    padding: 20px;
+.content {
+    flex: 0 0 auto;
+    width: 90%;
+    margin: 1vh auto;
+    text-align: center;
+    color: #fff;
+    font-size: 2vh;
 }
 
-.memoryBtn:hover {
-    cursor: none;
-}
-
+/* =====================
+   Bottom row buttons
+   ===================== */
 .bottomRow {
-    bottom: 200px;
-    gap: 150px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 2vh;
 }
 
-.content > p {
-    width: 50%;
-    font-size: 100px;
-    padding: 0 100px;
-    text-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
+/* =====================
+   Responsive Rules
+   ===================== */
+
+/* Mobile phones */
+@media (max-width: 767px) {
+    .memoryBtn {
+        font-size: 2.5vw;
+        padding: 1.5vw 3vw;
+    }
+    .card-grid {
+        grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+        gap: 2vw;
+    }
+    .titleRow {
+        font-size: 6vw;
+        padding: 3vw 0;
+    }
+    .scoreTime {
+        font-size: 4vw;
+    }
+    .gridWrapper {
+        padding-top: 2vh;
+        justify-content: flex-start;
+    }
 }
 
-.card-grid {
-    grid-template-columns: repeat(4, 1fr);
-    grid-gap: 50px;
-    padding-left: 50px;
-    padding-right: 50px;
+/* Tablets */
+@media (min-width: 768px) and (max-width: 1279px) {
+    .memoryBtn {
+        font-size: 2vh;
+        padding: 1.2vh 2vw;
+    }
+    .card-grid {
+        grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+        gap: 1.5vw;
+    }
+    .titleRow {
+        font-size: 4vh;
+        padding: 2vh 0;
+    }
+    .scoreTime {
+        font-size: 2.5vh;
+    }
 }
 
-.card img {
-    border-radius: 15px;
+/* Regular monitors */
+@media (min-width: 1280px) and (max-width: 1919px) {
+    .memoryBtn {
+        font-size: 1.8vh;
+        padding: 1.5vh 2vw;
+    }
+    .card-grid {
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        gap: 1vw;
+    }
+    .titleRow {
+        font-size: 3.5vh;
+    }
+    .scoreTime {
+        font-size: 2vh;
+    }
 }
 
+/* 4K Vertical monitors */
+@media (min-width: 1920px) and (min-height: 2160px) {
+    .memoryBtn {
+        font-size: 2.5vh;
+        padding: 2vh 3vw;
+    }
+    .card-grid {
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 1vw;
+    }
+    .titleRow {
+        font-size: 5vh;
+    }
+    .scoreTime {
+        font-size: 3vh;
+    }
+}
+
+/* Horizontal 4K or ultrawide can scale separately if needed */
+@media (min-width: 2560px) {
+    .card-grid {
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    }
+    .memoryBtn {
+        font-size: 3vh;
+        padding: 2.5vh 3vw;
+    }
 }
