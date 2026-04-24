@@ -22,18 +22,6 @@ html, body {
    Screen backgrounds
    ===================== */
 
-#uputeScreen {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    background: linear-gradient(rgba(36, 35, 35, 0.8), rgba(36, 35, 35, 0.8)),
-        url("../pictures/memoryGame/background_instructions.png") no-repeat center center;
-    background-size: cover;
-}
-
 #gameScreen {
     width: 100%;
     height: 100%;
@@ -59,8 +47,10 @@ html, body {
 }
 
 /* =====================
-   Start screen
+   Screens
    ===================== */
+
+/* Start screen */
 
 #startScreen {
     width: 100%;
@@ -84,7 +74,8 @@ html, body {
     z-index: 1;
 }
 
-#startScreen .backBtn {
+#startScreen .backBtn,
+#uputeScreen .backBtn {
     position: absolute;
     top: 2vh;
     left: 3vw;
@@ -103,7 +94,8 @@ html, body {
     cursor: pointer;
 }
 
-#startScreen .backBtn img {
+#startScreen .backBtn img,
+#uputeScreen .backBtn img {
     width: 58%;
     height: auto;
     display: block;
@@ -140,8 +132,8 @@ html, body {
     z-index: 4;
 }
 
-#startScreen .memoryBtn {
-    font-size: clamp(16px, 4vw, 20px);
+#startScreen .memoryBtn,
+#uputeScreen .memoryBtn {
     font-weight: 700;
     color: rgba(241, 231, 215, 0.9);
     text-shadow: 0 1px 2px rgba(0,0,0,0.2);
@@ -155,14 +147,83 @@ html, body {
     transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
-#startScreen .memoryBtn:hover {
+#startScreen .memoryBtn {
+    font-size: clamp(16px, 4vw, 20px);
+}
+
+#startScreen .memoryBtn:hover,
+#uputeScreen .memoryBtn:hover {
     transform: translateY(-2px) scale(1.04);
     box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2), 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
-#startScreen .memoryBtn:active {
+#startScreen .memoryBtn:active,
+#uputeScreen .memoryBtn:active {
     transform: translateY(1px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+}
+
+/* Instructions screen */
+
+#uputeScreen {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    background: linear-gradient(to bottom, rgba(36, 35, 35, 0.70) 0%, rgba(36, 35, 35, 0.82) 100%),
+        url("../pictures/memoryGame/background_instructions.png") no-repeat center center;
+    background-size: cover;
+    position: relative;
+    overflow: hidden;
+    padding: 0 6vw;
+    box-sizing: border-box;
+    z-index: 3;
+}
+
+#uputeScreen .titleRow {
+    margin-top: 19.5vh;
+    padding: 0;
+    z-index: 3;
+}
+
+#uputeScreen .titleRow h1 {
+    font-size: clamp(42px, 12vw, 58px);
+    color: rgba(241, 231, 215, 1);
+    text-shadow: 0 3px 6px rgba(0, 0, 0, 0.38);
+}
+
+#uputeScreen .content {
+    width: 88%;
+    max-width: 520px;
+    margin: 4vh auto 0;
+    padding: 3.2vh 6vw;
+    box-sizing: border-box;
+    border-radius: 28px;
+    background: rgba(15, 63, 64, 0.70);
+    border: 3px solid rgba(241, 231, 215, 0.78);
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.28), inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+#uputeScreen .content p {
+    margin: 0;
+    color: rgba(241, 231, 215, 1);
+    font-size: clamp(18px, 4.8vw, 24px);
+    line-height: 1.55;
+    font-weight: 700;
+    text-align: center;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.45);
+}
+
+#uputeScreen .bottomRow {
+    margin: 5vh 0 0;
+    z-index: 4;
+}
+
+#uputeScreen .memoryBtn {
+    font-size: clamp(18px, 5vw, 24px);
+    padding: 1.1vh 12vw;
 }
 
 /* =====================
@@ -411,7 +472,7 @@ html, body {
         content: "";
         position: absolute;
         inset: -1%;
-        background:linear-gradient(to bottom, rgba(0, 0, 0, 0.06) 0%, rgba(0, 0, 0, 0.02) 30%, rgba(0, 0, 0, 0.05) 100%),
+        background: linear-gradient(to bottom, rgba(0, 0, 0, 0.06) 0%, rgba(0, 0, 0, 0.02) 30%, rgba(0, 0, 0, 0.05) 100%),
             url("../pictures/memoryGame/background_title.png") center 34% / cover no-repeat;
         filter: blur(1.6px) saturate(0.97) brightness(0.94);
         transform: scale(1.01);
