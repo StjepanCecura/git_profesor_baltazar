@@ -21,16 +21,6 @@ html, body {
 /* =====================
    Screen backgrounds
    ===================== */
-#startScreen {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    background: url("../pictures/memoryGame/background_title.png") no-repeat center center;
-    background-size: cover;
-}
 
 #uputeScreen {
     width: 100%;
@@ -40,7 +30,7 @@ html, body {
     align-items: center;
     justify-content: flex-start;
     background: linear-gradient(rgba(36, 35, 35, 0.8), rgba(36, 35, 35, 0.8)),
-                url("../pictures/memoryGame/background_instructions.png") no-repeat center center;
+        url("../pictures/memoryGame/background_instructions.png") no-repeat center center;
     background-size: cover;
 }
 
@@ -52,7 +42,7 @@ html, body {
     align-items: center;
     justify-content: flex-start;
     background: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)),
-                url("../pictures/memoryGame/background_game.png") no-repeat center center;
+        url("../pictures/memoryGame/background_game.png") no-repeat center center;
     background-size: cover;
 }
 
@@ -64,8 +54,115 @@ html, body {
     align-items: center;
     justify-content: flex-start;
     background: linear-gradient(rgba(36, 35, 35, 0.8), rgba(36, 35, 35, 0.8)),
-                url("../pictures/memoryGame/background_game.png") no-repeat center center;
+        url("../pictures/memoryGame/background_game.png") no-repeat center center;
     background-size: cover;
+}
+
+/* =====================
+   Start screen
+   ===================== */
+
+#startScreen {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    background: url("../pictures/memoryGame/background_title.png") no-repeat center center;
+    background-size: cover;
+    background-position: center bottom;
+}
+
+#startScreen::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.02) 35%, rgba(0, 0, 0, 0.05) 100%);
+    pointer-events: none;
+    z-index: 1;
+}
+
+#startScreen .backBtn {
+    position: absolute;
+    top: 2vh;
+    left: 3vw;
+    z-index: 5;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(241, 231, 215, 0.25); 
+    border: 2px solid rgba(241, 231, 215, 0.8);
+    border-radius: 14px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.14);
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+}
+
+#startScreen .backBtn img {
+    width: 58%;
+    height: auto;
+    display: block;
+}
+
+#startScreen .titleRow {
+    position: absolute;
+    top: 3vh;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    text-align: center;
+    z-index: 3;
+    margin-top: 0;
+    padding: 0;
+}
+
+#startScreen .titleRow h1 {
+    margin: 0;
+    font-size: clamp(30px, 10vw, 40px);
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    color: rgba(241, 231, 215, 1);
+    text-shadow: 0 2px 0 rgba(80, 65, 45, 0.18), 0 4px 8px rgba(0, 0, 0, 0.12);
+}
+
+#startScreen .bottomRow {
+    position: absolute;
+    left: 50%;
+    bottom: 11vh;
+    transform: translateX(-50%);
+    width: auto;
+    margin: 0;
+    z-index: 4;
+}
+
+#startScreen .memoryBtn {
+    font-size: clamp(16px, 4vw, 20px);
+    font-weight: 700;
+    color: rgba(241, 231, 215, 0.9);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    padding: 1vh 9vw;
+    margin: 0;
+    background: linear-gradient(180deg, #1ecad0 0%, #11989e 100%);
+    border: 2px solid rgba(241, 231, 215, 0.8);
+    box-shadow: 0 6px 0 rgba(0, 0, 0, 0.25), 0 10px 18px rgba(0, 0, 0, 0.2);
+    border-radius: 26px;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+#startScreen .memoryBtn:hover {
+    transform: translateY(-2px) scale(1.04);
+    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2), 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+#startScreen .memoryBtn:active {
+    transform: translateY(1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
 }
 
 /* =====================
@@ -84,11 +181,12 @@ html, body {
     height: auto;
     max-height: 6vh;
     cursor: pointer;
+    align-self: flex-start;
 }
 
 .memoryBtn {
-    font-size: 1.5vh;
-    padding: 1vh 2vw;
+    font-size: clamp(14px, 2.5vw, 22px);
+    padding: 1.2vh 3vw;
     margin: 0.5vh;
     cursor: pointer;
 }
@@ -143,8 +241,13 @@ html, body {
 .titleRow {
     width: 100%;
     text-align: center;
+    margin-top: 5vh;
     padding: 2vh 0;
-    font-size: 3vh;
+}
+
+.titleRow h1 {
+    font-size: clamp(28px, 5vw, 48px);
+    margin: 0;
     color: #fff;
 }
 
@@ -165,7 +268,7 @@ html, body {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    margin-bottom: 2vh;
+    margin-bottom: 6vh;
 }
 
 /* =====================
@@ -174,79 +277,124 @@ html, body {
 
 /* Mobile phones */
 @media (max-width: 767px) {
-    .memoryBtn {
-        font-size: 2.5vw;
-        padding: 1.5vw 3vw;
+    #startScreen .titleRow {
+        top: 3vh;
     }
-    .card-grid {
-        grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
-        gap: 2vw;
+    #startScreen .titleRow h1 {
+        font-size: clamp(32px, 10.5vw, 44px);
     }
-    .titleRow {
-        font-size: 6vw;
-        padding: 3vw 0;
+    #startScreen .bottomRow {
+        bottom: 12vh;
     }
-    .scoreTime {
-        font-size: 4vw;
-    }
-    .gridWrapper {
-        padding-top: 2vh;
-        justify-content: flex-start;
+    #startScreen .memoryBtn {
+        padding: 1.05vh 10vw;
     }
 }
 
 /* Tablets */
 @media (min-width: 768px) and (max-width: 1279px) {
-    .memoryBtn {
-        font-size: 2vh;
-        padding: 1.2vh 2vw;
+    #startScreen {
+        background-position: center 24%;
     }
-    .card-grid {
-        grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-        gap: 1.5vw;
+    #startScreen .backBtn {
+        top: 2vh;
+        left: 2.8vw;
+        width: 50px;
+        height: 50px;
     }
-    .titleRow {
-        font-size: 4vh;
-        padding: 2vh 0;
+    #startScreen .titleRow {
+        top: 2.6vh;
     }
-    .scoreTime {
-        font-size: 2.5vh;
+    #startScreen .titleRow h1 {
+        font-size: clamp(42px, 7vw, 58px);
+    }
+    #startScreen .bottomRow {
+        bottom: 9vh;
+    }
+    #startScreen .memoryBtn {
+        font-size: clamp(21px, 3vw, 28px);
+        padding: 1.15vh 7.5vw;
     }
 }
 
 /* Regular monitors */
 @media (min-width: 1280px) and (max-width: 1919px) {
-    .memoryBtn {
-        font-size: 1.8vh;
-        padding: 1.5vh 2vw;
+    #startScreen {
+        background: none;
+        background-color: #148f90;
     }
-    .card-grid {
-        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-        gap: 1vw;
+    #startScreen::before {
+        content: "";
+        position: absolute;
+        inset: -1%;
+        background: linear-gradient(to bottom, rgba(0, 0, 0, 0.06) 0%, rgba(0, 0, 0, 0.02) 30%, rgba(0, 0, 0, 0.05) 100%),
+            url("../pictures/memoryGame/background_title.png") center 34% / cover no-repeat;
+        filter: blur(1.6px) saturate(0.97) brightness(0.94);
+        transform: scale(1.01);
+        z-index: 0;
+        pointer-events: none;
     }
-    .titleRow {
-        font-size: 3.5vh;
+    #startScreen .backBtn {
+        top: 2.4vh;
+        left: 2vw;
+        width: 56px;
+        height: 56px;
     }
-    .scoreTime {
-        font-size: 2vh;
+    #startScreen .titleRow {
+        top: 5vh;
+    }
+    #startScreen .titleRow h1 {
+        font-size: clamp(44px, 3.2vw, 62px);
+        text-shadow:
+        0 2px 4px rgba(0, 0, 0, 0.35);
+    }
+    #startScreen .bottomRow {
+        bottom: 8vh;
+    }
+    #startScreen .memoryBtn {
+        box-shadow: 0 6px 0 rgba(0, 0, 0, 0.28), 0 12px 20px rgba(0, 0, 0, 0.28);
     }
 }
 
 /* 4K Vertical monitors */
 @media (min-width: 1920px) and (min-height: 2160px) {
-    .memoryBtn {
-        font-size: 2.5vh;
-        padding: 2vh 3vw;
+    #startScreen {
+        background-position: center 28%;
+        background-size: cover;
     }
-    .card-grid {
-        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-        gap: 1vw;
+    #startScreen::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 35%, rgba(0, 0, 0, 0.05) 100%);
+        pointer-events: none;
+        z-index: 1;
     }
-    .titleRow {
-        font-size: 5vh;
+    #startScreen .backBtn {
+        top: 2vh;
+        left: 2vw;
+        width: 140px;
+        height: 140px;
+        border-radius: 24px;
+        border-width: 4px;
     }
-    .scoreTime {
-        font-size: 3vh;
+    #startScreen .titleRow {
+        top: 3.8vh;
+    }
+    #startScreen .titleRow h1 {
+        font-size: clamp(150px, 7.5vw, 210px);
+        text-shadow: 0 5px 10px rgba(0, 0, 0, 0.30);
+    }
+    #startScreen .bottomRow {
+        bottom: 10vh;
+    }
+    #startScreen .memoryBtn {
+        font-size: clamp(64px, 3.2vw, 88px);
+        padding: 1.8vh 5.8vw;
+        min-width: 620px;
+        border-radius: 46px;
+        border-width: 4px;
+        box-shadow: 0 12px 0 rgba(0, 0, 0, 0.25), 0 20px 34px rgba(0, 0, 0, 0.24);
     }
 }
 
@@ -255,8 +403,45 @@ html, body {
     .card-grid {
         grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
     }
-    .memoryBtn {
-        font-size: 3vh;
-        padding: 2.5vh 3vw;
+    #startScreen {
+        background: none;
+        background-color: #148f90;
+    }
+    #startScreen::before {
+        content: "";
+        position: absolute;
+        inset: -1%;
+        background:linear-gradient(to bottom, rgba(0, 0, 0, 0.06) 0%, rgba(0, 0, 0, 0.02) 30%, rgba(0, 0, 0, 0.05) 100%),
+            url("../pictures/memoryGame/background_title.png") center 34% / cover no-repeat;
+        filter: blur(1.6px) saturate(0.97) brightness(0.94);
+        transform: scale(1.01);
+        z-index: 0;
+        pointer-events: none;
+    }
+    #startScreen .backBtn {
+        top: 2.2vh;
+        left: 2vw;
+        width: 90px;
+        height: 90px;
+        border-radius: 18px;
+        border-width: 3px;
+    }
+    #startScreen .titleRow {
+        top: 5vh;
+    }
+    #startScreen .titleRow h1 {
+        font-size: clamp(72px, 3.2vw, 120px);
+        text-shadow: 0 3px 7px rgba(0, 0, 0, 0.35);
+    }
+    #startScreen .bottomRow {
+        bottom: 13vh;
+    }
+    #startScreen .memoryBtn {
+        font-size: clamp(36px, 1.6vw, 58px);
+        padding: 1.25vh 4.8vw;
+        min-width: 460px;
+        border-radius: 34px;
+        border-width: 3px;
+        box-shadow: 0 8px 0 rgba(0, 0, 0, 0.28), 0 14px 24px rgba(0, 0, 0, 0.28);
     }
 }
