@@ -338,48 +338,119 @@ html, body {
 
 /* Mobile phones */
 @media (max-width: 767px) {
+    /* Start screen */
+
     #startScreen .titleRow {
         top: 3vh;
     }
+
     #startScreen .titleRow h1 {
         font-size: clamp(32px, 10.5vw, 44px);
     }
+
     #startScreen .bottomRow {
         bottom: 12vh;
     }
+
     #startScreen .memoryBtn {
         padding: 1.05vh 10vw;
+    }
+
+    /* Instructions screen */
+
+    #uputeScreen .titleRow {
+        margin-top: 20.5vh;
+    }
+
+    #uputeScreen .content {
+        margin-top: 4.5vh;
+    }
+
+    #uputeScreen .bottomRow {
+        margin-top: 5.5vh;
     }
 }
 
 /* Tablets */
 @media (min-width: 768px) and (max-width: 1279px) {
+    /* Start screen */
+
     #startScreen {
         background-position: center 24%;
     }
+
     #startScreen .backBtn {
         top: 2vh;
         left: 2.8vw;
         width: 50px;
         height: 50px;
     }
+
     #startScreen .titleRow {
         top: 2.6vh;
     }
+
     #startScreen .titleRow h1 {
         font-size: clamp(42px, 7vw, 58px);
     }
+
     #startScreen .bottomRow {
         bottom: 9vh;
     }
+
     #startScreen .memoryBtn {
         font-size: clamp(21px, 3vw, 28px);
         padding: 1.15vh 7.5vw;
     }
+
+    /* Instructions screen */
+
+    #uputeScreen {
+        justify-content: center;
+    }
+
+    #uputeScreen .backBtn {
+        top: 2vh;
+        left: 2.5vw;
+        width: 54px;
+        height: 54px;
+    }
+
+    #uputeScreen .titleRow {
+        margin-top: 0;
+    }
+
+    #uputeScreen .titleRow h1 {
+        font-size: clamp(56px, 6.6vw, 78px);
+    }
+
+    #uputeScreen .content {
+        width: 76%;
+        max-width: 720px;
+        margin-top: 3vh;
+        padding: 4vh 5.2vw;
+    }
+
+    #uputeScreen .content p {
+        font-size: clamp(23px, 2.5vw, 32px);
+        line-height: 1.5;
+    }
+
+    #uputeScreen .bottomRow {
+        margin-top: 3.8vh;
+    }
+
+    #uputeScreen .memoryBtn {
+        font-size: clamp(26px, 3vw, 34px);
+        padding: 1.25vh 6vw;
+    }
+
 }
 
 /* Regular monitors */
 @media (min-width: 1280px) and (max-width: 1919px) {
+    /* Start screen */
+
     #startScreen {
         background: none;
         background-color: #148f90;
@@ -415,10 +486,59 @@ html, body {
     #startScreen .memoryBtn {
         box-shadow: 0 6px 0 rgba(0, 0, 0, 0.28), 0 12px 20px rgba(0, 0, 0, 0.28);
     }
+
+    /* Instructions screen */
+
+    #uputeScreen {
+        width: 100%;
+        height: 100%;
+        justify-content: center;
+        padding: 0 6vw;
+    }
+
+    #uputeScreen .backBtn {
+        top: 2.4vh;
+        left: 2vw;
+        width: 56px;
+        height: 56px;
+    }
+
+    #uputeScreen .titleRow {
+        margin-top: 0;
+    }
+
+    #uputeScreen .titleRow h1 {
+        font-size: clamp(54px, 3.4vw, 66px);
+    }
+
+    #uputeScreen .content {
+        width: 42%;
+        max-width: 600px;
+        margin-top: 3.5vh;
+        padding: 3.4vh 3.2vw;
+    }
+
+    #uputeScreen .content p {
+        font-size: clamp(19px, 1.35vw, 25px);
+        line-height: 1.5;
+    }
+
+    #uputeScreen .bottomRow {
+        margin-top: 5.5vh;
+    }
+
+    #uputeScreen .memoryBtn {
+        font-size: clamp(21px, 1.6vw, 27px);
+        padding: 1.15vh 6vw;
+        min-width: 180px;
+    }
+
 }
 
 /* 4K Vertical monitors */
 @media (min-width: 1920px) and (min-height: 2160px) {
+    /* Start screen */
+
     #startScreen {
         background-position: center 28%;
         background-size: cover;
@@ -457,6 +577,57 @@ html, body {
         border-width: 4px;
         box-shadow: 0 12px 0 rgba(0, 0, 0, 0.25), 0 20px 34px rgba(0, 0, 0, 0.24);
     }
+
+    /* Instructions screen */
+
+    #uputeScreen {
+        justify-content: center;
+        padding: 0 5vw;
+    }
+
+    #uputeScreen .backBtn {
+        top: 2vh;
+        left: 2vw;
+        width: 120px;
+        height: 120px;
+        border-radius: 24px;
+        border-width: 4px;
+    }
+
+    #uputeScreen .titleRow {
+        margin-top: 0;
+    }
+
+    #uputeScreen .titleRow h1 {
+        font-size: clamp(120px, 6vw, 170px);
+    }
+
+    #uputeScreen .content {
+        width: 70%;
+        max-width: 1100px;
+        margin-top: 3.2vh;
+        padding: 4vh 4.5vw;
+        border-radius: 48px;
+        border-width: 5px;
+    }
+
+    #uputeScreen .content p {
+        font-size: clamp(52px, 2.4vw, 72px);
+        line-height: 1.5;
+    }
+
+    #uputeScreen .bottomRow {
+        margin-top: 5.5vh;
+    }
+
+    #uputeScreen .memoryBtn {
+        font-size: clamp(54px, 2.6vw, 74px);
+        padding: 1.6vh 5.5vw;
+        min-width: 520px;
+        border-radius: 44px;
+        border-width: 4px;
+    }
+
 }
 
 /* Horizontal 4K or ultrawide can scale separately if needed */
@@ -464,6 +635,8 @@ html, body {
     .card-grid {
         grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
     }
+    /* Start screen */
+
     #startScreen {
         background: none;
         background-color: #148f90;
@@ -505,4 +678,57 @@ html, body {
         border-width: 3px;
         box-shadow: 0 8px 0 rgba(0, 0, 0, 0.28), 0 14px 24px rgba(0, 0, 0, 0.28);
     }
+
+    /* Instructions screen */
+
+     #uputeScreen {
+        width: 100%;
+        height: 100%;
+        justify-content: center;
+        padding: 0 6vw;
+    }
+
+    #uputeScreen .backBtn {
+        top: 2.2vh;
+        left: 2vw;
+        width: 90px;
+        height: 90px;
+        border-radius: 18px;
+        border-width: 3px;
+    }
+
+    #uputeScreen .titleRow {
+        margin-top: 0;
+    }
+
+    #uputeScreen .titleRow h1 {
+        font-size: clamp(72px, 3.2vw, 120px);
+    }
+
+    #uputeScreen .content {
+        width: 50%;
+        max-width: 1250px;
+        margin-top: 3.2vh;
+        padding: 3.6vh 4.3vw;
+        border-radius: 38px;
+        border-width: 4px;
+    }
+
+    #uputeScreen .content p {
+        font-size: clamp(36px, 1.45vw, 52px);
+        line-height: 1.5;
+    }
+
+    #uputeScreen .bottomRow {
+        margin-top: 5vh;
+    }
+
+    #uputeScreen .memoryBtn {
+        font-size: clamp(38px, 1.55vw, 56px);
+        padding: 1.2vh 5vw;
+        min-width: 460px;
+        border-radius: 36px;
+        border-width: 3px;
+    }
+
 }
