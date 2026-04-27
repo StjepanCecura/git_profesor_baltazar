@@ -133,7 +133,8 @@ html, body {
 }
 
 #startScreen .memoryBtn,
-#uputeScreen .memoryBtn {
+#uputeScreen .memoryBtn,
+#overScreen .memoryBtn {
     font-weight: 700;
     color: rgba(241, 231, 215, 0.9);
     text-shadow: 0 1px 2px rgba(0,0,0,0.2);
@@ -152,13 +153,15 @@ html, body {
 }
 
 #startScreen .memoryBtn:hover,
-#uputeScreen .memoryBtn:hover {
+#uputeScreen .memoryBtn:hover,
+#overScreen .memoryBtn:hover {
     transform: translateY(-2px) scale(1.04);
     box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2), 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 #startScreen .memoryBtn:active,
-#uputeScreen .memoryBtn:active {
+#uputeScreen .memoryBtn:active,
+#overScreen .memoryBtn:active {
     transform: translateY(1px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
 }
@@ -224,6 +227,77 @@ html, body {
 #uputeScreen .memoryBtn {
     font-size: clamp(18px, 5vw, 24px);
     padding: 1.1vh 12vw;
+}
+
+/* Game over screen */
+
+#overScreen {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    background: linear-gradient(to bottom, rgba(36, 35, 35, 0.70) 0%, rgba(36, 35, 35, 0.82) 100%),
+        url("../pictures/memoryGame/background_game.png") no-repeat center center;
+    background-size: cover;
+    position: relative;
+    overflow: hidden;
+    padding: 0 6vw;
+    box-sizing: border-box;
+}
+
+#overScreen .titleRow {
+    margin-top: 18vh;
+    padding: 0;
+    z-index: 3;
+}
+
+#overScreen .titleRow h1 {
+    font-size: clamp(42px, 12vw, 58px);
+    color: rgba(241, 231, 215, 1);
+    text-shadow: 0 3px 6px rgba(0, 0, 0, 0.38);
+}
+
+#overScreen .content {
+    width: 90%;
+    max-width: 520px;
+    margin: 4vh auto 0;
+    padding: 3.4vh 6vw;
+    box-sizing: border-box;
+    border-radius: 28px;
+    background: rgba(15, 63, 64, 0.70);
+    border: 3px solid rgba(241, 231, 215, 0.78);
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.28), inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+#overScreen .content p {
+    margin: 0 0 2vh;
+    color: rgba(241, 231, 215, 1);
+    font-size: clamp(17px, 4.5vw, 23px);
+    line-height: 1.45;
+    font-weight: 700;
+    text-align: center;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.45);
+}
+
+#overScreen .content p:last-child {
+    margin-bottom: 0;
+}
+
+#overScreen .bottomRow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 6.2vh 0 0;
+    z-index: 4;
+    gap: 2vh;
+}
+
+#overScreen .memoryBtn {
+    font-size: clamp(15px, 4.2vw, 20px);
+    padding: 0.9vh 5.5vw;
+    min-width: 130px;
 }
 
 /* =====================
