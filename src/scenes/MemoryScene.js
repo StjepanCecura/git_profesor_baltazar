@@ -15,7 +15,7 @@ export default class MemoryGameScene extends BaseScene {
     this.matchedCards = new Set();
 
     this.score = 0;
-    this.timeLeft = 120;
+    this.timeLeft = 300;
     this.gameResult = 0;
 
     this.timerInterval = null;
@@ -73,7 +73,7 @@ export default class MemoryGameScene extends BaseScene {
 
   startNewGame() {
     this.score = 0;
-    this.timeLeft = 120;
+    this.timeLeft = 300;
     this.flippedCards = [];
     this.matchedCards.clear();
 
