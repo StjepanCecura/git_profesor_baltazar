@@ -8,28 +8,55 @@ export default class StartMenuScene extends BaseScene {
     this.handleMove = this.handleMove.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.updateFrameCount = this.updateFrameCount.bind(this);
+    this.handleKeyDown = this.handleKeyDown.bind(this);
+    this.handleWheel = this.handleWheel.bind(this);
 
     this.currentIndex = 0;
     this.lastFrameGesture = null;
   }
 
-  async init() {    
-    await this.assets.loadImage('profBaltazar','/pictures/startMenu/profBaltazarMainScreen.webp');
-    await this.assets.loadImage('cursor','/pictures/starCatching/starCatchingCursor.webp');
-    await this.assets.loadImage('goUp','/pictures/startMenu/like.webp');
-    await this.assets.loadImage('goDown','/pictures/startMenu/dislike.webp');
-    await this.assets.loadImage('click','/pictures/startMenu/click.webp');
-    
-    await this.assets.loadImage('crtanjeLogo','/pictures/drawingGame/icon.webp');
-    await this.assets.loadImage('KSPLogo','/pictures/kspGame/icon.webp');
-    await this.assets.loadImage('memoryLogo','/pictures/memoryGame/icon.webp');
-    await this.assets.loadImage('labyrinthLogo','/pictures/labyrinthGame/icon.webp');
-    await this.assets.loadImage('tictactoeLogo','/pictures/tictactoeGame/krizic.webp');
-    await this.assets.loadImage('ninjafruitLogo','/pictures/ninjafruitGame/sword1.webp');
-    await this.assets.loadImage('enigmaMachine', '/pictures/enigmaMachine/enigma.webp');
+  async init() {
+    await this.assets.loadImage(
+      'profBaltazar',
+      '/pictures/startMenu/profBaltazarMainScreen.webp',
+    );
+    await this.assets.loadImage(
+      'cursor',
+      '/pictures/starCatching/starCatchingCursor.webp',
+    );
+    await this.assets.loadImage('goUp', '/pictures/startMenu/like.webp');
+    await this.assets.loadImage('goDown', '/pictures/startMenu/dislike.webp');
+    await this.assets.loadImage('click', '/pictures/startMenu/click.webp');
+
+    await this.assets.loadImage(
+      'crtanjeLogo',
+      '/pictures/drawingGame/icon.webp',
+    );
+    await this.assets.loadImage('KSPLogo', '/pictures/kspGame/icon.webp');
+    await this.assets.loadImage('memoryLogo', '/pictures/memoryGame/icon.webp');
+    await this.assets.loadImage(
+      'labyrinthLogo',
+      '/pictures/labyrinthGame/icon.webp',
+    );
+    await this.assets.loadImage(
+      'tictactoeLogo',
+      '/pictures/tictactoeGame/krizic.webp',
+    );
+    await this.assets.loadImage(
+      'ninjafruitLogo',
+      '/pictures/ninjafruitGame/sword1.webp',
+    );
+    await this.assets.loadImage(
+      'enigmaMachine',
+      '/pictures/enigmaMachine/enigma.webp',
+    );
 
     this.games = [
-      { name: "Enigma stroj", logo: this.assets.images.get('enigmaMachine').src, scene: "Enigma"},
+      {
+        name: 'Enigma stroj',
+        logo: this.assets.images.get('enigmaMachine').src,
+        scene: 'Enigma',
+      },
       /*
       { name: "Ninja fruit", logo: this.assets.images.get('ninjafruitLogo').src, scene: "NinjaFruit" },
       { name: "Crtanje", logo: this.assets.images.get('crtanjeLogo').src, scene: "Drawing" },
@@ -42,7 +69,7 @@ export default class StartMenuScene extends BaseScene {
     this.sceneEntryTime = performance.now();
     this.lastFrameGestures = {};
 
-    this.styleEl = this.loadStyle("/css/Start.css");
+    this.styleEl = this.loadStyle('/css/Start.css');
 
     this.sceneEl = document.createElement('div');
     this.sceneEl.classList.add('container');
@@ -79,15 +106,17 @@ export default class StartMenuScene extends BaseScene {
     this.input.on('click', this.handleClick);
     this.input.on('frameCount', this.updateFrameCount);
 
+    window.addEventListener('keydown', this.handleKeyDown);
+    window.addEventListener('wheel', this.handleWheel, { passive: false });
+
     this.renderCards();
   }
 
-  update(dt) {
-  }
+  update(dt) {}
 
   render() {}
 
-  updateFrameCount(){
+  updateFrameCount() {
     super.updateFrameCount();
 
     const timeSinceEntry = performance.now() - this.sceneEntryTime;
@@ -98,7 +127,7 @@ export default class StartMenuScene extends BaseScene {
 
     var interacted = false;
 
-    predictions.forEach(pred => {
+    predictions.forEach((pred) => {
       const { gesture, x, y, i } = pred;
 
       if (gesture === 'Thumb_Up') {
@@ -106,18 +135,17 @@ export default class StartMenuScene extends BaseScene {
           interacted = true;
           this.scrollUp();
         }
-      }
-      else if (gesture === 'Thumb_Down') {
+      } else if (gesture === 'Thumb_Down') {
         if (!interacted) {
           interacted = true;
           this.scrollDown();
         }
-      } 
+      }
 
       this.lastFrameGestures[i] = gesture;
     });
 
-    if(interacted) {
+    if (interacted) {
       this.sceneEntryTime = performance.now();
     }
   }
@@ -128,6 +156,9 @@ export default class StartMenuScene extends BaseScene {
     await super.destroy();
     this.sceneEl.remove();
     this.container.innerHTML = '';
+
+    window.removeEventListener('keydown', this.handleKeyDown);
+    window.removeEventListener('wheel', this.handleWheel);
   }
 
   handleMove({ x, y, i }) {
@@ -135,8 +166,34 @@ export default class StartMenuScene extends BaseScene {
   }
 
   handleClick({ x, y }) {
-    const el = document.elementFromPoint(x * window.innerWidth, y * window.innerHeight);
-      if (el && el.tagName === 'BUTTON') el.click();
+    const el = document.elementFromPoint(
+      x * window.innerWidth,
+      y * window.innerHeight,
+    );
+    if (el && el.tagName === 'BUTTON') el.click();
+  }
+
+  handleKeyDown(e) {
+    if (e.key === 'ArrowUp') {
+      this.scrollUp();
+    } else if (e.key === 'ArrowDown') {
+      this.scrollDown();
+    } else if (e.key === 'Enter') {
+      // Pokreće trenutno odabranu igru
+      const currGame = this.games[this.currentIndex];
+      if (currGame) this.startGame(currGame.scene);
+    }
+  }
+
+  handleWheel(e) {
+    // Spriječava defaultno skrolanje stranice
+    e.preventDefault();
+
+    if (e.deltaY < 0) {
+      this.scrollUp();
+    } else if (e.deltaY > 0) {
+      this.scrollDown();
+    }
   }
 
   renderCards() {
@@ -150,7 +207,8 @@ export default class StartMenuScene extends BaseScene {
     [prev, curr, next].forEach((game, idx) => {
       if (!game) return;
       const card = document.createElement('button');
-      card.className = 'textStyle game-card ' + (idx === 1 ? 'active' : 'faded');
+      card.className =
+        'textStyle game-card ' + (idx === 1 ? 'active' : 'faded');
       card.innerHTML = `
         <img src="${game.logo}" alt="${game.name}">
         <span>${game.name}</span>
