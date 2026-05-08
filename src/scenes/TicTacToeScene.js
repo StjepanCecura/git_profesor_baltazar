@@ -319,6 +319,7 @@ export default class TicTacToeScene extends BaseScene {
     this.input.off("frameCount", this.updateFrameCount);
 
     super.destroy();
+    this.removeStyle(this.styleEl);
     clearInterval(this.timerInterval);
     if (this.sceneEl && this.sceneEl.parentNode) {
       this.sceneEl.remove();

@@ -347,6 +347,7 @@ export default class MemoryGameScene extends BaseScene {
     this.lastRenderedScreen = null;
     this.input.off("move", this.handleMove);
     this.input.off("click", this.handleClick);
+    this.removeStyle(this.styleEl);
     this.sceneEl.remove();
     this.container.innerHTML = '';
     await super.destroy();

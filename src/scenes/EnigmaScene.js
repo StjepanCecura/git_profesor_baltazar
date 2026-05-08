@@ -789,6 +789,8 @@ getNextPlugColor() {
     this.input.off("click", this.handleClick);
     this.input.off("frameCount", this.updateFrameCount);
 
+    this.removeStyle(this.styleEl);
+
     if (this._nativeKeydownHandler) {
       window.removeEventListener("keydown", this._nativeKeydownHandler);
       this._nativeKeydownHandler = null;

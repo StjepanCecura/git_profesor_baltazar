@@ -512,6 +512,7 @@ export default class LetimirScene extends BaseScene {
             backButton.remove();
         }
         await super.destroy();
+        this.removeStyle(this.styleEl);
         this.sceneEl.remove();
     }
 }
