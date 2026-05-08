@@ -1,158 +1,133 @@
-body {
-  background: radial-gradient(circle, #ffeb3b, #fbc02d);
-  font-family: 'Comic Sans MS', sans-serif;
-}
-.imgProfBaltazar {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    top: 10%;
-    height: 75%;
-    width: auto;
-}
+/* === Base Layout === */
 .container {
     width: 100%;
     height: 100%;
-    display: block;
+    display: flex;
+    flex-direction: column;
     background-image: url("/pictures/startMenu/startMenuBackground.webp");
-    background-position: 50%;
-    background-size: auto 100%;
+    background-position: center;
+    background-size: cover;
+    overflow: hidden;
+}
+
+.layer {
+    width: 100%;
+    display: flex;
     justify-content: center;
     align-items: center;
 }
-.firstLayer {
-    height: 35%;
-    align-content: center;
+
+.firstLayer { height: 30%; }
+.secondLayer { height: 50%; }
+.thirdLayer { height: 20%; }
+
+.imgProfBaltazar {
+    max-height: 90%;
+    width: auto;
+    object-fit: contain;
 }
-.secondLayer {
-    height: 45%;
-}
-.thirdLayer {
-    height: 20%;
-}
+
+/* === Game Menu & Cards === */
 .game-menu {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  align-items: center;
-  height: 100%;
-  overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    width: 100%;
+    height: 100%;
 }
+
 .game-card {
-  display: flex;
-  align-items: center;
-  justify-content: start;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-  transition: transform 0.3s, opacity 0.3s;
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    border-radius: 15px;
+    cursor: pointer;
+    border: none;
+    transition: all 0.3s ease;
+    width: 300px; /* Base width for desktop */
 }
+
 .game-card img {
-  width: 20%;
-  height: auto;
-  max-width: 20%;
-  max-height: 80%;
+    width: 50px;
+    height: 50px;
+    margin-right: 15px;
+    object-fit: contain;
 }
+
 .game-card span {
-  font-weight: bold;
-  color: white;
+    font-size: 1.5rem;
+    white-space: nowrap;
 }
+
 .game-card.active {
-  background: linear-gradient(145deg, #4fc3f7, #29b6f6);
-  transform: scale(1.1);
-  z-index: 2;
-  border: 5px solid #01579b;
-  box-shadow: 0 6px 15px rgba(33, 150, 243, 0.6);
+    background: linear-gradient(145deg, #4fc3f7, #29b6f6);
+    transform: scale(1.1);
+    border: 4px solid #01579b;
+    box-shadow: 0 6px 15px rgba(33, 150, 243, 0.6);
+    z-index: 10;
 }
+
 .game-card.faded {
-  margin: 1%;
-  background: linear-gradient(145deg, #ba68c8, #ab47bc);
-  opacity: 0.85;
-  border: 4px dashed #6a1b9a;
-  box-shadow: 0 4px 10px rgba(171, 71, 188, 0.5);
+    background: linear-gradient(145deg, #ba68c8, #ab47bc);
+    opacity: 0.6;
+    transform: scale(0.9);
 }
+
+/* === Instructions === */
 .instructionsTable {
-  height: 100%;
-  width: 100%;
-}
-tr.instructionsImages th {
-  height: 10vh;
+    width: auto;
+    border-spacing: 20px 0;
 }
 
-/* === Responsive dizajn za različite razlučivosti === */
-
-/* MOBITELI */
-@media screen and (max-width: 512px) and (max-aspect-ratio: 1/1) {
-  .game-menu {
-    gap: 3%;
-    padding-top: 5%;
-  }
-  .game-card {
-    width: 60%;
-    height: 25%;
-    border-radius: 1.5em;
-    gap: 5%;
-    padding: 1% 2%;
-  }
-  .game-card span {
-    font-size: 1.2em;
-  }
-  .game-card.active {
-    border: 0.25em solid #01579b;
-    box-shadow: 0 0.4em 0.9em rgba(33, 150, 243, 0.6);
-  }
-  .game-card.faded {
-    border: 0.3em dashed #6a1b9a;
-    box-shadow: 0 0.3em 0.7em rgba(171, 71, 188, 0.5);
-  }
-  .instructionsTable tr.instructionsImages img {
-    height: 12vh;
-  }
-  .instructionsTable tr.instructionsText {
-    font-size: 1.5em;
-    text-shadow: 0.2em 0.2em 0.5em black;
-  }
+.instructionsTable img {
+    height: 50px;
+    width: auto;
 }
 
-/* TABLETI I MANJI DESKTOPI - vertikalan */
-@media screen and (min-width: 512px) and (max-width: 1920px) and (max-aspect-ratio: 1/1) {
-  .game-menu {
-    gap: 3%;
-    padding-top: 5%;
-  }
-  .game-card {
-    width: 60%;
-    height: 27%;
-    border-radius: 1.5em;
-    gap: 5%;
-    padding: 1% 2%;
-  }
-  .game-card span {
-    font-size: 1.4em;
-  }
-  .game-card.active {
-    border: 0.3em solid #01579b;
-    box-shadow: 0 0.3em 1em rgba(33, 150, 243, 0.6);
-  }
-  .game-card.faded {
-    border: 0.4em dashed #6a1b9a;
-    box-shadow: 0 0.5em 2em rgba(171, 71, 188, 0.5);
-  }
-  .instructionsTable tr.instructionsImages img {
-    height: 12vh;
-  }
-  .instructionsTable tr.instructionsText {
-    font-size: 1.5em;
-    text-shadow: 0.2em 0.2em 0.5em black;
-  }
+.instructionsText {
+    font-size: 1.2rem;
+    text-align: center;
 }
 
-/* TV vertikalan */
+/* ============================================================
+   RESPONSIVE OVERRIDES
+   ============================================================ */
+
+/* 1. DESKTOPS & LAPTOPS (Landscape) */
+@media screen and (min-aspect-ratio: 1/1) {
+    .game-card { width: 400px; }
+}
+
+/* 2. MOBILE & TABLETS (Portrait) */
+@media screen and (max-width: 1024px) and (max-aspect-ratio: 1/1) {
+    .firstLayer { height: 25%; }
+    .secondLayer { height: 55%; }
+    
+    .game-card {
+        width: 80%;
+        height: 20%; /* Relative to the secondLayer */
+    }
+
+    .instructionsTable img { height: 40px; }
+}
+
+/* 3. SMALL MOBILE (Portrait) */
+@media screen and (max-width: 480px) {
+    .game-card span { font-size: 1.1rem; }
+    .game-card { width: 90%; }
+    .instructionsText { font-size: 0.9rem; }
+}
+
+/* 4. PRESERVED: 4K VERTICAL MONITORS (Kiosks) */
 @media screen and (min-width: 1920px) and (max-aspect-ratio: 1/1) {
   .game-menu {
     gap: 3%;
     padding-top: 5%;
   }
   .game-card {
-    width: 60%;
+    width: 65%;
     height: 25%;
     border-radius: 5em;
     gap: 5%;
@@ -160,6 +135,10 @@ tr.instructionsImages th {
   }
   .game-card span {
     font-size: 7em;
+  }
+  .game-card img {
+    width: 20%;
+    max-width: 20%;
   }
   .game-card.active {
     border: 1em solid #01579b;
@@ -176,9 +155,4 @@ tr.instructionsImages th {
     font-size: 7em;
     text-shadow: 0.2em 0.2em 0.5em black;
   }
-}
-
-/* TABLETI I MANJI DESKTOPI: širina između 601px i 1024px */
-@media screen and (min-width: 601px) and (max-width: 1024px) {
-
 }
