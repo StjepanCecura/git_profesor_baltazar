@@ -96,7 +96,7 @@ export default class StartMenuScene extends BaseScene {
         </table>
 
       </div>
-      <a href="https://www.flaticon.com/free-icons/hand" title="hand icons">Hand icons created by Ilham Fitrotul Hayat - Flaticon</a>
+      <!-- <a href="https://www.flaticon.com/free-icons/hand" title="hand icons">Hand icons created by Ilham Fitrotul Hayat - Flaticon</a> -->
     `;
 
     this.container.appendChild(this.sceneEl);
