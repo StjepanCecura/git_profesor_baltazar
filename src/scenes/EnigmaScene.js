@@ -76,7 +76,7 @@ export default class EnigmaScene extends BaseScene {
     try {
       await this.assets.loadImage("backButton", "/pictures/backButton.webp");
       await this.assets.loadImage("profBaltazarMainScreen", "/pictures/startMenu/profBaltazarMainScreen.webp")
-    } catch (e) {
+    } catch () {
       // ignore if asset missing
     }
 
@@ -408,7 +408,7 @@ export default class EnigmaScene extends BaseScene {
     this.keyboardEl.innerHTML = "";
 
     // build each row container
-    this.qwertyRows.forEach((row, rowIndex) => {
+    this.qwertyRows.forEach((row) => {
       const rowDiv = document.createElement("div");
       rowDiv.className = "keyboard-row";
 

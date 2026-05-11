@@ -112,8 +112,6 @@ export default class StartMenuScene extends BaseScene {
     this.renderCards();
   }
 
-  update(dt) {}
-
   render() {}
 
   updateFrameCount() {
@@ -128,7 +126,7 @@ export default class StartMenuScene extends BaseScene {
     var interacted = false;
 
     predictions.forEach((pred) => {
-      const { gesture, x, y, i } = pred;
+      const { gesture, i } = pred;
 
       if (gesture === 'Thumb_Up') {
         if (!interacted) {
