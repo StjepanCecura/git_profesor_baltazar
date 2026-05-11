@@ -38,6 +38,7 @@ Primjer:
 ```
 feat: dodana detekcija pinch geste
 fix: ispravljen problem s renderiranjem na 4K rezoluciji
+
 ```
 
 ---
@@ -52,15 +53,7 @@ Svaki Pull Request mora:
 * Biti pregledan od strane "Stjepan Čečura"
 * Biti pregledan od strane mentora
 * Nemati konflikt s `devel` granom
-
-Obavezna provjera prije slanja:
-
-* Nema `console.log` ispisa
-* Nema hardkodiranih tajnih podataka
-* `npm audit` ne prijavljuje kritične ranjivosti
-* Kod prolazi lint provjeru
-* Funkcionalnost testirana lokalno
-* Rad ostalih funkcionalnosti nije nehotice promijenjen 
+* Uspješno proći sve korake navedene u sekciji "Provjere prije Pull Requesta"
 
 ---
 
@@ -83,17 +76,47 @@ Obavezna provjera prije slanja:
 
 ---
 
-## Testiranje
+## Provjere prije Pull Requesta (Testiranje)
 
-Prije slanja izmjena potrebno je:
+Prije slanja izmjena i kreiranja Pull Requesta, obavezno je provesti sljedeće korake.
 
-1. Pokrenuti aplikaciju lokalno (`npm run dev`)
-2. Testirati funkcionalnost na ciljnoj rezoluciji 2160×3840
-3. Testirati funkcionalnost na mobilnim uređajima
-4. Testirati funkcionalnost na horizontalnim monitorima
-5. Provjeriti ponašanje kamere i prepoznavanja gesti
-6. Pokrenuti aplikaciju za produkciju (`npm run build`)
-7. Provjeriti da testovi prolaze
+**VAŽNO:** Ukoliko je nešto promijenjeno tijekom jedne od provjera (poput ovisnosti tijekom `npm audit` ili koda tijekom `npm ci` / `npm run lint`), obavezno commitajte te promjene i **ponovno provjerite sve od početka**.
+
+1. **Sinkronizacija ovisnosti:**
+* Pokrenuti `npm ci`
+
+
+2. **Provjera kvalitete koda (Lint):**
+* Pokrenuti `npm run lint`
+* Ne smiju postojati greške u datotekama na kojima je rađeno.
+* Kod ne smije sadržavati `console.log` ispise niti hardkodirane tajne podatke.
+
+
+3. **Sigurnosna provjera paketa:**
+* Pokrenuti `npm audit --audit-level=high`
+* Ranjivosti prijaviti ili popraviti pomoću `npm audit fix`.
+
+
+4. **Provjera funkcionalnosti aplikacije:**
+* Provjeriti cjelokupnu funkcionalnost aplikacije lokalno i osigurati da rad ostalih funkcionalnosti nije nehotice promijenjen.
+* Provjeriti ponašanje kamere i prepoznavanja gesti.
+* **Provjeriti funkcionalnost na raznim ekranima.** Obavezno testirati na:
+* Vertikalnim 4K ekranima (ciljna rezolucija 2160×3840)
+* Horizontalnim monitorima
+* Mobilnim uređajima
+
+
+
+
+5. **Provjera Build procesa:**
+* Uvjerite se da se aplikacija uspješno kompajlira u svim modovima rada pokretanjem sljedećih naredbi:
+* `npm run build`
+* `npm run build -- --mode staging`
+* `npm run build -- --mode production`
+
+
+
+
 
 ---
 
