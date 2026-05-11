@@ -1,156 +1,1605 @@
-@import url("/FontFamily/fontFamily.css");
+/* =====================
+   Memory Game CSS
+   ===================== */
 
-body,
-html {
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700;800&display=swap');
+
+/* Default reset and container */
+
+html, body {
     margin: 0;
     padding: 0;
-    overflow: hidden;
     width: 100%;
     height: 100%;
-    cursor: none;
-    touch-action: none;
-    font-weight: bold;
+    font-family: 'Poppins', sans-serif;
+    overflow: hidden;
 }
 
-h1 {
-    font-size: 300px;
-    color: white;
+.container {
     width: 100%;
-    text-align: center;
-    margin-top: 50px;
-    margin-bottom: 150px;
+    height: 100%;
+    position: relative;
 }
 
-.backBtn {
-    height: 100px;
-    background-color: transparent;
-    position: absolute;
-    top: 100px;
-    left: 50px;
-    text-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
-}
+/* =====================
+   Screens
+   ===================== */
+
+/* Start screen */
 
 #startScreen {
     width: 100%;
     height: 100%;
-    display: block;
-    background-image: url("../pictures/memoryGame/background_title.png");
-    background-position: 50%;
-    background-size: auto 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
 }
+
+#startScreen::before {
+    content: "";
+    position: absolute;
+    inset: -1%;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.22) 0%, rgba(0, 0, 0, 0.13) 30%, rgba(0, 0, 0, 0.06) 60%, rgba(0, 0, 0, 0.10) 100%),
+    url("../pictures/memoryGame/background_title.png") center 28% / cover no-repeat;
+    filter: saturate(0.97) brightness(0.90);
+    transform: scale(1.01);
+    z-index: 0;
+    pointer-events: none;
+}
+
+#startScreen .backBtn,
+#uputeScreen .backBtn {
+    position: absolute;
+    top: 2vh;
+    left: 3vw;
+    z-index: 5;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(241, 231, 215, 0.25); 
+    border: 2px solid rgba(241, 231, 215, 0.8);
+    border-radius: 14px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.14);
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+}
+
+#startScreen .backBtn img,
+#uputeScreen .backBtn img {
+    width: 58%;
+    height: auto;
+    display: block;
+}
+
+#startScreen .titleRow {
+    position: absolute;
+    top: 3vh;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    text-align: center;
+    z-index: 3;
+    margin-top: 0;
+    padding: 0;
+}
+
+#startScreen .titleRow h1 {
+    margin: 0;
+    font-size: clamp(30px, 10vw, 40px);
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    color: rgba(241, 231, 215, 1);
+    text-shadow: 0 2px 0 rgba(80, 65, 45, 0.18), 0 4px 8px rgba(0, 0, 0, 0.12);
+}
+
+#startScreen .bottomRow {
+    position: absolute;
+    left: 50%;
+    bottom: 11vh;
+    transform: translateX(-50%);
+    width: auto;
+    margin: 0;
+    z-index: 4;
+}
+
+#startScreen .memoryBtn,
+#uputeScreen .memoryBtn,
+#overScreen .memoryBtn,
+#gameScreen .memoryBtn {
+    font-weight: 700;
+    color: rgba(241, 231, 215, 0.9);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    padding: 1vh 9vw;
+    margin: 0;
+    background: linear-gradient(180deg, #1ecad0 0%, #11989e 100%);
+    border: 2px solid rgba(241, 231, 215, 0.8);
+    box-shadow: 0 6px 0 rgba(0, 0, 0, 0.25), 0 10px 18px rgba(0, 0, 0, 0.2);
+    border-radius: 26px;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+#startScreen .memoryBtn {
+    font-size: clamp(16px, 4vw, 20px);
+}
+
+#startScreen .memoryBtn:hover,
+#uputeScreen .memoryBtn:hover,
+#overScreen .memoryBtn:hover,
+#gameScreen .memoryBtn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 0 rgba(0, 0, 0, 0.25), 0 12px 20px rgba(0, 0, 0, 0.25);
+}
+
+#startScreen .memoryBtn:active,
+#uputeScreen .memoryBtn:active,
+#overScreen .memoryBtn:active,
+#gameScreen .memoryBtn:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.25), 0 4px 10px rgba(0, 0, 0, 0.25);
+}
+
+/* Instructions screen */
 
 #uputeScreen {
     width: 100%;
     height: 100%;
-    display: block;
-    background: linear-gradient(rgba(36, 35, 35, 0.8), rgba(36, 35, 35, 0.8)),
-        url("../pictures/memoryGame/background_instructions.png");
-    background-position: 50%;
-    background-size: auto 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    background: linear-gradient(to bottom, rgba(36, 35, 35, 0.70) 0%, rgba(36, 35, 35, 0.82) 100%),
+    url("../pictures/memoryGame/background_instructions.png") no-repeat center center / cover;
+    position: relative;
+    overflow: hidden;
+    padding: 0 6vw;
+    box-sizing: border-box;
+    z-index: 3;
 }
 
-#gameScreen {
-    width: 100%;
-    height: 100%;
-    display: block;
-    background: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)),
-        url("../pictures/memoryGame/background_game.png");
-    background-position: 50%;
-    background-size: auto 100%;
+#uputeScreen .titleRow {
+    margin-top: 19.5vh;
+    padding: 0;
+    z-index: 3;
 }
+
+#uputeScreen .titleRow h1 {
+    font-size: clamp(42px, 12vw, 58px);
+    color: rgba(241, 231, 215, 1);
+    letter-spacing: 1px;
+    text-shadow: 0 3px 6px rgba(0, 0, 0, 0.38);
+}
+
+#uputeScreen .content {
+    width: 88%;
+    max-width: 520px;
+    margin: 4vh auto 0;
+    padding: 3.2vh 6vw;
+    box-sizing: border-box;
+    border-radius: 28px;
+    background: rgba(15, 63, 64, 0.70);
+    border: 3px solid rgba(241, 231, 215, 0.78);
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.28), inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+#uputeScreen .content p {
+    margin: 0;
+    color: rgba(241, 231, 215, 1);
+    font-size: clamp(18px, 4.8vw, 24px);
+    line-height: 1.55;
+    font-weight: 600;
+    text-align: center;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.45);
+}
+
+#uputeScreen .content p + p {
+    margin-top: 1.8vh;
+}
+
+#uputeScreen .bottomRow {
+    margin: 5vh 0 0;
+    z-index: 4;
+}
+
+#uputeScreen .memoryBtn {
+    font-size: clamp(18px, 5vw, 24px);
+    padding: 1.1vh 12vw;
+    min-width: 160px;
+}
+
+/* Game over screen */
 
 #overScreen {
     width: 100%;
     height: 100%;
-    display: block;
-    background: linear-gradient(rgba(36, 35, 35, 0.8), rgba(36, 35, 35, 0.8)),
-        url("../pictures/memoryGame/background_game.png");
-    background-position: 50%;
-    background-size: auto 100%;
-}
-
-.titleRow {
-    height: max-content;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    font-family: Marhey;
-    text-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
-}
-
-.titleRow>p {
-    width: 100%;
-    font-size: 100px;
-    color: white;
-    text-align: right;
-    padding-right: 80px;
-}
-
-.memoryBtn {
-    background-color: #008782;
-    border: 0;
-    height: max-content;
-    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
-    border-radius: 15px;
-    color: white;
-    font-family: Marhey;
-    font-size: 100px;
-    text-align: center;
-    padding: 20px 200px 20px 200px;
-    text-shadow: none;
-}
-
-.memoryBtn:hover {
-    cursor: none;
-}
-
-.bottomRow {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    position: absolute;
-    width: 100%;
-    bottom: 200px;
-    gap: 150px;
+    justify-content: flex-start;
+    background: linear-gradient(to bottom, rgba(36, 35, 35, 0.70) 0%, rgba(36, 35, 35, 0.82) 100%),
+    url("../pictures/memoryGame/background_game.png") no-repeat center center / cover;
+    position: relative;
+    overflow: hidden;
+    padding: 0 6vw;
+    box-sizing: border-box;
 }
 
-.content {
-    color: white;
-    display: flex;
-    height: 50%;
-    align-items: center;
-    justify-content: center;
+#overScreen .titleRow {
+    margin-top: 15vh;
+    padding: 0;
+    z-index: 3;
 }
 
-.content>p {
-    width: 50%;
-    font-size: 100px;
-    text-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
+#overScreen .titleRow h1 {
+    font-size: clamp(42px, 12vw, 58px);
+    color: rgba(241, 231, 215, 1);
+    letter-spacing: 1px;
+    text-shadow: 0 3px 6px rgba(0, 0, 0, 0.38);
+}
+
+#overScreen .content {
+    width: 90%;
+    max-width: 520px;
+    margin: 4vh auto 0;
+    padding: 3.4vh 6vw;
+    box-sizing: border-box;
+    border-radius: 28px;
+    background: rgba(15, 63, 64, 0.70);
+    border: 3px solid rgba(241, 231, 215, 0.9);
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.28), inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+#overScreen .content p {
+    margin: 0;
+    color: rgba(241, 231, 215, 1);
+    font-size: clamp(17px, 4.5vw, 23px);
+    line-height: 1.45;
+    font-weight: 600;
     text-align: center;
-    font-family: Marhey;
-    padding: 0px 100px 0px 100px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.45);
 }
 
-.card-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-gap: 50px;
-    padding-left: 50px;
-    padding-right: 50px;
+#overScreen .content p + p {
+    margin-top: 1.8vh;
 }
 
-.card {
-    width: 100%;
-    height: auto;
+#overScreen .content p:last-child {
+    margin-bottom: 0;
 }
 
-.card img {
+#overScreen .bottomRow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 5vh 0 0;
+    z-index: 4;
+    gap: 2.5vh;
+}
+
+#overScreen .memoryBtn {
+    font-size: clamp(15px, 4.2vw, 20px);
+    padding: 0.9vh 5.5vw;
+    min-width: 160px;
+}
+
+/* =====================
+   Gameplay screen
+   ===================== */
+
+#gameScreen {
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    pointer-events: none;
-    border-color: grey;
-    border-radius: 15px;
-    border: 20px
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    position: relative;
+    overflow: hidden;
+    padding: 1.5vh 3vw 2vh;
+    box-sizing: border-box;
+    background: linear-gradient(rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.55)),
+    url("../pictures/memoryGame/background_game.png") no-repeat center center / cover;
+}
+
+#gameScreen .topBar {
+    width: 100%;
+    min-height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2vw;
+    padding: 0;
+    box-sizing: border-box;
+    margin-bottom: 1vh;
+}
+
+#gameScreen .memoryBtn {
+    font-size: clamp(13px, 3.6vw, 17px);
+    padding: 0.8vh 4vw;
+    white-space: nowrap;
+    max-height: none;
+}
+
+#gameScreen .topBar .memoryBtn {
+    box-shadow: none;
+}
+
+#gameScreen .topBar .memoryBtn:hover {
+    box-shadow: none;
+}
+
+#gameScreen .topBar .memoryBtn:active {
+    box-shadow: none;
+}
+
+#gameScreen .scoreTime {
+    color: rgba(241, 231, 215, 1);
+    font-weight: 700;
+    font-size: clamp(13px, 3.7vw, 17px);
+    text-align: center;
+    padding: 0.85vh 3.2vw;
+    border-radius: 20px;
+    background: linear-gradient(180deg, rgba(30, 202, 208, 0.92) 0%, rgba(17, 152, 158, 0.92) 100%);
+    border: 2px solid rgba(241, 231, 215, 0.75);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.16);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+    white-space: nowrap;
+}
+
+#gameScreen .gridWrapper {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+#gameScreen .card-grid {
+    width: min(94vw, 430px);
+    height: calc(100dvh - 82px);
+    max-height: 570px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 1fr;
+    gap: clamp(6px, 1.8vw, 10px);
+    justify-items: center;
+    align-items: center;
+}
+
+#gameScreen .card {
+    width: 100%;
+    max-width: 82px;
+    aspect-ratio: 3 / 4;
+    cursor: pointer;
+    border-radius: 14px;
+    filter: drop-shadow(0 3px 4px rgba(0, 0, 0, 0.16));
+    transition: transform 0.15s ease, filter 0.15s ease;
+}
+
+#gameScreen .card:hover {
+    transform: scale(1.07);
+    filter: drop-shadow(0 6px 9px rgba(0, 0, 0, 0.28));
+}
+
+#gameScreen .card img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+/* =====================
+   Responsive Rules
+   ===================== */
+
+/* Mobile phones */
+@media (max-width: 767px) {
+    /* Start screen */
+
+    #startScreen .backBtn,
+    #uputeScreen .backBtn {
+        width: 34px;
+        height: 34px;
+        border-radius: 10px;
+    }
+
+    #startScreen .titleRow {
+        top: clamp(2vh, 3vh, 4vh);
+    }
+    
+    #startScreen .titleRow h1 {
+        font-size: clamp(30px, 9vw, 42px);
+    }
+
+    #startScreen .bottomRow {
+        bottom: clamp(8vh, 11vh, 14vh);
+    }
+
+    #startScreen .memoryBtn {
+        font-size: clamp(15px, 4vw, 19px);
+        padding: 1vh 9vw;
+    }
+
+    /* Instructions screen */
+    
+    #uputeScreen .titleRow {
+        margin-top: clamp(14vh, 17vh, 20vh);
+        margin-bottom: -2vh;
+    }
+
+    #uputeScreen .titleRow h1 {
+        font-size: clamp(36px, 10vw, 52px);
+    }
+
+    #uputeScreen .content {
+        width: 88%;
+        margin-top: clamp(1.5vh, 2.5vh, 3.5vh);
+        padding: clamp(2vh, 3vh, 4vh) 6vw;
+    }
+
+    #uputeScreen .content p {
+        font-size: clamp(16px, 4.4vw, 22px);
+        line-height: 1.5;
+    }
+
+    #uputeScreen .content p + p {
+        margin-top: clamp(1.2vh, 1.8vh, 2.4vh);
+    }
+
+    #uputeScreen .bottomRow {
+        margin-top: clamp(2.5vh, 3.5vh, 4.5vh);
+    }
+
+    #uputeScreen .memoryBtn {
+        font-size: clamp(16px, 4.5vw, 22px);
+        padding: 1vh 10vw;
+        min-width: 150px;
+    }
+
+    /* Game over screen */
+
+    #overScreen {
+        justify-content: center;
+    }   
+
+    #overScreen .titleRow {
+        margin-top: -4vh;
+        margin-bottom: -2vh;
+    }
+
+    #overScreen .titleRow h1 {
+        font-size: clamp(38px, 11vw, 54px);
+    }
+
+    #overScreen .content {
+        width: 88%;
+        margin-top: clamp(2vh, 3vh, 4vh);
+        padding: clamp(2.5vh, 3.2vh, 4vh) 6vw;
+    }
+
+    #overScreen .content p {
+        font-size: clamp(16px, 4.3vw, 22px);
+        line-height: 1.45;
+    }
+
+    #overScreen .content p + p {
+        margin-top: clamp(1.2vh, 1.8vh, 2.4vh);
+    }
+
+    #overScreen .bottomRow {
+        margin-top: clamp(2.5vh, 3.5vh, 4.5vh);
+        gap: clamp(1.5vh, 2vh, 3vh);
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #overScreen .memoryBtn {
+        font-size: clamp(15px, 4.2vw, 20px);
+        padding: 0.9vh 5.5vw;
+        min-width: 160px;
+    }
+
+    /* Gameplay screen */
+
+    #gameScreen {
+        padding: 1.3vh 3vw 1.6vh;
+    }
+
+    #gameScreen .topBar {
+        min-height: 46px;
+        width: min(92vw, 400px);
+        margin: 0 auto;
+        padding: 0 clamp(4px, 2vw, 12px);
+        margin-bottom: 0;
+        gap: 2vw;
+        box-sizing: border-box;
+    }
+
+    #gameScreen .memoryBtn {
+        font-size: clamp(12px, 3.4vw, 15px);
+        padding: 0.65vh 3.8vw;
+        border-radius: 20px;
+    }
+
+    #gameScreen .scoreTime {
+        font-size: clamp(12px, 3.3vw, 15px);
+        padding: 0.7vh 2.6vw;
+        border-radius: 20px;
+    }
+
+    #gameScreen .card-grid {
+        width: min(92vw, 400px);
+        height: calc(100dvh - 76px);
+        max-height: none;
+        grid-template-columns: repeat(4, 1fr);
+        grid-auto-rows: auto;
+        align-content: center;
+        justify-content: center;
+        padding-top: clamp(1vh, 2vh, 3vh);
+        gap: clamp(10px, 2.8vh, 28px) clamp(6px, 2vw, 14px);
+        box-sizing: border-box;
+    }
+
+    #gameScreen .card {
+        width: clamp(64px, 19vw, 86px);
+        max-width: none;
+    }
+
+    #gameScreen .card:nth-last-child(2) {
+        grid-column: 2;
+    }
+    #gameScreen .card:last-child {
+        grid-column: 3;
+    }
+}
+
+/* Tablets */
+@media (min-width: 768px) and (max-width: 1279px) {
+    /* Start screen */
+
+    #startScreen .backBtn {
+        top: 2vh;
+        left: 2.8vw;
+        width: 50px;
+        height: 50px;
+    }
+
+    #startScreen .titleRow {
+        top: 2.6vh;
+    }
+
+    #startScreen .titleRow h1 {
+        font-size: clamp(42px, 7vw, 58px);
+    }
+
+    #startScreen .bottomRow {
+        bottom: 12vh;
+    }
+
+    #startScreen .memoryBtn {
+        font-size: clamp(21px, 3vw, 28px);
+        padding: 1.15vh 7.5vw;
+    }
+
+    /* Instructions screen */
+
+    #uputeScreen {
+        justify-content: center;
+    }
+
+    #uputeScreen .backBtn {
+        top: 2vh;
+        left: 2.8vw;
+        width: 50px;
+        height: 50px;
+    }
+
+    #uputeScreen .titleRow {
+        margin-top: 0;
+        margin-bottom: -2vh;
+    }
+
+    #uputeScreen .titleRow h1 {
+        font-size: clamp(56px, 6.6vw, 78px);
+    }
+
+    #uputeScreen .content {
+        width: 80%;
+        max-width: 780px;
+        margin-top: 3vh;
+        padding: 4vh 5.2vw;
+    }
+
+    #uputeScreen .content p {
+        font-size: clamp(23px, 2.5vw, 32px);
+        line-height: 1.5;
+    }
+
+    #uputeScreen .content p + p {
+        margin-top: 2vh;
+    }
+
+    #uputeScreen .bottomRow {
+        margin-top: 3.8vh;
+    }
+
+    #uputeScreen .memoryBtn {
+        font-size: clamp(26px, 3vw, 34px);
+        padding: 1.25vh 6vw;
+        min-width: 200px;
+    }
+
+    /* Game over screen */
+
+    #overScreen {
+        justify-content: center;
+    }
+
+    #overScreen .titleRow {
+        margin-top: -6vh;
+    }
+
+    #overScreen .titleRow h1 {
+        font-size: clamp(56px, 6.6vw, 78px);
+    }
+
+    #overScreen .content {
+        width: clamp(520px, 60%, 700px);
+        max-width: 680px;
+        margin-top: 2vh;
+        padding: 4vh 5.2vw;
+    }
+
+    #overScreen .content p {
+        font-size: clamp(23px, 2.5vw, 32px);
+        line-height: 1.5;
+    }
+
+    #overScreen .content p + p {
+        margin-top: 2vh;
+    }
+
+    #overScreen .bottomRow {
+        flex-direction: row;
+        margin-top: 3vh;
+        gap: 3vw;
+    }
+
+    #overScreen .memoryBtn {
+        font-size: clamp(24px, 2.7vw, 32px);
+        padding: 1.1vh 4vw;
+        min-width: 190px;
+    }
+
+    /* Gameplay screen */
+
+    #gameScreen {
+        padding: 1.8vh 4vw 2.2vh;
+        justify-content: flex-start;
+    }
+
+    #gameScreen .topBar {
+        min-height: 66px;
+        width: min(90vw, 660px);
+        margin: 0 auto;
+        padding:  0 clamp(8px, 2vw, 20px);
+        margin-bottom: 1vh;
+        flex-shrink: 0;
+        box-sizing: border-box;
+    }
+
+    #gameScreen .memoryBtn {
+        font-size: clamp(16px, 2.1vw, 21px);
+        padding: 0.95vh 3.6vw;
+        border-radius: 26px;
+    }
+
+    #gameScreen .scoreTime {
+        font-size: clamp(16px, 2.1vw, 21px);
+        padding: 0.95vh 4vw;
+        border-radius: 26px;
+    }
+
+    #gameScreen .gridWrapper {
+        flex: 1;
+        width: 100%;
+        display: flex;
+        align-items: center;        
+        justify-content: center;
+        overflow: hidden;
+        min-height: 0;
+        box-sizing: border-box;
+        padding-bottom: clamp(10px, 3vh, 40px);
+    }
+
+    #gameScreen .card-grid {
+        width: min(90vw, 660px);              
+        height: auto;
+        max-height: none;
+        grid-template-columns: repeat(4, 1fr);
+        grid-auto-rows: auto;
+        align-content: center;
+        justify-content: center;
+        gap: clamp(16px, 2.8vh, 32px) clamp(12px, 2.2vw, 26px);
+        box-sizing: border-box;
+        padding: clamp(10px, 2vh, 24px) 0;
+    }
+
+    #gameScreen .card {
+        width: 100%;
+        max-width: none;
+        height: clamp(105px, 16.5vh, 190px);  
+        aspect-ratio: unset;
+    }
+
+    #gameScreen .card:nth-last-child(2) {
+        grid-column: 2;
+    }
+    #gameScreen .card:last-child {
+        grid-column: 3;
+    }
+}
+
+/* Regular monitors */
+@media (min-width: 1280px) and (max-width: 2559px) {
+    /* Start screen */
+
+    #startScreen .backBtn,
+    #uputeScreen .backBtn {
+        top: 2.4vh;
+        left: 2vw;
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+    }
+
+    #startScreen .titleRow {
+        top: 5vh;
+    }
+
+    #startScreen .titleRow h1 {
+        font-size: clamp(44px, 3.2vw, 62px);
+        text-shadow:0 2px 4px rgba(0, 0, 0, 0.35);
+    }
+
+    #startScreen .bottomRow {
+        bottom: 10vh;
+    }
+
+    #startScreen .memoryBtn {
+        font-size: clamp(21px, 1.6vw, 27px);
+        padding: 1.3vh 3.8vw;
+        min-width: 180px;
+        border-radius: 28px;
+    }
+
+    /* Instructions screen */
+
+    #uputeScreen {
+        width: 100%;
+        height: 100%;
+        justify-content: center;
+        padding: 0 6vw;
+    }
+
+    #uputeScreen .titleRow {
+        margin-top: -3vh;
+    }
+
+    #uputeScreen .titleRow h1 {
+        font-size: clamp(54px, 3.4vw, 66px);
+    }
+
+    #uputeScreen .content {
+        width: 48%;
+        max-width: 700px;
+        margin-top: 3.5vh;
+        padding: 3.4vh 3.5vw;
+    }
+
+    #uputeScreen .content p {
+        font-size: clamp(19px, 1.35vw, 25px);
+        line-height: 1.5;
+    }
+
+    #uputeScreen .content p + p {
+        margin-top: 2vh;
+    }
+
+    #uputeScreen .bottomRow {
+        margin-top: 5.5vh;
+    }
+
+    #uputeScreen .memoryBtn {
+        font-size: clamp(21px, 1.6vw, 27px);
+        padding: 1.15vh 6vw;
+        min-width: 180px;
+    }
+
+    /* Game over screen */
+
+    #overScreen {
+        width: 100%;
+        height: 100%;
+        justify-content: center;
+        padding: 0 6vw;
+    }
+
+    #overScreen .titleRow {
+        margin-top: -5vh;
+    }
+
+    #overScreen .titleRow h1 {
+        font-size: clamp(56px, 3.8vw, 72px);
+    }
+
+    #overScreen .content {
+        width: clamp(440px, 48%, 720px);
+        max-width: 620px;
+        margin-top: 3vh;
+        padding: 3.4vh 3.2vw;
+    }
+
+    #overScreen .content p {
+        font-size: clamp(19px, 1.35vw, 25px);
+        line-height: 1.5;
+    }
+
+    #overScreen .bottomRow {
+        flex-direction: row;
+        margin-top: 3vh;
+        gap: 2.5vw;
+    }
+
+    #overScreen .memoryBtn {
+        font-size: clamp(21px, 1.6vw, 27px);
+        padding: 1.1vh 4vw;
+        min-width: 180px;
+    }
+
+    /* Gameplay screen */
+
+    #gameScreen {
+        padding: 1.5vh 3vw 2vh;
+    }
+
+    #gameScreen .topBar {
+        min-height: 62px;
+        width: min(92vw, 1300px);
+        margin: 0 auto;
+        margin-bottom: 0;
+        padding: 0 clamp(85px, 6.5vw, 120px);
+        box-sizing: border-box;
+    }
+
+    #gameScreen .memoryBtn {
+        font-size: clamp(15px, 1.15vw, 20px);
+        padding: 0.7vh 1.55vw;
+        min-width: 120px;
+        border-radius: 24px;
+    }
+
+    #gameScreen .scoreTime {
+        font-size: clamp(15px, 1.15vw, 20px);
+        padding: 0.75vh 2.5vw;
+        border-radius: 24px;
+    }
+
+   #gameScreen .card-grid {
+        width: min(92vw, 1200px);
+        height: calc(100dvh - 76px);
+        max-height: 600px;
+        grid-template-columns: repeat(10, 1fr);
+        grid-auto-rows: auto;
+        align-content: center;
+        justify-content: center;
+        padding-top: 0;
+        gap: clamp(10px, 1.6vh, 18px) clamp(8px, 1vw, 16px);
+        box-sizing: border-box;
+    }
+
+    #gameScreen .card {
+        width: 100%;
+        max-width: 160px;
+        grid-column: span 2;
+    }
+
+    #gameScreen .card:nth-child(11) { 
+        grid-column: 2 / span 2; 
+    }
+
+    #gameScreen .card:nth-child(12) { 
+        grid-column: 4 / span 2; 
+    }
+
+    #gameScreen .card:nth-child(13) { 
+        grid-column: 6 / span 2; 
+    }
+
+    #gameScreen .card:nth-child(14) { 
+        grid-column: 8 / span 2;
+    }
+}
+
+@media (min-width: 1800px) and (max-width: 2559px) {
+    /* Start screen */
+
+    #startScreen .backBtn,
+    #uputeScreen .backBtn {
+        width: 58px;
+        height: 58px;
+    }
+
+    #startScreen .titleRow {
+        top: 8vh;
+    }
+
+    #startScreen .bottomRow {
+        bottom: 10vh;
+    }
+
+    /* Instructions screen */
+
+    #uputeScreen .titleRow {
+        margin-top: -7vh;
+        margin-bottom: -2vh;
+
+    }
+
+    /* Game over screen */
+
+    #overScreen .titleRow {
+        margin-top: -8vh;
+        margin-bottom: -2vh;
+
+    }
+
+    #overScreen .content {
+        width: 46%;
+        max-width: 720px;
+    }
+
+    /* Gameplay screen */
+
+    #gameScreen .topBar {
+        width: min(92vw, 1400px);    
+        padding: 0 48px;  
+    }
+
+    #gameScreen .memoryBtn {
+        font-size: clamp(16px, 1.3vw, 22px);   
+        padding: 0.8vh 2vw;
+        min-width: 140px;
+    }
+
+    #gameScreen .scoreTime {
+        font-size: clamp(16px, 1.3vw, 22px);   
+        padding: 0.8vh 2.8vw;
+    }
+
+    #gameScreen .card-grid {
+        width: min(92vw, 1400px);
+        max-height: 680px;
+        grid-template-columns: repeat(10, 1fr);
+        grid-auto-rows: auto;
+        align-content: center;
+        justify-content: center;
+        justify-items: center;
+        padding-top: 0;
+        gap: clamp(14px, 2vh, 24px) clamp(12px, 1.2vw, 22px);
+    }
+
+    #gameScreen .card {
+        max-width: 200px;
+    }
+}
+
+/* Desktop landscape */
+@media (min-width: 1280px) and (max-height: 820px) {
+    /* Start screen */
+
+    #startScreen .backBtn,
+    #uputeScreen .backBtn {
+        top: 2.2vh;
+        left: 2.2vw;
+        width: 36px;
+        height: 36px;
+        border-radius: 10px;
+    }
+
+    #startScreen .titleRow {
+        top: 10vh;
+    }
+
+    #startScreen .titleRow h1 {
+        font-size: clamp(42px, 3.6vw, 60px);
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+    }
+
+    #startScreen .bottomRow {
+        bottom: 7vh;
+    }
+
+    #startScreen .memoryBtn {
+        font-size: clamp(16px, 1.3vw, 22px); 
+        padding: 1.15vh 3.6vw; 
+        min-width: 220px; 
+        border-radius: 30px;
+        box-shadow: 0 4px 0 rgba(0, 0, 0, 0.25), 0 8px 16px rgba(0, 0, 0, 0.25);
+    }
+
+    /* Instructions screen */
+
+    #uputeScreen {
+        justify-content: center;
+        padding: 0 8vw;
+    }
+
+    #uputeScreen .titleRow {
+        margin-top: -6vh;
+    }
+
+    #uputeScreen .titleRow h1 {
+        font-size: clamp(36px, 3vw, 52px);
+    }
+
+    #uputeScreen .content {
+        width: 46%;
+        max-width: 620px;
+        margin-top: 2.2vh;
+        padding: 2.5vh 3vw;
+        transform: translateY(-3vh);
+    }
+
+    #uputeScreen .content p {
+        font-size: clamp(15px, 1.2vw, 20px);
+        line-height: 1.45;
+    }
+
+    #uputeScreen .content p + p {
+        margin-top: 1.5vh;
+    }
+
+    #uputeScreen .bottomRow {
+        margin-top: 1.8vh;
+    }
+
+    #uputeScreen .memoryBtn {
+        font-size: clamp(16px, 1.3vw, 22px);
+        padding: 0.95vh 3.8vw;
+        min-width: 175px;
+    }
+
+    /* Game over screen */
+
+    #overScreen {
+        justify-content: center;
+        padding: 0 8vw;
+    }
+
+    #overScreen .titleRow {
+        margin-top: -5vh;
+        margin-bottom: -2vh;
+    }
+
+    #overScreen .titleRow h1 {
+        font-size: clamp(42px, 3.2vw, 60px);
+    }
+
+    #overScreen .content {
+        width: 44%;
+        max-width: 580px;
+        margin-top: 2.5vh;
+        padding: 2.5vh 3vw;
+    }
+
+    #overScreen .content p {
+        font-size: clamp(18px, 1.3vw, 24px);
+        line-height: 1.45;
+    }
+
+    #overScreen .content p + p {
+        margin-top: 1.5vh;
+    }
+
+    #overScreen .bottomRow {
+        flex-direction: row;
+        margin-top: 3vh;
+        gap: 2vw;
+    }
+
+    #overScreen .memoryBtn {
+        font-size: clamp(16px, 1.3vw, 22px);
+        padding: 1vh 3.2vw;
+        min-width: 180px;
+    }
+
+    /* Gameplay screen */
+
+    #gameScreen {
+        padding: 1vh 3vw 1.5vh;
+    }
+
+    #gameScreen .topBar {
+        min-height: 48px;
+        width: min(92vw, 1200px);
+        margin: 0 auto;
+        padding: 0 58px;
+        box-sizing: border-box;
+    }
+
+    #gameScreen .memoryBtn {
+        font-size: clamp(13px, 1vw, 17px);
+        padding: 0.6vh 1.4vw;
+        min-width: 110px;
+        border-radius: 22px;
+    }
+
+    #gameScreen .scoreTime {
+        font-size: clamp(13px, 1vw, 17px);
+        padding: 0.6vh 2vw;
+        border-radius: 22px;
+    }
+
+    #gameScreen .card-grid {
+        width: min(92vw, 1200px);
+        height: calc(100dvh - 60px);
+        max-height: 470px;
+        grid-template-columns: repeat(10, 1fr);
+        grid-auto-rows: auto;
+        align-content: center;
+        justify-content: center;
+        padding-top: 0;
+        gap: clamp(7px, 1.1vh, 13px) clamp(6px, 0.8vw, 12px);
+        box-sizing: border-box;
+    }
+
+    #gameScreen .card {
+        width: 100%;
+        max-width: 130px;
+        grid-column: span 2;
+    }
+
+    #gameScreen .card:nth-child(11) { 
+        grid-column: 2 / span 2; 
+    }
+
+    #gameScreen .card:nth-child(12) { 
+        grid-column: 4 / span 2; 
+    }
+
+    #gameScreen .card:nth-child(13) { 
+        grid-column: 6 / span 2; 
+    }
+
+    #gameScreen .card:nth-child(14) { 
+        grid-column: 8 / span 2; 
+    }
+}
+
+/* 4K Vertical monitors */
+@media (min-width: 1920px) and (min-height: 2160px) {
+    /* Start screen */
+
+    #startScreen .backBtn {
+        top: 2vh;
+        left: 2vw;
+        width: 120px;
+        height: 120px;
+        border-radius: 24px;
+        border-width: 4px;
+    }
+
+    #startScreen .titleRow {
+        top: 3.8vh;
+    }
+
+    #startScreen .titleRow h1 {
+        font-size: clamp(125px, 6.4vw, 175px);
+        text-shadow: 0 5px 10px rgba(0, 0, 0, 0.30);
+    }
+
+    #startScreen .bottomRow {
+        bottom: 10vh;
+    }
+
+    #startScreen .memoryBtn {
+        font-size: clamp(56px, 2.8vw, 80px);
+        padding: 1.5vh 5.5vw;
+        min-width: 560px;
+        border-radius: 42px;
+        border-width: 4px;
+        box-shadow: 0 12px 0 rgba(0, 0, 0, 0.25), 0 20px 34px rgba(0, 0, 0, 0.24);
+    }
+
+    /* Instructions screen */
+
+    #uputeScreen {
+        justify-content: center;
+        padding: 0 5vw;
+    }
+
+    #uputeScreen .backBtn {
+        top: 2vh;
+        left: 2vw;
+        width: 120px;
+        height: 120px;
+        border-radius: 24px;
+        border-width: 4px;
+    }
+
+    #uputeScreen .titleRow {
+        margin-top: -2vh;
+    }
+
+    #uputeScreen .titleRow h1 {
+        font-size: clamp(110px, 5.5vw, 150px);
+    }
+
+    #uputeScreen .content {
+        width: 75%;
+        max-width: 1200px;
+        margin-top: 3.2vh;
+        padding: 4vh 4.5vw;
+        border-radius: 48px;
+        border-width: 5px;
+    }
+
+    #uputeScreen .content p {
+        font-size: clamp(44px, 2vw, 60px);
+        line-height: 1.5;
+    }
+
+    #uputeScreen .content p + p {
+        margin-top: 2.5vh;
+    }
+
+    #uputeScreen .bottomRow {
+        margin-top: 5vh;
+    }
+
+    #uputeScreen .memoryBtn {
+        font-size: clamp(48px, 2.2vw, 64px);
+        padding: 1.15vh 4.1vw;
+        min-width: 420px;
+        border-radius: 42px;
+        border-width: 4px;
+    }
+
+    /* Game over screen */
+
+    #overScreen {
+        justify-content: center;
+        padding: 0 5vw;
+    }
+
+    #overScreen .titleRow {
+        margin-top: -5vh;
+    }
+
+    #overScreen .titleRow h1 {
+        font-size: clamp(110px, 5.5vw, 150px);
+    }
+
+    #overScreen .content {
+        width: 81%;
+        max-width: 1180px;
+        margin-top: 3vh;
+        padding: 3.8vh 4.2vw;
+        border-radius: 48px;
+        border-width: 5px;
+    }
+
+    #overScreen .content p {
+        font-size: clamp(44px, 2vw, 60px);
+        line-height: 1.45;
+    }
+
+    #overScreen .content p + p {
+        margin-top: 2.4vh;
+    }
+
+    #overScreen .bottomRow {
+        flex-direction: row;
+        margin-top: 3.2vh;
+        gap: 3.4vw;
+    }
+
+    #overScreen .memoryBtn {
+        font-size: clamp(48px, 2.2vw, 64px);
+        padding: 1.15vh 4.1vw;
+        min-width: 380px;
+        border-radius: 44px;
+        border-width: 4px;
+    }
+
+    /* Gameplay screen */
+
+    #gameScreen {
+        padding: 0.8vh 3vw 2vh;
+    }
+
+    #gameScreen .topBar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        min-height: clamp(90px, 4.2vh, 115px);
+        width: min(92vw, 1800px);
+        margin: clamp(20px, 2vh, 60px) auto 0;
+        padding: 0 clamp(60px, 4.5vw, 110px);
+        box-sizing: border-box;
+    }
+
+    #gameScreen .memoryBtn {
+        font-size: clamp(36px, 1.9vw, 50px);
+        padding: 0.75vh 2vw;
+        min-width: 300px;
+        border-radius: 42px;
+    }
+
+    #gameScreen .scoreTime {
+        font-size: clamp(34px, 1.8vw, 48px);
+        padding: 0.8vh 2.7vw;
+        border-radius: 42px;
+    }
+
+    #gameScreen .card-grid {
+        width: min(92vw, 1800px);
+        height: calc(100dvh - 150px);
+        max-height: none;
+        grid-template-columns: repeat(8, 1fr);
+        grid-auto-rows: auto;
+        align-content: center;
+        justify-content: center;
+        justify-items: center;
+        padding-top: 0;
+        gap: clamp(34px, 4vh, 100px) clamp(20px, 2vw, 60px);
+        box-sizing: border-box;
+    }
+
+    #gameScreen .card {
+        width: 100%;
+        max-width: clamp(220px, min(14vw, 20vh), 460px);
+        grid-column: span 2;
+    }
+
+    #gameScreen .card:nth-child(1),
+    #gameScreen .card:nth-child(2),
+    #gameScreen .card:nth-child(3),
+    #gameScreen .card:nth-child(4),
+    #gameScreen .card:nth-child(5),
+    #gameScreen .card:nth-child(6),
+    #gameScreen .card:nth-child(7),
+    #gameScreen .card:nth-child(8),
+    #gameScreen .card:nth-child(9),
+    #gameScreen .card:nth-child(10),
+    #gameScreen .card:nth-child(11),
+    #gameScreen .card:nth-child(12) { 
+        grid-column: span 2; 
+    }
+
+    #gameScreen .card:nth-child(13) { 
+        grid-column: 3 / span 2; 
+    }
+
+    #gameScreen .card:nth-child(14) { 
+        grid-column: 5 / span 2; 
+    }
+}
+
+/* Horizontal 4K or ultrawide can scale separately if needed */
+@media (min-width: 2560px) {
+    /* Start screen */
+
+    #startScreen .backBtn,
+    #uputeScreen .backBtn {
+        top: 2.2vh;
+        left: 2vw;
+        width: 90px;
+        height: 90px;
+        border-radius: 18px;
+        border-width: 3px;
+    }
+
+    #startScreen .titleRow {
+        top: 7vh;
+    }
+
+    #startScreen .titleRow h1 {
+        font-size: clamp(80px, 3.4vw, 124px);
+        text-shadow: 0 3px 7px rgba(0, 0, 0, 0.35);
+    }
+
+    #startScreen .bottomRow {
+        bottom: 12vh;
+    }
+
+    #startScreen .memoryBtn {
+        font-size: clamp(36px, 1.4vw, 52px);
+        padding:  1.25vh 4.2vw;
+        min-width: 380px;
+        border-radius: 34px;
+        border-width: 3px;
+        box-shadow: 0 8px 0 rgba(0, 0, 0, 0.28), 0 14px 24px rgba(0, 0, 0, 0.28);
+    }
+
+    /* Instructions screen */
+
+    #uputeScreen {
+        width: 100%;
+        height: 100%;
+        justify-content: center;
+        padding: 0 6vw;
+    }
+
+    #uputeScreen .titleRow {
+        margin-top: -8vh;
+        margin-bottom: -4vh;
+    }
+
+    #uputeScreen .titleRow h1 {
+        font-size: clamp(80px, 3.4vw, 124px);
+    }
+
+    #uputeScreen .content {
+        width: 65%;
+        max-width: 1450px;
+        margin-top: 3.2vh;
+        padding: 3.6vh 4.3vw;
+        border-radius: 38px;
+        border-width: 4px;
+    }
+
+    #uputeScreen .content p {
+        font-size: clamp(36px, 1.45vw, 52px);
+        line-height: 1.5;
+    }
+
+    #uputeScreen .content p + p {
+        margin-top: 2.5vh;
+    }
+
+    #uputeScreen .bottomRow {
+        margin-top: 5vh;
+    }
+
+    #uputeScreen .memoryBtn {
+        font-size: clamp(36px, 1.4vw, 52px);
+        padding: 1.25vh 4.2vw;
+        min-width: 380px;
+        border-radius: 36px;
+        border-width: 3px;
+    }
+
+    /* Game over screen */
+
+    #overScreen {
+        justify-content: center;
+        padding: 0 6vw;
+    }
+
+    #overScreen .titleRow {
+        margin-top: -8vh;
+        margin-bottom: -4vh;
+    }
+
+    #overScreen .titleRow h1 {
+        font-size: clamp(80px, 3.4vw, 124px);
+    }
+
+    #overScreen .content {
+        width: 65%;
+        max-width: 1450px;
+        margin-top: 3vh;
+        padding: 3.4vh 3.8vw;
+        border-radius: 44px;
+        border-width: 4px;
+    }
+
+    #overScreen .content p {
+        font-size: clamp(36px, 1.45vw, 52px);
+        line-height: 1.5;
+    }
+
+    #overScreen .content p + p {
+        margin-top: 2.5vh;
+    }
+
+    #overScreen .bottomRow {
+        flex-direction: row;
+        margin-top: 4.5vh;
+        gap: 3vw;
+    }
+
+    #overScreen .memoryBtn {
+        font-size: clamp(36px, 1.4vw, 52px);
+        padding: 1.25vh 4.2vw;
+        min-width: 380px;
+        border-radius: 40px;
+        border-width: 3px;
+    }
+
+    /* Gameplay screen */
+
+    #gameScreen {
+        padding: 2vh 3vw 2vh;
+    }
+
+    #gameScreen .topBar {
+        min-height: clamp(55px, 3.2vh, 75px);
+        width: min(88vw, 2800px);
+        margin: 0 auto;
+        padding: 0 clamp(42px, 6.5vw, 138px);
+        box-sizing: border-box;
+        flex-shrink: 0;
+    }
+
+    #gameScreen .memoryBtn {
+        font-size: clamp(24px, 1.2vw, 48px);
+        padding: 0.8vh 2.3vw;
+        min-width: clamp(260px, 8vw, 320px);
+        border-radius: 42px;
+    }
+
+    #gameScreen .scoreTime {
+        font-size: clamp(24px, 1.2vw, 48px);
+        padding: 0.85vh 2.8vw;
+        border-radius: 42px;
+    }
+
+    #gameScreen .gridWrapper {
+        flex: 1;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 3vh 0 2vh;
+        box-sizing: border-box;
+        min-height: 0;
+        overflow: hidden;
+    }
+
+    #gameScreen .card-grid {
+        width: min(88vw, 2800px);
+        height: auto;
+        max-height: none;
+        grid-template-columns: repeat(10, 1fr);
+        grid-auto-rows: auto;
+        align-content: center;
+        justify-content: center;
+        gap: clamp(8px, 1vh, 24px) clamp(4px, 0.2vw, 8px);
+        box-sizing: border-box;
+    }
+
+    #gameScreen .card {
+        width: 100%;
+        max-width: 360px;
+        height: auto;
+        max-height: 28vh;
+        grid-column: span 2;
+    }
+
+    #gameScreen .card:nth-child(11) { 
+        grid-column: 2 / span 2; 
+    }
+
+    #gameScreen .card:nth-child(12) { 
+        grid-column: 4 / span 2; 
+    }
+
+    #gameScreen .card:nth-child(13) { 
+        grid-column: 6 / span 2; 
+    }
+
+    #gameScreen .card:nth-child(14) { 
+        grid-column: 8 / span 2; 
+    }
 }
