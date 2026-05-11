@@ -12,14 +12,14 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "eslint": "^10.0.3",
-    "globals": "^17.4.0",
-    "prettier": "^3.8.1",
-    "vite": "^6.3.5"
+    "eslint": "^10.2.0",
+    "globals": "^17.6.0",
+    "prettier": "^3.8.3",
+    "vite": "^6.4.2"
   },
   "dependencies": {
     "@mediapipe/camera_utils": "^0.3.1675466862",
     "@mediapipe/hands": "^0.4.1675469240",
-    "@mediapipe/tasks-vision": "^0.10.32"
+    "@mediapipe/tasks-vision": "^0.10.34"
   }
 }
