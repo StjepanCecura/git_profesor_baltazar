@@ -13,6 +13,9 @@ export default class StartMenuScene extends BaseScene {
 
     this.currentIndex = 0;
     this.lastFrameGesture = null;
+    this.gameCards = []; // Spremnik za trajne DOM elemente kartica
+
+    this.isSwitching = false; // Prevents double-firing startGame
   }
 
   async init() {
@@ -57,15 +60,14 @@ export default class StartMenuScene extends BaseScene {
         logo: this.assets.images.get('enigmaMachine').src,
         scene: 'Enigma',
       },
-      
       { name: "Ninja fruit", logo: this.assets.images.get('ninjafruitLogo').src, scene: "NinjaFruit" },
       { name: "Crtanje", logo: this.assets.images.get('crtanjeLogo').src, scene: "Drawing" },
       { name: "Kamen papir škare", logo: this.assets.images.get('KSPLogo').src, scene: "KSP" },
       { name: "Memory", logo: this.assets.images.get('memoryLogo').src, scene: "Memory" },
       { name: "Labirint", logo: this.assets.images.get('labyrinthLogo').src, scene: "Labirint" },
       { name: "Križić-kružić", logo: this.assets.images.get('tictactoeLogo').src, scene: "TicTacToe" },
-      
     ];
+
     this.sceneEntryTime = performance.now();
     this.lastFrameGestures = {};
 
@@ -94,13 +96,44 @@ export default class StartMenuScene extends BaseScene {
             <th>odabir</th>
           </tr>
         </table>
-
       </div>
-      <!-- <a href="https://www.flaticon.com/free-icons/hand" title="hand icons">Hand icons created by Ilham Fitrotul Hayat - Flaticon</a> -->
     `;
 
     this.container.appendChild(this.sceneEl);
     this.cursorContainer = this.sceneEl;
+
+    // KREIRANJE KARTICA JEDNOM (Persistentni DOM)
+    const menu = this.sceneEl.querySelector('.game-menu');
+    this.gameCards = this.games.map((game, index) => {
+      const card = document.createElement('button');
+      card.className = 'textStyle game-card';
+      card.innerHTML = `
+        <img src="${game.logo}" alt="${game.name}">
+        <span>${game.name}</span>
+      `;
+      
+      card.addEventListener('click', (e) => {
+
+        console.log("Native Button Click fired. Index:", index);
+
+        // Prevent the click from "bubbling" up and being caught by other listeners
+        e.stopPropagation();
+
+        if (index === this.currentIndex) {
+          // Only start if we aren't already switching scenes
+          if (!this.isSwitching) {
+            this.isSwitching = true; 
+            this.startGame(game.scene);
+          }
+        } else {
+          this.currentIndex = index;
+          this.renderCards();
+        }
+      });
+
+      menu.appendChild(card);
+      return card;
+    });
 
     this.input.on('move', this.handleMove);
     this.input.on('click', this.handleClick);
@@ -164,12 +197,26 @@ export default class StartMenuScene extends BaseScene {
     this.updateCursor(x, y, i);
   }
 
-  handleClick({ x, y }) {
+  handleClick(params) {
+
+    console.log("Engine handleClick fired. isTrusted:", params.isTrusted);
+
+    // If the event has 'isTrusted: true', it means it's a real hardware click
+    // which the browser handles automatically via the button's listener.
+    // We ONLY want to run this logic for simulated clicks (like gestures).
+    if (params.isTrusted === true) return;
+
+    const { x, y } = params;
     const el = document.elementFromPoint(
       x * window.innerWidth,
       y * window.innerHeight,
     );
-    if (el && el.tagName === 'BUTTON') el.click();
+    
+    const button = el?.closest('button');
+    if (button) {
+      // This will now only be called by your Gesture/AI system
+      button.click();
+    }
   }
 
   handleKeyDown(e) {
@@ -178,16 +225,13 @@ export default class StartMenuScene extends BaseScene {
     } else if (e.key === 'ArrowDown') {
       this.scrollDown();
     } else if (e.key === 'Enter') {
-      // Pokreće trenutno odabranu igru
       const currGame = this.games[this.currentIndex];
       if (currGame) this.startGame(currGame.scene);
     }
   }
 
   handleWheel(e) {
-    // Spriječava defaultno skrolanje stranice
     e.preventDefault();
-
     if (e.deltaY < 0) {
       this.scrollUp();
     } else if (e.deltaY > 0) {
@@ -195,29 +239,23 @@ export default class StartMenuScene extends BaseScene {
     }
   }
 
+  /**
+   * Sada samo ažurira klase postojećih elemenata umjesto re-renderiranja HTML-a.
+   * To eliminira "flash" jer preglednik ne mora ponovno učitavati slike.
+   */
   renderCards() {
-    const menu = this.sceneEl.querySelector('.game-menu');
-    menu.innerHTML = '';
+  // Debugging: see if this is called unnecessarily
+  if (this.lastRenderedIndex === this.currentIndex) return;
+  this.lastRenderedIndex = this.currentIndex;
 
-    const prev = this.games[this.currentIndex - 1];
-    const curr = this.games[this.currentIndex];
-    const next = this.games[this.currentIndex + 1];
+  console.log("DOM Classes Updating for Index:", this.currentIndex);
 
-    [prev, curr, next].forEach((game, idx) => {
-      if (!game) return;
-      const card = document.createElement('button');
-      card.className =
-        'textStyle game-card ' + (idx === 1 ? 'active' : 'faded');
-      card.innerHTML = `
-        <img src="${game.logo}" alt="${game.name}">
-        <span>${game.name}</span>
-      `;
-      if (idx === 1) {
-        card.addEventListener('click', () => this.startGame(game.scene));
-      }
-      menu.appendChild(card);
-    });
-  }
+  this.gameCards.forEach((card, index) => {
+    card.classList.toggle('active', index === this.currentIndex);
+    card.classList.toggle('faded', index === this.currentIndex - 1 || index === this.currentIndex + 1);
+    card.classList.toggle('hidden', index !== this.currentIndex && index !== this.currentIndex - 1 && index !== this.currentIndex + 1);
+  });
+}
 
   scrollUp() {
     if (this.currentIndex > 0) {

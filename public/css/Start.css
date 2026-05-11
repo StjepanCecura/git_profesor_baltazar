@@ -17,7 +17,7 @@
     align-items: center;
 }
 
-/* Osnovne proporcije za portret (mobitele/tablete) */
+/* Osnovne proporcije za portret */
 .firstLayer { height: 25%; }
 .secondLayer { height: 50%; }
 .thirdLayer { height: 25%; }
@@ -46,25 +46,37 @@
     border-radius: 15px;
     cursor: pointer;
     border: none;
-    transition: all 0.3s ease;
+    outline: none; /* Uklanja plavi okvir kod klika */
+    background: none;
+    transition: transform 0.3s ease, opacity 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
     width: clamp(280px, 30vw, 450px);
+    -webkit-tap-highlight-color: transparent; /* Uklanja sivi bljesak na mobitelima */
+}
+
+/* KLJUČNO: Sakrivanje kartica koje nisu aktivne ili susjedne */
+.game-card.hidden {
+    display: none !important;
 }
 
 .game-card img {
     width: 50px;
     height: 50px;
     margin-right: 15px;
+    pointer-events: none; /* Sprječava da slika presretne klik gumbu */
 }
 
 .game-card span {
     font-size: 1.5rem;
     white-space: nowrap;
+    pointer-events: none;
 }
 
 .game-card.active {
     background: linear-gradient(145deg, #4fc3f7, #29b6f6);
     transform: scale(1.1);
     border: 4px solid #01579b;
+    box-shadow: 0 6px 15px rgba(33, 150, 243, 0.6);
+    z-index: 10;
 }
 
 .game-card.faded {
@@ -89,21 +101,27 @@
     text-align: center;
 }
 
+.game-card, .game-card:focus, .game-card:active, .game-card:hover {
+    outline: none !important;
+    -webkit-tap-highlight-color: transparent !important;
+    user-select: none !important;
+    -webkit-user-select: none;
+}
+
 /* ============================================================
    ISPRAVAK ZA HORIZONTALNE MONITORE (Laptop/Desktop)
    ============================================================ */
 @media screen and (min-aspect-ratio: 1/1) {
-    /* Smanjujemo vrh da Baltazar ne dominira ekranom */
     .firstLayer { height: 18%; } 
     .secondLayer { height: 54%; } 
-    .thirdLayer { height: 28%; } /* Više mjesta za velike ikone na dnu */
+    .thirdLayer { height: 28%; }
 
     .imgProfBaltazar {
-        max-height: 85%; /* Dodatno smanjenje unutar sloja */
+        max-height: 85%;
     }
 
     .instructionsTable tr.instructionsImages img {
-        height: 14vh; /* Ikone ostaju velike kao što si tražio */
+        height: 14vh;
     }
 }
 
@@ -125,14 +143,20 @@
   }
   .game-card span { font-size: 7em; }
   .game-card img { width: 20%; max-width: 20%; }
+  
   .game-card.active {
     border: 1em solid #01579b;
     box-shadow: 0 0.8em 2em rgba(33, 150, 243, 0.6);
+    background: linear-gradient(145deg, #4fc3f7, #29b6f6);
+    transform: scale(1.1);
   }
+  
   .game-card.faded {
     border: 1.3em dashed #6a1b9a;
     box-shadow: 0 2em 4em rgba(171, 71, 188, 0.5);
+    opacity: 0.8;
   }
+  
   .instructionsTable tr.instructionsImages img {
     height: 10vh;
   }
