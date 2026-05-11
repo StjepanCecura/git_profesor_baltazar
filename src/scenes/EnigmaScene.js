@@ -76,7 +76,7 @@ export default class EnigmaScene extends BaseScene {
     try {
       await this.assets.loadImage("backButton", "/pictures/backButton.webp");
       await this.assets.loadImage("profBaltazarMainScreen", "/pictures/startMenu/profBaltazarMainScreen.webp")
-    } catch () {
+    } catch (_e) {
       // ignore if asset missing
     }
 
