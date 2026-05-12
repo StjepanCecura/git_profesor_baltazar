@@ -34,7 +34,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 15px;
+    gap: clamp(15px, 2vh, 40px); /* Razmak raste s visinom ekrana */
     width: 100%;
     height: 100%;
 }
@@ -42,18 +42,19 @@
 .game-card {
     display: flex;
     align-items: center;
-    padding: 10px 20px;
-    border-radius: 15px;
+    padding: clamp(10px, 1.5vh, 25px) clamp(20px, 2vw, 40px);
+    border-radius: 20px;
     cursor: pointer;
     border: none;
     outline: none;
     background: none;
     transition: transform 0.3s ease, opacity 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
     
-    /* Promjena: dozvoljavamo gumbu da raste u visinu ako tekst treba više mjesta */
-    width: clamp(280px, 30vw, 450px);
-    min-height: 80px; 
-    overflow: hidden; /* Osigurava da ništa ne "viri" van zaobljenih rubova */
+    /* Povećana širina: raste do 800px na velikim ekranima */
+    width: clamp(300px, 45vw, 800px); 
+    min-height: clamp(80px, 12vh, 180px); 
+    
+    overflow: hidden;
     -webkit-tap-highlight-color: transparent;
 }
 
@@ -63,31 +64,32 @@
 }
 
 .game-card img {
-    width: 50px;
-    height: 50px;
-    margin-right: 15px;
-    flex-shrink: 0; /* Sprječava da se slika "stisne" ako je tekst dugačak */
+    /* Slika sada raste od 50px do 120px ovisno o širini ekrana */
+    width: clamp(50px, 8vw, 120px);
+    height: clamp(50px, 8vw, 120px);
+    object-fit: contain;
+    margin-right: 25px;
+    flex-shrink: 0;
     pointer-events: none;
 }
 
 .game-card span {
-    /* KLJUČNI POPRAVAK: */
-    white-space: normal;      /* Dozvoljava tekstu da prijeđe u novi red */
-    word-wrap: break-word;    /* Razlama dugačke riječi ako je potrebno */
-    line-height: 1.2;         /* Smanjuje prored kako bi tekst u dva reda izgledao dobro */
-    text-align: left;         /* Poravnanje teksta */
-    flex: 1;                  /* Zauzima sav preostali prostor desno od slike */
-    
-    /* Smanjujemo bazični font i koristimo clamp za bolju responzivnost */
-    font-size: clamp(1.1rem, 2vw, 1.5rem); 
+    /* Font raste od 1.5rem do 3rem */
+    font-size: clamp(1.5rem, 2.5vw, 3rem); 
+    white-space: normal;
+    word-wrap: break-word;
+    line-height: 1.1;
+    text-align: left;
+    flex: 1;
     pointer-events: none;
+    font-weight: bold;
 }
 
 .game-card.active {
     background: linear-gradient(145deg, #4fc3f7, #29b6f6);
-    transform: scale(1.1);
-    border: 4px solid #01579b;
-    box-shadow: 0 6px 15px rgba(33, 150, 243, 0.6);
+    transform: scale(1.08); /* Malo manji scale jer je kartica već velika */
+    border: clamp(4px, 0.5vw, 10px) solid #01579b;
+    box-shadow: 0 10px 25px rgba(33, 150, 243, 0.5);
     z-index: 10;
 }
 
