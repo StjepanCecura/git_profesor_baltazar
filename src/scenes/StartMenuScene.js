@@ -114,8 +114,6 @@ export default class StartMenuScene extends BaseScene {
       
       card.addEventListener('click', (e) => {
 
-        console.log("Native Button Click fired. Index:", index);
-
         // Prevent the click from "bubbling" up and being caught by other listeners
         e.stopPropagation();
 
@@ -199,8 +197,6 @@ export default class StartMenuScene extends BaseScene {
 
   handleClick(params) {
 
-    console.log("Engine handleClick fired. isTrusted:", params.isTrusted);
-
     // If the event has 'isTrusted: true', it means it's a real hardware click
     // which the browser handles automatically via the button's listener.
     // We ONLY want to run this logic for simulated clicks (like gestures).
@@ -247,8 +243,6 @@ export default class StartMenuScene extends BaseScene {
   // Debugging: see if this is called unnecessarily
   if (this.lastRenderedIndex === this.currentIndex) return;
   this.lastRenderedIndex = this.currentIndex;
-
-  console.log("DOM Classes Updating for Index:", this.currentIndex);
 
   this.gameCards.forEach((card, index) => {
     card.classList.toggle('active', index === this.currentIndex);
