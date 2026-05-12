@@ -30,13 +30,19 @@ export default class StartMenuScene extends BaseScene {
     await this.assets.loadImage('goUp', '/pictures/startMenu/like.webp');
     await this.assets.loadImage('goDown', '/pictures/startMenu/dislike.webp');
     await this.assets.loadImage('click', '/pictures/startMenu/click.webp');
+    await this.assets.loadImage('memoryLogo', '/pictures/memoryGame/icon.webp');
+    await this.assets.loadImage(
+      'enigmaMachine',
+      '/pictures/enigmaMachine/enigma.webp',
+    );
 
+    /*
     await this.assets.loadImage(
       'crtanjeLogo',
       '/pictures/drawingGame/icon.webp',
     );
     await this.assets.loadImage('KSPLogo', '/pictures/kspGame/icon.webp');
-    await this.assets.loadImage('memoryLogo', '/pictures/memoryGame/icon.webp');
+    
     await this.assets.loadImage(
       'labyrinthLogo',
       '/pictures/labyrinthGame/icon.webp',
@@ -49,25 +55,27 @@ export default class StartMenuScene extends BaseScene {
       'ninjafruitLogo',
       '/pictures/ninjafruitGame/sword1.webp',
     );
-    await this.assets.loadImage(
-      'enigmaMachine',
-      '/pictures/enigmaMachine/enigma.webp',
-    );
+    */
 
     this.games = [
+      {
+        name: 'Baltazarova anatomija čudesa',
+        logo: this.assets.images.get('memoryLogo').src,
+        scene: 'Memory',
+      },
       {
         name: 'Enigma stroj',
         logo: this.assets.images.get('enigmaMachine').src,
         scene: 'Enigma',
       },
+      /*
       { name: "Ninja fruit", logo: this.assets.images.get('ninjafruitLogo').src, scene: "NinjaFruit" },
       { name: "Crtanje", logo: this.assets.images.get('crtanjeLogo').src, scene: "Drawing" },
       { name: "Kamen papir škare", logo: this.assets.images.get('KSPLogo').src, scene: "KSP" },
-      { name: "Memory", logo: this.assets.images.get('memoryLogo').src, scene: "Memory" },
       { name: "Labirint", logo: this.assets.images.get('labyrinthLogo').src, scene: "Labirint" },
       { name: "Križić-kružić", logo: this.assets.images.get('tictactoeLogo').src, scene: "TicTacToe" },
+      */
     ];
-
     this.sceneEntryTime = performance.now();
     this.lastFrameGestures = {};
 
@@ -111,16 +119,15 @@ export default class StartMenuScene extends BaseScene {
         <img src="${game.logo}" alt="${game.name}">
         <span>${game.name}</span>
       `;
-      
-      card.addEventListener('click', (e) => {
 
+      card.addEventListener('click', (e) => {
         // Prevent the click from "bubbling" up and being caught by other listeners
         e.stopPropagation();
 
         if (index === this.currentIndex) {
           // Only start if we aren't already switching scenes
           if (!this.isSwitching) {
-            this.isSwitching = true; 
+            this.isSwitching = true;
             this.startGame(game.scene);
           }
         } else {
@@ -196,7 +203,6 @@ export default class StartMenuScene extends BaseScene {
   }
 
   handleClick(params) {
-
     // If the event has 'isTrusted: true', it means it's a real hardware click
     // which the browser handles automatically via the button's listener.
     // We ONLY want to run this logic for simulated clicks (like gestures).
@@ -207,7 +213,7 @@ export default class StartMenuScene extends BaseScene {
       x * window.innerWidth,
       y * window.innerHeight,
     );
-    
+
     const button = el?.closest('button');
     if (button) {
       // This will now only be called by your Gesture/AI system
@@ -240,16 +246,24 @@ export default class StartMenuScene extends BaseScene {
    * To eliminira "flash" jer preglednik ne mora ponovno učitavati slike.
    */
   renderCards() {
-  // Debugging: see if this is called unnecessarily
-  if (this.lastRenderedIndex === this.currentIndex) return;
-  this.lastRenderedIndex = this.currentIndex;
+    // Debugging: see if this is called unnecessarily
+    if (this.lastRenderedIndex === this.currentIndex) return;
+    this.lastRenderedIndex = this.currentIndex;
 
-  this.gameCards.forEach((card, index) => {
-    card.classList.toggle('active', index === this.currentIndex);
-    card.classList.toggle('faded', index === this.currentIndex - 1 || index === this.currentIndex + 1);
-    card.classList.toggle('hidden', index !== this.currentIndex && index !== this.currentIndex - 1 && index !== this.currentIndex + 1);
-  });
-}
+    this.gameCards.forEach((card, index) => {
+      card.classList.toggle('active', index === this.currentIndex);
+      card.classList.toggle(
+        'faded',
+        index === this.currentIndex - 1 || index === this.currentIndex + 1,
+      );
+      card.classList.toggle(
+        'hidden',
+        index !== this.currentIndex &&
+          index !== this.currentIndex - 1 &&
+          index !== this.currentIndex + 1,
+      );
+    });
+  }
 
   scrollUp() {
     if (this.currentIndex > 0) {
