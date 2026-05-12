@@ -46,11 +46,15 @@
     border-radius: 15px;
     cursor: pointer;
     border: none;
-    outline: none; /* Uklanja plavi okvir kod klika */
+    outline: none;
     background: none;
     transition: transform 0.3s ease, opacity 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+    
+    /* Promjena: dozvoljavamo gumbu da raste u visinu ako tekst treba više mjesta */
     width: clamp(280px, 30vw, 450px);
-    -webkit-tap-highlight-color: transparent; /* Uklanja sivi bljesak na mobitelima */
+    min-height: 80px; 
+    overflow: hidden; /* Osigurava da ništa ne "viri" van zaobljenih rubova */
+    -webkit-tap-highlight-color: transparent;
 }
 
 /* KLJUČNO: Sakrivanje kartica koje nisu aktivne ili susjedne */
@@ -62,12 +66,20 @@
     width: 50px;
     height: 50px;
     margin-right: 15px;
-    pointer-events: none; /* Sprječava da slika presretne klik gumbu */
+    flex-shrink: 0; /* Sprječava da se slika "stisne" ako je tekst dugačak */
+    pointer-events: none;
 }
 
 .game-card span {
-    font-size: 1.5rem;
-    white-space: nowrap;
+    /* KLJUČNI POPRAVAK: */
+    white-space: normal;      /* Dozvoljava tekstu da prijeđe u novi red */
+    word-wrap: break-word;    /* Razlama dugačke riječi ako je potrebno */
+    line-height: 1.2;         /* Smanjuje prored kako bi tekst u dva reda izgledao dobro */
+    text-align: left;         /* Poravnanje teksta */
+    flex: 1;                  /* Zauzima sav preostali prostor desno od slike */
+    
+    /* Smanjujemo bazični font i koristimo clamp za bolju responzivnost */
+    font-size: clamp(1.1rem, 2vw, 1.5rem); 
     pointer-events: none;
 }
 
