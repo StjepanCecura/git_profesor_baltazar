@@ -414,6 +414,7 @@ export default class MemoryGameScene extends BaseScene {
   async destroy() {
     if (this.timerInterval) clearInterval(this.timerInterval);
     this.lastRenderedScreen = null;
+    this.removeStyle(this.styleEl);
     this.input.off('move', this.handleMove);
     this.input.off('click', this.handleClick);
     this.sceneEl.remove();
