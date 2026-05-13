@@ -1,174 +1,176 @@
-body {
-  background: radial-gradient(circle, #ffeb3b, #fbc02d);
-  font-family: 'Comic Sans MS', sans-serif;
-}
-.imgProfBaltazar {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    top: 10%;
-    height: 75%;
-    width: auto;
-}
+/* === Base Layout === */
 .container {
     width: 100%;
     height: 100%;
-    display: block;
+    display: flex;
+    flex-direction: column;
     background-image: url("/pictures/startMenu/startMenuBackground.webp");
-    background-position: 50%;
-    background-size: auto 100%;
+    background-position: center;
+    background-size: cover;
+    overflow: hidden;
+}
+
+.layer {
+    width: 100%;
+    display: flex;
     justify-content: center;
     align-items: center;
 }
-.firstLayer {
-    height: 35%;
-    align-content: center;
+
+/* Osnovne proporcije za portret */
+.firstLayer { height: 25%; }
+.secondLayer { height: 50%; }
+.thirdLayer { height: 25%; }
+
+.imgProfBaltazar {
+    max-height: 90%;
+    width: auto;
+    object-fit: contain;
 }
-.secondLayer {
-    height: 45%;
-}
-.thirdLayer {
-    height: 20%;
-}
+
+/* === Game Menu & Cards === */
 .game-menu {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  align-items: center;
-  height: 100%;
-  overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(15px, 2vh, 40px); /* Razmak raste s visinom ekrana */
+    width: 100%;
+    height: 100%;
 }
+
 .game-card {
-  display: flex;
-  align-items: center;
-  justify-content: start;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-  transition: transform 0.3s, opacity 0.3s;
+    display: flex;
+    align-items: center;
+    padding: clamp(10px, 1.5vh, 25px) clamp(20px, 2vw, 40px);
+    border-radius: 20px;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    background: none;
+    transition: transform 0.3s ease, opacity 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+    
+    /* Povećana širina: raste do 800px na velikim ekranima */
+    width: clamp(300px, 45vw, 800px); 
+    min-height: clamp(80px, 12vh, 180px); 
+    
+    overflow: hidden;
+    -webkit-tap-highlight-color: transparent;
 }
+
+/* KLJUČNO: Sakrivanje kartica koje nisu aktivne ili susjedne */
+.game-card.hidden {
+    display: none !important;
+}
+
 .game-card img {
-  width: 20%;
-  height: auto;
-  max-width: 20%;
-  max-height: 80%;
+    /* Slika sada raste od 50px do 120px ovisno o širini ekrana */
+    width: clamp(50px, 8vw, 120px);
+    height: clamp(50px, 8vw, 120px);
+    object-fit: contain;
+    margin-right: 25px;
+    flex-shrink: 0;
+    pointer-events: none;
 }
+
 .game-card span {
-  font-weight: bold;
-  color: white;
+    /* Font raste od 1.5rem do 3rem */
+    font-size: clamp(1.5rem, 2.5vw, 3rem); 
+    white-space: normal;
+    word-wrap: break-word;
+    line-height: 1.1;
+    text-align: left;
+    flex: 1;
+    pointer-events: none;
+    font-weight: bold;
 }
+
 .game-card.active {
-  background: linear-gradient(145deg, #4fc3f7, #29b6f6);
-  transform: scale(1.1);
-  z-index: 2;
-  border: 5px solid #01579b;
-  box-shadow: 0 6px 15px rgba(33, 150, 243, 0.6);
+    background: linear-gradient(145deg, #4fc3f7, #29b6f6);
+    transform: scale(1.08); /* Malo manji scale jer je kartica već velika */
+    border: clamp(4px, 0.5vw, 10px) solid #01579b;
+    box-shadow: 0 10px 25px rgba(33, 150, 243, 0.5);
+    z-index: 10;
 }
+
 .game-card.faded {
-  margin: 1%;
-  background: linear-gradient(145deg, #ba68c8, #ab47bc);
-  opacity: 0.85;
-  border: 4px dashed #6a1b9a;
-  box-shadow: 0 4px 10px rgba(171, 71, 188, 0.5);
+    background: linear-gradient(145deg, #ba68c8, #ab47bc);
+    opacity: 0.6;
+    transform: scale(0.9);
 }
+
+/* === Ikone na dnu === */
 .instructionsTable {
-  height: 100%;
-  width: 100%;
-}
-tr.instructionsImages th {
-  height: 10vh;
+    width: 90%;
+    height: 90%;
 }
 
-/* === Responsive dizajn za različite razlučivosti === */
-
-/* MOBITELI */
-@media screen and (max-width: 512px) and (max-aspect-ratio: 1/1) {
-  .game-menu {
-    gap: 3%;
-    padding-top: 5%;
-  }
-  .game-card {
-    width: 60%;
-    height: 25%;
-    border-radius: 1.5em;
-    gap: 5%;
-    padding: 1% 2%;
-  }
-  .game-card span {
-    font-size: 1.2em;
-  }
-  .game-card.active {
-    border: 0.25em solid #01579b;
-    box-shadow: 0 0.4em 0.9em rgba(33, 150, 243, 0.6);
-  }
-  .game-card.faded {
-    border: 0.3em dashed #6a1b9a;
-    box-shadow: 0 0.3em 0.7em rgba(171, 71, 188, 0.5);
-  }
-  .instructionsTable tr.instructionsImages img {
-    height: 12vh;
-  }
-  .instructionsTable tr.instructionsText {
-    font-size: 1.5em;
-    text-shadow: 0.2em 0.2em 0.5em black;
-  }
+.instructionsTable tr.instructionsImages img {
+    height: clamp(50px, 10vh, 110px);
+    width: auto;
 }
 
-/* TABLETI I MANJI DESKTOPI - vertikalan */
-@media screen and (min-width: 512px) and (max-width: 1920px) and (max-aspect-ratio: 1/1) {
-  .game-menu {
-    gap: 3%;
-    padding-top: 5%;
-  }
-  .game-card {
-    width: 60%;
-    height: 27%;
-    border-radius: 1.5em;
-    gap: 5%;
-    padding: 1% 2%;
-  }
-  .game-card span {
-    font-size: 1.4em;
-  }
-  .game-card.active {
-    border: 0.3em solid #01579b;
-    box-shadow: 0 0.3em 1em rgba(33, 150, 243, 0.6);
-  }
-  .game-card.faded {
-    border: 0.4em dashed #6a1b9a;
-    box-shadow: 0 0.5em 2em rgba(171, 71, 188, 0.5);
-  }
-  .instructionsTable tr.instructionsImages img {
-    height: 12vh;
-  }
-  .instructionsTable tr.instructionsText {
-    font-size: 1.5em;
-    text-shadow: 0.2em 0.2em 0.5em black;
-  }
+.instructionsText {
+    font-size: clamp(0.9rem, 2.2vh, 1.6rem);
+    text-align: center;
 }
 
-/* TV vertikalan */
+.game-card, .game-card:focus, .game-card:active, .game-card:hover {
+    outline: none !important;
+    -webkit-tap-highlight-color: transparent !important;
+    user-select: none !important;
+    -webkit-user-select: none;
+}
+
+/* ============================================================
+   ISPRAVAK ZA HORIZONTALNE MONITORE (Laptop/Desktop)
+   ============================================================ */
+@media screen and (min-aspect-ratio: 1/1) {
+    .firstLayer { height: 18%; } 
+    .secondLayer { height: 54%; } 
+    .thirdLayer { height: 28%; }
+
+    .imgProfBaltazar {
+        max-height: 85%;
+    }
+
+    .instructionsTable tr.instructionsImages img {
+        height: 14vh;
+    }
+}
+
+/* ============================================================
+   ZADRŽANO: 4K VERTIKALNI MONITORI (Kiosk)
+   ============================================================ */
 @media screen and (min-width: 1920px) and (max-aspect-ratio: 1/1) {
-  .game-menu {
-    gap: 3%;
-    padding-top: 5%;
-  }
+  .firstLayer { height: 35%; }
+  .secondLayer { height: 45%; }
+  .thirdLayer { height: 20%; }
+
+  .game-menu { gap: 3%; padding-top: 5%; }
   .game-card {
-    width: 60%;
+    width: 65%;
     height: 25%;
     border-radius: 5em;
     gap: 5%;
     padding: 1% 2%;
   }
-  .game-card span {
-    font-size: 7em;
-  }
+  .game-card span { font-size: 7em; }
+  .game-card img { width: 20%; max-width: 20%; }
+  
   .game-card.active {
     border: 1em solid #01579b;
     box-shadow: 0 0.8em 2em rgba(33, 150, 243, 0.6);
+    background: linear-gradient(145deg, #4fc3f7, #29b6f6);
+    transform: scale(1.1);
   }
+  
   .game-card.faded {
     border: 1.3em dashed #6a1b9a;
     box-shadow: 0 2em 4em rgba(171, 71, 188, 0.5);
+    opacity: 0.8;
   }
+  
   .instructionsTable tr.instructionsImages img {
     height: 10vh;
   }
@@ -176,9 +178,4 @@ tr.instructionsImages th {
     font-size: 7em;
     text-shadow: 0.2em 0.2em 0.5em black;
   }
-}
-
-/* TABLETI I MANJI DESKTOPI: širina između 601px i 1024px */
-@media screen and (min-width: 601px) and (max-width: 1024px) {
-
 }

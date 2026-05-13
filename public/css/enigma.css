@@ -11,6 +11,17 @@
   --muted: #b6c1cf;
 }
 
+.container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background-image: url("/pictures/startMenu/startMenuBackground.webp");
+    background-position: center;
+    background-size: cover;
+    overflow: hidden;
+}
+
 /* Container: match other games (full viewport) */
 .container.enigma-container,
 .container.enigma-machine-container {
