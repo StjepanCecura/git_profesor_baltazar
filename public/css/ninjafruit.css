@@ -108,13 +108,15 @@
 }
 
 .ninja-fruit-title {
-  font-size: 16em;
-  margin-top: 2em;
+  font-size: clamp(2.5rem, 8vw, 5rem);
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
   text-shadow: 0 0 0.2em #000;
   color: #fff;
   z-index: 2;
   position: relative;
   align-self: center;
+  text-align: center;
 }
 
 .ninja-fruit-subtitle {
