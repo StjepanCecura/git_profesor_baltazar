@@ -168,6 +168,8 @@ export default class NinjaFruitScene extends BaseScene {
     this.clearScene();
     this.resetHands();
 
+    this.sceneEl.classList.add("instructions-layout");
+
     this.cursorContainer = this.sceneEl;
 
     this.sceneEl.appendChild(this.createBackground("background1"));

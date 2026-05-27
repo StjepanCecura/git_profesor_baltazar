@@ -332,6 +332,30 @@
   box-sizing: border-box !important;
 }
 
+.instructions-layout {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 1.5vh !important;
+  padding: 5vh 20px !important;
+  box-sizing: border-box;
+}
+
+.instructions-layout .ninja-fruit-subtitle {
+  margin-top: 0 !important;
+  margin-bottom: 1vh !important;
+}
+
+.instructions-layout .ninja-fruit-instructions {
+  margin-top: 0 !important;
+  margin-bottom: 2vh !important;
+}
+
+.instructions-layout .ninja-fruit-button {
+  margin: 0 !important;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .ninja-fruit-button {
@@ -393,7 +417,6 @@
     top: 1em;
     left: 1em;
   }
-
 }
 
 @media (max-width: 480px) {
@@ -467,10 +490,10 @@
   }
 
   .ninja-fruit-end-card {
-    width: 1000px !important;       
+    width: 1000px !important;
     max-width: 85vw !important;
-    padding: 80px 60px !important;   
-    gap: 30px !important;           
+    padding: 80px 60px !important;
+    gap: 30px !important;
   }
 
   .ninja-fruit-game-over-title {
