@@ -10,7 +10,7 @@ export default class NinjaFruitScene extends BaseScene {
     this.bombs = [];
     this.slices = [];
     this.gameOver = false;
-    this.swordAnimationTimer = 0; 
+    this.swordAnimationTimer = 0;
     this.swordX = 0;
     this.swordY = 0;
     this.fruitTypes = {
@@ -31,7 +31,7 @@ export default class NinjaFruitScene extends BaseScene {
     this.spawnTimer = 0;
     this.baseSpawnInterval = 2500;
     this.minSpawnInterval = 600;
-    
+
     this.handleMove = this.handleMove.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.updateFrameCount = this.updateFrameCount.bind(this);
@@ -39,19 +39,19 @@ export default class NinjaFruitScene extends BaseScene {
 
   async init() {
     await this.loadCSS();
-    
+
     await this.assets.loadImage("cursor", "/pictures/ninjafruitGame/sword1.webp");
     await this.assets.loadImage("cursorTip", "/pictures/ninjafruitGame/sword1.webp");
-    
+
     await this.assets.loadImage("background1", "/pictures/ninjafruitGame/background1.webp");
     await this.assets.loadImage("background2", "/pictures/ninjafruitGame/background2.webp");
     await this.assets.loadImage("backButton", "/pictures/backButton.webp");
-    
+
     await this.assets.loadImage("sword1", "/pictures/ninjafruitGame/sword1.webp");
     await this.assets.loadImage("sword2", "/pictures/ninjafruitGame/sword2.webp");
     await this.assets.loadImage("sword3", "/pictures/ninjafruitGame/sword3.webp");
     await this.assets.loadImage("sword4", "/pictures/ninjafruitGame/sword4.webp");
-    
+
     await this.assets.loadImage("apple", "/pictures/ninjafruitGame/apple.webp");
     await this.assets.loadImage("banana", "/pictures/ninjafruitGame/banana.webp");
     await this.assets.loadImage("lemon", "/pictures/ninjafruitGame/lemon.webp");
@@ -147,9 +147,9 @@ export default class NinjaFruitScene extends BaseScene {
     this.clearScene();
     this.resetHands();
     this.sceneEl.classList.add("menu-layout");
-    
+
     this.cursorContainer = this.sceneEl;
-    
+
     this.sceneEl.appendChild(this.createBackground("background1"));
     this.sceneEl.appendChild(this.createBackButton(() => this.manager.switch('StartMenu')));
 
@@ -167,9 +167,9 @@ export default class NinjaFruitScene extends BaseScene {
     this.inGame = false;
     this.clearScene();
     this.resetHands();
-    
+
     this.cursorContainer = this.sceneEl;
-    
+
     this.sceneEl.appendChild(this.createBackground("background1"));
     this.sceneEl.appendChild(this.createOverlay("dark"));
     this.sceneEl.appendChild(this.createBackButton(() => this.createMenuScreen()));
@@ -193,9 +193,9 @@ export default class NinjaFruitScene extends BaseScene {
     this.inGame = true;
     this.clearScene();
     this.resetHands();
-    
+
     this.cursorContainer = this.sceneEl;
-    
+
     this.sceneEl.appendChild(this.createBackground("background2"));
     this.sceneEl.appendChild(this.createOverlay("light"));
 
@@ -245,17 +245,17 @@ export default class NinjaFruitScene extends BaseScene {
       }
 
       this.fruits.forEach((fruit, index) => {
-        const deltaTime = dt / 1000; 
+        const deltaTime = dt / 1000;
         fruit.velocityY += fruit.gravity * deltaTime;
-        
+
         fruit.y += fruit.velocityY * deltaTime;
-        
+
         fruit.el.style.top = `${fruit.y}px`;
 
         if (fruit.velocityY > 0 && !fruit.hasReachedPeak) {
           fruit.hasReachedPeak = true;
         }
-        
+
         if (fruit.y >= window.innerHeight - 50) {
           if (fruit.hasReachedPeak) {
             this.gameOver = true;
@@ -272,11 +272,11 @@ export default class NinjaFruitScene extends BaseScene {
 
       this.bombs.forEach((bomb, index) => {
         const deltaTime = dt / 1000;
-        
+
         bomb.velocityY += bomb.gravity * deltaTime;
-        
+
         bomb.y += bomb.velocityY * deltaTime;
-        
+
         bomb.el.style.top = `${bomb.y}px`;
 
         if (bomb.y >= window.innerHeight - 50) {
@@ -288,20 +288,20 @@ export default class NinjaFruitScene extends BaseScene {
       this.slices.forEach((slice, index) => {
         slice.y += slice.speed * (dt / 1000);
         slice.x += slice.velocityX * (dt / 1000);
-        
+
         if (slice.rotationSpeed) {
           const currentTransform = slice.el.style.transform;
           const rotationMatch = currentTransform.match(/rotate\(([^)]+)\)/);
           let currentRotation = 0;
-          
+
           if (rotationMatch) {
             currentRotation = parseFloat(rotationMatch[1]);
           }
-          
+
           const newRotation = currentRotation + (slice.rotationSpeed * (dt / 16.67));
           slice.el.style.transform = currentTransform.replace(/rotate\([^)]+\)/, `rotate(${newRotation}deg)`);
         }
-        
+
         slice.el.style.top = `${slice.y}px`;
         slice.el.style.left = `${slice.x}px`;
 
@@ -412,17 +412,17 @@ export default class NinjaFruitScene extends BaseScene {
     this.fruits.forEach((fruit, index) => {
       const fruitCenterX = parseFloat(fruit.el.style.left) + fruit.size / 2;
       const fruitCenterY = parseFloat(fruit.el.style.top) + fruit.size / 2;
-      
+
       const distance = Math.sqrt(
-        Math.pow(this.swordX - fruitCenterX, 2) + 
+        Math.pow(this.swordX - fruitCenterX, 2) +
         Math.pow(this.swordY - fruitCenterY, 2)
       );
-      
+
       if (distance < fruit.size / 2 + 50) {
         this.sliceFruit(fruit, fruit.el, parseFloat(fruit.el.style.left));
         this.score += fruit.points;
         this.animateSwordSlash();
-        
+
         fruit.el.remove();
         this.fruits.splice(index, 1);
       }
@@ -431,19 +431,19 @@ export default class NinjaFruitScene extends BaseScene {
     this.bombs.forEach((bomb, index) => {
       const bombCenterX = parseFloat(bomb.el.style.left) + bomb.width / 2;
       const bombCenterY = parseFloat(bomb.el.style.top) + bomb.height / 2;
-      
+
       const distance = Math.sqrt(
-        Math.pow(this.swordX - bombCenterX, 2) + 
+        Math.pow(this.swordX - bombCenterX, 2) +
         Math.pow(this.swordY - bombCenterY, 2)
       );
-      
+
       if (distance < Math.min(bomb.width, bomb.height) / 2 + 50) {
         this.gameOver = true;
         this.animateSwordSlash();
-        
+
         bomb.el.remove();
         this.bombs.splice(index, 1);
-        
+
         this.createEndScreen();
       }
     });
@@ -453,41 +453,45 @@ export default class NinjaFruitScene extends BaseScene {
     this.inGame = false;
     this.clearScene();
     this.sceneEl.classList.add("center-layout");
-    
+
     this.cursorContainer = this.sceneEl;
-    
+
     this.sceneEl.appendChild(this.createBackground("background2"));
     this.sceneEl.appendChild(this.createOverlay("dark"));
 
-    const statsContainer = document.createElement("div");
-    statsContainer.className = "textStyle ninja-fruit-stats";
-    
-    const mins = Math.floor(this.elapsedTime / 60);
-    const secs = Math.floor(this.elapsedTime % 60).toString().padStart(2, "0");
-    statsContainer.innerHTML = `Rezultat: ${this.score}<br>Vrijeme: ${mins}:${secs}`;
-    this.sceneEl.appendChild(statsContainer);
+    const endCard = document.createElement("div");
+    endCard.className = "ninja-fruit-end-card";
 
     const gameOverTitle = document.createElement("h1");
     gameOverTitle.innerText = "Kraj!";
     gameOverTitle.className = "textStyle ninja-fruit-game-over-title";
+    endCard.appendChild(gameOverTitle);
+
+    const statsContainer = document.createElement("div");
+    statsContainer.className = "textStyle ninja-fruit-stats";
+
+    const mins = Math.floor(this.elapsedTime / 60);
+    const secs = Math.floor(this.elapsedTime % 60).toString().padStart(2, "0");
+    statsContainer.innerHTML = `<p>Rezultat: <span>${this.score}</span></p><p>Vrijeme: <span>${mins}:${secs}</span></p>`;
+    endCard.appendChild(statsContainer);
 
     const playAgainText = document.createElement("h2");
     playAgainText.innerText = "Igraj ponovo!";
     playAgainText.className = "textStyle ninja-fruit-play-again-text";
+    endCard.appendChild(playAgainText);
 
     const buttonContainer = document.createElement("div");
     buttonContainer.classList.add("ninja-fruit-button-container");
 
     const playAgainBtn = this.createButton("Nova igra", () => this.createGameScreen());
-    
+
     const menuBtn = this.createButton("Izbornik", () => this.createMenuScreen());
 
     buttonContainer.appendChild(playAgainBtn);
     buttonContainer.appendChild(menuBtn);
+    endCard.appendChild(buttonContainer);
 
-    this.sceneEl.appendChild(gameOverTitle);
-    this.sceneEl.appendChild(playAgainText);
-    this.sceneEl.appendChild(buttonContainer);
+    this.sceneEl.appendChild(endCard);
   }
 
   spawnFruit() {
@@ -495,31 +499,31 @@ export default class NinjaFruitScene extends BaseScene {
     const randomCategory = categories[Math.floor(Math.random() * categories.length)];
     const fruits = this.fruitTypes[randomCategory];
     const randomFruit = fruits[Math.floor(Math.random() * fruits.length)];
-    
+
     const img = document.createElement("img");
     img.src = this.assets.images.get(randomFruit.name).src;
     img.classList.add("ninja-fruit-item");
-    
+
     const screenWidth = window.innerWidth;
     const screenHeight = window.innerHeight;
     const minLeft = 0;
     const maxLeft = screenWidth - randomFruit.size;
     const leftPosition = Math.random() * (maxLeft - minLeft) + minLeft;
-    
+
     const startY = screenHeight - randomFruit.size;
     img.style.top = `${startY}px`;
     img.style.left = `${leftPosition}px`;
-    
+
     img.style.width = `${randomFruit.size}px`;
     img.style.height = `${randomFruit.size}px`;
 
     const initialVelocityY = -(1800 + Math.random() * 400);
     const gravity = 800;
     const maxHeight = screenHeight * 0.8;
-    
+
     this.sceneEl.appendChild(img);
-    this.fruits.push({ 
-      el: img, 
+    this.fruits.push({
+      el: img,
       y: startY,
       x: leftPosition,
       velocityY: initialVelocityY,
@@ -535,21 +539,21 @@ export default class NinjaFruitScene extends BaseScene {
   spawnBomb() {
     const bombWidth = 450;
     const bombHeight = 380;
-    
+
     const img = document.createElement("img");
     img.src = this.assets.images.get("bomb").src;
     img.classList.add("ninja-fruit-item", "ninja-fruit-bomb");
-    
+
     const screenWidth = window.innerWidth;
     const screenHeight = window.innerHeight;
     const minLeft = 0;
     const maxLeft = screenWidth - bombWidth;
     const leftPosition = Math.random() * (maxLeft - minLeft) + minLeft;
-    
+
     const startY = screenHeight - bombHeight;
     img.style.top = `${startY}px`;
     img.style.left = `${leftPosition}px`;
-    
+
     img.style.width = `${bombWidth}px`;
     img.style.height = `${bombHeight}px`;
 
@@ -558,8 +562,8 @@ export default class NinjaFruitScene extends BaseScene {
     const maxHeight = screenHeight * 0.8;
 
     this.sceneEl.appendChild(img);
-    this.bombs.push({ 
-      el: img, 
+    this.bombs.push({
+      el: img,
       y: startY,
       x: leftPosition,
       velocityY: initialVelocityY,
@@ -571,7 +575,7 @@ export default class NinjaFruitScene extends BaseScene {
     });
   }
 
-  render() {}
+  render() { }
 
   handleMove({ x, y, i }) {
     this.updateCursor(x, y, i);

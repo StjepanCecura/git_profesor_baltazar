@@ -22,8 +22,15 @@
 }
 
 .ninja-fruit-container.center-layout {
-  justify-content: center;
-  align-items: center;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  z-index: 9999 !important;
 }
 
 .ninja-fruit-background {
@@ -147,21 +154,16 @@
 }
 
 .ninja-fruit-game-over-title {
-  font-size: 10vw;
-  color: white;
-  z-index: 2;
-  position: relative;
-  text-align: center;
-  margin-top: 2em;
+  font-size: 46px !important;
+  color: #ff3333 !important;
+  margin: 0 0 15px 0 !important;
+  text-shadow: 3px 3px 0px #000 !important;
 }
 
 .ninja-fruit-play-again-text {
-  font-size: 6vw;
-  color: white;
-  z-index: 2;
-  position: relative;
-  text-align: center;
-  margin-top: -1em;
+  font-size: 19px !important;
+  color: #aaeebb !important;
+  margin: 0 0 20px 0 !important;
 }
 
 .ninja-fruit-instructions {
@@ -189,33 +191,35 @@
 
 /* Game stats container */
 .ninja-fruit-stats {
-  position: relative;
-  top: 2em;
-  text-align: center;
-  right: 2em;
-  color: white;
-  font-size: 4em;
-  margin-top: 4em;
-  margin-left: 4em;
-  z-index: 2;
+  font-size: 24px !important;
+  color: #fff !important;
+  margin: 0 0 10px 0 !important;
+  line-height: 1.4 !important;
+}
+
+.ninja-fruit-stats p {
+  margin: 5px 0 !important;
+}
+
+.ninja-fruit-stats span {
+  color: #ffcc00 !important;
+  font-weight: bold !important;
 }
 
 .ninja-fruit-button-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.5vh;
-  margin-top: 2vh;
-  margin-bottom: 5vh;
-  width: 100%;
-  z-index: 2;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: 12px !important;
+  width: 85% !important;
+  position: relative !important;
 }
 
 /* Sword styles */
 .ninja-fruit-sword {
   position: absolute;
-  width: 150px;
-  height: 150px;
+  width: clamp(130px, 15vw, 170px);
+  height: auto;
   z-index: 20;
   pointer-events: none;
   transition: all 0.1s ease-out;
@@ -285,6 +289,49 @@
   opacity: 0.7;
 }
 
+.ninja-fruit-end-card {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: rgba(0, 0, 0, 0.85) !important;
+  border: 4px solid #ffcc00 !important;
+  border-radius: 24px !important;
+  padding: 30px 25px !important;
+
+  width: 440px !important;
+  max-width: 90vw !important;
+  min-height: auto !important;
+
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7) !important;
+  box-sizing: border-box !important;
+  position: relative !important;
+
+  z-index: 10000 !important;
+}
+
+.ninja-fruit-end-card .ninja-fruit-button,
+.ninja-fruit-end-card button {
+  position: relative !important;
+  top: auto !important;
+  left: auto !important;
+  transform: none !important;
+  margin: 0 !important;
+
+  width: 100% !important;
+  height: 54px !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 10px !important;
+
+  font-size: 18px !important;
+  font-weight: bold !important;
+  white-space: nowrap !important;
+  box-sizing: border-box !important;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .ninja-fruit-button {
@@ -293,8 +340,13 @@
   }
 
   .ninja-fruit-button-container {
-    margin-top: auto !important;
-    margin-bottom: 4vh !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+    margin-top: auto;
+    padding-top: 15px;
   }
 
   .ninja-fruit-container.menu-layout {
@@ -360,15 +412,35 @@
     max-width: 90%;
   }
 
-  .ninja-fruit-sword {
+  /*.ninja-fruit-sword {
     width: 120px;
     height: 120px;
-  }
+  }*/
 
   .ninja-fruit-back-button {
     height: 38px !important;
     top: 1.2rem !important;
     left: 1.2rem !important;
+  }
+}
+
+@media (min-width: 480px) {
+  .ninja-fruit-end-card {
+    width: 480px !important;
+  }
+
+  .ninja-fruit-button-container {
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    width: 100% !important;
+    gap: 15px !important;
+  }
+
+  .ninja-fruit-end-card .ninja-fruit-button,
+  .ninja-fruit-end-card button {
+    flex: 1 !important;
+    max-width: 210px !important;
+    height: 50px !important;
   }
 }
 
@@ -390,8 +462,52 @@
 
   .ninja-fruit-back-button {
     height: 90px !important;
-    /* Povećana i strelica za natrag na 4K */
     top: 40px !important;
     left: 40px !important;
+  }
+
+  .ninja-fruit-end-card {
+    width: 1000px !important;       
+    max-width: 85vw !important;
+    padding: 80px 60px !important;   
+    gap: 30px !important;           
+  }
+
+  .ninja-fruit-game-over-title {
+    font-size: 110px !important;
+    margin-bottom: 25px !important;
+  }
+
+  .ninja-fruit-stats {
+    font-size: 55px !important;
+    width: 100% !important;
+    text-align: center !important;
+    line-height: 1.8 !important;
+  }
+
+  .ninja-fruit-stats p {
+    margin: 20px 0 !important;
+  }
+
+  .ninja-fruit-play-again-text {
+    font-size: 45px !important;
+    margin-bottom: 30px !important;
+  }
+
+  .ninja-fruit-end-card .ninja-fruit-button-container {
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: center !important;
+    gap: 40px !important;
+    margin-top: 20px !important;
+  }
+
+  .ninja-fruit-end-card .ninja-fruit-button,
+  .ninja-fruit-end-card button {
+    flex: 1 !important;
+    max-width: 400px !important;
+    height: 100px !important;
+    font-size: 36px !important;
   }
 }
