@@ -13,8 +13,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 4vh;
+  justify-content: space-between;
   box-sizing: border-box;
   padding: 6vh 20px;
   height: 100%;
@@ -64,8 +63,8 @@
 .ninja-fruit-button {
   background-color: #008782;
   color: white;
-  font-size: clamp(1.1rem, 2vw, 2.2rem);
-  width: clamp(200px, 25vw, 450px);
+  font-size: clamp(1.4rem, 2.5vw, 2.5rem);
+  width: clamp(280px, 45vw, 500px);
   font-weight: bold;
   padding: 0.8em 1.5em;
   border-radius: 0.4em;
@@ -79,8 +78,8 @@
   justify-content: center;
   align-items: center;
   text-align: center;
-  margin-top: 20px;
-  margin-bottom: auto;
+  margin-top: auto;
+  margin-bottom: 4vh;
 }
 
 .ninja-fruit-button:hover {
@@ -130,7 +129,7 @@
 }
 
 .ninja-fruit-title {
-  font-size: clamp(3rem, 7.5vw, 9rem);
+  font-size: clamp(5.5rem, 10vmin, 9rem);
   margin-top: 6vh;
   margin-bottom: 2vh;
   line-height: 1.2;
@@ -360,7 +359,8 @@
 @media (max-width: 768px) {
   .ninja-fruit-button {
     margin-top: auto !important;
-    margin-bottom: 4vh !important;
+    margin-bottom: 2vh !important;
+    width: clamp(220px, 60vw, 350px) !important;
   }
 
   .ninja-fruit-button-container {
@@ -374,17 +374,22 @@
   }
 
   .ninja-fruit-container.menu-layout {
-    justify-content: flex-start !important;
-    padding: 3vh 20px 5vh 20px !important;
+    justify-content: space-between !important;
+    padding: 4vh 20px 6vh 20px !important;
     gap: 0 !important;
   }
 
   .ninja-fruit-title {
     margin-top: 6vh !important;
     margin-bottom: 2vh !important;
-    font-size: 11vw !important;
-    max-width: 85% !important;
+    font-size: clamp(2.5rem, 11vw, 4.5rem) !important;
+    max-width: 100% !important;
     align-self: center !important;
+    text-align: center !important;
+
+    padding-left: 60px !important;
+    padding-right: 60px !important;
+    box-sizing: border-box !important;
   }
 
   .ninja-fruit-subtitle {
@@ -421,13 +426,14 @@
 
 @media (max-width: 480px) {
   .ninja-fruit-button {
-    font-size: 1.3rem !important;
-    width: 200px !important;
-    padding: 0.5em !important;
+    font-size: 1.2rem !important;
+    width: 220px !important;
+    padding: 0.6em !important;
+    margin-bottom: 3vh !important;
   }
 
   .ninja-fruit-title {
-    font-size: 18vw;
+    font-size: 14vw !important;
   }
 
   .ninja-fruit-instructions {
@@ -532,5 +538,25 @@
     max-width: 400px !important;
     height: 100px !important;
     font-size: 36px !important;
+  }
+}
+
+@media (orientation: landscape) and (min-width: 769px) {
+  .ninja-fruit-container.menu-layout {
+    justify-content: space-between !important;
+    padding-top: 2% !important;
+    padding-bottom: 4% !important;
+  }
+
+  .ninja-fruit-title {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    top: 10px !important;
+    position: relative !important;
+  }
+
+  .ninja-fruit-button {
+    margin-top: auto !important;
+    margin-bottom: 0 !important;
   }
 }
