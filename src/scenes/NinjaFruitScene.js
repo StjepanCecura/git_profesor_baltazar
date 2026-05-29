@@ -600,16 +600,25 @@ export default class NinjaFruitScene extends BaseScene {
 
   updateFruitScale() {
     const w = window.innerWidth;
+    const h = window.innerHeight;
 
-    if (w < 480) {
+    // Landscape mobitel
+    if (h < 500 && w > h) {
+      this.fruitScale = 0.5;
+    }
+    else if (w < 480) {
       this.fruitScale = 0.55;
-    } else if (w < 768) {
+    }
+    else if (w < 768) {
       this.fruitScale = 0.7;
-    } else if (w < 1400) {
+    }
+    else if (w < 1400) {
       this.fruitScale = 0.9;
-    } else if (w < 2200) {
+    }
+    else if (w < 2200) {
       this.fruitScale = 1.15;
-    } else {
+    }
+    else {
       this.fruitScale = 1.35;
     }
   }
