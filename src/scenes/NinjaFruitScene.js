@@ -29,8 +29,10 @@ export default class NinjaFruitScene extends BaseScene {
       ]
     };
     this.spawnTimer = 0;
-    this.baseSpawnInterval = 2500;
-    this.minSpawnInterval = 600;
+    //this.baseSpawnInterval = 2500;
+    this.baseSpawnInterval = 3200;
+    //this.minSpawnInterval = 600;
+    this.minSpawnInterval = 1200;
 
     this.handleMove = this.handleMove.bind(this);
     this.handleClick = this.handleClick.bind(this);
@@ -180,6 +182,9 @@ export default class NinjaFruitScene extends BaseScene {
     this.sceneEl.appendChild(this.createOverlay("dark"));
     this.sceneEl.appendChild(this.createBackButton(() => this.createMenuScreen()));
 
+    const instructionsCard = document.createElement("div");
+    instructionsCard.className = "ninja-fruit-instructions-card";
+
     const title = document.createElement("h1");
     title.innerText = "Upute";
     title.className = "textStyle ninja-fruit-subtitle";
@@ -190,9 +195,14 @@ export default class NinjaFruitScene extends BaseScene {
 
     const btnPlay = this.createButton("Igraj", () => this.createGameScreen());
 
-    this.sceneEl.appendChild(title);
+    /*this.sceneEl.appendChild(title);
     this.sceneEl.appendChild(upute);
-    this.sceneEl.appendChild(btnPlay);
+    this.sceneEl.appendChild(btnPlay);*/
+    instructionsCard.appendChild(title);
+    instructionsCard.appendChild(upute);
+    instructionsCard.appendChild(btnPlay);
+
+    this.sceneEl.appendChild(instructionsCard);
   }
 
   createGameScreen() {
@@ -537,8 +547,10 @@ export default class NinjaFruitScene extends BaseScene {
     img.style.width = `${size}px`;
     img.style.height = `${size}px`;
 
-    const initialVelocityY = -(1800 + Math.random() * 400);
-    const gravity = 800;
+    //const initialVelocityY = -(1800 + Math.random() * 400);
+    const initialVelocityY = -(1100 + Math.random() * 200);
+    //const gravity = 800;
+    const gravity = 600;
     const maxHeight = screenHeight * 0.8;
 
     this.sceneEl.appendChild(img);
@@ -580,8 +592,10 @@ export default class NinjaFruitScene extends BaseScene {
     img.style.width = `${bombWidth}px`;
     img.style.height = `${bombHeight}px`;
 
-    const initialVelocityY = -(1800 + Math.random() * 400);
-    const gravity = 800;
+    //const initialVelocityY = -(1800 + Math.random() * 400);
+    const initialVelocityY = -(1100 + Math.random() * 200);
+    //const gravity = 800;
+    const gravity = 600;
     const maxHeight = screenHeight * 0.3;
 
     this.sceneEl.appendChild(img);

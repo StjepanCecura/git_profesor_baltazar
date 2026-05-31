@@ -63,8 +63,8 @@
 .ninja-fruit-button {
   background-color: #008782;
   color: white;
-  font-size: clamp(1.4rem, 2.5vw, 2.5rem);
-  width: clamp(280px, 45vw, 500px);
+  font-size: clamp(1.4rem, 2.5vw, 2.2rem);
+  width: clamp(280px, 45vw, 360px);
   font-weight: bold;
   padding: 0.8em 1.5em;
   border-radius: 0.4em;
@@ -130,7 +130,7 @@
 }
 
 .ninja-fruit-title {
-  font-size: clamp(5.5rem, 10vmin, 9rem);
+  font-size: clamp(5.5rem, 10vmin, 6rem);
   margin-top: 6vh;
   margin-bottom: 2vh;
   line-height: 1.2;
@@ -405,6 +405,30 @@
   z-index: 20001;
 }
 
+.ninja-fruit-instructions-card {
+  background: rgba(0, 0, 0, 0.7);
+  border: 4px solid #008782;
+  border-radius: 24px;
+  padding: 35px 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  width: 440px;
+  max-width: 90vw;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+  box-sizing: border-box;
+  position: relative;
+  z-index: 5;
+}
+
+.instructions-layout .ninja-fruit-subtitle,
+.instructions-layout .ninja-fruit-instructions,
+.instructions-layout .ninja-fruit-button {
+  margin: 0 !important;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .ninja-fruit-button {
@@ -531,108 +555,24 @@
   }
 }
 
-@media (min-width: 2500px) {
-  .ninja-fruit-button {
-    font-size: 3.5rem !important;
-    width: clamp(500px, 20vw, 800px) !important;
-    border-radius: 0.6em !important;
-  }
-
-  .ninja-fruit-instructions {
-    font-size: 4rem !important;
-    max-width: 60ch !important;
-  }
-
-  .ninja-fruit-title {
-    font-size: 12rem !important;
-  }
-
-  .ninja-fruit-back-button {
-    height: 90px !important;
-    top: 40px !important;
-    left: 40px !important;
-  }
-
-  .ninja-fruit-end-card {
-    width: 1000px !important;
-    max-width: 85vw !important;
-    padding: 80px 60px !important;
-    gap: 30px !important;
-  }
-
-  .ninja-fruit-game-over-title {
-    font-size: 110px !important;
-    margin-bottom: 25px !important;
-  }
-
-  .ninja-fruit-stats {
-    font-size: 55px !important;
-    width: 100% !important;
-    text-align: center !important;
-    line-height: 1.8 !important;
-  }
-
-  .ninja-fruit-stats p {
-    margin: 20px 0 !important;
-  }
-
-  .ninja-fruit-play-again-text {
-    font-size: 45px !important;
-    margin-bottom: 30px !important;
-  }
-
-  .ninja-fruit-end-card .ninja-fruit-button-container {
-    width: 100% !important;
-    display: flex !important;
-    flex-direction: row !important;
-    justify-content: center !important;
-    gap: 40px !important;
-    margin-top: 20px !important;
-  }
-
-  .ninja-fruit-end-card .ninja-fruit-button,
-  .ninja-fruit-end-card button {
-    flex: 1 !important;
-    max-width: 400px !important;
-    height: 100px !important;
-    font-size: 36px !important;
-  }
-
-  .cursor-wrapper img {
-    width: 420px;
-  }
-
-  .ninja-fruit-game-header {
-    padding: 3vh 5vw !important;
-  }
-
-  .ninja-fruit-quit-button {
-    font-size: 2.6rem !important;
-    padding: 1em 2em !important;
-    border-radius: 18px !important;
-  }
-
-  .ninja-fruit-score {
-    font-size: 3rem !important;
-    line-height: 1.5 !important;
-  }
-}
-
 @media (orientation: landscape) and (min-width: 769px) {
   .ninja-fruit-container.menu-layout {
     justify-content: space-between !important;
-    padding-top: 2% !important;
-    padding-bottom: 4% !important;
+    padding-top: 4vh !important;
+    padding-bottom: 6vh !important;
   }
 
   .ninja-fruit-title {
+    font-size: 4.5rem !important;
     margin-top: 0 !important;
     margin-bottom: 0 !important;
-    top: 10px !important;
+    top: 0 !important;
     position: relative !important;
   }
 
   .ninja-fruit-button {
+    font-size: 1.5rem !important;
+    width: 320px !important;
     margin-top: auto !important;
     margin-bottom: 0 !important;
   }
@@ -694,5 +634,483 @@
   .ninja-fruit-end-card button {
     height: 42px !important;
     font-size: 0.95rem !important;
+  }
+
+  .instructions-layout {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+
+    width: 100% !important;
+    height: 100% !important;
+
+    padding: 0.5vh 6px !important;
+    gap: 4px !important;
+
+    box-sizing: border-box !important;
+  }
+
+  .instructions-layout .ninja-fruit-instructions-card {
+    width: 92vw !important;
+    max-width: 420px !important;
+    max-height: 88vh !important;
+
+    padding: 8px 10px !important;
+    gap: 4px !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+
+    box-sizing: border-box !important;
+  }
+
+  .instructions-layout .ninja-fruit-subtitle {
+    font-size: 0.9rem !important;
+    line-height: 1.05 !important;
+    margin: 0 !important;
+  }
+
+  .instructions-layout .ninja-fruit-instructions {
+    font-size: 0.72rem !important;
+    line-height: 1.1 !important;
+    margin: 0 !important;
+    max-width: 100% !important;
+  }
+
+  .instructions-layout .ninja-fruit-button {
+    font-size: 0.7rem !important;
+    padding: 4px 8px !important;
+    max-width: 120px !important;
+    width: 50% !important;
+    height: auto !important;
+  }
+}
+
+@media (max-width: 2499px) and (orientation: landscape) {
+
+  .instructions-layout {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: 100% !important;
+    height: 100% !important;
+    padding: 20px !important;
+    box-sizing: border-box !important;
+  }
+
+  .instructions-layout .ninja-fruit-instructions-card {
+    width: 750px !important;
+    max-width: 85vw !important;
+    max-height: 80vh !important;
+    padding: 40px 50px !important;
+    background: rgba(0, 0, 0, 0.85) !important;
+    border: 4px solid #008782 !important;
+    border-radius: 24px !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 25px !important;
+    box-sizing: border-box !important;
+  }
+
+  .instructions-layout .ninja-fruit-subtitle {
+    font-size: clamp(2.5rem, 4vh, 3.5rem) !important;
+    margin: 0 !important;
+    text-shadow: none !important;
+  }
+
+  .instructions-layout .ninja-fruit-instructions {
+    font-size: clamp(1.3rem, 2.3vh, 1.8rem) !important;
+    max-width: 90% !important;
+    line-height: 1.4 !important;
+    text-align: center !important;
+    margin: 0 !important;
+    text-shadow: none !important;
+    width: auto !important;
+  }
+
+  .instructions-layout .ninja-fruit-button {
+    position: relative !important;
+    bottom: auto !important;
+    left: auto !important;
+    transform: none !important;
+    margin: 0 !important;
+
+    width: 100% !important;
+    max-width: 280px !important;
+    height: auto !important;
+    font-size: clamp(1.5rem, 2.5vh, 2rem) !important;
+    padding: 15px 35px !important;
+    border-radius: 12px !important;
+  }
+}
+
+@media (min-width: 2500px) {
+  .ninja-fruit-container.menu-layout {
+    padding-top: 5vh !important;
+    padding-bottom: 8vh !important;
+  }
+
+  .ninja-fruit-title {
+    font-size: clamp(6rem, 8vw, 9rem) !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    line-height: 1.2 !important;
+    text-shadow: 0 0 0.3em #000 !important;
+  }
+
+  .ninja-fruit-button {
+    width: clamp(640px, 25vw, 720px) !important;
+    height: auto !important;
+    font-size: clamp(3rem, 3.2vw, 4rem) !important;
+    font-weight: bold !important;
+    padding: 35px 70px !important;
+    border-radius: 24px !important;
+    box-shadow: 5px 8px 15px rgba(0, 0, 0, 0.4) !important;
+    margin-top: auto !important;
+    margin-bottom: 0 !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+  }
+
+  .ninja-fruit-back-button {
+    height: 110px !important;
+    top: 50px !important;
+    left: 50px !important;
+  }
+
+  .ninja-fruit-end-card {
+    width: 1250px !important;
+    max-width: 88vw !important;
+    padding: 90px 70px !important;
+    border: 8px solid #ffcc00 !important;
+    border-radius: 32px !important;
+    gap: 40px !important;
+  }
+
+  .ninja-fruit-game-over-title {
+    font-size: 110px !important;
+    margin-bottom: 25px !important;
+  }
+
+  .ninja-fruit-stats {
+    font-size: 55px !important;
+    width: 100% !important;
+    text-align: center !important;
+    line-height: 1.8 !important;
+  }
+
+  .ninja-fruit-stats p {
+    margin: 20px 0 !important;
+  }
+
+  .ninja-fruit-play-again-text {
+    font-size: 45px !important;
+    margin-bottom: 30px !important;
+  }
+
+  .ninja-fruit-end-card .ninja-fruit-button-container {
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: center !important;
+    gap: 40px !important;
+    margin-top: 20px !important;
+  }
+
+  .ninja-fruit-end-card .ninja-fruit-button,
+  .ninja-fruit-end-card button {
+    flex: 1 !important;
+    max-width: 400px !important;
+    height: 100px !important;
+    font-size: 36px !important;
+  }
+
+  .cursor-wrapper img {
+    width: 420px;
+  }
+
+  .ninja-fruit-game-header {
+    padding: 3vh 5vw !important;
+  }
+
+  .ninja-fruit-quit-button {
+    font-size: 2.6rem !important;
+    padding: 1em 2em !important;
+    border-radius: 18px !important;
+  }
+
+  .ninja-fruit-score {
+    font-size: 3rem !important;
+    line-height: 1.5 !important;
+  }
+
+  .instructions-layout {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: 100% !important;
+    height: 100% !important;
+    padding: 0 !important;
+    gap: 0 !important;
+  }
+
+  .instructions-layout .ninja-fruit-instructions-card {
+    width: 1350px !important;
+    max-width: 80vw !important;
+    padding: 70px 60px !important;
+    border-radius: 36px !important;
+    border: 6px solid #008782 !important;
+    background: rgba(0, 0, 0, 0.8) !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 45px !important;
+    box-sizing: border-box !important;
+  }
+
+  .instructions-layout .ninja-fruit-subtitle {
+    font-size: clamp(4rem, 5vw, 6rem) !important;
+    margin: 0 !important;
+    text-shadow: none !important;
+  }
+
+  .instructions-layout .ninja-fruit-instructions {
+    font-size: clamp(2.2rem, 2.8vw, 3.5rem) !important;
+    max-width: 95% !important;
+    line-height: 1.5 !important;
+    margin: 0 !important;
+    text-shadow: none !important;
+    width: auto !important;
+  }
+
+  .instructions-layout .ninja-fruit-button {
+    position: relative !important;
+    bottom: auto !important;
+    left: auto !important;
+    transform: none !important;
+    margin: 0 !important;
+
+    width: 100% !important;
+    max-width: 480px !important;
+    height: auto !important;
+    font-size: clamp(2.5rem, 3.2vw, 3.8rem) !important;
+    padding: 25px 60px !important;
+    border-radius: 20px !important;
+  }
+}
+
+@media (min-height: 2500px) and (orientation: portrait) {
+
+  .ninja-fruit-container.menu-layout {
+    display: block !important;
+    position: relative !important;
+    width: 100%;
+    height: 100%;
+    padding: 0 !important;
+  }
+
+  .ninja-fruit-title {
+    position: absolute !important;
+    top: 11vh !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+
+    font-size: clamp(8rem, 14vw, 13rem) !important;
+    line-height: 1.05 !important;
+    margin: 0 !important;
+    width: 100%;
+    text-align: center;
+    text-shadow: 0 0 0.4em #000, 0 0 0.8em #000 !important;
+  }
+
+  .ninja-fruit-button {
+    position: absolute !important;
+    bottom: 6vh !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+
+    width: clamp(520px, 78vw, 820px) !important;
+    height: auto !important;
+
+    font-size: clamp(3.2rem, 5.8vw, 5.2rem) !important;
+    padding: 42px 80px !important;
+
+    border-radius: 28px !important;
+    box-shadow: 6px 12px 20px rgba(0, 0, 0, 0.45) !important;
+  }
+
+  .ninja-fruit-back-button {
+    position: absolute !important;
+    height: 130px !important;
+    top: 60px !important;
+    left: 60px !important;
+  }
+
+  .ninja-fruit-instructions {
+    font-size: clamp(2rem, 4vw, 3.8rem) !important;
+    max-width: 85% !important;
+    line-height: 1.4 !important;
+  }
+
+  .ninja-fruit-subtitle {
+    font-size: clamp(3rem, 6vw, 5rem) !important;
+  }
+
+  .instructions-layout {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: 100% !important;
+    height: 100% !important;
+    padding: 0 !important;
+  }
+
+  .instructions-layout .ninja-fruit-instructions-card {
+    width: 1100px !important;
+    max-width: 85vw !important;
+    padding: 70px 50px !important;
+    border-radius: 48px !important;
+    border-width: 8px !important;
+    gap: 40px !important;
+  }
+
+  .instructions-layout .ninja-fruit-subtitle {
+    font-size: clamp(4rem, 7vw, 6.5rem) !important;
+  }
+
+  .instructions-layout .ninja-fruit-instructions {
+    font-size: clamp(2.8rem, 5vw, 4.5rem) !important;
+    font-weight: 500 !important;
+    max-width: 90% !important;
+    line-height: 1.5 !important;
+    text-shadow: none !important;
+  }
+
+  .instructions-layout .ninja-fruit-button {
+    position: relative !important;
+    bottom: auto !important;
+    left: auto !important;
+    transform: none !important;
+
+    width: 100% !important;
+    max-width: 600px !important;
+    height: auto !important;
+    font-size: clamp(3.2rem, 5.5vw, 5rem) !important;
+    padding: 40px 70px !important;
+    border-radius: 28px !important;
+  }
+
+  .ninja-fruit-end-card {
+    width: 1450px !important;
+    max-width: 94vw !important;
+    min-height: auto !important;
+
+    padding: 140px 90px 110px 90px !important;
+
+    border: 10px solid #ffcc00 !important;
+    border-radius: 60px !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    gap: 75px !important;
+  }
+
+  .ninja-fruit-game-over-title {
+    font-size: clamp(10rem, 14vw, 15rem) !important;
+    margin: 0 !important;
+    line-height: 1.1 !important;
+  }
+
+  .ninja-fruit-stats {
+    font-size: clamp(5.5rem, 7vw, 7rem) !important;
+    width: 100% !important;
+    text-align: center !important;
+    line-height: 1.4 !important;
+    margin: 20px 0 !important;
+  }
+
+  .ninja-fruit-stats p {
+    margin: 10px 0 !important;
+  }
+
+  .ninja-fruit-play-again-text {
+    font-size: clamp(4rem, 5.5vw, 6rem) !important;
+    margin: 20px 0 !important;
+  }
+
+  .ninja-fruit-end-card .ninja-fruit-button-container {
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 40px !important;
+    margin-top: 30px !important;
+  }
+
+  .ninja-fruit-end-card .ninja-fruit-button,
+  .ninja-fruit-end-card button {
+    width: 90% !important;
+    max-width: 950px !important;
+
+    height: auto !important;
+    padding: 55px 0 !important;
+
+    font-size: clamp(4rem, 5vw, 5.5rem) !important;
+    font-weight: bold !important;
+    border-radius: 32px !important;
+
+    position: relative !important;
+    bottom: auto !important;
+    left: auto !important;
+    transform: none !important;
+    margin: 0 !important;
+
+    display: inline-flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+  }
+}
+
+@media (max-height: 500px) and (orientation: landscape) {
+  .instructions-layout {
+    justify-content: center !important;
+    padding: 3vh 15px !important;
+  }
+
+  .instructions-layout .ninja-fruit-instructions-card {
+    max-height: 80vh !important;
+    overflow-y: auto !important;
+    padding: 20px 18px !important;
+    gap: 15px !important;
+  }
+
+  .instructions-layout .ninja-fruit-button {
+    font-size: 1rem !important;
+    padding: 10px 18px !important;
+    max-width: 220px !important;
+  }
+
+  .instructions-layout .ninja-fruit-back-button {
+    top: 8px !important;
+    left: 8px !important;
+    height: 28px !important;
+  }
+
+  .instructions-layout .ninja-fruit-instructions-card {
+    position: relative;
   }
 }
