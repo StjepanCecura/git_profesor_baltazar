@@ -29,9 +29,7 @@ export default class NinjaFruitScene extends BaseScene {
       ]
     };
     this.spawnTimer = 0;
-    //this.baseSpawnInterval = 2500;
     this.baseSpawnInterval = 3200;
-    //this.minSpawnInterval = 600;
     this.minSpawnInterval = 1200;
 
     this.handleMove = this.handleMove.bind(this);
@@ -39,6 +37,7 @@ export default class NinjaFruitScene extends BaseScene {
     this.updateFrameCount = this.updateFrameCount.bind(this);
 
     this.fruitScale = 1;
+    this.screenFactor = 1;
   }
 
   async init() {
@@ -195,9 +194,6 @@ export default class NinjaFruitScene extends BaseScene {
 
     const btnPlay = this.createButton("Igraj", () => this.createGameScreen());
 
-    /*this.sceneEl.appendChild(title);
-    this.sceneEl.appendChild(upute);
-    this.sceneEl.appendChild(btnPlay);*/
     instructionsCard.appendChild(title);
     instructionsCard.appendChild(upute);
     instructionsCard.appendChild(btnPlay);
@@ -238,7 +234,6 @@ export default class NinjaFruitScene extends BaseScene {
     this.gameOver = false;
     this.spawnTimer = 0;
     this.spawnInterval = this.baseSpawnInterval;
-
   }
 
   update(dt) {
@@ -277,17 +272,12 @@ export default class NinjaFruitScene extends BaseScene {
           fruit.hasReachedPeak = true;
         }
 
-        if (fruit.y >= window.innerHeight - 50) {
-          if (fruit.hasReachedPeak) {
-            this.gameOver = true;
-            fruit.el.remove();
-            this.fruits.splice(index, 1);
-            this.createEndScreen();
-            return;
-          } else {
-            fruit.el.remove();
-            this.fruits.splice(index, 1);
-          }
+        if (fruit.hasReachedPeak && fruit.y >= window.innerHeight - 50) {
+          this.gameOver = true;
+          fruit.el.remove();
+          this.fruits.splice(index, 1);
+          this.createEndScreen();
+          return;
         }
       });
 
@@ -338,16 +328,16 @@ export default class NinjaFruitScene extends BaseScene {
 
   sliceFruit(fruit, originalElement, originalX) {
     const currentY = parseFloat(originalElement.style.top);
-    const currentSpeed = 150 + this.elapsedTime * 5;
+    const rect = originalElement.getBoundingClientRect();
+
+    const sliceSize = rect.width * 0.8;
+    const sliceOffset = sliceSize / 2;
+
+    const baseSpeed = 650 + this.elapsedTime * 12;
+    const currentSpeed = baseSpeed * this.screenFactor * 1.1;
 
     const reversedFruits = ['orange', 'pineapple', 'lemon'];
     const isReversed = reversedFruits.includes(fruit.name);
-
-    //const sliceOffset = fruit.size / 2.5;
-    //const sliceSize = fruit.size * 0.8;
-    const rect = originalElement.getBoundingClientRect();
-    const sliceSize = rect.width * 0.8;
-    const sliceOffset = sliceSize / 2;
 
     const leftSlice = document.createElement("img");
     leftSlice.src = this.assets.images.get(`${fruit.name}slice${isReversed ? '1' : '2'}`).src;
@@ -382,18 +372,18 @@ export default class NinjaFruitScene extends BaseScene {
       el: leftSlice,
       x: originalX - sliceOffset,
       y: currentY,
-      velocityX: -120,
-      speed: currentSpeed + 150,
-      rotationSpeed: -2
+      velocityX: -140 * this.screenFactor,
+      speed: currentSpeed + 380,
+      rotationSpeed: -2.8
     });
 
     this.slices.push({
       el: rightSlice,
       x: originalX + sliceOffset,
       y: currentY,
-      velocityX: 120,
-      speed: currentSpeed + 150,
-      rotationSpeed: 2
+      velocityX: 140 * this.screenFactor,
+      speed: currentSpeed + 380,
+      rotationSpeed: 2.8
     });
   }
 
@@ -433,6 +423,8 @@ export default class NinjaFruitScene extends BaseScene {
   checkCollisions() {
     if (!this.inGame || this.gameOver) return;
 
+    const hitTolerance = 45 * this.screenFactor;
+
     this.fruits.forEach((fruit, index) => {
       const fruitCenterX = parseFloat(fruit.el.style.left) + fruit.size / 2;
       const fruitCenterY = parseFloat(fruit.el.style.top) + fruit.size / 2;
@@ -442,7 +434,7 @@ export default class NinjaFruitScene extends BaseScene {
         Math.pow(this.swordY - fruitCenterY, 2)
       );
 
-      if (distance < fruit.size / 2 + 50) {
+      if (distance < (fruit.size / 2) + hitTolerance) {
         this.sliceFruit(fruit, fruit.el, parseFloat(fruit.el.style.left));
         this.score += fruit.points;
         this.animateSwordSlash();
@@ -461,13 +453,12 @@ export default class NinjaFruitScene extends BaseScene {
         Math.pow(this.swordY - bombCenterY, 2)
       );
 
-      if (distance < Math.min(bomb.width, bomb.height) / 2 + 50) {
+      if (distance < Math.min(bomb.width, bomb.height) / 2 + hitTolerance) {
         this.gameOver = true;
         this.animateSwordSlash();
 
         bomb.el.remove();
         this.bombs.splice(index, 1);
-
         this.createEndScreen();
       }
     });
@@ -524,8 +515,6 @@ export default class NinjaFruitScene extends BaseScene {
     const fruits = this.fruitTypes[randomCategory];
     const randomFruit = fruits[Math.floor(Math.random() * fruits.length)];
     const size = randomFruit.size * this.fruitScale;
-    //const baseSize = randomFruit.size * this.fruitScale;
-    //const size = Math.min(baseSize, window.innerWidth * 0.22);
 
     const img = document.createElement("img");
     img.src = this.assets.images.get(randomFruit.name).src;
@@ -533,8 +522,7 @@ export default class NinjaFruitScene extends BaseScene {
 
     const screenWidth = window.innerWidth;
     const screenHeight = window.innerHeight;
-    //const minLeft = 0;
-    //const maxLeft = screenWidth - size;
+
     const padding = screenWidth * 0.05;
     const maxLeft = screenWidth - size - padding;
     const minLeft = padding;
@@ -547,10 +535,10 @@ export default class NinjaFruitScene extends BaseScene {
     img.style.width = `${size}px`;
     img.style.height = `${size}px`;
 
-    //const initialVelocityY = -(1800 + Math.random() * 400);
-    const initialVelocityY = -(1100 + Math.random() * 200);
-    //const gravity = 800;
-    const gravity = 600;
+    const screenFactor = Math.max(1, window.innerHeight / 1080);
+    const initialVelocityY = -((1800 + Math.random() * 400) * this.screenFactor);
+    const gravity = 1800 * Math.sqrt(this.screenFactor);
+
     const maxHeight = screenHeight * 0.8;
 
     this.sceneEl.appendChild(img);
@@ -570,8 +558,6 @@ export default class NinjaFruitScene extends BaseScene {
 
   spawnBomb() {
     const scale = this.fruitScale;
-    /*const bombWidth = 450;
-    const bombHeight = 380;*/
     const bombWidth = 170 * scale;
     const bombHeight = 150 * scale;
 
@@ -592,10 +578,9 @@ export default class NinjaFruitScene extends BaseScene {
     img.style.width = `${bombWidth}px`;
     img.style.height = `${bombHeight}px`;
 
-    //const initialVelocityY = -(1800 + Math.random() * 400);
-    const initialVelocityY = -(1100 + Math.random() * 200);
-    //const gravity = 800;
-    const gravity = 600;
+    const screenFactor = Math.max(1, window.innerHeight / 1080);
+    const initialVelocityY = -((1800 + Math.random() * 400) * this.screenFactor);
+    const gravity = 1800 * Math.sqrt(this.screenFactor);
     const maxHeight = screenHeight * 0.3;
 
     this.sceneEl.appendChild(img);
@@ -616,25 +601,41 @@ export default class NinjaFruitScene extends BaseScene {
     const w = window.innerWidth;
     const h = window.innerHeight;
 
-    // Landscape mobitel
+    let scale = 1;
+
     if (h < 500 && w > h) {
-      this.fruitScale = 0.5;
+      scale = 0.5;
     }
     else if (w < 480) {
-      this.fruitScale = 0.55;
+      scale = 0.55;
     }
     else if (w < 768) {
-      this.fruitScale = 0.7;
+      scale = 0.7;
     }
     else if (w < 1400) {
-      this.fruitScale = 0.9;
+      scale = 0.9;
     }
     else if (w < 2200) {
-      this.fruitScale = 1.15;
+      scale = 1.15;
     }
     else {
-      this.fruitScale = 1.35;
+      scale = 1.35;
     }
+
+    if (h >= 2500) {
+      scale = 2.5;
+    }
+
+    if (w >= 3500 && w > h) {
+      scale *= 1.4;
+    }
+
+    if (w >= 1024 && w <= 1600 && h <= 900) {
+      scale *= 0.85;
+    }
+
+    this.fruitScale = scale;
+    this.screenFactor = Math.max(1, h / 1080);
   }
 
   render() { }
