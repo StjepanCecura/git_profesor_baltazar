@@ -535,7 +535,6 @@ export default class NinjaFruitScene extends BaseScene {
     img.style.width = `${size}px`;
     img.style.height = `${size}px`;
 
-    const screenFactor = Math.max(1, window.innerHeight / 1080);
     const initialVelocityY = -((1800 + Math.random() * 400) * this.screenFactor);
     const gravity = 1800 * Math.sqrt(this.screenFactor);
 
@@ -578,7 +577,6 @@ export default class NinjaFruitScene extends BaseScene {
     img.style.width = `${bombWidth}px`;
     img.style.height = `${bombHeight}px`;
 
-    const screenFactor = Math.max(1, window.innerHeight / 1080);
     const initialVelocityY = -((1800 + Math.random() * 400) * this.screenFactor);
     const gravity = 1800 * Math.sqrt(this.screenFactor);
     const maxHeight = screenHeight * 0.3;
@@ -601,7 +599,7 @@ export default class NinjaFruitScene extends BaseScene {
     const w = window.innerWidth;
     const h = window.innerHeight;
 
-    let scale = 1;
+    let scale;
 
     if (h < 500 && w > h) {
       scale = 0.5;
