@@ -59,6 +59,10 @@
 
 /* --- Buttons --- */
 .ninja-fruit-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
   background-color: #008782;
   color: white;
   font-size: clamp(1.4rem, 2.5vw, 2.2rem);
@@ -71,10 +75,6 @@
   z-index: 2;
   position: relative;
   border: none;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
   margin-top: auto;
   margin-bottom: 4vh;
   transition: transform 0.2s ease, background-color 0.2s ease;
@@ -103,22 +103,13 @@
   transform: scale(1.1);
 }
 
-.ninja-fruit-quit-button {
-  font-size: clamp(0.9rem, 2vw, 1.4rem);
-  padding: 0.6em 1.2em;
-  background-color: #c00;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  box-shadow: 2px 4px 5px rgba(0, 0, 0, 0.3);
-  transition: all 0.2s ease;
+.ninja-fruit-button-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  width: 85%;
   position: relative;
-}
-
-.ninja-fruit-quit-button:hover {
-  background-color: #a00;
-  transform: scale(1.05);
 }
 
 /* --- Typography --- */
@@ -172,7 +163,91 @@
   margin: 10px 0 30px 0;
 }
 
-/* --- Stats & HUD --- */
+/* --- Cards / Layouts --- */
+.ninja-fruit-end-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.85);
+  border: 4px solid #008782;
+  border-radius: 24px;
+  padding: 30px 25px;
+  width: 440px;
+  max-width: 90vw;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+  box-sizing: border-box;
+  position: relative;
+  z-index: 10000;
+}
+
+.ninja-fruit-end-card .ninja-fruit-button,
+.ninja-fruit-end-card button {
+  position: relative;
+  width: 100%;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10px;
+  font-size: 18px;
+  font-weight: bold;
+  white-space: nowrap;
+  box-sizing: border-box;
+}
+
+.instructions-layout {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5vh;
+  padding: 5vh 20px;
+  box-sizing: border-box;
+}
+
+.instructions-layout .ninja-fruit-subtitle,
+.instructions-layout .ninja-fruit-instructions,
+.instructions-layout .ninja-fruit-button {
+  margin: 0;
+}
+
+.ninja-fruit-instructions-card {
+  background: rgba(0, 0, 0, 0.7);
+  border: 4px solid #008782;
+  border-radius: 24px;
+  padding: 35px 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  width: 440px;
+  max-width: 90vw;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+  box-sizing: border-box;
+  position: relative;
+  z-index: 5;
+}
+
+
+/* ==========================================================================
+   2. GAMEPLAY ELEMENTS & HUD
+   ========================================================================== */
+
+.ninja-fruit-game-header {
+  position: absolute;
+  top: 20px;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 40px;
+  box-sizing: border-box;
+  z-index: 100;
+}
+
 .ninja-fruit-score {
   font-size: clamp(1rem, 2.5vw, 1.8rem);
   color: black;
@@ -181,6 +256,7 @@
   font-weight: bold;
   text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.8);
   position: relative;
+  margin: 0;
 }
 
 .ninja-fruit-stats {
@@ -199,16 +275,6 @@
   font-weight: bold;
 }
 
-.ninja-fruit-button-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-  width: 85%;
-  position: relative;
-}
-
-/* --- Game Elements --- */
 .ninja-fruit-sword {
   position: absolute;
   width: clamp(130px, 15vw, 170px);
@@ -287,68 +353,6 @@
   opacity: 0.7;
 }
 
-/* --- Cards / Layouts --- */
-.ninja-fruit-end-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0, 0, 0, 0.85);
-  border: 4px solid #008782;
-  border-radius: 24px;
-  padding: 30px 25px;
-  width: 440px;
-  max-width: 90vw;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
-  box-sizing: border-box;
-  position: relative;
-  z-index: 10000;
-}
-
-.ninja-fruit-end-card .ninja-fruit-button,
-.ninja-fruit-end-card button {
-  position: relative;
-  width: 100%;
-  height: 54px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 10px;
-  font-size: 18px;
-  font-weight: bold;
-  white-space: nowrap;
-  box-sizing: border-box;
-}
-
-.instructions-layout {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 1.5vh;
-  padding: 5vh 20px;
-  box-sizing: border-box;
-}
-
-.instructions-layout .ninja-fruit-subtitle,
-.instructions-layout .ninja-fruit-instructions,
-.instructions-layout .ninja-fruit-button {
-  margin: 0;
-}
-
-.ninja-fruit-game-header {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 2vh 4vw;
-  box-sizing: border-box;
-  z-index: 100;
-}
-
 .cursor-wrapper {
   position: fixed;
   top: 0;
@@ -366,27 +370,87 @@
   z-index: 20001;
 }
 
-.ninja-fruit-instructions-card {
-  background: rgba(0, 0, 0, 0.7);
-  border: 4px solid #008782;
-  border-radius: 24px;
-  padding: 35px 25px;
+
+/* ==========================================================================
+   3. UI ELEMENTS: LIVES (HEARTS) & EXIT BUTTON (X)
+   ========================================================================== */
+
+.ninja-fruit-lives-container {
   display: flex;
-  flex-direction: column;
+  gap: 12px;
   align-items: center;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 8px 16px;
+  border-radius: 25px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.ninja-fruit-heart {
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  line-height: 1;
+  user-select: none;
+  transition: transform 0.2s ease, color 0.3s ease;
+}
+
+.ninja-fruit-heart.full {
+  color: #ff3333;
+  -webkit-text-stroke: 2px #000000;
+  text-shadow: 3px 3px 0px rgba(0, 0, 0, 0.3);
+  animation: fruitHeartBeat 1.4s infinite alternate ease-in-out;
+}
+
+.ninja-fruit-heart.empty {
+  color: #555555;
+  -webkit-text-stroke: 2px #000000;
+  text-shadow: none;
+  transform: scale(0.85);
+}
+
+@keyframes fruitHeartBeat {
+  0% {
+    transform: scale(1);
+  }
+
+  100% {
+    transform: scale(1.08);
+  }
+}
+
+.ninja-fruit-exit-icon-btn {
+  position: absolute;
+  bottom: 40px;
+  left: 50px;
+  width: clamp(50px, 6vw, 65px);
+  height: clamp(50px, 6vw, 65px);
+  aspect-ratio: 1 / 1;
+  background: #ff3333;
+  color: #ffffff;
+  border: 3px solid #000000;
+  border-radius: 50%;
+  font-size: clamp(1.2rem, 2vw, 1.6rem);
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
   justify-content: center;
-  gap: 20px;
-  width: 440px;
-  max-width: 90vw;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
-  box-sizing: border-box;
-  position: relative;
-  z-index: 5;
+  align-items: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.55);
+  z-index: 105;
+  padding: 0;
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), background 0.2s;
+}
+
+.ninja-fruit-exit-icon-btn:hover {
+  transform: scale(1.1);
+  background: #dd2222;
+}
+
+.ninja-fruit-exit-icon-btn:active {
+  transform: scale(0.95);
 }
 
 
 /* ==========================================================================
-   2. RESPONSIVE / MEDIA QUERIES
+   4. RESPONSIVE / MEDIA QUERIES
    ========================================================================== */
 
 /* --- Small Screens / Mobile Portrait (max-width: 768px) --- */
@@ -679,7 +743,6 @@
 
 /* --- High-Resolution / Large Displays (Televisions / 2K / 4K Displays) --- */
 @media (min-width: 2500px) {
-
   body .ninja-fruit-container.menu-layout {
     padding-top: 5vh;
     padding-bottom: 8vh;
@@ -754,14 +817,10 @@
     width: 420px;
   }
 
-  body .ninja-fruit-game-header {
+  body .ninja-fruit-game-header,
+  .ninja-fruit-container .ninja-fruit-game-header {
     padding: 3vh 5vw;
-  }
-
-  .ninja-fruit-quit-button {
-    font-size: 2.6rem;
-    padding: 1em 2em;
-    border-radius: 18px;
+    top: 40px;
   }
 
   .ninja-fruit-score {
@@ -798,6 +857,27 @@
     font-size: clamp(2.5rem, 3.2vw, 3.8rem);
     padding: 25px 60px;
     border-radius: 20px;
+  }
+
+  .ninja-fruit-container .ninja-fruit-lives-container {
+    padding: 20px 35px;
+    border-radius: 40px;
+    gap: 20px;
+  }
+
+  .ninja-fruit-container .ninja-fruit-heart {
+    font-size: 4.5rem;
+    -webkit-text-stroke: 4px #000000;
+  }
+
+  .ninja-fruit-container .ninja-fruit-exit-icon-btn {
+    bottom: 110px;
+    left: 190px;
+    width: 130px;
+    height: 130px;
+    font-size: 3.2rem;
+    border: 5px solid #000000;
+    box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.4);
   }
 }
 
@@ -970,15 +1050,10 @@
     align-items: center;
   }
 
-  body .ninja-fruit-game-header {
+  body .ninja-fruit-game-header,
+  .ninja-fruit-container .ninja-fruit-game-header {
     padding: 1.5vh 4vw;
     align-items: flex-start;
-  }
-
-  .ninja-fruit-quit-button {
-    font-size: 3rem;
-    padding: 1em 2em;
-    border-radius: 18px;
   }
 
   .ninja-fruit-score {
@@ -988,5 +1063,26 @@
 
   .cursor-wrapper img {
     width: 600px;
+  }
+
+  .ninja-fruit-container .ninja-fruit-lives-container {
+    padding: 20px 40px;
+    border-radius: 50px;
+    gap: 25px;
+  }
+
+  .ninja-fruit-container .ninja-fruit-heart {
+    font-size: 5rem;
+    -webkit-text-stroke: 5px #000000;
+  }
+
+  .ninja-fruit-container .ninja-fruit-exit-icon-btn {
+    bottom: 120px;
+    left: 100px;
+    width: 140px;
+    height: 140px;
+    font-size: 3.5rem;
+    border: 6px solid #000000;
+    box-shadow: 10px 10px 0px rgba(0, 0, 0, 0.4);
   }
 }

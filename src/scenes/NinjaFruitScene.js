@@ -10,6 +10,7 @@ export default class NinjaFruitScene extends BaseScene {
     this.bombs = [];
     this.slices = [];
     this.gameOver = false;
+    this.lives = 3;
     this.swordAnimationTimer = 0;
     this.swordX = 0;
     this.swordY = 0;
@@ -204,6 +205,7 @@ export default class NinjaFruitScene extends BaseScene {
   createGameScreen() {
     this.inGame = true;
     this.clearScene();
+    this.lives = 3;
     this.resetHands();
 
     this.cursorContainer = this.sceneEl;
@@ -214,17 +216,23 @@ export default class NinjaFruitScene extends BaseScene {
     const gameHeader = document.createElement("div");
     gameHeader.className = "ninja-fruit-game-header";
 
-    const btnQuit = document.createElement("button");
-    btnQuit.innerText = "Odustani";
-    btnQuit.className = "textStyle ninja-fruit-quit-button";
-    btnQuit.addEventListener("click", () => this.createMenuScreen());
-    gameHeader.appendChild(btnQuit);
+    this.livesEl = document.createElement("div");
+    this.livesEl.className = "ninja-fruit-lives-container";
+    gameHeader.appendChild(this.livesEl);
+
+    this.updateLivesUI();
 
     this.scoreEl = document.createElement("div");
     this.scoreEl.className = "textStyle ninja-fruit-score";
     gameHeader.appendChild(this.scoreEl);
 
     this.sceneEl.appendChild(gameHeader);
+
+    const btnQuit = document.createElement("button");
+    btnQuit.innerHTML = "&#x2715;";
+    btnQuit.className = "ninja-fruit-exit-icon-btn";
+    btnQuit.addEventListener("click", () => this.createMenuScreen());
+    this.sceneEl.appendChild(btnQuit);
 
     this.elapsedTime = 0;
     this.score = 0;
@@ -234,6 +242,27 @@ export default class NinjaFruitScene extends BaseScene {
     this.gameOver = false;
     this.spawnTimer = 0;
     this.spawnInterval = this.baseSpawnInterval;
+  }
+
+  updateLivesUI() {
+    if (!this.livesEl) return;
+    this.livesEl.innerHTML = "";
+
+    const maxLives = 3;
+
+    for (let i = 1; i <= maxLives; i++) {
+      const heart = document.createElement("span");
+      heart.className = "ninja-fruit-heart";
+
+      if (i <= this.lives) {
+        heart.innerHTML = "&#x2764;";
+        heart.classList.add("full");
+      } else {
+        heart.innerHTML = "&#x2764;";
+        heart.classList.add("empty");
+      }
+      this.livesEl.appendChild(heart);
+    }
   }
 
   update(dt) {
@@ -273,10 +302,10 @@ export default class NinjaFruitScene extends BaseScene {
         }
 
         if (fruit.hasReachedPeak && fruit.y >= window.innerHeight - 50) {
-          this.gameOver = true;
           fruit.el.remove();
           this.fruits.splice(index, 1);
-          this.createEndScreen();
+
+          this.loseLife();
           return;
         }
       });
@@ -634,6 +663,19 @@ export default class NinjaFruitScene extends BaseScene {
 
     this.fruitScale = scale;
     this.screenFactor = Math.max(1, h / 1080);
+  }
+
+  loseLife() {
+    this.lives--;
+
+    if (this.updateLivesUI) {
+      this.updateLivesUI();
+    }
+
+    if (this.lives <= 0) {
+      this.gameOver = true;
+      this.createEndScreen();
+    }
   }
 
   render() { }
