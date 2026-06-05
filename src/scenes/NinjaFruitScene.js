@@ -31,7 +31,7 @@ export default class NinjaFruitScene extends BaseScene {
     };
     this.spawnTimer = 0;
     this.baseSpawnInterval = 3200;
-    this.minSpawnInterval = 1200;
+    this.minSpawnInterval = 1800;
 
     this.handleMove = this.handleMove.bind(this);
     this.handleClick = this.handleClick.bind(this);
@@ -269,16 +269,18 @@ export default class NinjaFruitScene extends BaseScene {
     if (this.inGame && !this.gameOver) {
       this.spawnInterval = Math.max(
         this.minSpawnInterval,
-        this.baseSpawnInterval - (this.elapsedTime * 30)
+        this.baseSpawnInterval - (this.elapsedTime * 22)
       );
 
       this.spawnTimer += dt;
       if (this.spawnTimer > this.spawnInterval) {
         this.spawnTimer = 0;
-        if (Math.random() < 0.15) {
-          this.spawnBomb();
-        } else {
-          this.spawnFruit();
+        if (this.fruits.length + this.bombs.length < 4) {
+          if (Math.random() < 0.10) {
+            this.spawnBomb();
+          } else {
+            this.spawnFruit();
+          }
         }
       }
 
@@ -289,10 +291,14 @@ export default class NinjaFruitScene extends BaseScene {
         this.scoreEl.innerText = `Rezultat: ${this.score}\nVrijeme: ${mins}:${secs}`;
       }
 
-      this.fruits.forEach((fruit, index) => {
-        const deltaTime = dt / 1000;
-        fruit.velocityY += fruit.gravity * deltaTime;
+      let speedModifier = 0.58;
+      if (window.innerWidth < window.innerHeight) {
+        speedModifier = 0.48;
+      }
 
+      this.fruits.forEach((fruit, index) => {
+        const deltaTime = (dt / 1000) * speedModifier;
+        fruit.velocityY += fruit.gravity * deltaTime;
         fruit.y += fruit.velocityY * deltaTime;
 
         fruit.el.style.top = `${fruit.y}px`;
@@ -304,17 +310,14 @@ export default class NinjaFruitScene extends BaseScene {
         if (fruit.hasReachedPeak && fruit.y >= window.innerHeight - 50) {
           fruit.el.remove();
           this.fruits.splice(index, 1);
-
           this.loseLife();
           return;
         }
       });
 
       this.bombs.forEach((bomb, index) => {
-        const deltaTime = dt / 1000;
-
+        const deltaTime = (dt / 1000) * speedModifier;
         bomb.velocityY += bomb.gravity * deltaTime;
-
         bomb.y += bomb.velocityY * deltaTime;
 
         bomb.el.style.top = `${bomb.y}px`;
@@ -326,8 +329,9 @@ export default class NinjaFruitScene extends BaseScene {
       });
 
       this.slices.forEach((slice, index) => {
-        slice.y += slice.speed * (dt / 1000);
-        slice.x += slice.velocityX * (dt / 1000);
+        const deltaTime = (dt / 1000) * speedModifier;
+        slice.y += slice.speed * deltaTime;
+        slice.x += slice.velocityX * deltaTime;
 
         if (slice.rotationSpeed) {
           const currentTransform = slice.el.style.transform;
@@ -338,7 +342,7 @@ export default class NinjaFruitScene extends BaseScene {
             currentRotation = parseFloat(rotationMatch[1]);
           }
 
-          const newRotation = currentRotation + (slice.rotationSpeed * (dt / 16.67));
+          const newRotation = currentRotation + (slice.rotationSpeed * (dt / 16.67) * speedModifier);
           slice.el.style.transform = currentTransform.replace(/rotate\([^)]+\)/, `rotate(${newRotation}deg)`);
         }
 
@@ -362,7 +366,7 @@ export default class NinjaFruitScene extends BaseScene {
     const sliceSize = rect.width * 0.8;
     const sliceOffset = sliceSize / 2;
 
-    const baseSpeed = 650 + this.elapsedTime * 12;
+    const baseSpeed = 380 + this.elapsedTime * 6;
     const currentSpeed = baseSpeed * this.screenFactor * 1.1;
 
     const reversedFruits = ['orange', 'pineapple', 'lemon'];
@@ -401,18 +405,18 @@ export default class NinjaFruitScene extends BaseScene {
       el: leftSlice,
       x: originalX - sliceOffset,
       y: currentY,
-      velocityX: -140 * this.screenFactor,
-      speed: currentSpeed + 380,
-      rotationSpeed: -2.8
+      velocityX: -80 * this.screenFactor,
+      speed: (currentSpeed + 220) * 0.45,
+      rotationSpeed: -1.2
     });
 
     this.slices.push({
       el: rightSlice,
       x: originalX + sliceOffset,
       y: currentY,
-      velocityX: 140 * this.screenFactor,
-      speed: currentSpeed + 380,
-      rotationSpeed: 2.8
+      velocityX: 80 * this.screenFactor,
+      speed: (currentSpeed + 220) * 0.45,
+      rotationSpeed: 1.2
     });
   }
 
@@ -452,7 +456,7 @@ export default class NinjaFruitScene extends BaseScene {
   checkCollisions() {
     if (!this.inGame || this.gameOver) return;
 
-    const hitTolerance = 45 * this.screenFactor;
+    const hitTolerance = 58 * this.screenFactor;
 
     this.fruits.forEach((fruit, index) => {
       const fruitCenterX = parseFloat(fruit.el.style.left) + fruit.size / 2;
@@ -564,10 +568,11 @@ export default class NinjaFruitScene extends BaseScene {
     img.style.width = `${size}px`;
     img.style.height = `${size}px`;
 
-    const initialVelocityY = -((1800 + Math.random() * 400) * this.screenFactor);
-    const gravity = 1800 * Math.sqrt(this.screenFactor);
-
-    const maxHeight = screenHeight * 0.8;
+    const gravity = 820 * this.screenFactor;
+    const randomPercent = 0.48 + Math.random() * 0.18;
+    const targetFlyHeight = screenHeight * randomPercent;
+    const initialVelocityY = -Math.sqrt(2 * gravity * targetFlyHeight);
+    const maxHeight = screenHeight - targetFlyHeight;
 
     this.sceneEl.appendChild(img);
     this.fruits.push({
@@ -606,9 +611,11 @@ export default class NinjaFruitScene extends BaseScene {
     img.style.width = `${bombWidth}px`;
     img.style.height = `${bombHeight}px`;
 
-    const initialVelocityY = -((1800 + Math.random() * 400) * this.screenFactor);
-    const gravity = 1800 * Math.sqrt(this.screenFactor);
-    const maxHeight = screenHeight * 0.3;
+    const gravity = 820 * this.screenFactor;
+    const randomPercent = 0.38 + Math.random() * 0.18;
+    const targetFlyHeight = screenHeight * randomPercent;
+    const initialVelocityY = -Math.sqrt(2 * gravity * targetFlyHeight);
+    const maxHeight = screenHeight - targetFlyHeight;
 
     this.sceneEl.appendChild(img);
     this.bombs.push({
@@ -662,7 +669,7 @@ export default class NinjaFruitScene extends BaseScene {
     }
 
     this.fruitScale = scale;
-    this.screenFactor = Math.max(1, h / 1080);
+    this.screenFactor = Math.max(0.5, h / 1080);
   }
 
   loseLife() {
