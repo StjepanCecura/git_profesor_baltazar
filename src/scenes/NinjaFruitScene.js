@@ -30,8 +30,8 @@ export default class NinjaFruitScene extends BaseScene {
       ]
     };
     this.spawnTimer = 0;
-    this.baseSpawnInterval = 3200;
-    this.minSpawnInterval = 1800;
+    this.baseSpawnInterval = 2500;
+    this.minSpawnInterval = 900;
 
     this.handleMove = this.handleMove.bind(this);
     this.handleClick = this.handleClick.bind(this);
@@ -95,6 +95,20 @@ export default class NinjaFruitScene extends BaseScene {
 
     this.createMenuScreen();
     window.addEventListener("resize", this.updateFruitScale.bind(this));
+
+    this.sceneEl.addEventListener("mousemove", (e) => {
+      if (!this.inGame || this.gameOver) return;
+      this.updateCursor(e.clientX, e.clientY, 0);
+      this.updateSwordPosition(e.clientX / window.innerWidth, e.clientY / window.innerHeight);
+    });
+
+    this.sceneEl.addEventListener("touchmove", (e) => {
+      if (!this.inGame || this.gameOver || e.touches.length === 0) return;
+      const touch = e.touches[0];
+      this.updateCursor(touch.clientX, touch.clientY, 0);
+      this.updateSwordPosition(touch.clientX / window.innerWidth, touch.clientY / window.innerHeight);
+    }, { passive: true });
+
   }
 
   async loadCSS() {
@@ -275,7 +289,7 @@ export default class NinjaFruitScene extends BaseScene {
       this.spawnTimer += dt;
       if (this.spawnTimer > this.spawnInterval) {
         this.spawnTimer = 0;
-        if (this.fruits.length + this.bombs.length < 4) {
+        if (this.fruits.length + this.bombs.length < 5) {
           if (Math.random() < 0.10) {
             this.spawnBomb();
           } else {
@@ -612,7 +626,7 @@ export default class NinjaFruitScene extends BaseScene {
     img.style.height = `${bombHeight}px`;
 
     const gravity = 820 * this.screenFactor;
-    const randomPercent = 0.38 + Math.random() * 0.18;
+    const randomPercent = 0.44 + Math.random() * 0.22;
     const targetFlyHeight = screenHeight * randomPercent;
     const initialVelocityY = -Math.sqrt(2 * gravity * targetFlyHeight);
     const maxHeight = screenHeight - targetFlyHeight;
@@ -688,6 +702,10 @@ export default class NinjaFruitScene extends BaseScene {
   render() { }
 
   handleMove({ x, y, i }) {
+    if (x === undefined || y === undefined || x === null || y === null) {
+      return;
+    }
+
     this.updateCursor(x, y, i);
     this.updateSwordPosition(x, y);
   }
