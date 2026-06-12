@@ -39,6 +39,8 @@ export default class NinjaFruitScene extends BaseScene {
 
     this.fruitScale = 1;
     this.screenFactor = 1;
+    this.lastSwordX = 0;
+    this.lastSwordY = 0;
   }
 
   async init() {
@@ -108,7 +110,6 @@ export default class NinjaFruitScene extends BaseScene {
       this.updateCursor(touch.clientX, touch.clientY, 0);
       this.updateSwordPosition(touch.clientX / window.innerWidth, touch.clientY / window.innerHeight);
     }, { passive: true });
-
   }
 
   async loadCSS() {
@@ -380,9 +381,6 @@ export default class NinjaFruitScene extends BaseScene {
     const sliceSize = rect.width * 0.8;
     const sliceOffset = sliceSize / 2;
 
-    const baseSpeed = 380 + this.elapsedTime * 6;
-    const currentSpeed = baseSpeed * this.screenFactor * 1.1;
-
     const reversedFruits = ['orange', 'pineapple', 'lemon'];
     const isReversed = reversedFruits.includes(fruit.name);
 
@@ -420,7 +418,7 @@ export default class NinjaFruitScene extends BaseScene {
       x: originalX - sliceOffset,
       y: currentY,
       velocityX: -80 * this.screenFactor,
-      speed: (currentSpeed + 220) * 0.45,
+      speed: 200,
       rotationSpeed: -1.2
     });
 
@@ -429,16 +427,14 @@ export default class NinjaFruitScene extends BaseScene {
       x: originalX + sliceOffset,
       y: currentY,
       velocityX: 80 * this.screenFactor,
-      speed: (currentSpeed + 220) * 0.45,
+      speed: 200,
       rotationSpeed: 1.2
     });
   }
 
   updateSwordPosition(x, y) {
-    if (this.inGame) {
-      this.swordX = x * window.innerWidth;
-      this.swordY = y * window.innerHeight;
-    }
+    this.swordX = x * window.innerWidth;
+    this.swordY = y * window.innerHeight;
   }
 
   animateSwordSlash() {
@@ -469,6 +465,17 @@ export default class NinjaFruitScene extends BaseScene {
 
   checkCollisions() {
     if (!this.inGame || this.gameOver) return;
+
+    const swordMovement = Math.sqrt(
+      Math.pow(this.swordX - this.lastSwordX, 2) +
+      Math.pow(this.swordY - this.lastSwordY, 2)
+    );
+
+    if (swordMovement < 20) {
+      this.lastSwordX = this.swordX;
+      this.lastSwordY = this.swordY;
+      return;
+    }
 
     const hitTolerance = 58 * this.screenFactor;
 
@@ -509,6 +516,9 @@ export default class NinjaFruitScene extends BaseScene {
         this.createEndScreen();
       }
     });
+
+    this.lastSwordX = this.swordX;
+    this.lastSwordY = this.swordY;
   }
 
   createEndScreen() {
@@ -705,6 +715,9 @@ export default class NinjaFruitScene extends BaseScene {
     if (x === undefined || y === undefined || x === null || y === null) {
       return;
     }
+
+    this.lastSwordX = this.swordX;
+    this.lastSwordY = this.swordY;
 
     this.updateCursor(x, y, i);
     this.updateSwordPosition(x, y);
