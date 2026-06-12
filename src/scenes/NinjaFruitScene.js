@@ -418,7 +418,7 @@ export default class NinjaFruitScene extends BaseScene {
       x: originalX - sliceOffset,
       y: currentY,
       velocityX: -80 * this.screenFactor,
-      speed: 200,
+      speed: 300 * this.screenFactor,
       rotationSpeed: -1.2
     });
 
@@ -427,7 +427,7 @@ export default class NinjaFruitScene extends BaseScene {
       x: originalX + sliceOffset,
       y: currentY,
       velocityX: 80 * this.screenFactor,
-      speed: 200,
+      speed: 300 * this.screenFactor,
       rotationSpeed: 1.2
     });
   }
