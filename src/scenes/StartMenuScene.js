@@ -51,11 +51,12 @@ export default class StartMenuScene extends BaseScene {
       'tictactoeLogo',
       '/pictures/tictactoeGame/krizic.webp',
     );
+    */
     await this.assets.loadImage(
       'ninjafruitLogo',
       '/pictures/ninjafruitGame/sword1.webp',
     );
-    */
+  
 
     this.games = [
       {
@@ -68,8 +69,9 @@ export default class StartMenuScene extends BaseScene {
         logo: this.assets.images.get('enigmaMachine').src,
         scene: 'Enigma',
       },
-      /*
+ 
       { name: "Ninja fruit", logo: this.assets.images.get('ninjafruitLogo').src, scene: "NinjaFruit" },
+      /*
       { name: "Crtanje", logo: this.assets.images.get('crtanjeLogo').src, scene: "Drawing" },
       { name: "Kamen papir škare", logo: this.assets.images.get('KSPLogo').src, scene: "KSP" },
       { name: "Labirint", logo: this.assets.images.get('labyrinthLogo').src, scene: "Labirint" },
