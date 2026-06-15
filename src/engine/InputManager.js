@@ -26,7 +26,7 @@ export default class InputManager {
     this._pointerUpHandler = null;
 
     this.lastClickTime = {};
-    this.clickCooldown = 300; 
+    this.clickCooldown = 300;
     this._frameCount = 0;
 
     this.handPredictions = new Map();
@@ -39,21 +39,24 @@ export default class InputManager {
     const wasmFileset = await FilesetResolver.forVisionTasks('/wasm');
 
     const gestureOptions = {
-      baseOptions: { 
+      baseOptions: {
         modelAssetPath: '/wasm/gesture_recognizer.task',
-        delegate: "GPU"
+        delegate: 'GPU',
       },
       runningMode: 'LIVE_STREAM',
       numHands: 3,
       minHandDetectionConfidence: 0.3,
       minHandPresenceConfidence: 0.6,
-      minTrackingConfidence: 0.5
+      minTrackingConfidence: 0.5,
     };
-    this.gestureRecognizer = await GestureRecognizer.createFromOptions(wasmFileset, gestureOptions);
+    this.gestureRecognizer = await GestureRecognizer.createFromOptions(
+      wasmFileset,
+      gestureOptions,
+    );
 
     try {
       const devices = await navigator.mediaDevices?.enumerateDevices();
-      this.cameraAvailable = devices?.some(d => d.kind === 'videoinput');
+      this.cameraAvailable = devices?.some((d) => d.kind === 'videoinput');
     } catch (e) {
       this.cameraAvailable = false;
     }
@@ -62,7 +65,7 @@ export default class InputManager {
       this.camera = new Camera(this.video, {
         onFrame: async () => {},
         width: 320,
-        height: 180
+        height: 180,
       });
     }
 
@@ -70,7 +73,7 @@ export default class InputManager {
     this.start();
   }
 
-   start() {
+  start() {
     if (this.running) return;
     this.running = true;
     this.lastClickTime = {};
@@ -131,11 +134,11 @@ export default class InputManager {
             const y = Utils.yCameraCoordinate(landmarks[5].y);
             const pointCoordinates = landmarks;
             const gesture = results.gestures[i][0].categoryName;
-            
+
             const thickness = Math.sqrt(
               (landmarks[5].x - landmarks[0].x) ** 2 +
-              (landmarks[5].y - landmarks[0].y) ** 2 +
-              (landmarks[5].z - landmarks[0].z) ** 2
+                (landmarks[5].y - landmarks[0].y) ** 2 +
+                (landmarks[5].z - landmarks[0].z) ** 2,
             );
             detections.push({ x, y, gesture, thickness, pointCoordinates });
           }
@@ -143,7 +146,7 @@ export default class InputManager {
       }
 
       const usedIds = new Set();
-      detections.forEach(det => {
+      detections.forEach((det) => {
         let bestId = null;
         let bestDist = Infinity;
         this.handPredictions.forEach((pred, id) => {
@@ -162,26 +165,43 @@ export default class InputManager {
         }
 
         usedIds.add(det.id);
-        this.handPredictions.set(det.id, { x: det.x, y: det.y, i: det.id, gesture: det.gesture, thickness: det.thickness });
+        this.handPredictions.set(det.id, {
+          x: det.x,
+          y: det.y,
+          i: det.id,
+          gesture: det.gesture,
+          thickness: det.thickness,
+        });
         this.lastPredictionUpdate.set(det.id, now);
 
-        this.emit('move', { x: det.x, y: det.y, i: det.id, gesture: det.gesture, thickness: det.thickness });
+        this.emit('move', {
+          x: det.x,
+          y: det.y,
+          i: det.id,
+          gesture: det.gesture,
+          thickness: det.thickness,
+        });
 
         const nowClick = performance.now();
         const lastClick = this.lastClickTime[det.id] || 0;
         if (
-          det.gesture === "Pointing_Up" &&
+          det.gesture === 'Pointing_Up' &&
           nowClick - lastClick > this.clickCooldown
         ) {
           this.emit('click', { x: det.x, y: det.y });
           this.lastClickTime[det.id] = nowClick;
         }
 
-        if(
-          (det.gesture === "Closed_Fist" || (det.pointCoordinates[5].y < det.pointCoordinates[8].y && 
-            det.pointCoordinates[9].y < det.pointCoordinates[12].y && det.pointCoordinates[13].y < det.pointCoordinates[16].y &&
-            det.pointCoordinates[17].y < det.pointCoordinates[20].y && det.pointCoordinates[8].y > det.pointCoordinates[17].y && 
-            det.gesture !== "Thumb_Up" && det.gesture !== "Thumb_Down")) && nowClick - lastClick > (this.clickCooldown + 300)
+        if (
+          (det.gesture === 'Closed_Fist' ||
+            (det.pointCoordinates[5].y < det.pointCoordinates[8].y &&
+              det.pointCoordinates[9].y < det.pointCoordinates[12].y &&
+              det.pointCoordinates[13].y < det.pointCoordinates[16].y &&
+              det.pointCoordinates[17].y < det.pointCoordinates[20].y &&
+              det.pointCoordinates[8].y > det.pointCoordinates[17].y &&
+              det.gesture !== 'Thumb_Up' &&
+              det.gesture !== 'Thumb_Down')) &&
+          nowClick - lastClick > this.clickCooldown + 300
         ) {
           this.emit('click', { x: det.x, y: det.y });
           this.lastClickTime[det.id] = nowClick;
@@ -192,19 +212,28 @@ export default class InputManager {
 
       this.handPredictions.forEach((pred, id) => {
         if (usedIds.has(id)) return;
-        if (now - (this.lastPredictionUpdate.get(id) || 0) > this.predictionTimeout) {
+        if (
+          now - (this.lastPredictionUpdate.get(id) || 0) >
+          this.predictionTimeout
+        ) {
           this.handPredictions.delete(id);
           this.lastPredictionUpdate.delete(id);
           delete this.lastGestures[id];
           delete this.lastClickTime[id];
           return;
         }
-        this.emit('move', { x: pred.x, y: pred.y, i: id, gesture: pred.gesture, thickness: pred.thickness });
+        this.emit('move', {
+          x: pred.x,
+          y: pred.y,
+          i: id,
+          gesture: pred.gesture,
+          thickness: pred.thickness,
+        });
       });
 
       this.emit('frameCount');
     } catch (err) {
-      console.error("Gesture recognition error:", err);
+      console.error('Gesture recognition error:', err);
     }
 
     const end = performance.now();
@@ -213,17 +242,17 @@ export default class InputManager {
     const delay = Math.max(0, 16 - duration);
 
     setTimeout(() => requestAnimationFrame(this._detectionLoop), delay);
-  }
+  };
 
   _enablePointerControls() {
     if (this._pointerMove) return;
-    this._pointerMove = e => {
+    this._pointerMove = (e) => {
       const x = e.clientX / window.innerWidth;
       const y = e.clientY / window.innerHeight;
       const gesture = this.pointerDown ? 'Pointing_Up' : 'Open_Palm';
       this.emit('move', { x, y, i: 0, gesture, thickness: 1 });
     };
-    this._pointerDownHandler = e => {
+    this._pointerDownHandler = (e) => {
       this.pointerDown = true;
       const x = e.clientX / window.innerWidth;
       const y = e.clientY / window.innerHeight;
@@ -264,9 +293,7 @@ export default class InputManager {
     return null;
   }
 
-
-  update() {
-  }
+  update() {}
 
   on(event, handler) {
     (this.handlers[event] = this.handlers[event] || []).push(handler);
@@ -274,10 +301,10 @@ export default class InputManager {
 
   off(event, handler) {
     if (!this.handlers[event]) return;
-    this.handlers[event] = this.handlers[event].filter(h => h !== handler);
+    this.handlers[event] = this.handlers[event].filter((h) => h !== handler);
   }
 
   emit(event, data) {
-    (this.handlers[event] || []).forEach(h => h(data));
+    (this.handlers[event] || []).forEach((h) => h(data));
   }
 }
