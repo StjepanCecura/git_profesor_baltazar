@@ -1,9 +1,9 @@
-import BaseScene from "@engine/BaseScene.js";
+import BaseScene from '@engine/BaseScene.js';
 
 export default class NinjaFruitScene extends BaseScene {
   constructor(params) {
     super(params);
-    this.container = document.getElementById("gameContainer");
+    this.container = document.getElementById('gameContainer');
     this.elapsedTime = 0;
     this.score = 0;
     this.fruits = [];
@@ -16,18 +16,18 @@ export default class NinjaFruitScene extends BaseScene {
     this.swordY = 0;
     this.fruitTypes = {
       small: [
-        { name: "lemon", size: 120, points: 50 },
-        { name: "orange", size: 130, points: 50 },
-        { name: "strawberry", size: 110, points: 50 }
+        { name: 'lemon', size: 120, points: 50 },
+        { name: 'orange', size: 130, points: 50 },
+        { name: 'strawberry', size: 110, points: 50 },
       ],
       medium: [
-        { name: "apple", size: 120, points: 70 },
-        { name: "banana", size: 170, points: 70 }
+        { name: 'apple', size: 120, points: 70 },
+        { name: 'banana', size: 170, points: 70 },
       ],
       large: [
-        { name: "pineapple", size: 190, points: 100 },
-        { name: "watermelon", size: 210, points: 100 }
-      ]
+        { name: 'pineapple', size: 190, points: 100 },
+        { name: 'watermelon', size: 210, points: 100 },
+      ],
     };
     this.spawnTimer = 0;
     this.baseSpawnInterval = 2500;
@@ -46,70 +46,161 @@ export default class NinjaFruitScene extends BaseScene {
   async init() {
     await this.loadCSS();
 
-    await this.assets.loadImage("cursor", "/pictures/ninjafruitGame/sword1.webp");
-    await this.assets.loadImage("cursorTip", "/pictures/ninjafruitGame/sword1.webp");
+    await this.assets.loadImage(
+      'cursor',
+      '/pictures/ninjafruitGame/sword1.webp',
+    );
+    await this.assets.loadImage(
+      'cursorTip',
+      '/pictures/ninjafruitGame/sword1.webp',
+    );
 
-    await this.assets.loadImage("background1", "/pictures/ninjafruitGame/background1.webp");
-    await this.assets.loadImage("background2", "/pictures/ninjafruitGame/background2.webp");
-    await this.assets.loadImage("backButton", "/pictures/backButton.webp");
+    await this.assets.loadImage(
+      'background1',
+      '/pictures/ninjafruitGame/background1.webp',
+    );
+    await this.assets.loadImage(
+      'background2',
+      '/pictures/ninjafruitGame/background2.webp',
+    );
+    await this.assets.loadImage('backButton', '/pictures/backButton.webp');
 
-    await this.assets.loadImage("sword1", "/pictures/ninjafruitGame/sword1.webp");
-    await this.assets.loadImage("sword2", "/pictures/ninjafruitGame/sword2.webp");
-    await this.assets.loadImage("sword3", "/pictures/ninjafruitGame/sword3.webp");
-    await this.assets.loadImage("sword4", "/pictures/ninjafruitGame/sword4.webp");
+    await this.assets.loadImage(
+      'sword1',
+      '/pictures/ninjafruitGame/sword1.webp',
+    );
+    await this.assets.loadImage(
+      'sword2',
+      '/pictures/ninjafruitGame/sword2.webp',
+    );
+    await this.assets.loadImage(
+      'sword3',
+      '/pictures/ninjafruitGame/sword3.webp',
+    );
+    await this.assets.loadImage(
+      'sword4',
+      '/pictures/ninjafruitGame/sword4.webp',
+    );
 
-    await this.assets.loadImage("apple", "/pictures/ninjafruitGame/apple.webp");
-    await this.assets.loadImage("banana", "/pictures/ninjafruitGame/banana.webp");
-    await this.assets.loadImage("lemon", "/pictures/ninjafruitGame/lemon.webp");
-    await this.assets.loadImage("orange", "/pictures/ninjafruitGame/orange.webp");
-    await this.assets.loadImage("pineapple", "/pictures/ninjafruitGame/pineapple.webp");
-    await this.assets.loadImage("strawberry", "/pictures/ninjafruitGame/strawberry.webp");
-    await this.assets.loadImage("watermelon", "/pictures/ninjafruitGame/watermelon.webp");
+    await this.assets.loadImage('apple', '/pictures/ninjafruitGame/apple.webp');
+    await this.assets.loadImage(
+      'banana',
+      '/pictures/ninjafruitGame/banana.webp',
+    );
+    await this.assets.loadImage('lemon', '/pictures/ninjafruitGame/lemon.webp');
+    await this.assets.loadImage(
+      'orange',
+      '/pictures/ninjafruitGame/orange.webp',
+    );
+    await this.assets.loadImage(
+      'pineapple',
+      '/pictures/ninjafruitGame/pineapple.webp',
+    );
+    await this.assets.loadImage(
+      'strawberry',
+      '/pictures/ninjafruitGame/strawberry.webp',
+    );
+    await this.assets.loadImage(
+      'watermelon',
+      '/pictures/ninjafruitGame/watermelon.webp',
+    );
 
-    await this.assets.loadImage("bomb", "/pictures/ninjafruitGame/bomb.webp");
+    await this.assets.loadImage('bomb', '/pictures/ninjafruitGame/bomb.webp');
 
-    await this.assets.loadImage("appleslice1", "/pictures/ninjafruitGame/appleslice1.webp");
-    await this.assets.loadImage("appleslice2", "/pictures/ninjafruitGame/appleslice2.webp");
-    await this.assets.loadImage("bananaslice1", "/pictures/ninjafruitGame/bananaslice1.webp");
-    await this.assets.loadImage("bananaslice2", "/pictures/ninjafruitGame/bananaslice2.webp");
-    await this.assets.loadImage("lemonslice1", "/pictures/ninjafruitGame/lemonslice1.webp");
-    await this.assets.loadImage("lemonslice2", "/pictures/ninjafruitGame/lemonslice2.webp");
-    await this.assets.loadImage("orangeslice1", "/pictures/ninjafruitGame/orangeslice1.webp");
-    await this.assets.loadImage("orangeslice2", "/pictures/ninjafruitGame/orangeslice2.webp");
-    await this.assets.loadImage("pineappleslice1", "/pictures/ninjafruitGame/pineappleslice1.webp");
-    await this.assets.loadImage("pineappleslice2", "/pictures/ninjafruitGame/pineappleslice2.webp");
-    await this.assets.loadImage("strawberryslice1", "/pictures/ninjafruitGame/strawberryslice1.webp");
-    await this.assets.loadImage("strawberryslice2", "/pictures/ninjafruitGame/strawberryslice2.webp");
-    await this.assets.loadImage("watermelonslice1", "/pictures/ninjafruitGame/watermelonslice1.webp");
-    await this.assets.loadImage("watermelonslice2", "/pictures/ninjafruitGame/watermelonslice2.webp");
+    await this.assets.loadImage(
+      'appleslice1',
+      '/pictures/ninjafruitGame/appleslice1.webp',
+    );
+    await this.assets.loadImage(
+      'appleslice2',
+      '/pictures/ninjafruitGame/appleslice2.webp',
+    );
+    await this.assets.loadImage(
+      'bananaslice1',
+      '/pictures/ninjafruitGame/bananaslice1.webp',
+    );
+    await this.assets.loadImage(
+      'bananaslice2',
+      '/pictures/ninjafruitGame/bananaslice2.webp',
+    );
+    await this.assets.loadImage(
+      'lemonslice1',
+      '/pictures/ninjafruitGame/lemonslice1.webp',
+    );
+    await this.assets.loadImage(
+      'lemonslice2',
+      '/pictures/ninjafruitGame/lemonslice2.webp',
+    );
+    await this.assets.loadImage(
+      'orangeslice1',
+      '/pictures/ninjafruitGame/orangeslice1.webp',
+    );
+    await this.assets.loadImage(
+      'orangeslice2',
+      '/pictures/ninjafruitGame/orangeslice2.webp',
+    );
+    await this.assets.loadImage(
+      'pineappleslice1',
+      '/pictures/ninjafruitGame/pineappleslice1.webp',
+    );
+    await this.assets.loadImage(
+      'pineappleslice2',
+      '/pictures/ninjafruitGame/pineappleslice2.webp',
+    );
+    await this.assets.loadImage(
+      'strawberryslice1',
+      '/pictures/ninjafruitGame/strawberryslice1.webp',
+    );
+    await this.assets.loadImage(
+      'strawberryslice2',
+      '/pictures/ninjafruitGame/strawberryslice2.webp',
+    );
+    await this.assets.loadImage(
+      'watermelonslice1',
+      '/pictures/ninjafruitGame/watermelonslice1.webp',
+    );
+    await this.assets.loadImage(
+      'watermelonslice2',
+      '/pictures/ninjafruitGame/watermelonslice2.webp',
+    );
 
-    this.input.on("move", this.handleMove);
-    this.input.on("click", this.handleClick);
-    this.input.on("frameCount", this.updateFrameCount);
+    this.input.on('move', this.handleMove);
+    this.input.on('click', this.handleClick);
+    this.input.on('frameCount', this.updateFrameCount);
 
-    this.sceneEl = document.createElement("div");
+    this.sceneEl = document.createElement('div');
     this.updateFruitScale();
-    this.sceneEl.classList.add("container", "ninja-fruit-container");
+    this.sceneEl.classList.add('container', 'ninja-fruit-container');
 
     this.container.appendChild(this.sceneEl);
 
     this.cursorContainer = this.sceneEl;
 
     this.createMenuScreen();
-    window.addEventListener("resize", this.updateFruitScale.bind(this));
+    window.addEventListener('resize', this.updateFruitScale.bind(this));
 
-    this.sceneEl.addEventListener("mousemove", (e) => {
+    this.sceneEl.addEventListener('mousemove', (e) => {
       if (!this.inGame || this.gameOver) return;
       this.updateCursor(e.clientX, e.clientY, 0);
-      this.updateSwordPosition(e.clientX / window.innerWidth, e.clientY / window.innerHeight);
+      this.updateSwordPosition(
+        e.clientX / window.innerWidth,
+        e.clientY / window.innerHeight,
+      );
     });
 
-    this.sceneEl.addEventListener("touchmove", (e) => {
-      if (!this.inGame || this.gameOver || e.touches.length === 0) return;
-      const touch = e.touches[0];
-      this.updateCursor(touch.clientX, touch.clientY, 0);
-      this.updateSwordPosition(touch.clientX / window.innerWidth, touch.clientY / window.innerHeight);
-    }, { passive: true });
+    this.sceneEl.addEventListener(
+      'touchmove',
+      (e) => {
+        if (!this.inGame || this.gameOver || e.touches.length === 0) return;
+        const touch = e.touches[0];
+        this.updateCursor(touch.clientX, touch.clientY, 0);
+        this.updateSwordPosition(
+          touch.clientX / window.innerWidth,
+          touch.clientY / window.innerHeight,
+        );
+      },
+      { passive: true },
+    );
   }
 
   async loadCSS() {
@@ -125,8 +216,8 @@ export default class NinjaFruitScene extends BaseScene {
   }
 
   clearScene() {
-    this.sceneEl.innerHTML = "";
-    this.sceneEl.className = "container ninja-fruit-container";
+    this.sceneEl.innerHTML = '';
+    this.sceneEl.className = 'container ninja-fruit-container';
     this.fruits = [];
     this.bombs = [];
     this.slices = [];
@@ -135,31 +226,31 @@ export default class NinjaFruitScene extends BaseScene {
   }
 
   createBackground(name) {
-    const bg = document.createElement("div");
-    bg.classList.add("ninja-fruit-background");
+    const bg = document.createElement('div');
+    bg.classList.add('ninja-fruit-background');
     bg.style.backgroundImage = `url('${this.assets.images.get(name).src}')`;
     return bg;
   }
 
-  createOverlay(type = "dark") {
-    const overlay = document.createElement("div");
-    overlay.classList.add("ninja-fruit-overlay", type);
+  createOverlay(type = 'dark') {
+    const overlay = document.createElement('div');
+    overlay.classList.add('ninja-fruit-overlay', type);
     return overlay;
   }
 
   createBackButton(onClick) {
-    const back = document.createElement("img");
-    back.src = this.assets.images.get("backButton").src;
-    back.classList.add("ninja-fruit-back-button");
-    back.addEventListener("click", onClick);
+    const back = document.createElement('img');
+    back.src = this.assets.images.get('backButton').src;
+    back.classList.add('ninja-fruit-back-button');
+    back.addEventListener('click', onClick);
     return back;
   }
 
   createButton(text, onClick) {
-    const btn = document.createElement("button");
+    const btn = document.createElement('button');
     btn.innerText = text;
-    btn.className = "textStyle ninja-fruit-button";
-    btn.addEventListener("click", onClick);
+    btn.className = 'textStyle ninja-fruit-button';
+    btn.addEventListener('click', onClick);
     return btn;
   }
 
@@ -167,18 +258,22 @@ export default class NinjaFruitScene extends BaseScene {
     this.inGame = false;
     this.clearScene();
     this.resetHands();
-    this.sceneEl.classList.add("menu-layout");
+    this.sceneEl.classList.add('menu-layout');
 
     this.cursorContainer = this.sceneEl;
 
-    this.sceneEl.appendChild(this.createBackground("background1"));
-    this.sceneEl.appendChild(this.createBackButton(() => this.manager.switch('StartMenu')));
+    this.sceneEl.appendChild(this.createBackground('background1'));
+    this.sceneEl.appendChild(
+      this.createBackButton(() => this.manager.switch('StartMenu')),
+    );
 
-    const title = document.createElement("h1");
-    title.innerText = "Ninja Fruit";
-    title.className = "textStyle ninja-fruit-title";
+    const title = document.createElement('h1');
+    title.innerText = 'Ninja Fruit';
+    title.className = 'textStyle ninja-fruit-title';
 
-    const btnStart = this.createButton("Nova igra", () => this.createUputeScreen());
+    const btnStart = this.createButton('Nova igra', () =>
+      this.createUputeScreen(),
+    );
 
     this.sceneEl.appendChild(title);
     this.sceneEl.appendChild(btnStart);
@@ -189,26 +284,29 @@ export default class NinjaFruitScene extends BaseScene {
     this.clearScene();
     this.resetHands();
 
-    this.sceneEl.classList.add("instructions-layout");
+    this.sceneEl.classList.add('instructions-layout');
 
     this.cursorContainer = this.sceneEl;
 
-    this.sceneEl.appendChild(this.createBackground("background1"));
-    this.sceneEl.appendChild(this.createOverlay("dark"));
-    this.sceneEl.appendChild(this.createBackButton(() => this.createMenuScreen()));
+    this.sceneEl.appendChild(this.createBackground('background1'));
+    this.sceneEl.appendChild(this.createOverlay('dark'));
+    this.sceneEl.appendChild(
+      this.createBackButton(() => this.createMenuScreen()),
+    );
 
-    const instructionsCard = document.createElement("div");
-    instructionsCard.className = "ninja-fruit-instructions-card";
+    const instructionsCard = document.createElement('div');
+    instructionsCard.className = 'ninja-fruit-instructions-card';
 
-    const title = document.createElement("h1");
-    title.innerText = "Upute";
-    title.className = "textStyle ninja-fruit-subtitle";
+    const title = document.createElement('h1');
+    title.innerText = 'Upute';
+    title.className = 'textStyle ninja-fruit-subtitle';
 
-    const upute = document.createElement("p");
-    upute.innerText = "Koristi pokrete ruke ispred kamere kako bi izrezao što više voća koje iskače na ekranu. Pazi da voće ne dodirne pod - izgubit ćeš bodove!";
-    upute.className = "textStyle ninja-fruit-instructions";
+    const upute = document.createElement('p');
+    upute.innerText =
+      'Koristi pokrete ruke ispred kamere kako bi izrezao što više voća koje iskače na ekranu. Pazi da voće ne dodirne pod - izgubit ćeš bodove!';
+    upute.className = 'textStyle ninja-fruit-instructions';
 
-    const btnPlay = this.createButton("Igraj", () => this.createGameScreen());
+    const btnPlay = this.createButton('Igraj', () => this.createGameScreen());
 
     instructionsCard.appendChild(title);
     instructionsCard.appendChild(upute);
@@ -225,28 +323,28 @@ export default class NinjaFruitScene extends BaseScene {
 
     this.cursorContainer = this.sceneEl;
 
-    this.sceneEl.appendChild(this.createBackground("background2"));
-    this.sceneEl.appendChild(this.createOverlay("light"));
+    this.sceneEl.appendChild(this.createBackground('background2'));
+    this.sceneEl.appendChild(this.createOverlay('light'));
 
-    const gameHeader = document.createElement("div");
-    gameHeader.className = "ninja-fruit-game-header";
+    const gameHeader = document.createElement('div');
+    gameHeader.className = 'ninja-fruit-game-header';
 
-    this.livesEl = document.createElement("div");
-    this.livesEl.className = "ninja-fruit-lives-container";
+    this.livesEl = document.createElement('div');
+    this.livesEl.className = 'ninja-fruit-lives-container';
     gameHeader.appendChild(this.livesEl);
 
     this.updateLivesUI();
 
-    this.scoreEl = document.createElement("div");
-    this.scoreEl.className = "textStyle ninja-fruit-score";
+    this.scoreEl = document.createElement('div');
+    this.scoreEl.className = 'textStyle ninja-fruit-score';
     gameHeader.appendChild(this.scoreEl);
 
     this.sceneEl.appendChild(gameHeader);
 
-    const btnQuit = document.createElement("button");
-    btnQuit.innerHTML = "&#x2715;";
-    btnQuit.className = "ninja-fruit-exit-icon-btn";
-    btnQuit.addEventListener("click", () => this.createMenuScreen());
+    const btnQuit = document.createElement('button');
+    btnQuit.innerHTML = '&#x2715;';
+    btnQuit.className = 'ninja-fruit-exit-icon-btn';
+    btnQuit.addEventListener('click', () => this.createMenuScreen());
     this.sceneEl.appendChild(btnQuit);
 
     this.elapsedTime = 0;
@@ -261,20 +359,20 @@ export default class NinjaFruitScene extends BaseScene {
 
   updateLivesUI() {
     if (!this.livesEl) return;
-    this.livesEl.innerHTML = "";
+    this.livesEl.innerHTML = '';
 
     const maxLives = 3;
 
     for (let i = 1; i <= maxLives; i++) {
-      const heart = document.createElement("span");
-      heart.className = "ninja-fruit-heart";
+      const heart = document.createElement('span');
+      heart.className = 'ninja-fruit-heart';
 
       if (i <= this.lives) {
-        heart.innerHTML = "&#x2764;";
-        heart.classList.add("full");
+        heart.innerHTML = '&#x2764;';
+        heart.classList.add('full');
       } else {
-        heart.innerHTML = "&#x2764;";
-        heart.classList.add("empty");
+        heart.innerHTML = '&#x2764;';
+        heart.classList.add('empty');
       }
       this.livesEl.appendChild(heart);
     }
@@ -284,14 +382,14 @@ export default class NinjaFruitScene extends BaseScene {
     if (this.inGame && !this.gameOver) {
       this.spawnInterval = Math.max(
         this.minSpawnInterval,
-        this.baseSpawnInterval - (this.elapsedTime * 22)
+        this.baseSpawnInterval - this.elapsedTime * 22,
       );
 
       this.spawnTimer += dt;
       if (this.spawnTimer > this.spawnInterval) {
         this.spawnTimer = 0;
         if (this.fruits.length + this.bombs.length < 5) {
-          if (Math.random() < 0.10) {
+          if (Math.random() < 0.1) {
             this.spawnBomb();
           } else {
             this.spawnFruit();
@@ -302,7 +400,9 @@ export default class NinjaFruitScene extends BaseScene {
       this.elapsedTime += dt / 1000;
       if (this.scoreEl) {
         const mins = Math.floor(this.elapsedTime / 60);
-        const secs = Math.floor(this.elapsedTime % 60).toString().padStart(2, "0");
+        const secs = Math.floor(this.elapsedTime % 60)
+          .toString()
+          .padStart(2, '0');
         this.scoreEl.innerText = `Rezultat: ${this.score}\nVrijeme: ${mins}:${secs}`;
       }
 
@@ -357,8 +457,13 @@ export default class NinjaFruitScene extends BaseScene {
             currentRotation = parseFloat(rotationMatch[1]);
           }
 
-          const newRotation = currentRotation + (slice.rotationSpeed * (dt / 16.67) * speedModifier);
-          slice.el.style.transform = currentTransform.replace(/rotate\([^)]+\)/, `rotate(${newRotation}deg)`);
+          const newRotation =
+            currentRotation +
+            slice.rotationSpeed * (dt / 16.67) * speedModifier;
+          slice.el.style.transform = currentTransform.replace(
+            /rotate\([^)]+\)/,
+            `rotate(${newRotation}deg)`,
+          );
         }
 
         slice.el.style.top = `${slice.y}px`;
@@ -384,17 +489,21 @@ export default class NinjaFruitScene extends BaseScene {
     const reversedFruits = ['orange', 'pineapple', 'lemon'];
     const isReversed = reversedFruits.includes(fruit.name);
 
-    const leftSlice = document.createElement("img");
-    leftSlice.src = this.assets.images.get(`${fruit.name}slice${isReversed ? '1' : '2'}`).src;
-    leftSlice.classList.add("ninja-fruit-slice", "left");
+    const leftSlice = document.createElement('img');
+    leftSlice.src = this.assets.images.get(
+      `${fruit.name}slice${isReversed ? '1' : '2'}`,
+    ).src;
+    leftSlice.classList.add('ninja-fruit-slice', 'left');
     leftSlice.style.top = `${currentY}px`;
     leftSlice.style.left = `${originalX - sliceOffset}px`;
     leftSlice.style.width = `${sliceSize}px`;
     leftSlice.style.height = `${sliceSize}px`;
 
-    const rightSlice = document.createElement("img");
-    rightSlice.src = this.assets.images.get(`${fruit.name}slice${isReversed ? '2' : '1'}`).src;
-    rightSlice.classList.add("ninja-fruit-slice", "right");
+    const rightSlice = document.createElement('img');
+    rightSlice.src = this.assets.images.get(
+      `${fruit.name}slice${isReversed ? '2' : '1'}`,
+    ).src;
+    rightSlice.classList.add('ninja-fruit-slice', 'right');
     rightSlice.style.top = `${currentY}px`;
     rightSlice.style.left = `${originalX + sliceOffset}px`;
     rightSlice.style.width = `${sliceSize}px`;
@@ -404,13 +513,13 @@ export default class NinjaFruitScene extends BaseScene {
     this.sceneEl.appendChild(rightSlice);
 
     setTimeout(() => {
-      leftSlice.classList.add("animated");
-      rightSlice.classList.add("animated");
+      leftSlice.classList.add('animated');
+      rightSlice.classList.add('animated');
     }, 50);
 
     setTimeout(() => {
-      leftSlice.classList.add("fading");
-      rightSlice.classList.add("fading");
+      leftSlice.classList.add('fading');
+      rightSlice.classList.add('fading');
     }, 800);
 
     this.slices.push({
@@ -419,7 +528,7 @@ export default class NinjaFruitScene extends BaseScene {
       y: currentY,
       velocityX: -80 * this.screenFactor,
       speed: 300 * this.screenFactor,
-      rotationSpeed: -1.2
+      rotationSpeed: -1.2,
     });
 
     this.slices.push({
@@ -428,7 +537,7 @@ export default class NinjaFruitScene extends BaseScene {
       y: currentY,
       velocityX: 80 * this.screenFactor,
       speed: 300 * this.screenFactor,
-      rotationSpeed: 1.2
+      rotationSpeed: 1.2,
     });
   }
 
@@ -444,7 +553,7 @@ export default class NinjaFruitScene extends BaseScene {
     const cursor = cursors[0];
     if (!cursor || !cursor.img) return;
 
-    const swordFrames = ["sword2", "sword3", "sword4"];
+    const swordFrames = ['sword2', 'sword3', 'sword4'];
     let frameIndex = 0;
 
     const animate = () => {
@@ -455,7 +564,7 @@ export default class NinjaFruitScene extends BaseScene {
       } else {
         setTimeout(() => {
           if (cursor.img) {
-            cursor.img.src = this.assets.images.get("sword1").src;
+            cursor.img.src = this.assets.images.get('sword1').src;
           }
         }, 150);
       }
@@ -468,7 +577,7 @@ export default class NinjaFruitScene extends BaseScene {
 
     const swordMovement = Math.sqrt(
       Math.pow(this.swordX - this.lastSwordX, 2) +
-      Math.pow(this.swordY - this.lastSwordY, 2)
+        Math.pow(this.swordY - this.lastSwordY, 2),
     );
 
     if (swordMovement < 20) {
@@ -485,10 +594,10 @@ export default class NinjaFruitScene extends BaseScene {
 
       const distance = Math.sqrt(
         Math.pow(this.swordX - fruitCenterX, 2) +
-        Math.pow(this.swordY - fruitCenterY, 2)
+          Math.pow(this.swordY - fruitCenterY, 2),
       );
 
-      if (distance < (fruit.size / 2) + hitTolerance) {
+      if (distance < fruit.size / 2 + hitTolerance) {
         this.sliceFruit(fruit, fruit.el, parseFloat(fruit.el.style.left));
         this.score += fruit.points;
         this.animateSwordSlash();
@@ -504,7 +613,7 @@ export default class NinjaFruitScene extends BaseScene {
 
       const distance = Math.sqrt(
         Math.pow(this.swordX - bombCenterX, 2) +
-        Math.pow(this.swordY - bombCenterY, 2)
+          Math.pow(this.swordY - bombCenterY, 2),
       );
 
       if (distance < Math.min(bomb.width, bomb.height) / 2 + hitTolerance) {
@@ -524,40 +633,46 @@ export default class NinjaFruitScene extends BaseScene {
   createEndScreen() {
     this.inGame = false;
     this.clearScene();
-    this.sceneEl.classList.add("center-layout");
+    this.sceneEl.classList.add('center-layout');
 
     this.cursorContainer = this.sceneEl;
 
-    this.sceneEl.appendChild(this.createBackground("background2"));
-    this.sceneEl.appendChild(this.createOverlay("dark"));
+    this.sceneEl.appendChild(this.createBackground('background2'));
+    this.sceneEl.appendChild(this.createOverlay('dark'));
 
-    const endCard = document.createElement("div");
-    endCard.className = "ninja-fruit-end-card";
+    const endCard = document.createElement('div');
+    endCard.className = 'ninja-fruit-end-card';
 
-    const gameOverTitle = document.createElement("h1");
-    gameOverTitle.innerText = "Kraj!";
-    gameOverTitle.className = "textStyle ninja-fruit-game-over-title";
+    const gameOverTitle = document.createElement('h1');
+    gameOverTitle.innerText = 'Kraj!';
+    gameOverTitle.className = 'textStyle ninja-fruit-game-over-title';
     endCard.appendChild(gameOverTitle);
 
-    const statsContainer = document.createElement("div");
-    statsContainer.className = "textStyle ninja-fruit-stats";
+    const statsContainer = document.createElement('div');
+    statsContainer.className = 'textStyle ninja-fruit-stats';
 
     const mins = Math.floor(this.elapsedTime / 60);
-    const secs = Math.floor(this.elapsedTime % 60).toString().padStart(2, "0");
+    const secs = Math.floor(this.elapsedTime % 60)
+      .toString()
+      .padStart(2, '0');
     statsContainer.innerHTML = `<p>Rezultat: <span>${this.score}</span></p><p>Vrijeme: <span>${mins}:${secs}</span></p>`;
     endCard.appendChild(statsContainer);
 
-    const playAgainText = document.createElement("h2");
-    playAgainText.innerText = "Igraj ponovo!";
-    playAgainText.className = "textStyle ninja-fruit-play-again-text";
+    const playAgainText = document.createElement('h2');
+    playAgainText.innerText = 'Igraj ponovo!';
+    playAgainText.className = 'textStyle ninja-fruit-play-again-text';
     endCard.appendChild(playAgainText);
 
-    const buttonContainer = document.createElement("div");
-    buttonContainer.classList.add("ninja-fruit-button-container");
+    const buttonContainer = document.createElement('div');
+    buttonContainer.classList.add('ninja-fruit-button-container');
 
-    const playAgainBtn = this.createButton("Nova igra", () => this.createGameScreen());
+    const playAgainBtn = this.createButton('Nova igra', () =>
+      this.createGameScreen(),
+    );
 
-    const menuBtn = this.createButton("Izbornik", () => this.createMenuScreen());
+    const menuBtn = this.createButton('Izbornik', () =>
+      this.createMenuScreen(),
+    );
 
     buttonContainer.appendChild(playAgainBtn);
     buttonContainer.appendChild(menuBtn);
@@ -568,14 +683,15 @@ export default class NinjaFruitScene extends BaseScene {
 
   spawnFruit() {
     const categories = Object.keys(this.fruitTypes);
-    const randomCategory = categories[Math.floor(Math.random() * categories.length)];
+    const randomCategory =
+      categories[Math.floor(Math.random() * categories.length)];
     const fruits = this.fruitTypes[randomCategory];
     const randomFruit = fruits[Math.floor(Math.random() * fruits.length)];
     const size = randomFruit.size * this.fruitScale;
 
-    const img = document.createElement("img");
+    const img = document.createElement('img');
     img.src = this.assets.images.get(randomFruit.name).src;
-    img.classList.add("ninja-fruit-item");
+    img.classList.add('ninja-fruit-item');
 
     const screenWidth = window.innerWidth;
     const screenHeight = window.innerHeight;
@@ -609,7 +725,7 @@ export default class NinjaFruitScene extends BaseScene {
       points: randomFruit.points,
       size: size,
       name: randomFruit.name,
-      hasReachedPeak: false
+      hasReachedPeak: false,
     });
   }
 
@@ -618,9 +734,9 @@ export default class NinjaFruitScene extends BaseScene {
     const bombWidth = 170 * scale;
     const bombHeight = 150 * scale;
 
-    const img = document.createElement("img");
-    img.src = this.assets.images.get("bomb").src;
-    img.classList.add("ninja-fruit-item", "ninja-fruit-bomb");
+    const img = document.createElement('img');
+    img.src = this.assets.images.get('bomb').src;
+    img.classList.add('ninja-fruit-item', 'ninja-fruit-bomb');
 
     const screenWidth = window.innerWidth;
     const screenHeight = window.innerHeight;
@@ -651,7 +767,7 @@ export default class NinjaFruitScene extends BaseScene {
       maxHeight: maxHeight,
       width: bombWidth,
       height: bombHeight,
-      hasReachedPeak: false
+      hasReachedPeak: false,
     });
   }
 
@@ -663,20 +779,15 @@ export default class NinjaFruitScene extends BaseScene {
 
     if (h < 500 && w > h) {
       scale = 0.5;
-    }
-    else if (w < 480) {
+    } else if (w < 480) {
       scale = 0.55;
-    }
-    else if (w < 768) {
+    } else if (w < 768) {
       scale = 0.7;
-    }
-    else if (w < 1400) {
+    } else if (w < 1400) {
       scale = 0.9;
-    }
-    else if (w < 2200) {
+    } else if (w < 2200) {
       scale = 1.15;
-    }
-    else {
+    } else {
       scale = 1.35;
     }
 
@@ -709,7 +820,7 @@ export default class NinjaFruitScene extends BaseScene {
     }
   }
 
-  render() { }
+  render() {}
 
   handleMove({ x, y, i }) {
     if (x === undefined || y === undefined || x === null || y === null) {
@@ -730,9 +841,13 @@ export default class NinjaFruitScene extends BaseScene {
 
     if (!el) return;
 
-    if (el.tagName === "BUTTON") {
+    if (el.tagName === 'BUTTON') {
       el.click();
-    } else if (el.tagName === "IMG" && el.src && el.src.includes("backButton.webp")) {
+    } else if (
+      el.tagName === 'IMG' &&
+      el.src &&
+      el.src.includes('backButton.webp')
+    ) {
       el.click();
     }
   }
@@ -742,9 +857,9 @@ export default class NinjaFruitScene extends BaseScene {
   }
 
   async destroy() {
-    this.input.off("move", this.handleMove);
-    this.input.off("click", this.handleClick);
-    this.input.off("frameCount", this.updateFrameCount);
+    this.input.off('move', this.handleMove);
+    this.input.off('click', this.handleClick);
+    this.input.off('frameCount', this.updateFrameCount);
 
     const cssLink = document.querySelector('link[href="/css/ninjafruit.css"]');
     if (cssLink) {

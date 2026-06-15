@@ -79,7 +79,9 @@
   position: relative;
   border: none;
   margin-bottom: 4vh;
-  transition: transform 0.2s ease, background-color 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease;
 }
 
 .ninja-fruit-button:hover {
@@ -232,7 +234,6 @@
   z-index: 5;
 }
 
-
 /* ==========================================================================
    2. GAMEPLAY ELEMENTS & HUD
    ========================================================================== */
@@ -326,7 +327,9 @@
 .ninja-fruit-slice {
   position: absolute;
   z-index: 15;
-  transition: transform 0.5s ease-out, opacity 1s ease-out;
+  transition:
+    transform 0.5s ease-out,
+    opacity 1s ease-out;
   will-change: transform;
   transform: translateZ(0);
 }
@@ -373,7 +376,6 @@
   z-index: 20001;
 }
 
-
 /* ==========================================================================
    3. UI ELEMENTS: LIVES (HEARTS) & EXIT BUTTON (X)
    ========================================================================== */
@@ -392,7 +394,9 @@
   font-size: clamp(1.8rem, 3vw, 2.5rem);
   line-height: 1;
   user-select: none;
-  transition: transform 0.2s ease, color 0.3s ease;
+  transition:
+    transform 0.2s ease,
+    color 0.3s ease;
 }
 
 .ninja-fruit-heart.full {
@@ -439,7 +443,9 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.55);
   z-index: 105;
   padding: 0;
-  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), background 0.2s;
+  transition:
+    transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+    background 0.2s;
 }
 
 .ninja-fruit-exit-icon-btn:hover {
@@ -450,7 +456,6 @@
 .ninja-fruit-exit-icon-btn:active {
   transform: scale(0.95);
 }
-
 
 /* ==========================================================================
    4. RESPONSIVE / MEDIA QUERIES
@@ -890,7 +895,6 @@
 
 /* --- High-Resolution Portrait Displays (min-height: 2500px) --- */
 @media (min-height: 2500px) and (orientation: portrait) {
-
   body .ninja-fruit-container.menu-layout {
     display: block;
     position: relative;
@@ -907,7 +911,9 @@
     margin: 0;
     width: 100%;
     text-align: center;
-    text-shadow: 0 0 0.4em #000, 0 0 0.8em #000;
+    text-shadow:
+      0 0 0.4em #000,
+      0 0 0.8em #000;
   }
 
   .ninja-fruit-button {
@@ -1150,7 +1156,6 @@
 
 /* --- Tablet Portrait Layout Optimization (768px - 1200px) --- */
 @media (min-width: 768px) and (max-width: 1200px) and (orientation: portrait) {
-
   .ninja-fruit-container .ninja-fruit-end-card {
     height: auto;
     min-height: unset;

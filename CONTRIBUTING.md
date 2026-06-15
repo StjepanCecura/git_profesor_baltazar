@@ -82,22 +82,26 @@ Prije slanja izmjena i kreiranja Pull Requesta, obavezno je provesti sljedeće k
 
 **VAŽNO:** Ukoliko je nešto promijenjeno tijekom jedne od provjera (poput ovisnosti tijekom `npm audit` ili koda tijekom `npm ci` / `npm run lint`), obavezno commitajte te promjene i **ponovno provjerite sve od početka**.
 
-1. **Sinkronizacija ovisnosti:**
+1. **Pravilno formatiranje**
+* Formatirati sve datoteke koje su mijenjane
+* Formatiranje raditi preko ekstenzije "Prettier"
+
+2. **Sinkronizacija ovisnosti:**
 * Pokrenuti `npm ci`
 
 
-2. **Provjera kvalitete koda (Lint):**
+3. **Provjera kvalitete koda (Lint):**
 * Pokrenuti `npm run lint`
 * Ne smiju postojati greške u datotekama na kojima je rađeno.
 * Kod ne smije sadržavati `console.log` ispise niti hardkodirane tajne podatke.
 
 
-3. **Sigurnosna provjera paketa:**
+4. **Sigurnosna provjera paketa:**
 * Pokrenuti `npm audit --audit-level=high`
 * Ranjivosti prijaviti ili popraviti pomoću `npm audit fix`.
 
 
-4. **Provjera funkcionalnosti aplikacije:**
+5. **Provjera funkcionalnosti aplikacije:**
 * Provjeriti cjelokupnu funkcionalnost aplikacije lokalno i osigurati da rad ostalih funkcionalnosti nije nehotice promijenjen.
 * Provjeriti ponašanje kamere i prepoznavanja gesti.
 * **Provjeriti funkcionalnost na raznim ekranima.** Obavezno testirati na:
@@ -106,17 +110,11 @@ Prije slanja izmjena i kreiranja Pull Requesta, obavezno je provesti sljedeće k
 * Mobilnim uređajima
 
 
-
-
-5. **Provjera Build procesa:**
+6. **Provjera Build procesa:**
 * Uvjerite se da se aplikacija uspješno kompajlira u svim modovima rada pokretanjem sljedećih naredbi:
 * `npm run build`
 * `npm run build -- --mode staging`
 * `npm run build -- --mode production`
-
-
-
-
 
 ---
 
