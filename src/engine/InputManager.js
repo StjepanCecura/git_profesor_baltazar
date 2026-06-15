@@ -1,7 +1,11 @@
-import { Camera } from '@mediapipe/camera_utils';
+import '@mediapipe/camera_utils';
 import { FilesetResolver, GestureRecognizer } from '@mediapipe/tasks-vision';
 import Utils from './Utils';
 import BaseScene from './BaseScene';
+
+// Safely pull Camera from the window object where MediaPipe puts it,
+// falling back to standard window context if needed.
+const Camera = window.Camera;
 
 export default class InputManager {
   constructor({ videoElement }) {
