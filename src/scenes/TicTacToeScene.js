@@ -110,7 +110,7 @@ export default class TicTacToeScene extends BaseScene {
 
     this.btnBack = this.sceneEl.querySelector("#btnBack");
     this.btnBack.addEventListener("click", () =>
-      this.manager.switch("StartMenu")
+      this.createMenuScreen()
     );
     
     this.cursorContainer = this.sceneEl;
@@ -144,15 +144,18 @@ export default class TicTacToeScene extends BaseScene {
     `;
     
     this.btnBack = this.sceneEl.querySelector("#btnBack");
-    this.btnBack.addEventListener("click", () =>
-      this.manager.switch("StartMenu")
-    );
+    this.btnBack.addEventListener("click", () => {
+      if (this.timerInterval) clearInterval(this.timerInterval);
+      this.createMenuScreen();
+    });
 
     this.container.appendChild(this.sceneEl);
     this.cursorContainer = this.sceneEl;
 
     this.fillContainer();
 
+    const timerText = this.sceneEl.querySelector("#timerText");
+    
     this.timerInterval = setInterval(() => {
       this.timer++;
       timerText.innerText = `Vrijeme igre: ${this.timer}`;
