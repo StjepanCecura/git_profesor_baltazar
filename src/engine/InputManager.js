@@ -1,7 +1,6 @@
 import '@mediapipe/camera_utils';
 import { FilesetResolver, GestureRecognizer } from '@mediapipe/tasks-vision';
 import Utils from './Utils';
-import BaseScene from './BaseScene';
 
 // Safely pull Camera from the window object where MediaPipe puts it,
 // falling back to standard window context if needed.
@@ -57,7 +56,7 @@ export default class InputManager {
     try {
       const devices = await navigator.mediaDevices?.enumerateDevices();
       this.cameraAvailable = devices?.some((d) => d.kind === 'videoinput');
-    } catch (e) {
+    } catch (_) {
       this.cameraAvailable = false;
     }
 
@@ -120,7 +119,6 @@ export default class InputManager {
     }
 
     this.nextDetectionTime = now + this.frameInterval;
-    let emitted = false;
 
     try {
       const results = this.gestureRecognizer.recognizeForVideo(this.video, now);
