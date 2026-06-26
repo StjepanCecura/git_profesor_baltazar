@@ -727,3 +727,23 @@
     margin: 0.25em;
   }
 }
+
+/* TABLET PORTRAIT BACK BUTTON FIX */
+/* Fixes oversized back button on iPad / foldable portrait screens */
+
+@media (orientation: portrait) and (min-width: 601px) and (max-width: 1200px) {
+  #btnBack {
+    top: 1rem;
+    left: 1rem;
+    width: clamp(76px, 8vw, 96px);
+    height: clamp(76px, 8vw, 96px);
+    padding: 0.35rem;
+    border-radius: 0.65rem;
+  }
+
+  #btnBack img {
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+  }
+}
