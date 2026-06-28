@@ -828,4 +828,34 @@
     width: 100%;
     object-fit: contain;
   }
+
+    .tictactoe-instructions-container {
+    padding: 1rem 2rem;
+    justify-content: flex-start;
+  }
+
+  .secondLayerInstructions {
+    justify-content: flex-start;
+    padding-top: clamp(5rem, 8vh, 7rem);
+    padding-bottom: 2rem;
+  }
+
+  .tictactoe-instructions-title {
+    font-size: clamp(4rem, 7vw, 5.5rem);
+    margin-bottom: 0.35em;
+  }
+
+  .tictactoe-instructions-text {
+    font-size: clamp(1.8rem, 3.4vw, 2.7rem);
+    line-height: 1.25;
+    max-width: 88%;
+    margin-bottom: 1rem;
+  }
+
+  .tictactoe-baltazar-img {
+    width: clamp(260px, 42vw, 420px);
+    max-height: 36vh;
+    object-fit: contain;
+    margin-top: 0.5rem;
+  }
 }
