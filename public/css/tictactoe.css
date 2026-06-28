@@ -810,6 +810,34 @@
   }
 }
 
+/* MEDIUM / LARGE LANDSCAPE END SCREEN FIX */
+/* Keeps the end overlay from becoming too large on 1920x1080 screens */
+
+@media (orientation: landscape) and (min-width: 1401px) and (max-width: 2999px) {
+  .tictactoe-result-text {
+    font-size: clamp(2rem, 4.2vh, 3.6rem);
+    margin-bottom: 0.15em;
+  }
+
+  .tictactoe-winner-symbol {
+    width: clamp(120px, 15vh, 180px);
+    margin-top: 0.15em;
+    margin-bottom: 0.35em;
+  }
+
+  .tictactoe-end-text {
+    font-size: clamp(1.6rem, 3.4vh, 2.7rem);
+    margin-bottom: 0.65em;
+  }
+
+  .tictactoe-end-button {
+    font-size: clamp(1.6rem, 3.4vh, 2.7rem);
+    width: min(34vw, 430px);
+    padding: 0.3em 0.55em;
+    margin: 0.25em;
+  }
+}
+
 /* TABLET PORTRAIT BACK BUTTON FIX */
 /* Fixes oversized back button on iPad / foldable portrait screens */
 
