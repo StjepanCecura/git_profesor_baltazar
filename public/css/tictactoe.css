@@ -703,6 +703,88 @@
   }
 }
 
+/* 4K LANDSCAPE SCALING */
+
+@media (orientation: landscape) and (min-width: 3000px) {
+  .tictactoe-title {
+    font-size: clamp(7rem, 4.2vw, 10rem);
+    margin-top: clamp(2rem, 5vh, 5rem);
+  }
+
+  .thirdLayer {
+    transform: translateY(-7vh);
+    gap: clamp(3rem, 3vw, 7rem);
+  }
+
+  .tictactoe-menu-button {
+    width: min(24vw, 760px);
+    min-width: 520px;
+    font-size: clamp(3.5rem, 2.4vw, 5.5rem);
+    padding: 0.35em 0.7em;
+  }
+
+  .tictactoe-board {
+    width: min(66vh, 42vw, 1250px);
+    margin-top: 1.5rem;
+  }
+
+  .tictactoe-timer {
+    font-size: clamp(4rem, 4vh, 6.5rem);
+  }
+
+  .tictactoe-current-player {
+    font-size: clamp(3rem, 3vh, 5rem);
+  }
+
+  .tictactoe-player-img,
+  .tictactoe-player-img-inline {
+    height: clamp(4rem, 4.5vh, 6rem);
+  }
+
+  .tictactoe-result-text {
+    font-size: clamp(4rem, 4.5vh, 7rem);
+  }
+
+  .tictactoe-winner-symbol {
+    width: clamp(180px, 12vh, 280px);
+  }
+
+  .tictactoe-end-text {
+    font-size: clamp(2.8rem, 3vh, 5rem);
+  }
+
+  .tictactoe-end-button {
+    width: min(32vw, 820px);
+    font-size: clamp(3rem, 3vh, 5rem);
+    padding: 0.35em 0.7em;
+  }
+
+    .tictactoe-instructions-container {
+    padding: 3rem 8rem;
+  }
+
+  .secondLayerInstructions {
+    padding-bottom: clamp(7rem, 15vh, 14rem);
+  }
+
+  .tictactoe-instructions-title {
+    font-size: clamp(6rem, 4.5vh, 9rem);
+    margin-bottom: 0.35em;
+  }
+
+  .tictactoe-instructions-text {
+    font-size: clamp(2.6rem, 2.4vh, 4rem);
+    line-height: 1.25;
+    max-width: min(72vw, 1900px);
+  }
+
+  .tictactoe-baltazar-img {
+    width: clamp(300px, 14vw, 520px);
+    left: clamp(4rem, 6vw, 9rem);
+    bottom: clamp(-1rem, -1vh, 0rem);
+  }
+}
+
 @media (orientation: landscape) and (max-width: 1400px) {
   .tictactoe-result-text {
     font-size: clamp(2rem, 5.2vh, 4.2rem);
