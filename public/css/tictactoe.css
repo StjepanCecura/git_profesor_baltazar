@@ -808,6 +808,21 @@
     padding: 0.3em 0.55em;
     margin: 0.25em;
   }
+
+    #btnBack {
+    top: clamp(0.8rem, 2.5vh, 1.4rem);
+    left: clamp(0.8rem, 2vw, 1.4rem);
+    width: clamp(70px, 7.5vh, 86px);
+    height: clamp(70px, 7.5vh, 86px);
+    padding: 0.35rem;
+    border-radius: 0.65rem;
+  }
+
+  #btnBack img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
 }
 
 /* MEDIUM / LARGE LANDSCAPE END SCREEN FIX */
