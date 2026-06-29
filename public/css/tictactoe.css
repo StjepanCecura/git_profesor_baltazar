@@ -452,7 +452,7 @@
     justify-content: center;
     gap: clamp(2.5rem, 5vh, 9rem);
     padding-bottom: 3vh;
-}
+  }
 
   .tictactoe-game-container {
     justify-content: center;
@@ -484,7 +484,7 @@
     max-width: 95%;
     line-height: 1.05;
     margin: 0;
-}
+  }
 
   .tictactoe-menu-button {
     width: min(60vw, 1200px);
@@ -492,7 +492,7 @@
     font-size: clamp(4.5rem, 6.5vw, 9rem);
     padding: 0.35em 0.6em;
     margin: 0;
-}
+  }
 
   #btnBack {
     top: clamp(2rem, 3vh, 5rem);
@@ -615,13 +615,13 @@
     gap: clamp(1rem, 2vw, 3rem);
     padding-top: 0;
     transform: translateY(-9vh);
-}
+  }
 
   .tictactoe-title {
-  font-size: clamp(4rem, 6vw, 7rem);
-  max-width: 90%;
-  margin-top: clamp(1rem, 4vh, 3rem);
-}
+    font-size: clamp(4rem, 6vw, 7rem);
+    max-width: 90%;
+    margin-top: clamp(1rem, 4vh, 3rem);
+  }
 
   .tictactoe-menu-button {
     width: min(28vw, 420px);
@@ -651,10 +651,10 @@
 
   .tictactoe-back-button,
   .tictactoe-back-button-instructions {
-   top: clamp(1.5rem, 4vh, 3rem);
-   left: clamp(1.5rem, 3vw, 3rem);
-   height: clamp(55px, 8vh, 105px);
-}
+    top: clamp(1.5rem, 4vh, 3rem);
+    left: clamp(1.5rem, 3vw, 3rem);
+    height: clamp(55px, 8vh, 105px);
+  }
 
   .tictactoe-result-text {
     font-size: clamp(2.2rem, 6vh, 5rem);
@@ -759,7 +759,7 @@
     padding: 0.35em 0.7em;
   }
 
-    .tictactoe-instructions-container {
+  .tictactoe-instructions-container {
     padding: 3rem 8rem;
   }
 
@@ -809,7 +809,7 @@
     margin: 0.25em;
   }
 
-    #btnBack {
+  #btnBack {
     top: clamp(0.8rem, 2.5vh, 1.4rem);
     left: clamp(0.8rem, 2vw, 1.4rem);
     width: clamp(70px, 7.5vh, 86px);
@@ -872,7 +872,7 @@
     object-fit: contain;
   }
 
-    .tictactoe-instructions-container {
+  .tictactoe-instructions-container {
     padding: 1rem 2rem;
     justify-content: flex-start;
   }
