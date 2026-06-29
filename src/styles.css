@@ -100,3 +100,29 @@ body, html {
         height: 32px;
     }
 }
+
+/* TABLET / FOLDABLE CURSOR SIZE */
+@media screen and (min-width: 900px) and (max-width: 1400px) {
+  .mouse_pointer {
+    height: clamp(80px, 8vh, 110px);
+    width: auto;
+  }
+
+  .cursor-indicator {
+    width: clamp(10px, 1vh, 14px);
+    height: clamp(10px, 1vh, 14px);
+  }
+}
+
+/* DESKTOP / 4K LANDSCAPE CURSOR SIZE */
+@media screen and (min-width: 1401px) and (orientation: landscape) {
+  .mouse_pointer {
+    height: clamp(70px, 7vh, 130px);
+    width: auto;
+  }
+
+  .cursor-indicator {
+    width: clamp(9px, 0.9vh, 16px);
+    height: clamp(9px, 0.9vh, 16px);
+  }
+}

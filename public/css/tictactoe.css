@@ -1,189 +1,183 @@
 @import url('/FontFamily/fontFamily.css');
 
-.tictactoe-container {
-  background-image: url('/pictures/tictactoeGame/background1.webp');
+.tictactoe-container,
+.tictactoe-game-container,
+.tictactoe-instructions-container {
+  width: 100%;
+  min-height: 100dvh;
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.tictactoe-container {
+  background-image: url('/pictures/tictactoeGame/background1.webp');
+  background-size: cover;
+  background-position: center;
   justify-content: center;
-  position: relative;
-  width: 100vw;
-  height: 100vh;
 }
 
 .tictactoe-game-container {
   background-image: url('/pictures/tictactoeGame/background2.webp');
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  background-size: cover;
+  background-position: center;
   justify-content: center;
-  height: 100vh;
-  width: 100vw;
 }
 
 .tictactoe-instructions-container {
   background-image: url('/pictures/tictactoeGame/background1.webp');
   background-color: rgba(0, 0, 0, 0.8);
   background-blend-mode: darken;
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  background-size: cover;
+  background-position: center;
   justify-content: center;
-  box-sizing: border-box;
-  position: relative;
-}
-
-.tictactoe-title {
-  text-align: center;
-  font-size: 16vw;
-  color: white;
-  text-shadow: 0 0 0.2em #000;
+  padding: clamp(1rem, 3vw, 4rem);
 }
 
 .layer {
-  display: block;
+  display: flex;
   width: 100%;
+  box-sizing: border-box;
 }
 
 .firstLayer {
-  height: 10%;
+  height: 12%;
+  align-items: flex-start;
 }
-.secondLayer {
-  height: 50%;
-  align-content: center;
-}
-.thirdLayer {
-  height: 40%;
-}
+
+.secondLayer,
+.secondLayerGame,
 .secondLayerInstructions {
-  height: 90%;
-  align-content: center;
+  flex: 1;
+  min-height: 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
-.secondLayerGame {
-  height: 90%;
-  align-content: center;
+
+.thirdLayer {
+  height: auto;
+  min-height: 26%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .btn {
-  top: 10%;
-  border: 0cm;
+  border: 0;
   cursor: none;
   width: auto;
   position: relative;
 }
 
 #btnBack {
-  background-color: transparent;
-  left: 2%;
-  height: 80%;
-}
-
-.tictactoe-instructions-title {
-  text-align: center;
-  font-size: 12vw;
-  color: white;
-  text-shadow: 0 0 0.1em #000;
-  margin: 0%;
-  padding-top: 0%;
-}
-
-.tictactoe-baltazar-img {
-  width: 32em;
-  height: auto;
-  margin-bottom: 2em;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.tictactoe-menu-button {
-  background-color: #008782;
-  color: white;
-  font-size: 8vw;
-  font-weight: bold;
-  width: 60%;
-  padding: 0.2em;
-  margin-left: 20%;
-  margin-bottom: 5%;
-  border-radius: 0.3em;
-  box-shadow: 3px 5px 5px rgba(0, 0, 0, 0.3);
-}
-
-.tictactoe-end-button {
-  background-color: #008782;
-  color: #FFFFFF;
-  font-size: 9em;
-  border: none;
-  margin: 0.5em;
-  font-weight: bold;
-  cursor: pointer;
-  width: 50%;
-  border-radius: 0.3em;
-  box-shadow: 3px 5px 5px rgba(0, 0, 0, 0.3);
-}
-
-.tictactoe-back-button {
   position: absolute;
-  top: 1em;
-  left: 1em;
-  height: 220px;
+  top: clamp(1.8rem, 4vh, 3.5rem);
+  left: clamp(1.8rem, 3vw, 3.5rem);
+  background-color: rgba(0, 135, 130, 0.85);
+  height: auto;
+  padding: clamp(0.25rem, 0.8vw, 0.6rem);
+  border-radius: 0.6rem;
+  box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+#btnBack img {
+  height: clamp(36px, 5vw, 80px);
+  width: auto;
+  display: block;
+}
+
+/* BACK BUTTON */
+
+.tictactoe-back-button,
+.tictactoe-back-button-instructions {
+  position: absolute;
+  top: clamp(1.5rem, 4vh, 4.5rem);
+  left: clamp(1.5rem, 3vw, 4.5rem);
+  height: clamp(60px, 8vw, 180px);
   cursor: pointer;
   z-index: 1000;
 }
 
 .tictactoe-back-button-menu {
-  top: 4em;
-  left: 4em;
-}
-
-.tictactoe-back-button-instructions {
-  position: absolute;
-  top: 4em;
-  left: 4em;
-  height: 220px;
-  cursor: pointer;
+  top: clamp(0.8rem, 2.5vw, 3rem);
+  left: clamp(0.8rem, 2.5vw, 3rem);
 }
 
 .tictactoe-back-button-game {
-  margin-top: 4em;
-  margin-left: 4em;
+  margin: 0;
 }
 
+/* MENU SCREEN */
+
+.tictactoe-title {
+  text-align: center;
+  color: white;
+  text-shadow: 0 0 0.18em #000;
+  font-size: clamp(3rem, 9vw, 14rem);
+  line-height: 1.05;
+  margin: 0 auto;
+  max-width: 90%;
+}
+
+.tictactoe-menu-button {
+  background-color: #008782;
+  color: white;
+  font-size: clamp(1.8rem, 4.2vw, 5.5rem);
+  font-weight: bold;
+  width: min(42vw, 620px);
+  min-width: 260px;
+  padding: 0.35em 0.6em;
+  margin: 0.25em;
+  border-radius: 0.3em;
+  box-shadow: 3px 5px 5px rgba(0, 0, 0, 0.3);
+  text-align: center;
+}
+
+/* GAME SCREEN */
+
 .tictactoe-timer {
-  font-size: 9vw;
+  font-size: clamp(2rem, 5vw, 6.5rem);
   text-align: center;
   font-weight: bold;
   text-shadow: 0 0 0.1em #000;
+  line-height: 1;
+  margin: 0;
 }
 
 .tictactoe-current-player {
-  font-size: 6vw;
+  font-size: clamp(1.4rem, 3.3vw, 4rem);
   text-align: center;
-  margin-top: -0.5em;
+  margin-top: 0.15em;
   font-weight: bold;
   text-shadow: 0 0 0.1em #000;
+  line-height: 1;
 }
 
-.tictactoe-player-img {
-  height: 10vw;
-  vertical-align: middle;
-  margin-left: 1vw;
-}
-
+.tictactoe-player-img,
 .tictactoe-player-img-inline {
-  height: 10vw;
+  height: clamp(2rem, 4.5vw, 5rem);
   vertical-align: middle;
+  margin-left: 0.25em;
 }
 
 .tictactoe-board {
   position: relative;
-  width: 100vw;
-  height: 100vw;
-  margin: 2em auto;
+  width: min(78vmin, 1500px);
+  aspect-ratio: 1 / 1;
+  height: auto;
+  margin: clamp(0.8rem, 2vh, 2.5rem) auto 0;
   background-image: url('/pictures/tictactoeGame/gameboard.webp');
   background-size: contain;
   background-repeat: no-repeat;
+  background-position: center;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
@@ -198,23 +192,41 @@
 }
 
 .tictactoe-symbol {
-  width: 50%;
-  height: 50%;
+  width: 52%;
+  height: 52%;
   object-fit: contain;
 }
 
+/* INSTRUCTIONS SCREEN */
+
+.tictactoe-instructions-title {
+  text-align: center;
+  font-size: clamp(3rem, 8vw, 10rem);
+  color: white;
+  text-shadow: 0 0 0.1em #000;
+  margin: 0 0 0.4em;
+}
+
 .tictactoe-instructions-text {
-  font-size: 6vw;
+  font-size: clamp(1.35rem, 3.2vw, 4rem);
+  line-height: 1.45;
   text-align: center;
   color: white;
   white-space: pre-line;
-  margin-bottom: 4vh;
+  max-width: min(90vw, 1100px);
+  margin: 0 auto clamp(1rem, 3vh, 3rem);
+}
+
+.tictactoe-baltazar-img {
+  width: min(70vw, 650px);
+  height: auto;
+  margin: 0 auto;
 }
 
 .tictactoe-icons-container {
   display: flex;
   justify-content: center;
-  gap: 10vw;
+  gap: clamp(1rem, 6vw, 8rem);
   margin-bottom: 5vh;
 }
 
@@ -225,47 +237,668 @@
 }
 
 .tictactoe-icon-img {
-  width: 40vw;
-  max-width: 220px;
+  width: clamp(90px, 18vw, 260px);
 }
 
 .tictactoe-icon-label {
-  font-size: 6vw;
+  font-size: clamp(1.2rem, 3vw, 3rem);
   margin-top: 1vh;
 }
 
+/* END OVERLAY */
+
 .tictactoe-overlay {
   position: absolute;
-  top: 0;
-  left: 0;
+  inset: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: rgba(0, 0, 0, 0.86);
   z-index: 10;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 2em;
+  padding: clamp(1rem, 4vw, 4rem);
+  box-sizing: border-box;
 }
 
 .tictactoe-result-text {
-  font-size: 8vw;
-  color: #FFFFFF;
+  font-size: clamp(2.2rem, 6vw, 7rem);
+  color: #ffffff;
   font-weight: bold;
-  margin-bottom: 0.5em;
+  margin-bottom: 0.4em;
+  text-align: center;
   text-shadow: 0 0 0.1em #000;
 }
 
 .tictactoe-winner-symbol {
-  width: 15vw;
+  width: clamp(90px, 14vw, 260px);
   margin-top: 0.3em;
 }
 
 .tictactoe-end-text {
-  font-size: 5vw;
-  color: #FFFFFF;
-  margin-bottom: 2em;
+  font-size: clamp(1.6rem, 4vw, 4.5rem);
+  color: #ffffff;
+  margin-bottom: 1.2em;
   font-weight: bold;
+  text-align: center;
   text-shadow: 0 0 0.1em #000;
+}
+
+.tictactoe-end-button {
+  background-color: #008782;
+  color: #ffffff;
+  font-size: clamp(2rem, 5vw, 5rem);
+  border: none;
+  margin: 0.4em;
+  font-weight: bold;
+  cursor: pointer;
+  width: min(70vw, 700px);
+  padding: 0.35em 0.6em;
+  border-radius: 0.3em;
+  box-shadow: 3px 5px 5px rgba(0, 0, 0, 0.3);
+}
+
+/* MOBILE PORTRAIT */
+
+@media (max-width: 600px) and (orientation: portrait) {
+  .tictactoe-container {
+    justify-content: center;
+    gap: 0.8rem;
+    padding-top: 0;
+    padding-bottom: 8vh;
+  }
+
+  .tictactoe-game-container {
+    justify-content: center;
+  }
+
+  .firstLayer {
+    height: 0;
+  }
+
+  .secondLayer {
+    flex: 0;
+    height: auto;
+    justify-content: center;
+    padding-bottom: 0;
+  }
+
+  .thirdLayer {
+    min-height: 0;
+    height: auto;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.7rem;
+    padding-top: 0.8rem;
+  }
+
+  .tictactoe-title {
+    font-size: clamp(3rem, 12vw, 4.1rem);
+    max-width: 95%;
+    line-height: 1.05;
+    margin: 0;
+  }
+
+  .tictactoe-menu-button {
+    width: min(64vw, 300px);
+    font-size: clamp(1.7rem, 7vw, 2.4rem);
+    padding: 0.35em 0.6em;
+    margin: 0;
+  }
+
+  #btnBack {
+    top: 1rem;
+    left: 1rem;
+    padding: 0.3rem;
+    border-radius: 0.5rem;
+  }
+
+  #btnBack img {
+    height: clamp(34px, 10vw, 46px);
+  }
+
+  .tictactoe-timer {
+    font-size: clamp(1.8rem, 7vw, 2.7rem);
+    margin-bottom: 0.15rem;
+  }
+
+  .tictactoe-current-player {
+    font-size: clamp(1.2rem, 5vw, 1.9rem);
+    margin-bottom: 0.4rem;
+  }
+
+  .tictactoe-board {
+    width: min(82vw, 52vh);
+    margin-top: 0.4rem;
+  }
+
+  .tictactoe-player-img,
+  .tictactoe-player-img-inline {
+    height: clamp(2rem, 8vw, 3rem);
+  }
+
+  /* Mobile instructions */
+
+  .tictactoe-instructions-container {
+    justify-content: center;
+    padding: 1rem;
+  }
+
+  .secondLayerInstructions {
+    height: 100%;
+    flex: 1;
+    justify-content: flex-start;
+    padding-top: 1.2rem;
+    position: relative;
+  }
+
+  .tictactoe-instructions-title {
+    font-size: clamp(3rem, 11vw, 4.1rem);
+    margin-bottom: 0.35em;
+  }
+
+  .tictactoe-instructions-text {
+    font-size: clamp(1.12rem, 4.6vw, 1.55rem);
+    line-height: 1.35;
+    max-width: 88vw;
+    margin-bottom: 0;
+    z-index: 2;
+  }
+
+  .tictactoe-baltazar-img {
+    width: min(66vw, 320px);
+    margin-top: 0.8rem;
+  }
+
+  /* Mobile end overlay */
+
+  .tictactoe-overlay {
+    justify-content: center;
+    padding: 1rem;
+  }
+
+  .tictactoe-result-text {
+    font-size: clamp(1.8rem, 6.4vw, 2.6rem);
+    margin-bottom: 0.15rem;
+    line-height: 1.05;
+  }
+
+  .tictactoe-winner-symbol {
+    width: clamp(64px, 18vw, 110px);
+    margin-top: 0.15rem;
+    margin-bottom: 0.35rem;
+  }
+
+  .tictactoe-end-text {
+    font-size: clamp(1.15rem, 4.5vw, 1.7rem);
+    margin-bottom: 0.7rem;
+    line-height: 1.1;
+  }
+
+  .tictactoe-end-button {
+    font-size: clamp(1.45rem, 6vw, 2.1rem);
+    width: min(62vw, 270px);
+    padding: 0.32em 0.5em;
+    margin: 0.2em;
+  }
+}
+
+/* TABLET / LARGE PORTRAIT, INCLUDING 2160 × 3840 */
+
+@media (orientation: portrait) and (min-width: 601px) {
+  .tictactoe-container {
+    justify-content: center;
+    gap: clamp(2.5rem, 5vh, 9rem);
+    padding-bottom: 3vh;
+  }
+
+  .tictactoe-game-container {
+    justify-content: center;
+  }
+
+  .firstLayer {
+    height: 0;
+  }
+
+  .secondLayer {
+    flex: 0;
+    height: auto;
+    justify-content: center;
+    padding-bottom: 0;
+  }
+
+  .thirdLayer {
+    min-height: 0;
+    height: auto;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(1.5rem, 2.5vh, 4rem);
+    padding-top: 0;
+  }
+
+  .tictactoe-title {
+    font-size: clamp(8rem, 13vw, 18rem);
+    max-width: 95%;
+    line-height: 1.05;
+    margin: 0;
+  }
+
+  .tictactoe-menu-button {
+    width: min(60vw, 1200px);
+    min-width: 0;
+    font-size: clamp(4.5rem, 6.5vw, 9rem);
+    padding: 0.35em 0.6em;
+    margin: 0;
+  }
+
+  #btnBack {
+    top: clamp(2rem, 3vh, 5rem);
+    left: clamp(2rem, 4vw, 5rem);
+    padding: clamp(0.8rem, 1.1vw, 1.4rem);
+    border-radius: clamp(0.8rem, 1vw, 1.5rem);
+  }
+
+  #btnBack img {
+    height: clamp(110px, 7vw, 200px);
+  }
+
+  /* Large portrait instructions */
+
+  .tictactoe-instructions-container {
+    justify-content: center;
+    padding: clamp(2rem, 4vw, 6rem);
+  }
+
+  .secondLayerInstructions {
+    height: 100%;
+    flex: 1;
+    justify-content: center;
+    position: relative;
+  }
+
+  .tictactoe-instructions-title {
+    font-size: clamp(8rem, 11vw, 16rem);
+    margin-bottom: 0.35em;
+  }
+
+  .tictactoe-instructions-text {
+    font-size: clamp(3.4rem, 4.6vw, 6.2rem);
+    line-height: 1.35;
+    max-width: 86vw;
+    margin-bottom: clamp(2rem, 3vh, 5rem);
+    z-index: 2;
+  }
+
+  .tictactoe-baltazar-img {
+    width: min(72vw, 1350px);
+    margin-top: clamp(2rem, 3vh, 5rem);
+  }
+
+  /* Large portrait game */
+
+  .tictactoe-timer {
+    font-size: clamp(5rem, 7vw, 10rem);
+    margin-bottom: 0.2em;
+  }
+
+  .tictactoe-current-player {
+    font-size: clamp(3.5rem, 4.5vw, 6rem);
+    margin-bottom: clamp(1rem, 2vh, 3rem);
+  }
+
+  .tictactoe-player-img,
+  .tictactoe-player-img-inline {
+    height: clamp(5rem, 7vw, 9rem);
+  }
+
+  .tictactoe-board {
+    width: min(82vw, 54vh, 1800px);
+    margin-top: clamp(1rem, 2vh, 4rem);
+  }
+
+  /* Large portrait end overlay */
+
+  .tictactoe-overlay {
+    justify-content: center;
+    padding: clamp(2rem, 4vw, 6rem);
+  }
+
+  .tictactoe-result-text {
+    font-size: clamp(5rem, 7vw, 10rem);
+    margin-bottom: 0.2em;
+    line-height: 1.05;
+  }
+
+  .tictactoe-winner-symbol {
+    width: clamp(180px, 20vw, 420px);
+    margin-top: 0.3em;
+    margin-bottom: 0.5em;
+  }
+
+  .tictactoe-end-text {
+    font-size: clamp(3rem, 4.5vw, 6rem);
+    margin-bottom: clamp(2rem, 3vh, 5rem);
+  }
+
+  .tictactoe-end-button {
+    font-size: clamp(4.5rem, 6vw, 8rem);
+    width: min(64vw, 1200px);
+    padding: 0.35em 0.55em;
+    margin: clamp(0.8rem, 1vh, 2rem);
+  }
+}
+
+/* LANDSCAPE MONITORS */
+
+@media (orientation: landscape) {
+  .tictactoe-container,
+  .tictactoe-game-container {
+    justify-content: center;
+  }
+
+  .firstLayer {
+    height: 12%;
+  }
+
+  .secondLayer {
+    flex: 1;
+  }
+
+  .thirdLayer {
+    min-height: 30%;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+    gap: clamp(1rem, 2vw, 3rem);
+    padding-top: 0;
+    transform: translateY(-9vh);
+  }
+
+  .tictactoe-title {
+    font-size: clamp(4rem, 6vw, 7rem);
+    max-width: 90%;
+    margin-top: clamp(1rem, 4vh, 3rem);
+  }
+
+  .tictactoe-menu-button {
+    width: min(28vw, 420px);
+    min-width: 220px;
+    font-size: clamp(1.6rem, 2.8vw, 3rem);
+    margin: 0;
+    padding: 0.3em 0.55em;
+  }
+
+  .tictactoe-board {
+    width: min(58vh, 48vw, 760px);
+    margin-top: 0.8rem;
+  }
+
+  .tictactoe-timer {
+    font-size: clamp(2.4rem, 5vh, 4.5rem);
+  }
+
+  .tictactoe-current-player {
+    font-size: clamp(1.7rem, 3.5vh, 3rem);
+  }
+
+  .tictactoe-player-img,
+  .tictactoe-player-img-inline {
+    height: clamp(2rem, 5vh, 4rem);
+  }
+
+  .tictactoe-back-button,
+  .tictactoe-back-button-instructions {
+    top: clamp(1.5rem, 4vh, 3rem);
+    left: clamp(1.5rem, 3vw, 3rem);
+    height: clamp(55px, 8vh, 105px);
+  }
+
+  .tictactoe-result-text {
+    font-size: clamp(2.2rem, 6vh, 5rem);
+  }
+
+  .tictactoe-end-button {
+    font-size: clamp(2rem, 5vh, 4rem);
+    width: min(45vw, 520px);
+  }
+
+  /* Instructions screen in landscape */
+
+  .tictactoe-instructions-container {
+    justify-content: center;
+    padding: 1.5rem 5rem;
+  }
+
+  .secondLayerInstructions {
+    position: relative;
+    justify-content: center;
+    padding-bottom: clamp(4.5rem, 13vh, 8rem);
+  }
+
+  .tictactoe-instructions-title {
+    font-size: clamp(3rem, 7vh, 5rem);
+    margin-bottom: 0.25em;
+  }
+
+  .tictactoe-instructions-text {
+    font-size: clamp(1.25rem, 3.4vh, 2.35rem);
+    line-height: 1.25;
+    max-width: min(78vw, 1050px);
+    margin-bottom: 0;
+    z-index: 2;
+  }
+
+  .tictactoe-baltazar-img {
+    display: block;
+    position: absolute;
+    bottom: clamp(-1rem, -2vh, 0rem);
+    left: clamp(1rem, 5vw, 5rem);
+    width: clamp(130px, 16vw, 280px);
+    height: auto;
+    z-index: 1;
+    opacity: 0.95;
+  }
+}
+
+/* 4K LANDSCAPE SCALING */
+
+@media (orientation: landscape) and (min-width: 3000px) {
+  .tictactoe-title {
+    font-size: clamp(7rem, 4.2vw, 10rem);
+    margin-top: clamp(2rem, 5vh, 5rem);
+  }
+
+  .thirdLayer {
+    transform: translateY(-7vh);
+    gap: clamp(3rem, 3vw, 7rem);
+  }
+
+  .tictactoe-menu-button {
+    width: min(24vw, 760px);
+    min-width: 520px;
+    font-size: clamp(3.5rem, 2.4vw, 5.5rem);
+    padding: 0.35em 0.7em;
+  }
+
+  .tictactoe-board {
+    width: min(66vh, 42vw, 1250px);
+    margin-top: 1.5rem;
+  }
+
+  .tictactoe-timer {
+    font-size: clamp(4rem, 4vh, 6.5rem);
+  }
+
+  .tictactoe-current-player {
+    font-size: clamp(3rem, 3vh, 5rem);
+  }
+
+  .tictactoe-player-img,
+  .tictactoe-player-img-inline {
+    height: clamp(4rem, 4.5vh, 6rem);
+  }
+
+  .tictactoe-result-text {
+    font-size: clamp(4rem, 4.5vh, 7rem);
+  }
+
+  .tictactoe-winner-symbol {
+    width: clamp(180px, 12vh, 280px);
+  }
+
+  .tictactoe-end-text {
+    font-size: clamp(2.8rem, 3vh, 5rem);
+  }
+
+  .tictactoe-end-button {
+    width: min(32vw, 820px);
+    font-size: clamp(3rem, 3vh, 5rem);
+    padding: 0.35em 0.7em;
+  }
+
+  .tictactoe-instructions-container {
+    padding: 3rem 8rem;
+  }
+
+  .secondLayerInstructions {
+    padding-bottom: clamp(7rem, 15vh, 14rem);
+  }
+
+  .tictactoe-instructions-title {
+    font-size: clamp(6rem, 4.5vh, 9rem);
+    margin-bottom: 0.35em;
+  }
+
+  .tictactoe-instructions-text {
+    font-size: clamp(2.6rem, 2.4vh, 4rem);
+    line-height: 1.25;
+    max-width: min(72vw, 1900px);
+  }
+
+  .tictactoe-baltazar-img {
+    width: clamp(300px, 14vw, 520px);
+    left: clamp(4rem, 6vw, 9rem);
+    bottom: clamp(-1rem, -1vh, 0rem);
+  }
+}
+
+@media (orientation: landscape) and (max-width: 1400px) {
+  .tictactoe-result-text {
+    font-size: clamp(2rem, 5.2vh, 4.2rem);
+    margin-bottom: 0.2em;
+  }
+
+  .tictactoe-winner-symbol {
+    width: clamp(90px, 14vh, 150px);
+    margin-top: 0.2em;
+    margin-bottom: 0.4em;
+  }
+
+  .tictactoe-end-text {
+    font-size: clamp(1.4rem, 3.8vh, 3rem);
+    margin-bottom: 0.8em;
+  }
+
+  .tictactoe-end-button {
+    font-size: clamp(1.7rem, 4.2vh, 3.3rem);
+    width: min(38vw, 470px);
+    padding: 0.3em 0.55em;
+    margin: 0.25em;
+  }
+
+  #btnBack {
+    top: clamp(0.8rem, 2.5vh, 1.4rem);
+    left: clamp(0.8rem, 2vw, 1.4rem);
+    width: clamp(70px, 7.5vh, 86px);
+    height: clamp(70px, 7.5vh, 86px);
+    padding: 0.35rem;
+    border-radius: 0.65rem;
+  }
+
+  #btnBack img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+}
+
+/* MEDIUM / LARGE LANDSCAPE END SCREEN FIX */
+/* Keeps the end overlay from becoming too large on 1920x1080 screens */
+
+@media (orientation: landscape) and (min-width: 1401px) and (max-width: 2999px) {
+  .tictactoe-result-text {
+    font-size: clamp(2rem, 4.2vh, 3.6rem);
+    margin-bottom: 0.15em;
+  }
+
+  .tictactoe-winner-symbol {
+    width: clamp(120px, 15vh, 180px);
+    margin-top: 0.15em;
+    margin-bottom: 0.35em;
+  }
+
+  .tictactoe-end-text {
+    font-size: clamp(1.6rem, 3.4vh, 2.7rem);
+    margin-bottom: 0.65em;
+  }
+
+  .tictactoe-end-button {
+    font-size: clamp(1.6rem, 3.4vh, 2.7rem);
+    width: min(34vw, 430px);
+    padding: 0.3em 0.55em;
+    margin: 0.25em;
+  }
+}
+
+/* TABLET PORTRAIT BACK BUTTON FIX */
+/* Fixes oversized back button on iPad / foldable portrait screens */
+
+@media (orientation: portrait) and (min-width: 601px) and (max-width: 1200px) {
+  #btnBack {
+    top: 1rem;
+    left: 1rem;
+    width: clamp(76px, 8vw, 96px);
+    height: clamp(76px, 8vw, 96px);
+    padding: 0.35rem;
+    border-radius: 0.65rem;
+  }
+
+  #btnBack img {
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+  }
+
+  .tictactoe-instructions-container {
+    padding: 1rem 2rem;
+    justify-content: flex-start;
+  }
+
+  .secondLayerInstructions {
+    justify-content: flex-start;
+    padding-top: clamp(5rem, 8vh, 7rem);
+    padding-bottom: 2rem;
+  }
+
+  .tictactoe-instructions-title {
+    font-size: clamp(4rem, 7vw, 5.5rem);
+    margin-bottom: 0.35em;
+  }
+
+  .tictactoe-instructions-text {
+    font-size: clamp(1.8rem, 3.4vw, 2.7rem);
+    line-height: 1.25;
+    max-width: 88%;
+    margin-bottom: 1rem;
+  }
+
+  .tictactoe-baltazar-img {
+    width: clamp(260px, 42vw, 420px);
+    max-height: 36vh;
+    object-fit: contain;
+    margin-top: 0.5rem;
+  }
 }
