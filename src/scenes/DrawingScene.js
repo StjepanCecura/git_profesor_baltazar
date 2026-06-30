@@ -142,9 +142,11 @@ export default class DrawingScene extends BaseScene {
       this.colorButtons[id] = { el, color, bg: color };
     });
 
-    this.btnBack.addEventListener("click", () =>
-      this.manager.switch("StartMenu")
-    );
+    this.btnBack.addEventListener("click", () => {
+    this.currentScreen = "rules";
+    this.render();
+    });
+
     this.btnClearBackground.addEventListener("click", () =>
       this.canvasCtx.clearRect(
         0,
@@ -333,8 +335,13 @@ export default class DrawingScene extends BaseScene {
 
     switch (el.id) {
       case "btnBack":
-        this.manager.switch("StartMenu");
-        break;
+      if (this.currentScreen === "game") {
+      this.currentScreen = "rules";
+      this.render();
+      } else {
+       this.manager.switch("StartMenu");
+      }
+      break;
       case "btnClearBackground":
         this.canvasCtx.clearRect(
           0,
