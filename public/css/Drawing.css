@@ -371,7 +371,7 @@ html {
 }
 
 /* DESKTOP LANDSCAPE - drawing gameplay layout */
-@media screen and (orientation: landscape) and (min-width: 1400px) and (max-width: 2999px) {
+    @media screen and (orientation: landscape) and (min-width: 1025px) and (max-width: 2999px) {
     .drawing-container {
         background-position: center;
         background-size: cover;
