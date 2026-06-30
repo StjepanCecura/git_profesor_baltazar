@@ -213,8 +213,18 @@ html {
         width: auto;
     }
 
+    .drawing-container #btnBack {
+    height: 72%;
+    left: 3%;
+    }
+
     .drawing-container #btnClearBackground {
-        font-size: 0.8em;
+        width: 38%;
+        height: 70%;
+        left: 2%;
+        font-size: 1.05em;
+        border-radius: 0.45em;
+        padding: 0.2em 0.4em;
     }
 
     .drawing-container .firstLayer {
