@@ -40,11 +40,12 @@ export default class StartMenuScene extends BaseScene {
       '/pictures/ninjafruitGame/sword1.webp',
     );
 
-    /*
+    
     await this.assets.loadImage(
       'crtanjeLogo',
       '/pictures/drawingGame/icon.webp',
     );
+    /*
     await this.assets.loadImage('KSPLogo', '/pictures/kspGame/icon.webp');
     
     await this.assets.loadImage(
@@ -74,15 +75,17 @@ export default class StartMenuScene extends BaseScene {
         logo: this.assets.images.get('ninjafruitLogo').src,
         scene: 'NinjaFruit',
       },
+      { name: "Crtanje", 
+        logo: this.assets.images.get('crtanjeLogo').src, 
+        scene: "Drawing" },
       { name: 'Križić-kružić', 
         logo: this.assets.images.get('tictactoeLogo').src, 
         scene: 'TicTacToe' ,
       },
+      
       /*
-      { name: "Crtanje", logo: this.assets.images.get('crtanjeLogo').src, scene: "Drawing" },
       { name: "Kamen papir škare", logo: this.assets.images.get('KSPLogo').src, scene: "KSP" },
       { name: "Labirint", logo: this.assets.images.get('labyrinthLogo').src, scene: "Labirint" },
-      { name: "Križić-kružić", logo: this.assets.images.get('tictactoeLogo').src, scene: "TicTacToe" },
       */
     ];
     this.sceneEntryTime = performance.now();
