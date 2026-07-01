@@ -514,7 +514,7 @@ html {
     .drawing-container #btnClearBackground {
         width: min(24vw, 320px);
         left: 4%;
-        top: 8%;
+        top: 4%;
         font-size: clamp(1.4rem, 3vh, 2.4rem);
         padding: 0.15em 0.45em;
     }
@@ -554,18 +554,18 @@ html {
     }
 
     .drawing-container.drawingInstructions .instructionsTextBlock {
-        font-size: clamp(2rem, 4.7vh, 3.7rem);
-        line-height: 1.25;
-        margin: 0.18em auto;
-        max-width: 92%;
+    font-size: clamp(1.8rem, 4.1vh, 3.3rem);
+    line-height: 1.25;
+    margin: 0.16em auto;
+    max-width: 84%;
     }
 
     .drawing-container.drawingInstructions #btnPlayGame {
         position: relative;
         left: 0;
-        width: min(30vw, 440px);
-        font-size: clamp(2.4rem, 5vh, 4rem);
+        width: min(26vw, 380px);
+        font-size: clamp(2.1rem, 4.4vh, 3.4rem);
         padding: 0.1em 0.45em;
-        margin-top: 0.1em;
+        margin-top: 0.3em;
     }  
 }
