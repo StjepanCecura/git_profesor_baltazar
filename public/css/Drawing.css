@@ -111,6 +111,33 @@ html {
     left: 27.5%;
 }
 
+/* Shared drawing game button style */
+.drawing-container #btnBack,
+.drawing-container #btnPlayGame,
+.drawing-container #btnClearBackground {
+    background-color: #13a89b;
+    box-shadow: 0 0.22rem 0 #08776f, 0 0.32rem 0.55rem rgba(0, 0, 0, 0.25);
+}
+
+.drawing-container #btnPlayGame,
+.drawing-container #btnClearBackground {
+    color: white;
+    border-radius: 0.65rem;
+    text-shadow: 0 0.08rem 0.08rem rgba(0, 0, 0, 0.35);
+}
+
+.drawing-container #btnBack {
+    border-radius: 1rem;
+    padding: 0.32rem;
+}
+
+.drawing-container #btnBack img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 0.08rem 0.08rem rgba(0, 0, 0, 0.25));
+}
+
 .drawing-container #btnPauseDrawing {
     left: 22%;
 }
@@ -325,6 +352,56 @@ html {
     .drawing-container .colourPicker {
         border-radius: 0.5em;
     }
+
+    .drawing-container.drawingInstructions .secondLayerInstructions {
+        height: 66%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .drawing-container.drawingInstructions .thirdLayerInstructions {
+        height: 22%;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+    }
+
+    .drawing-container.drawingInstructions #btnPlayGame {
+        left: 0;
+        width: min(46vw, 500px);
+        height: auto;
+        font-size: clamp(2.3rem, 4.8vw, 3.8rem);
+        padding: 0.2em 0.55em;
+        margin-top: 2rem;
+    }
+
+    .drawing-container #btnClearBackground {
+        width: min(34vw, 360px);
+        height: 70%;
+        left: 2%;
+        top: 15%;
+        font-size: clamp(1.4rem, 3vw, 2.2rem);
+        padding: 0.15em 0.4em;
+        border-radius: 0.65rem;
+        text-shadow: 0 0.08rem 0.08rem rgba(0, 0, 0, 0.35);
+    }
+
+    .drawing-container #btnBack {
+        width: clamp(58px, 8vw, 82px);
+        height: clamp(58px, 8vw, 82px);
+        left: 2%;
+        top: 12%;
+        padding: 0.32rem;
+        border-radius: 1rem;
+    }
+
+    .drawing-container #btnBack img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        filter: drop-shadow(0 0.08rem 0.08rem rgba(0, 0, 0, 0.25));
+    }
 }
 
 /* TV - vertikalan */
@@ -385,6 +462,7 @@ html {
     .drawing-container {
         background-position: center;
         background-size: cover;
+        overflow: hidden;
     }
 
     .drawing-container .firstLayer {
@@ -426,15 +504,19 @@ html {
     }
 
     .drawing-container #btnBack {
-        height: clamp(55px, 7vh, 78px);
+        width: clamp(54px, 6.5vh, 72px);
+        height: clamp(54px, 6.5vh, 72px);
         left: 2%;
+        top: 8%;
+        padding: 0.32rem;
     }
 
     .drawing-container #btnClearBackground {
-        width: min(28vw, 360px);
+        width: min(24vw, 320px);
         left: 4%;
-        font-size: clamp(1.6rem, 3.5vh, 2.8rem);
-        padding: 0.15em 0.4em;
+        top: 8%;
+        font-size: clamp(1.4rem, 3vh, 2.4rem);
+        padding: 0.15em 0.45em;
     }
 
     .drawing-container .colourPicker {
@@ -481,9 +563,9 @@ html {
     .drawing-container.drawingInstructions #btnPlayGame {
         position: relative;
         left: 0;
-        width: min(34vw, 520px);
-        font-size: clamp(3rem, 6.2vh, 4.8rem);
+        width: min(30vw, 440px);
+        font-size: clamp(2.4rem, 5vh, 4rem);
         padding: 0.1em 0.45em;
         margin-top: 0.1em;
-    }    
+    }  
 }
