@@ -581,3 +581,209 @@ html {
         margin-top: 0.3em;
     }  
 }
+
+/* 4K PORTRAIT - 2160x3840 and similar */
+@media screen and (orientation: portrait) and (min-width: 1920px) {
+    .drawing-container {
+        background-position: center;
+        background-size: cover;
+        overflow: hidden;
+    }
+
+    .drawing-container .firstLayer {
+        height: 6.5%;
+    }
+
+    .drawing-container .secondLayer {
+        height: 8.5%;
+        display: flex;
+        align-items: center;
+    }
+
+    .drawing-container .thirdLayer {
+        height: 69%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .drawing-container .fourthLayer {
+        height: 7%;
+        width: 88%;
+        margin: 0 auto;
+        padding: 0.6rem 0;
+        grid-template-columns: repeat(6, minmax(70px, 1fr)) 1fr minmax(420px, 34%);
+        gap: 1.2rem;
+        align-items: center;
+    }
+
+    .drawing-container .output_canvas {
+        width: 88%;
+        height: 100%;
+        left: 0;
+        border-radius: 1rem;
+    }
+
+    .drawing-container #btnBack {
+        width: clamp(90px, 5vw, 120px);
+        height: clamp(90px, 5vw, 120px);
+        left: 2%;
+        top: 10%;
+        padding: 0.35rem;
+    }
+
+    .drawing-container #btnClearBackground {
+        width: min(36vw, 620px);
+        height: auto;
+        left: 3%;
+        top: 10%;
+        font-size: clamp(2.8rem, 2.8vw, 4.2rem);
+        padding: 0.2em 0.55em;
+    }
+
+    .drawing-container .colourPicker,
+    .drawing-container #btnRGBPicker {
+        height: clamp(58px, 2.8vh, 90px);
+        border-radius: 0.8rem;
+    }
+
+    .drawing-container.drawingInstructions .secondLayerInstructions {
+        height: 55%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .drawing-container.drawingInstructions .thirdLayerInstructions {
+        height: 34%;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+    }
+
+    .drawing-container.drawingInstructions .instructionsHeader {
+        font-size: clamp(6rem, 5.4vw, 8.5rem);
+        margin: 0 0 0.55em;
+    }
+
+    .drawing-container.drawingInstructions .instructionsTextBlock {
+        font-size: clamp(3.8rem, 3.6vw, 5.6rem);
+        line-height: 1.28;
+        margin: 0.22em auto;
+        max-width: 82%;
+    }
+
+    .drawing-container.drawingInstructions #btnPlayGame {
+        left: 0;
+        width: min(46vw, 780px);
+        height: auto;
+        font-size: clamp(4rem, 3.8vw, 6.2rem);
+        padding: 0.22em 0.65em;
+        margin-top: 5rem;
+    }
+
+    .cursor-indicator {
+        width: clamp(58px, 3.2vw, 86px);
+        height: clamp(58px, 3.2vw, 86px);
+    }
+}
+
+/* 4K LANDSCAPE - 3840x2160 and similar */
+@media screen and (orientation: landscape) and (min-width: 3000px) {
+    .drawing-container {
+        background-position: center;
+        background-size: cover;
+        overflow: hidden;
+    }
+
+    .drawing-container .firstLayer {
+        height: 7%;
+    }
+
+    .drawing-container .secondLayer {
+        height: 10%;
+        display: flex;
+        align-items: center;
+    }
+
+    .drawing-container .thirdLayer {
+        height: 70%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .drawing-container .fourthLayer {
+        height: 8%;
+        width: 88%;
+        margin: 0 auto;
+        padding: 0.6rem 0;
+        grid-template-columns: repeat(6, minmax(90px, 1fr)) 1fr minmax(620px, 34%);
+        gap: 1.4rem;
+        align-items: center;
+    }
+
+    .drawing-container .output_canvas {
+        width: 90%;
+        height: 100%;
+        left: 0;
+        border-radius: 1.2rem;
+    }
+
+    .drawing-container #btnBack {
+        width: clamp(85px, 5vh, 120px);
+        height: clamp(85px, 5vh, 120px);
+        left: 2%;
+        top: 8%;
+    }
+
+    .drawing-container #btnClearBackground {
+        width: min(30vw, 700px);
+        left: 4%;
+        top: 8%;
+        height: auto;
+        font-size: clamp(2.2rem, 2.4vh, 3.4rem);
+        padding: 0.18em 0.6em;
+        white-space: nowrap;
+    }
+
+    .drawing-container .colourPicker,
+    .drawing-container #btnRGBPicker {
+        height: clamp(70px, 4.2vh, 95px);
+        border-radius: 0.8rem;
+    }
+
+    .drawing-container.drawingInstructions .secondLayerInstructions {
+        height: 58%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .drawing-container.drawingInstructions .thirdLayerInstructions {
+        height: 30%;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+    }
+
+    .drawing-container.drawingInstructions .instructionsHeader {
+        font-size: clamp(5rem, 5vh, 7.2rem);
+        margin-bottom: 0.5em;
+    }
+
+    .drawing-container.drawingInstructions .instructionsTextBlock {
+        font-size: clamp(3.4rem, 3.5vh, 5rem);
+        line-height: 1.25;
+        margin: 0.18em auto;
+        max-width: 78%;
+    }
+
+    .drawing-container.drawingInstructions #btnPlayGame {
+        left: 0;
+        width: min(24vw, 620px);
+        font-size: clamp(3.8rem, 4vh, 5.4rem);
+        padding: 0.18em 0.55em;
+        margin-top: 2.5rem;
+    }
+}

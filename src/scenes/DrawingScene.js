@@ -166,14 +166,12 @@ export default class DrawingScene extends BaseScene {
   }
 
   calculateLineWidth() {
-    if(window.innerWidth < 512) {
-      this.baseLineWidth = window.innerWidth * 0.02;
-    } else if (window.innerWidth > 1920) {
-      this.baseLineWidth = window.innerWidth * 0.08;
-    } else {
-      this.baseLineWidth = window.innerWidth * 0.025;
-    }
+  if (window.innerWidth < 512) {
+    this.baseLineWidth = window.innerWidth * 0.02;
+  } else {
+    this.baseLineWidth = Math.min(window.innerWidth * 0.025, 48);
   }
+}
 
   async destroy() {
     this.input.off("move", this.handleMove);
