@@ -165,11 +165,14 @@ export default class DrawingScene extends BaseScene {
     this.sceneloaded = true;
   }
 
+
   calculateLineWidth() {
   if (window.innerWidth < 512) {
     this.baseLineWidth = window.innerWidth * 0.02;
-  } else {
+  } else if (window.innerWidth >= 3000 || window.innerHeight >= 3000) {
     this.baseLineWidth = Math.min(window.innerWidth * 0.025, 48);
+  } else {
+    this.baseLineWidth = Math.min(window.innerWidth * 0.014, 30);
   }
 }
 
