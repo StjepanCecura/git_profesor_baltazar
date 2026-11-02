@@ -1,54 +1,75 @@
-import BaseScene from "@engine/BaseScene.js";
+import BaseScene from '@engine/BaseScene.js';
 
 export default class DrawingScene extends BaseScene {
   constructor(params) {
     super({ ...params, useColorIndicator: true });
     this.container = document.getElementById('gameContainer');
-    this.cursorOffset = img => ({ x: 0, y: -img.clientHeight });
+    this.cursorOffset = (img) => ({ x: 0, y: -img.clientHeight });
 
     this.handData = new Map();
 
     this.handleMove = this.handleMove.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.updateFrameCount = this.updateFrameCount.bind(this);
+    this.resize = this.resize.bind(this);
     this.lastPointingUpGesture = performance.now();
-    this.currentScreen = "rules";
+    this.currentScreen = 'rules';
     this.sceneloaded = false;
   }
 
   async init() {
-    await this.assets.loadImage("backButton", "/pictures/backButton.webp");
-    await this.assets.loadImage("cursor", "/pictures/drawingGame/brush.webp");
-    await this.assets.loadImage("cursorTip", "/pictures/drawingGame/brushTip.webp");
+    await this.assets.loadImage('backButton', '/pictures/backButton.webp');
+    await this.assets.loadImage('cursor', '/pictures/drawingGame/brush.webp');
+    await this.assets.loadImage(
+      'cursorTip',
+      '/pictures/drawingGame/brushTip.webp',
+    );
 
-    this.styleEl = this.loadStyle("/css/Drawing.css");
+    this.styleEl = this.loadStyle('/css/Drawing.css');
 
     this.calculateLineWidth();
 
     this.render();
 
-    this.input.on("move", this.handleMove);
-    this.input.on("click", this.handleClick);
-    this.input.on("frameCount", this.updateFrameCount);
+    this.input.on('move', this.handleMove);
+    this.input.on('click', this.handleClick);
+    this.input.on('frameCount', this.updateFrameCount);
   }
 
-  update(dt) {}
+  update(_dt) {}
+
+  goBack() {
+    if (this.currentScreen === 'game') {
+      this.canvasElement = undefined;
+      this.canvasCtx = undefined;
+      this.colorButtons = undefined;
+      // The cursors live inside the gameplay screen that is about to be removed.
+      // Drop them and ignore input until the rules screen has been rendered,
+      // so new cursors are created inside the visible screen.
+      this.sceneloaded = false;
+      this.resetHands();
+      this.currentScreen = 'rules';
+      this.render();
+    } else {
+      this.manager.switch('StartMenu');
+    }
+  }
 
   render() {
     if (this.lastRenderedScreen === this.currentScreen) return;
     this.lastRenderedScreen = this.currentScreen;
-    
+
     if (this.sceneEl) this.sceneEl.remove();
 
-    this.sceneEl = document.createElement("div");
-    this.sceneEl.classList.add("container");
+    this.sceneEl = document.createElement('div');
+    this.sceneEl.classList.add('container');
     this.container.innerHTML = '';
 
     switch (this.currentScreen) {
-      case "rules":
+      case 'rules':
         this.renderRulesScreen();
         break;
-      case "game":
+      case 'game':
         this.resetHands();
         this.renderGameplayScreen();
         break;
@@ -58,13 +79,13 @@ export default class DrawingScene extends BaseScene {
   async renderRulesScreen() {
     await this.waitForImage('backButton');
 
-    this.sceneEl.classList.add("drawing-container");
-    this.sceneEl.classList.add("drawingInstructions");
+    this.sceneEl.classList.add('drawing-container');
+    this.sceneEl.classList.add('drawingInstructions');
 
     this.sceneEl.innerHTML = `
       <div class="firstLayer layer">
         <button class="btn" id="btnBack"><img src="${
-          this.assets.images.get("backButton").src
+          this.assets.images.get('backButton').src
         }" height="100%"/></button>
       </div>
       <div class="secondLayerInstructions layer">
@@ -84,27 +105,25 @@ export default class DrawingScene extends BaseScene {
 
     this.cursorContainer = this.sceneEl;
 
-    this.btnBack = this.sceneEl.querySelector("#btnBack");
-    this.btnPlayGame = this.sceneEl.querySelector("#btnPlayGame");
+    this.btnBack = this.sceneEl.querySelector('#btnBack');
+    this.btnPlayGame = this.sceneEl.querySelector('#btnPlayGame');
 
-    this.btnBack.addEventListener("click", () =>
-      this.manager.switch("StartMenu")
-    );
-    this.btnPlayGame.addEventListener("click", () => {
-      this.currentScreen = "game";
+    this.btnBack.addEventListener('click', () => this.goBack());
+    this.btnPlayGame.addEventListener('click', () => {
+      this.currentScreen = 'game';
       this.render();
     });
 
     this.sceneloaded = true;
   }
 
-  renderGameplayScreen(){
-    this.sceneEl.classList.add("drawing-container");
+  renderGameplayScreen() {
+    this.sceneEl.classList.add('drawing-container');
 
     this.sceneEl.innerHTML += `
       <div class="firstLayer layer">
         <button class="btn" id="btnBack"><img src="${
-          this.assets.images.get("backButton").src
+          this.assets.images.get('backButton').src
         }" height="100%"/></button>
       </div>
       <div class="secondLayer layer">
@@ -128,65 +147,73 @@ export default class DrawingScene extends BaseScene {
 
     this.cursorContainer = this.sceneEl;
 
-    this.canvasElement = this.sceneEl.querySelector(".output_canvas");
-    this.canvasCtx = this.canvasElement.getContext("2d");
-    this.btnBack = this.sceneEl.querySelector("#btnBack");
-    this.btnClearBackground = this.sceneEl.querySelector("#btnClearBackground");
-    this.btnRGBPicker = this.sceneEl.querySelector("#btnRGBPicker");
+    this.canvasElement = this.sceneEl.querySelector('.output_canvas');
+    this.canvasCtx = this.canvasElement.getContext('2d');
+    this.btnBack = this.sceneEl.querySelector('#btnBack');
+    this.btnClearBackground = this.sceneEl.querySelector('#btnClearBackground');
+    this.btnRGBPicker = this.sceneEl.querySelector('#btnRGBPicker');
 
     this.colorButtons = {};
-    ["Green", "Blue", "Red", "Yellow", "White", "Black"].forEach((name) => {
+    ['Green', 'Blue', 'Red', 'Yellow', 'White', 'Black'].forEach((name) => {
       const id = `btn${name}`;
       const el = this.sceneEl.querySelector(`#${id}`);
       const color = el.style.background;
       this.colorButtons[id] = { el, color, bg: color };
     });
 
-    this.btnBack.addEventListener("click", () =>
-      this.manager.switch("StartMenu")
-    );
-    this.btnClearBackground.addEventListener("click", () =>
+    this.btnBack.addEventListener('click', () => this.goBack());
+
+    this.btnClearBackground.addEventListener('click', () =>
       this.canvasCtx.clearRect(
         0,
         0,
         this.canvasElement.width,
-        this.canvasElement.height
-      )
+        this.canvasElement.height,
+      ),
     );
     Object.values(this.colorButtons).forEach(({ el, color }) => {
       el.style.background = color;
     });
 
     this.resize();
-    window.addEventListener("resize", this.resize.bind(this));
+    // Same bound reference every time, so re-entering the game never adds a duplicate listener.
+    window.addEventListener('resize', this.resize);
 
     this.sceneloaded = true;
   }
 
   calculateLineWidth() {
-    if(window.innerWidth < 512) {
+    if (window.innerWidth < 512) {
       this.baseLineWidth = window.innerWidth * 0.02;
-    } else if (window.innerWidth > 1920) {
-      this.baseLineWidth = window.innerWidth * 0.08;
+    } else if (window.innerWidth >= 3000 || window.innerHeight >= 3000) {
+      this.baseLineWidth = Math.min(window.innerWidth * 0.025, 48);
     } else {
-      this.baseLineWidth = window.innerWidth * 0.025;
+      this.baseLineWidth = Math.min(window.innerWidth * 0.014, 30);
     }
   }
 
   async destroy() {
-    this.input.off("move", this.handleMove);
-    this.input.off("click", this.handleClick);
-    this.input.off("frameCount", this.updateFrameCount);
+    this.input.off('move', this.handleMove);
+    this.input.off('click', this.handleClick);
+    this.input.off('frameCount', this.updateFrameCount);
     this.removeStyle(this.styleEl);
-    window.removeEventListener("resize", this.resize.bind(this));
+    window.removeEventListener('resize', this.resize);
     this.container.innerHTML = '';
     await super.destroy();
     this.sceneEl.remove();
   }
 
   resize() {
+    if (!this.canvasElement?.isConnected) return;
+    // Fallback size for layouts where CSS leaves the canvas height on auto.
     this.canvasElement.width = this.container.clientWidth * 0.96;
     this.canvasElement.height = this.container.clientHeight * 0.7;
+    // Then match the bitmap to the size CSS actually displays, otherwise strokes are
+    // scaled and drift away from the cursor when a media query changes the canvas width.
+    const rect = this.canvasElement.getBoundingClientRect();
+    this.canvasElement.width = rect.width;
+    this.canvasElement.height = rect.height;
+    this.canvasRect = rect;
     this.calculateLineWidth();
   }
 
@@ -198,7 +225,8 @@ export default class DrawingScene extends BaseScene {
     let closest = null;
     let closestDist = Infinity;
     this.handData.forEach((data, id) => {
-      const dist = Math.hypot((data.currX || 0) - x, (data.currY || 0) - y);
+      // x, y are screen pixels, so compare against the hand's screen position.
+      const dist = Math.hypot((data.screenX || 0) - x, (data.screenY || 0) - y);
       if (dist < closestDist) {
         closestDist = dist;
         closest = id;
@@ -213,25 +241,8 @@ export default class DrawingScene extends BaseScene {
     data.color = color;
     this.handData.set(id, data);
     const cursor = this.handCursors.get(id);
-
-    const img = cursor.indicator;
-
-    img.onload = () => {
-      canvas.width = img.naturalWidth;
-      canvas.height = img.naturalHeight;
-
-      ctx.drawImage(img, 0, 0);
-      ctx.globalCompositeOperation = 'source-in';
-      ctx.fillStyle = newColor;
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      img.src = canvas.toDataURL();
-    };
-    
-    if (cursor) {
-      if (cursor.indicator) {
-        cursor.indicator.style.backgroundColor = color;
-      }
+    if (cursor?.indicator) {
+      cursor.indicator.style.backgroundColor = color;
     }
   }
 
@@ -272,9 +283,9 @@ export default class DrawingScene extends BaseScene {
     const smooth = this.handSmoothed.get(i) || { x, y };
     const screenX = smooth.x * window.innerWidth;
     const screenY = smooth.y * window.innerHeight;
-    if(this.canvasElement === undefined) return;
-    const xPx = screenX - this.canvasElement.offsetLeft;
-    const yPx = screenY - this.canvasElement.offsetTop;
+    if (!this.canvasElement || !this.canvasRect) return;
+    const xPx = screenX - this.canvasRect.left;
+    const yPx = screenY - this.canvasRect.top;
 
     let data = this.handData.get(i);
     if (!data) {
@@ -282,20 +293,26 @@ export default class DrawingScene extends BaseScene {
         drawing: false,
         prevX: xPx,
         prevY: yPx,
-        color: "black",
+        color: 'black',
         screenX,
         screenY,
       };
       this.handData.set(i, data);
     }
 
-    if (gesture === "Pointing_Up" || (gesture !== "Pointing_Up" && (performance.now() - this.lastPointingUpGesture) < 50)) {
+    if (
+      gesture === 'Pointing_Up' ||
+      (gesture !== 'Pointing_Up' &&
+        performance.now() - this.lastPointingUpGesture < 50)
+    ) {
       if (data.drawing) {
         this.canvasCtx.beginPath();
         this.canvasCtx.moveTo(data.prevX, data.prevY);
         this.canvasCtx.lineTo(xPx, yPx);
         this.canvasCtx.strokeStyle = data.color;
         this.canvasCtx.lineWidth = this.baseLineWidth * thickness;
+        this.canvasCtx.lineCap = 'round';
+        this.canvasCtx.lineJoin = 'round';
         this.canvasCtx.stroke();
         this.canvasCtx.closePath();
       }
@@ -303,9 +320,10 @@ export default class DrawingScene extends BaseScene {
       data.prevX = xPx;
       data.prevY = yPx;
 
-      if(gesture === "Pointing_Up") this.lastPointingUpGesture = performance.now();
-    } else if (gesture === "None") {
-
+      if (gesture === 'Pointing_Up')
+        this.lastPointingUpGesture = performance.now();
+    } else if (gesture === 'None') {
+      // Unrecognised gesture: keep the current drawing state.
     } else {
       data.drawing = false;
     }
@@ -316,7 +334,7 @@ export default class DrawingScene extends BaseScene {
     data.screenY = screenY;
   }
 
-  removeCursor(id){
+  removeCursor(id) {
     super.removeCursor(id);
     this.handData.delete(id);
   }
@@ -332,36 +350,37 @@ export default class DrawingScene extends BaseScene {
     const handId = this.findHandFromCursor(px, py);
 
     switch (el.id) {
-      case "btnBack":
-        this.manager.switch("StartMenu");
+      case 'btnBack':
+        this.goBack();
         break;
-      case "btnClearBackground":
+      case 'btnClearBackground':
         this.canvasCtx.clearRect(
           0,
           0,
           this.canvasElement.width,
-          this.canvasElement.height
+          this.canvasElement.height,
         );
         break;
-      case "btnRGBPicker":
-        if (handId) {
+      case 'btnRGBPicker':
+        if (handId !== null) {
           const rect = el.getBoundingClientRect();
           const ratio = (px - rect.left) / rect.width;
           const { newColor, bgColor } = this.calculateRGBColor(ratio);
           this.setHandColor(handId, newColor, bgColor);
         }
         break;
-      case "btnPlayGame":
-        this.currentScreen = "game";
+      case 'btnPlayGame':
+        this.currentScreen = 'game';
         this.render();
         break;
-      default:
-        if(this.colorButtons === undefined) break;
+      default: {
+        if (this.colorButtons === undefined) break;
         const btn = this.colorButtons[el.id];
-        if (btn && handId) {
+        if (btn && handId !== null) {
           this.setHandColor(handId, btn.color, btn.bg);
         }
-        if (el.tagName === "BUTTON" && !btn) el.click();
+        if (el.tagName === 'BUTTON' && !btn) el.click();
+      }
     }
   }
 }
