@@ -308,10 +308,6 @@ html {
         width: auto;
     }
 
-    .drawing-container #btnClearBackground {
-        font-size: 1.8em;
-    }
-
     .drawing-container .firstLayer {
         height: 6.5%;
     }
@@ -404,53 +400,6 @@ html {
         height: clamp(58px, 8vw, 82px);
         left: 2%;
         top: 12%;
-        padding: 0.32rem;
-        border-radius: 1rem;
-    }
-
-    .drawing-container #btnBack img {
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-        filter: drop-shadow(0 0.08rem 0.08rem rgba(0, 0, 0, 0.25));
-    }
-}
-
-/* TV - vertikalan */
-@media screen and (min-width: 1920px) and (max-aspect-ratio: 1/1) {
-    .drawing-container {
-        background-position: 80%;
-        background-size: auto 100%;
-    }
-    .drawing-container .mouse_pointer {
-        height: 8vh;
-        width: auto;
-    }
-    .drawing-container .firstLayer {
-        height: 6.5%;
-    }
-    .drawing-container .secondLayer {
-        height: 8.64%;
-    }
-    .drawing-container .thirdLayer {
-        height: 69%;
-    }
-    .drawing-container .textStyle {
-        font-size: 3.5em;
-    }
-    .drawing-container .fourthLayer {
-        height: 5%;
-        grid-template-columns: 8% 8% 8% 8% 8% 8% 1fr 45%;
-        gap: 1%;
-    }
-    .secondLayerInstructions .instructionsHeader {
-        font-size: 16em;
-    }
-    .secondLayerInstructions .instructionsTextBlock {
-        font-size: 8em;
-    }
-    .drawing-container .colourPicker {
-        border-radius: 2.5em;
     }
 }
 
@@ -582,12 +531,21 @@ html {
     }  
 }
 
-/* 4K PORTRAIT - 2160x3840 and similar */
+/* TV / 4K PORTRAIT - 2160x3840 and similar */
 @media screen and (orientation: portrait) and (min-width: 1920px) {
     .drawing-container {
         background-position: center;
         background-size: cover;
         overflow: hidden;
+    }
+
+    .drawing-container .mouse_pointer {
+        height: 8vh;
+        width: auto;
+    }
+
+    .drawing-container .textStyle {
+        font-size: 3.5em;
     }
 
     .drawing-container .firstLayer {

@@ -11,6 +11,7 @@ export default class DrawingScene extends BaseScene {
     this.handleMove = this.handleMove.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.updateFrameCount = this.updateFrameCount.bind(this);
+    this.resize = this.resize.bind(this);
     this.lastPointingUpGesture = performance.now();
     this.currentScreen = "rules";
     this.sceneloaded = false;
@@ -32,7 +33,19 @@ export default class DrawingScene extends BaseScene {
     this.input.on("frameCount", this.updateFrameCount);
   }
 
-  update(dt) {}
+  update(_dt) {}
+
+  goBack() {
+    if (this.currentScreen === "game") {
+      this.canvasElement = undefined;
+      this.canvasCtx = undefined;
+      this.colorButtons = undefined;
+      this.currentScreen = "rules";
+      this.render();
+    } else {
+      this.manager.switch("StartMenu");
+    }
+  }
 
   render() {
     if (this.lastRenderedScreen === this.currentScreen) return;
@@ -87,9 +100,7 @@ export default class DrawingScene extends BaseScene {
     this.btnBack = this.sceneEl.querySelector("#btnBack");
     this.btnPlayGame = this.sceneEl.querySelector("#btnPlayGame");
 
-    this.btnBack.addEventListener("click", () =>
-      this.manager.switch("StartMenu")
-    );
+    this.btnBack.addEventListener("click", () => this.goBack());
     this.btnPlayGame.addEventListener("click", () => {
       this.currentScreen = "game";
       this.render();
@@ -142,10 +153,7 @@ export default class DrawingScene extends BaseScene {
       this.colorButtons[id] = { el, color, bg: color };
     });
 
-    this.btnBack.addEventListener("click", () => {
-    this.currentScreen = "rules";
-    this.render();
-    });
+    this.btnBack.addEventListener("click", () => this.goBack());
 
     this.btnClearBackground.addEventListener("click", () =>
       this.canvasCtx.clearRect(
@@ -160,7 +168,8 @@ export default class DrawingScene extends BaseScene {
     });
 
     this.resize();
-    window.addEventListener("resize", this.resize.bind(this));
+    // Same bound reference every time, so re-entering the game never adds a duplicate listener.
+    window.addEventListener("resize", this.resize);
 
     this.sceneloaded = true;
   }
@@ -181,15 +190,23 @@ export default class DrawingScene extends BaseScene {
     this.input.off("click", this.handleClick);
     this.input.off("frameCount", this.updateFrameCount);
     this.removeStyle(this.styleEl);
-    window.removeEventListener("resize", this.resize.bind(this));
+    window.removeEventListener("resize", this.resize);
     this.container.innerHTML = '';
     await super.destroy();
     this.sceneEl.remove();
   }
 
   resize() {
+    if (!this.canvasElement?.isConnected) return;
+    // Fallback size for layouts where CSS leaves the canvas height on auto.
     this.canvasElement.width = this.container.clientWidth * 0.96;
     this.canvasElement.height = this.container.clientHeight * 0.7;
+    // Then match the bitmap to the size CSS actually displays, otherwise strokes are
+    // scaled and drift away from the cursor when a media query changes the canvas width.
+    const rect = this.canvasElement.getBoundingClientRect();
+    this.canvasElement.width = rect.width;
+    this.canvasElement.height = rect.height;
+    this.canvasRect = rect;
     this.calculateLineWidth();
   }
 
@@ -201,7 +218,8 @@ export default class DrawingScene extends BaseScene {
     let closest = null;
     let closestDist = Infinity;
     this.handData.forEach((data, id) => {
-      const dist = Math.hypot((data.currX || 0) - x, (data.currY || 0) - y);
+      // x, y are screen pixels, so compare against the hand's screen position.
+      const dist = Math.hypot((data.screenX || 0) - x, (data.screenY || 0) - y);
       if (dist < closestDist) {
         closestDist = dist;
         closest = id;
@@ -216,25 +234,8 @@ export default class DrawingScene extends BaseScene {
     data.color = color;
     this.handData.set(id, data);
     const cursor = this.handCursors.get(id);
-
-    const img = cursor.indicator;
-
-    img.onload = () => {
-      canvas.width = img.naturalWidth;
-      canvas.height = img.naturalHeight;
-
-      ctx.drawImage(img, 0, 0);
-      ctx.globalCompositeOperation = 'source-in';
-      ctx.fillStyle = newColor;
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      img.src = canvas.toDataURL();
-    };
-    
-    if (cursor) {
-      if (cursor.indicator) {
-        cursor.indicator.style.backgroundColor = color;
-      }
+    if (cursor?.indicator) {
+      cursor.indicator.style.backgroundColor = color;
     }
   }
 
@@ -275,9 +276,9 @@ export default class DrawingScene extends BaseScene {
     const smooth = this.handSmoothed.get(i) || { x, y };
     const screenX = smooth.x * window.innerWidth;
     const screenY = smooth.y * window.innerHeight;
-    if(this.canvasElement === undefined) return;
-    const xPx = screenX - this.canvasElement.offsetLeft;
-    const yPx = screenY - this.canvasElement.offsetTop;
+    if (!this.canvasElement || !this.canvasRect) return;
+    const xPx = screenX - this.canvasRect.left;
+    const yPx = screenY - this.canvasRect.top;
 
     let data = this.handData.get(i);
     if (!data) {
@@ -299,6 +300,8 @@ export default class DrawingScene extends BaseScene {
         this.canvasCtx.lineTo(xPx, yPx);
         this.canvasCtx.strokeStyle = data.color;
         this.canvasCtx.lineWidth = this.baseLineWidth * thickness;
+        this.canvasCtx.lineCap = "round";
+        this.canvasCtx.lineJoin = "round";
         this.canvasCtx.stroke();
         this.canvasCtx.closePath();
       }
@@ -308,7 +311,7 @@ export default class DrawingScene extends BaseScene {
 
       if(gesture === "Pointing_Up") this.lastPointingUpGesture = performance.now();
     } else if (gesture === "None") {
-
+      // Unrecognised gesture: keep the current drawing state.
     } else {
       data.drawing = false;
     }
@@ -336,13 +339,8 @@ export default class DrawingScene extends BaseScene {
 
     switch (el.id) {
       case "btnBack":
-      if (this.currentScreen === "game") {
-      this.currentScreen = "rules";
-      this.render();
-      } else {
-       this.manager.switch("StartMenu");
-      }
-      break;
+        this.goBack();
+        break;
       case "btnClearBackground":
         this.canvasCtx.clearRect(
           0,
@@ -352,7 +350,7 @@ export default class DrawingScene extends BaseScene {
         );
         break;
       case "btnRGBPicker":
-        if (handId) {
+        if (handId !== null) {
           const rect = el.getBoundingClientRect();
           const ratio = (px - rect.left) / rect.width;
           const { newColor, bgColor } = this.calculateRGBColor(ratio);
@@ -363,13 +361,14 @@ export default class DrawingScene extends BaseScene {
         this.currentScreen = "game";
         this.render();
         break;
-      default:
-        if(this.colorButtons === undefined) break;
+      default: {
+        if (this.colorButtons === undefined) break;
         const btn = this.colorButtons[el.id];
-        if (btn && handId) {
+        if (btn && handId !== null) {
           this.setHandColor(handId, btn.color, btn.bg);
         }
         if (el.tagName === "BUTTON" && !btn) el.click();
+      }
     }
   }
 }
