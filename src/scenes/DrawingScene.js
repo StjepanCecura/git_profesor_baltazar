@@ -43,6 +43,11 @@ export default class DrawingScene extends BaseScene {
       this.canvasElement = undefined;
       this.canvasCtx = undefined;
       this.colorButtons = undefined;
+      // The cursors live inside the gameplay screen that is about to be removed.
+      // Drop them and ignore input until the rules screen has been rendered,
+      // so new cursors are created inside the visible screen.
+      this.sceneloaded = false;
+      this.resetHands();
       this.currentScreen = 'rules';
       this.render();
     } else {
