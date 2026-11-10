@@ -17,10 +17,13 @@ export default class BaseScene {
 
   updateFrameCount(){
     this.frameCount ++;
-    // Mouse mode: the cursor only updates on pointermove, so a mouse that is
-    // standing still must not be treated as a lost hand and removed.
-    if (!this.input.cameraAvailable) return;
     this.handCursors.forEach((_, id) => {
+      // A mouse cursor only updates on pointermove, so a mouse that is standing
+      // still is not a lost hand. Remove it only when the mouse leaves the window.
+      if (this.input.isPointerId(id)) {
+        if (!this.input.pointerInside) this.removeCursor(id);
+        return;
+      }
       if (this.frameCount - (this.handLastSeen.get(id) || 0) > this.MAX_MISSING_FRAMES) {
         this.removeCursor(id);
       }
