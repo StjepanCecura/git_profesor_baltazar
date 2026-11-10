@@ -100,6 +100,12 @@ export default class BaseScene {
     const cursor = this.handCursors.get(id);
     const state = this.handSmoothed.get(id);
 
+    // Scenes replace their screen markup when switching screens, which removes
+    // the cursor element. Move it into the current screen so it stays visible.
+    if (cursor.parentNode !== this.cursorContainer) {
+      this.cursorContainer.appendChild(cursor);
+    }
+
     state.x += (xNorm - state.x) * this.SMOOTHING;
     state.y += (yNorm - state.y) * this.SMOOTHING;
 

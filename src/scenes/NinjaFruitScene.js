@@ -178,29 +178,6 @@ export default class NinjaFruitScene extends BaseScene {
 
     this.createMenuScreen();
     window.addEventListener('resize', this.updateFruitScale.bind(this));
-
-    this.sceneEl.addEventListener('mousemove', (e) => {
-      if (!this.inGame || this.gameOver) return;
-      this.updateCursor(e.clientX, e.clientY, 0);
-      this.updateSwordPosition(
-        e.clientX / window.innerWidth,
-        e.clientY / window.innerHeight,
-      );
-    });
-
-    this.sceneEl.addEventListener(
-      'touchmove',
-      (e) => {
-        if (!this.inGame || this.gameOver || e.touches.length === 0) return;
-        const touch = e.touches[0];
-        this.updateCursor(touch.clientX, touch.clientY, 0);
-        this.updateSwordPosition(
-          touch.clientX / window.innerWidth,
-          touch.clientY / window.innerHeight,
-        );
-      },
-      { passive: true },
-    );
   }
 
   async loadCSS() {
