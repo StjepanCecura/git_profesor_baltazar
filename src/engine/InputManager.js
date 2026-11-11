@@ -29,6 +29,7 @@ export default class InputManager {
     this._pointerUpHandler = null;
     this._pointerLeaveHandler = null;
     this._pointerEnterHandler = null;
+    this._nativeClickBlocker = null;
     this.pointerInside = true;
 
     this.lastClickTime = {};
@@ -285,6 +286,17 @@ export default class InputManager {
     this._pointerEnterHandler = () => {
       this.pointerInside = true;
     };
+    // A mouse click goes through the same path as a hand gesture: pointerdown
+    // emits 'click' and the scene presses the element under the cursor. The
+    // browser's own click that follows would press it a second time, so it is
+    // swallowed. Clicks from the keyboard (detail 0) and the scenes' el.click()
+    // calls (not trusted) pass through.
+    this._nativeClickBlocker = (e) => {
+      if (!e.isTrusted || e.detail === 0) return;
+      e.preventDefault();
+      e.stopImmediatePropagation();
+    };
+    window.addEventListener('click', this._nativeClickBlocker, true);
     window.addEventListener('pointermove', this._pointerMove);
     window.addEventListener('pointerdown', this._pointerDownHandler);
     window.addEventListener('pointerup', this._pointerUpHandler);
@@ -297,6 +309,7 @@ export default class InputManager {
     window.removeEventListener('pointermove', this._pointerMove);
     window.removeEventListener('pointerdown', this._pointerDownHandler);
     window.removeEventListener('pointerup', this._pointerUpHandler);
+    window.removeEventListener('click', this._nativeClickBlocker, true);
     document.documentElement.removeEventListener('mouseleave', this._pointerLeaveHandler);
     document.documentElement.removeEventListener('mouseenter', this._pointerEnterHandler);
     this._pointerMove = null;
@@ -304,6 +317,7 @@ export default class InputManager {
     this._pointerUpHandler = null;
     this._pointerLeaveHandler = null;
     this._pointerEnterHandler = null;
+    this._nativeClickBlocker = null;
   }
 
   _pointerLoop() {
