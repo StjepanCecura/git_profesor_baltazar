@@ -6,6 +6,10 @@ import Utils from './Utils';
 // falling back to standard window context if needed.
 const Camera = window.Camera;
 
+// Hand id used for the mouse while a camera is driving the hands, so the mouse
+// never collides with a detected hand (those use 0, 1, 2, ...).
+export const MOUSE_ID = 'mouse';
+
 export default class InputManager {
   constructor({ videoElement }) {
     this.video = videoElement;
@@ -23,6 +27,10 @@ export default class InputManager {
     this._pointerMove = null;
     this._pointerDownHandler = null;
     this._pointerUpHandler = null;
+    this._pointerLeaveHandler = null;
+    this._pointerEnterHandler = null;
+    this._nativeClickBlocker = null;
+    this.pointerInside = true;
 
     this.lastClickTime = {};
     this.clickCooldown = 300;
@@ -82,10 +90,11 @@ export default class InputManager {
       this.nextDetectionTime = performance.now();
       requestAnimationFrame(this._detectionLoop);
     } else {
-      this._enablePointerControls();
       this.nextDetectionTime = performance.now();
       requestAnimationFrame(this._pointerLoop.bind(this));
     }
+    // The mouse always moves its own cursor, also while the camera is on.
+    this._enablePointerControls();
   }
 
   stop() {
@@ -93,9 +102,8 @@ export default class InputManager {
     this.running = false;
     if (this.cameraAvailable) {
       this.camera.stop();
-    } else {
-      this._disablePointerControls();
     }
+    this._disablePointerControls();
   }
 
   _handleVisibilityChange() {
@@ -242,13 +250,24 @@ export default class InputManager {
     setTimeout(() => requestAnimationFrame(this._detectionLoop), delay);
   };
 
+  /** True if the cursor with this id is driven by the mouse, not by a hand. */
+  isPointerId(id) {
+    return !this.cameraAvailable || id === MOUSE_ID;
+  }
+
   _enablePointerControls() {
     if (this._pointerMove) return;
     this._pointerMove = (e) => {
+      this.pointerInside = true;
       const x = e.clientX / window.innerWidth;
       const y = e.clientY / window.innerHeight;
-      const gesture = this.pointerDown ? 'Pointing_Up' : 'Open_Palm';
-      this.emit('move', { x, y, i: 0, gesture, thickness: 1 });
+      // Mouse-only mode keeps its original id and gestures. With a camera the
+      // mouse gets its own id, and plain movement uses a neutral gesture so it
+      // does not act as an open palm (e.g. "paper" in KSP).
+      const i = this.cameraAvailable ? MOUSE_ID : 0;
+      const idleGesture = this.cameraAvailable ? 'Mouse_Move' : 'Open_Palm';
+      const gesture = this.pointerDown ? 'Pointing_Up' : idleGesture;
+      this.emit('move', { x, y, i, gesture, thickness: 1 });
     };
     this._pointerDownHandler = (e) => {
       this.pointerDown = true;
@@ -259,9 +278,30 @@ export default class InputManager {
     this._pointerUpHandler = () => {
       this.pointerDown = false;
     };
+    // Hide the mouse cursor when the mouse leaves the browser window.
+    this._pointerLeaveHandler = () => {
+      this.pointerInside = false;
+      this.pointerDown = false;
+    };
+    this._pointerEnterHandler = () => {
+      this.pointerInside = true;
+    };
+    // A mouse click goes through the same path as a hand gesture: pointerdown
+    // emits 'click' and the scene presses the element under the cursor. The
+    // browser's own click that follows would press it a second time, so it is
+    // swallowed. Clicks from the keyboard (detail 0) and the scenes' el.click()
+    // calls (not trusted) pass through.
+    this._nativeClickBlocker = (e) => {
+      if (!e.isTrusted || e.detail === 0) return;
+      e.preventDefault();
+      e.stopImmediatePropagation();
+    };
+    window.addEventListener('click', this._nativeClickBlocker, true);
     window.addEventListener('pointermove', this._pointerMove);
     window.addEventListener('pointerdown', this._pointerDownHandler);
     window.addEventListener('pointerup', this._pointerUpHandler);
+    document.documentElement.addEventListener('mouseleave', this._pointerLeaveHandler);
+    document.documentElement.addEventListener('mouseenter', this._pointerEnterHandler);
   }
 
   _disablePointerControls() {
@@ -269,9 +309,15 @@ export default class InputManager {
     window.removeEventListener('pointermove', this._pointerMove);
     window.removeEventListener('pointerdown', this._pointerDownHandler);
     window.removeEventListener('pointerup', this._pointerUpHandler);
+    window.removeEventListener('click', this._nativeClickBlocker, true);
+    document.documentElement.removeEventListener('mouseleave', this._pointerLeaveHandler);
+    document.documentElement.removeEventListener('mouseenter', this._pointerEnterHandler);
     this._pointerMove = null;
     this._pointerDownHandler = null;
     this._pointerUpHandler = null;
+    this._pointerLeaveHandler = null;
+    this._pointerEnterHandler = null;
+    this._nativeClickBlocker = null;
   }
 
   _pointerLoop() {

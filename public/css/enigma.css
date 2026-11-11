@@ -1168,15 +1168,6 @@ h3 {
   }
 }
 
-/* Show cursor on devices with mouse (laptops/desktops) */
-@media (hover: hover) and (pointer: fine) {
-  body, html {
-    cursor: default !important;
-  }
-  .firstLayer .btn {
-    cursor: pointer !important;
-  }
-}
 
 /* ========== VERTICAL 4K TV PORTRAIT (2160×3840) ========== */
 @media (width: 2160px) and (height: 3840px) and (orientation: portrait) {
@@ -1487,7 +1478,6 @@ h3 {
     margin-left: 1.5vw !important;
     border-radius: 1vh !important;
     font-weight: 500 !important;
-    cursor: pointer !important;
   }
 
   .modal div[style*="margin-top"] {

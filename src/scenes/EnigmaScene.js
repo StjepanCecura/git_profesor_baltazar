@@ -753,30 +753,14 @@ getNextPlugColor() {
   }
 
   handleClick({ x, y }) {
-    const px = x * window.innerWidth;
-    const py = y * window.innerHeight;
-    const el = document.elementFromPoint(px, py);
-    if (!el) return;
-    if (el.tagName === "BUTTON") el.click();
-    else if (
-      el.tagName === "IMG" &&
-      el.src &&
-      el.src.includes("backButton.webp")
-    )
-      el.click();
-    else if (
-      el.dataset &&
-      el.dataset.x !== undefined &&
-      el.dataset.y !== undefined
-    ) {
-      // not used here, but left for compatibility
-    } else if (el.classList.contains("key") && el.textContent) {
-      this._pressKey(el.textContent.trim());
-    } else if (el.classList.contains("plug")) {
-      // get letter and forward to click handler
-      const letter = el.textContent[0];
-      this.togglePlug(letter);
-    }
+    const el = document.elementFromPoint(
+      x * window.innerWidth,
+      y * window.innerHeight
+    );
+    // Press whatever is under the cursor. The click bubbles to the listener
+    // that owns it: a key, plug, rotor button, reflector, modal item or the
+    // modal backdrop. Hand and mouse both click only through here.
+    if (el) el.click?.();
   }
 
   updateFrameCount() {
